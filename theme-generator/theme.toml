@@ -1,0 +1,22 @@
+name = "akhlus"
+author = "akhlus"
+variant = "dark"
+# backgrounds
+base00 = "#101010"       # default
+base01 = "#161616"       # lighter
+base02 = "#323232"       # selection
+base03 = "#454545"       # comments
+# foreground
+base04 = "#5c5c5c"       # text_alt
+base05 = "#e7e7e7"       # text
+base06 = "#f5108c"       # bright foreground
+base07 = "#b4be1e"       # brightest foreground
+# colours
+base08 = "#ff5964"       # red
+base09 = "#f89777"       # orange
+base0A = "#f8d353"       # yellow
+base0B = "#06d6a0"       # green
+base0C = "#72e9c5"       # cyan
+base0D = "#5eb0fc"       # blue
+base0E = "#9e72e9"       # magenta
+base0F = "#a6e3a1"       # ##violet

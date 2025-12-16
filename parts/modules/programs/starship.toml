@@ -1,0 +1,62 @@
+'$schema' = "https://starship.rs/config-schema.json"
+
+add_newline = true
+command_timeout = 500
+
+format = "$hostname$directory$character"
+right_format = "$git_branch$git_status$nix_shell$python"
+
+[character]
+error_symbol = "[❯](bold red)"
+success_symbol = "[❯](bold purple)"
+
+# Directory configuration
+[directory]
+truncation_length = 3
+truncation_symbol = "…/"
+fish_style_pwd_dir_length = 1
+style = "bold purple"
+format = "[ $path]($style) "
+
+# Git branch configuration
+[git_branch]
+format = "[$symbol $branch(:$remote_branch)]($style) "
+symbol = ""
+style = "italic cyan"
+
+# Git status configuration
+[git_status]
+format = '([$all_status$ahead_behind]($style)) '
+style = "cyan"
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+conflicted = "${count}"
+up_to_date = ""
+untracked = "?${count}"
+modified = "!${count}"
+stashed = "*${count}"
+staged = "+${count}"
+renamed = "»${count}"
+deleted = "×${count}"
+
+[hostname]
+ssh_symbol = ""
+format = "[$ssh_symbol $hostname]($style) "
+style = "blue dimmed bold"
+ssh_only = true
+
+# Nix-shell environment
+[nix_shell]
+format = '[${symbol}]($style) '
+symbol = ""
+style = "bold blue"
+
+# Python virtual environment
+[python]
+format = '[${symbol} $virtualenv]($style)'
+symbol = ""
+style = "bold yellow"
+detect_extensions = []
+detect_folders = []
+detect_files = []
