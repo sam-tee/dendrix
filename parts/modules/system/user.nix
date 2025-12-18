@@ -24,3 +24,4 @@ in {
       users.users.${cfg.username} = mkUser {};
     };
 }
+}

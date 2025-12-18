@@ -1,8 +1,5 @@
 {
-  config,
-  ...
-}: {
-    flake.modules.darwin.networking = {
+    flake.modules.darwin.system = {
       networking = {
         hostName = config.hostname;
         computerName = config.hostname;
@@ -12,7 +9,7 @@
       services.tailscale.enable = true;
     };
 
-    flake.modules.nixos.networking = {
+    flake.modules.nixos.system = {
       networking = {
         hostName = config.hostname;
         nameservers = ["100.100.100.100" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];

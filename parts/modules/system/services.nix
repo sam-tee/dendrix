@@ -1,4 +1,4 @@
-{...}: {
+{
   flake.modules.nixos.services = {
     security.rtkit.enable = true;
     services = {
@@ -21,10 +21,6 @@
       };
       printing.enable = true;
       pulseaudio.enable = false;
-      xserver.xkb = {
-        layout = "gb";
-        variant = "";
-      };
     };
   };
 }

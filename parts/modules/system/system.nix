@@ -6,12 +6,15 @@
   flake.modules.nixos.system = {
     environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
     hardware = {
-      enableRedistributableFirmware = true;
-      graphics.enable = true;
+      enableAllFirmware = true;
     };
     xdg.terminal-exec = {
       enable = true;
       settings.default = ["ghostty.desktop"];
+    };
+    services.xserver.xkb = {
+      layout = "gb";
+      variant = "";
     };
     system.stateVersion = "24.05";
     time.timeZone = "Europe/London";

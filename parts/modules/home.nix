@@ -1,28 +1,32 @@
-{inputs, ...}: let
-  home-manager = {
-    backupFileExtension = "bak";
-  };
-in {
-  flake.modules.darwin.hm = {
+{
+  flake.modules.darwin.hm = {inputs, ...}: {
     imports = [inputs.home-manager.darwinModules.home-manager];
-    inherit home-manager;
+    home-manager = {
+      backupFileExtension = "bak";
+      users.${username}.home = {
+        username = username;
+        homeDirectory = "/Users/${username}";
+        sessionPath = ["/opt/homebrew/bin"];
+        stateVersion = "24.11";
+      };
+    };
   };
-  flake.modules.nixos.hm = {
+  flake.modules.nixos.hm = {inputs, ...}: {
     imports = [inputs.home-manager.nixosModules.home-manager];
-    inherit home-manager;
+    home-manager = {
+      backupFileExtension = "bak";
+      users.${username}.home = {
+        username = username;
+        homeDirectory = "/home/${username}";
+        stateVersion = "24.11";
+      };
+    };
   };
-  flake.modules.home.hm = {pkgs, ...}:{
+  flake.modules.home.standalone = {pkgs, lib, ...}:{
     home = {
       username = username;
-      homeDirectory = (
-        if pkgs.stdenv.isDarwin
-        then "/Users/${username}"
-        else "/home/${username}"
-      );
-      sessionPath = lib.optionals pkgs.stdenv.isDarwin ["/opt/homebrew/bin"];
-      sessionVariables =
-        lib.mkIf (!pkgs.stdenv.isDarwin)
-        {SSH_AUTH_SOCK = "/home/${username}/.bitwarden-ssh-agent.sock";};
+      homeDirectory = "/home/${username}";
+      sessionVariables = {SSH_AUTH_SOCK = "/home/${username}/.bitwarden-ssh-agent.sock";};
       stateVersion = "24.11";
     };
   };

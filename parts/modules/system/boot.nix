@@ -1,9 +1,9 @@
 {
-  config,
-  pkgs,
-  ...
-}: {
-  flake.modules.nixos.boot = {
+  flake.modules.nixos.system = {
+    config,
+    pkgs,
+    ...
+  }: {
     boot = {
       boot = {
         binfmt.emulatedSystems = ["aarch64-linux"];

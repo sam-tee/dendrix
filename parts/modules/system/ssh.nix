@@ -1,22 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  username = config.primaryUser.username;
-  cfg = config.ssh;
-in {
-  options = {
-    ssh = {
+let
+    mkSshOpt = lib: {
       pubKey = lib.mkOption {
         type = lib.types.str;
         default = "";
         description = "Public key of the machine";
       };
     };
-  };
+in {
+    flake.modules.nixos.ssh = {config, lib, ...}: let
+      cfg = config.ssh; in{
+        options.ssh = mkSshOpt lib;
   config = {
-    flake.modules.nixos.ssh = {
       environment.variables = {
         SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
       };
@@ -36,8 +30,11 @@ in {
         };
         fail2ban.enable = true;
       };
-    };
-    flake.modules.darwin.ssh = {
+    };};
+    flake.modules.darwin.ssh = {config, lib, ...}: let
+      cfg = config.ssh; in{
+        options.ssh = mkSshOpt lib;
+  config = {
       environment.variables = {
         SSH_AUTH_SOCK = "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
       };
@@ -52,7 +49,7 @@ in {
           Include /etc/ssh/crypto.conf
         '';
       };
-    };
+    };};
     flake.modules.home.ssh = {
       home.file.".ssh/pubKeys" = {
         source = ./pubKeys;
@@ -93,5 +90,4 @@ in {
         '';
       };
     };
-  };
 }
