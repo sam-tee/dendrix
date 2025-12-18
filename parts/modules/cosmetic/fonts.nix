@@ -1,9 +1,9 @@
-{pkgs, ...}: let
-  fontPackages = with pkgs; [
-    inter
-    nerd-fonts.lilex
-    noto-fonts-color-emoji
-  ];
+let
+  mkFonts = pkgs: (with pkgs; [
+      inter
+      nerd-fonts.lilex
+      noto-fonts-color-emoji
+  ]);
   fontconfig = {
     enable = true;
     defaultFonts = {
@@ -14,17 +14,19 @@
     };
   };
 in {
-  flake.modules.nixos.fonts = {
+  flake.modules.nixos.fonts = {pkgs, ...}: {
     fonts = {
-      packages = fontPackages;
+      packages = mkFonts pkgs;
       inherit fontconfig;
     };
   };
 
-  flake.modules.darwin.fonts.fonts.packages = fontPackages;
+  flake.modules.darwin.fonts = {pkgs, ...}:{
+    fonts.packages = mkFonts pkgs;
+  };
 
-  flake.modules.home.fonts = {
+  flake.modules.home.fonts = {pkgs, ...}:{
     fonts = {inherit fontconfig;};
-    home.packages = fontPackages;
+    home.packages = mkFonts pkgs;
   };
 }

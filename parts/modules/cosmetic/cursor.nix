@@ -1,5 +1,5 @@
-{ pkgs,...}: {
-    flake.modules.home.cursor = {
+{
+    flake.modules.home.cursor = { pkgs,...}: {
       home.pointerCursor = {
         gtk.enable = true;
         x11.enable = true;
