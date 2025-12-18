@@ -1,10 +1,5 @@
 {
-  config,
-  inputs,
-  pkgs,
-  ...
-}: {
-  flake.modules.nixos.plasma = {
+  flake.modules.nixos.plasma = {pkgs, ...}: {
     environment = {
       systemPackages = with pkgs; [
         kdePackages.partitionmanager
@@ -28,7 +23,10 @@
     };
   };
 
-  flake.modules.home.plasma = {
+  flake.modules.home.plasma = {config, inputs, ...}: let
+    username = "";
+    bg = config.cosmetic.backgroundPath;
+    in {
     imports = [inputs.plasma-manager.nixosModules.plasma-manager];
     programs = {
       okular = {
@@ -168,7 +166,7 @@
           enableMiddleClickPaste = true;
           lookAndFeel = "org.kde.breezedark.desktop";
           colorScheme = "BreezeDark";
-          wallpaper = "/home/${config.primaryUser.username}/${config.background.backgroundFile}";
+          wallpaper = "/home/${username}/${bg}";
           wallpaperFillMode = "stretch";
         };
       };

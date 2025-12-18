@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  flake.modules.nixos.gnome = {
+{
+  flake.modules.nixos.gnome = {pkgs, ...}: {
     environment = {
       systemPackages =
         (with pkgs; [

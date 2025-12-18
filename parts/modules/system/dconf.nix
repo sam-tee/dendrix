@@ -1,11 +1,12 @@
 {
-  config,
-  lib,
-  ...
-}: let
-  bg = config.background.backgroundFile;
-in {
   flake.modules.home.gnome = {
+    config,
+    lib,
+    ...
+  }: let
+    bg = config.cosmetic.backgroundPath;
+    username = "";
+  in {
     dconf.settings = with lib.hm.gvariant; {
       "org/gnome/TextEditor" = {
         restore-session = false;
