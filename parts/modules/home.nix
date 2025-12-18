@@ -1,4 +1,6 @@
-{
+let
+  username = "";
+in {
   flake.modules.darwin.hm = {inputs, ...}: {
     imports = [inputs.home-manager.darwinModules.home-manager];
     home-manager = {
@@ -22,7 +24,7 @@
       };
     };
   };
-  flake.modules.home.standalone = {pkgs, lib, ...}:{
+  flake.modules.home.standalone = {
     home = {
       username = username;
       homeDirectory = "/home/${username}";
