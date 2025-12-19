@@ -1,8 +1,12 @@
-{inputs, ...}: {
-  flake.nixosConfigurations."a3" = inputs.nixpkgs.lib.nixosSystem {
+{inputs, ...}: let
+  inherit (import ./_helpers.nix inputs) mkNixos;
+  hostname = "a3";
+in {
+  flake.nixosConfigurations."${hostname}" = mkNixos {
+    inherit hostname;
+    username = "sam";
     system = "x86_64-linux";
-    modules = with inputs.self.modules.nixos; [
-      user
-    ];
+    nixosModules = [];
+    homeModules = [];
   };
 }

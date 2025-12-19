@@ -1,20 +1,13 @@
-{inputs, ...}: {
-  flake.darwinConfigurations."mba" = inputs.nix-darwin.lib.darwinSystem {
-    system = "aarch64-darwin";
-    modules = with inputs.self.modules.darwin; [
-      aerospace
-      brew
-      networking
-      nix
-      ssh
-      system
-      user
-      hm
-      {
-        home-manager.sharedModules = with inputs.self.modules.home; [
-          btop
-        ];
-      }
+{inputs, ...}: let
+  inherit (import ./_helpers.nix inputs) mkDarwin;
+in {
+  flake.darwinConfigurations."mba" = mkDarwin {
+    hostname = "mba";
+    username = "sam";
+    sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFQjvsEOeipx+aSfrT6WIEdrlMxfglSgOu2NKmpzTUA";
+    homeModules = with inputs.self.modules.homeManager; [
+      vscode
+      extraPkgs
     ];
   };
 }
