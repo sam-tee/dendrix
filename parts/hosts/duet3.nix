@@ -6,7 +6,7 @@ in {
     inherit hostname;
     username = "sam";
     device = "lenovo-wormdingler";
-    sshPubKey = "";
+    sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHK6sBwLbi0FkwXzzZO7Mbd6ha66KX+zSOJgGUWiTYzL duet3";
     nixosModules = with inputs.self.modules.nixos; [
       plasma
       ({pkgs, ...}: {
