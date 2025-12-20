@@ -10,10 +10,11 @@ let
       repo = "dendrix";
     };
   };
-  devPkgs = pkgs: with pkgs; [
-    alejandra
-    nixd
-  ];
+  devPkgs = pkgs:
+    with pkgs; [
+      alejandra
+      nixd
+    ];
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [];
