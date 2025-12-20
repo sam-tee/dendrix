@@ -1,42 +1,39 @@
 {
   flake.modules.nixos = {
-    minimal = {inputs, ...}: {
+    _minimal = {inputs, ...}: {
       imports = with inputs.self.modules.nixos; [
+        cli
+        networking
+        ssh
+        system
+        user
+      ];
+    };
+    _mobile = {inputs, ...}: {
+      imports = with inputs.self.modules.nixos; [
+        _minimal
+        services
+      ];
+    };
+    _server = {inputs, ...}: {
+      imports = with inputs.self.modules.nixos; [
+        _minimal
         boot
-        cli
-        networking
-        ssh
-        system
-        user
-      ];
-    };
-    mobile = {inputs, ...}: {
-      imports = with inputs.self.modules.nixos; [
-        cli
-        networking
-        ssh
-        system
-        user
-        servies
-      ];
-    };
-    homelab = {inputs, ...}: {
-      imports = with inputs.self.modules.nixos; [
-        minimal
         homelab
         calibre
       ];
     };
-    default = {inputs, ...}: {
+    _default = {inputs, ...}: {
       imports = with inputs.self.modules.nixos; [
-        minimal
+        _minimal
+        boot
         services
         nautilus
       ];
     };
   };
 
-  flake.modules.darwin.default = {inputs, ...}: {
+  flake.modules.darwin._default = {inputs, ...}: {
     imports = with inputs.self.modules.darwin; [
       aerospace
       brew
@@ -49,7 +46,7 @@
   };
 
   flake.modules.homeManager = {
-    minimal = {inputs, ...}: {
+    _minimal = {inputs, ...}: {
       imports = with inputs.self.modules.homeManager; [
         cli
         cosmetic
@@ -62,12 +59,19 @@
       ];
     };
 
-    linuxMinimal = {inputs, ...}: {
+    _linuxMinimal = {inputs, ...}: {
       imports = with inputs.self.modules.homeManager; [
         cliLinux
         cursor
         linuxMinPkgs
-        minimal
+        cli
+        cosmetic
+        fonts
+        ghostty
+        minPkgs
+        ssh
+        xournal
+        zed
       ];
     };
   };

@@ -11,7 +11,7 @@ inputs: {
     hmModules.home-manager.sharedModules =
       homeModules
       ++ (with home; [
-        minimal
+        _minimal
       ]);
   in
     inputs.nix-darwin.lib.darwinSystem {
@@ -20,7 +20,7 @@ inputs: {
       modules =
         darwinModules
         ++ (with darwin; [
-          default
+          _default
           hm
           hmModules
           {networking.hostName = hostname;}
@@ -41,7 +41,7 @@ inputs: {
     hmModules.home-manager.sharedModules =
       homeModules
       ++ (with home; [
-        linuxMinimal
+        _linuxMinimal
       ]);
   in
     inputs.nixpkgs.lib.nixosSystem {
@@ -50,7 +50,7 @@ inputs: {
       modules =
         nixosModules
         ++ (with nixos; [
-          default
+          _default
           hm
           hmModules
           ./_harware/${hostname}.nix
@@ -74,7 +74,7 @@ inputs: {
       modules =
         nixosModules
         ++ (with nixos; [
-          homelab
+          _server
           ./_harware/${hostname}.nix
           {networking.hostName = hostname;}
           {ssh.pubKey = sshPubKey;}
@@ -90,6 +90,7 @@ inputs: {
   in
     inputs.home-manager.lib.homeManagerConfigurations {
       pkgs = inputs.nixpkgs.legacyPackages.${system};
+      inherit system;
       extraSpecialArgs = {inherit username inputs;};
       modules =
         homeModules
@@ -111,7 +112,7 @@ inputs: {
     hmModules.home-manager.sharedModules =
       homeModules
       ++ (with home; [
-        linuxMinimal
+        _linuxMinimal
       ]);
   in
     inputs.nixpkgs.lib.nixosSystem {
@@ -120,7 +121,7 @@ inputs: {
       modules =
         nixosModules
         ++ (with nixos; [
-          mobile
+          _mobile
           hm
           hmModules
           (import "${inputs.mobile-nixos}/lib/configuration.nix" {inherit device;})

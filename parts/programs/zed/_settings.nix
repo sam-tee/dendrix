@@ -70,7 +70,7 @@
     };
     nixd = {
       settings.options = let
-        options = system: "(builtins.getFlake github:akhlus/nix).${system}.test.options";
+        options = system: "(builtins.getFlake github:sam-tee/dendrix).${system}.lsp.options";
       in {
         darwin.expr = options "darwinConfigurations";
         home.expr = options "homeConfigurations";

@@ -11,17 +11,17 @@ let
   };
   packages = pkgs:
     with pkgs; [
-      alejandra
+      bat
+      direnv
       dust
+      eza
       fastfetch
+      fzf
+      lazygit
       nano
-      nix-search-cli
-      nixd
-      python3
-      ruff
+      ripgrep
       speedtest-cli
       tldr
-      ty
     ];
 in {
   flake.modules = {
@@ -29,13 +29,10 @@ in {
       inherit programs;
       environment.systemPackages = with pkgs;
         [
-          eza
-          fzf
           inxi
           lm_sensors
           lshw
           pciutils
-          ripgrep
           usbutils
           v4l-utils
         ]
@@ -59,18 +56,7 @@ in {
     };
 
     darwin.cli = {pkgs, ...}: {
-      environment.systemPackages = with pkgs; [
-        eza
-        fzf
-        inxi
-        lm_sensors
-        lshw
-        pciutils
-        ripgrep
-        usbutils
-        v4l-utils
-      ]
-      ++ (packages pkgs);
+      environment.systemPackages = packages pkgs;
     };
   };
 }

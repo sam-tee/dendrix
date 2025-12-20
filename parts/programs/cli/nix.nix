@@ -10,21 +10,36 @@ let
       repo = "dendrix";
     };
   };
+  devPkgs = pkgs: with pkgs; [
+    alejandra
+    nixd
+  ];
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [];
   };
 in {
-  flake.modules.nixos.cli = {
+  flake.modules.nixos.cli = {pkgs, ...}: {
     inherit nixpkgs;
     nix = nixDefault // {optimise.automatic = true;};
+    environment.systemPackages = devPkgs pkgs;
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        stdenv.cc.cc.lib
+        zlib
+      ];
+    };
+    environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
   };
-  flake.modules.darwin.cli = {
+  flake.modules.darwin.cli = {pkgs, ...}: {
     inherit nixpkgs;
     nix = nixDefault // {optimise.automatic = true;};
+    environment.systemPackages = devPkgs pkgs;
   };
-  flake.modules.homeManager.cli = {
+  flake.modules.homeManager.cli = {pkgs, ...}: {
     inherit nixpkgs;
     nix = nixDefault;
+    home.packages = devPkgs pkgs;
   };
 }

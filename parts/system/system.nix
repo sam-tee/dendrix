@@ -1,9 +1,6 @@
 {
   flake.modules.nixos.system = {
-    environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
-    hardware = {
-      enableAllFirmware = true;
-    };
+    hardware.enableAllFirmware = true;
     xdg.terminal-exec = {
       enable = true;
       settings.default = ["ghostty.desktop"];

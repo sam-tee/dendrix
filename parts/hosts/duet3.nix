@@ -9,7 +9,6 @@ in {
     sshPubKey = "";
     nixosModules = with inputs.self.modules.nixos; [
       plasma
-      (import "${inputs.mobile-nixos}/lib/configuration.nix" {device = "lenovo-wormdingler";})
       ({pkgs, ...}: {
         hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
         hardware.sensor.iio.enable = false;

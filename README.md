@@ -1,5 +1,6 @@
 # Dendritic nix flake
 Uses flake-parts to make every file under parts/ a module
+Modules that bundle other modules are prefixed with _ to distinguish them
 Available modules are:
 
 ## Nixos
@@ -18,10 +19,12 @@ Available modules are:
 - user: sets up user account and groups
 - vscode: enables vscode
 
-- minimal: minimal installs
-- homelab: collection of modules for home server
-- default: collection of modules for desktop Uses
-- mobile: collection of modules for use with mobile-nixos
+- _minimal: minimal installs
+- _server: collection of modules for home server
+- _default: collection of modules for desktop uses (no DE)
+- _mobile: collection of modules for use with mobile-nixos (no DE)
+- _plasma: installs plasma with HM configuration
+- _gnome: installs gnome with HM configuration
 
 
 ## Darwin
@@ -34,7 +37,7 @@ Available modules are:
 - system
 - user
 
-- default: enables all these modules
+- _default: enables all these modules
 
 ## home
 - cli
@@ -55,3 +58,6 @@ Available modules are:
 - linuxMinPkgs: minimal packages for linux
 - extraPackages: additional packages including second browser etc
 - extraLinuxPkgs: adds wider range of linux packages including full office suit
+
+- _minimal: min install for home-manager system
+- _linuxMinimal: linux minimal install
