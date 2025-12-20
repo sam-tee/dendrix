@@ -85,16 +85,13 @@ inputs: {
     username,
     system,
     homeModules ? [],
-  }: let
-    home = inputs.self.modules.homeManager;
-  in
-    inputs.home-manager.lib.homeManagerConfigurations {
+  }:
+    inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${system};
-      inherit system;
       extraSpecialArgs = {inherit username inputs;};
       modules =
         homeModules
-        ++ (with home; [
+        ++ (with inputs.self.modules.homeManager; [
           standalone
         ]);
     };
