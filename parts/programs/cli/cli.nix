@@ -29,6 +29,7 @@ in {
       inherit programs;
       environment.systemPackages = with pkgs;
         [
+          clinfo
           inxi
           lm_sensors
           lshw

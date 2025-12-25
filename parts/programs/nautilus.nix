@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  flake.modules.nixos.nautilus = {
+{
+  flake.modules.nixos.nautilus = {pkgs, ...}: {
     programs.nautilus-open-any-terminal = {
       enable = true;
       terminal = "ghostty";
