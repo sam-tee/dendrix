@@ -193,25 +193,6 @@
         "type": "github"
       }
     },
-<<<<<<< Updated upstream
-=======
-    "nixpkgs-darwin": {
-      "locked": {
-        "lastModified": 1766410818,
-        "narHash": "sha256-ruVneSx6wFy5PMw1ow3BE+znl653TJ6+eeNUj4B/9y8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "3a7affa77a5a539afa1c7859e2c31abdb1aeadf3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
->>>>>>> Stashed changes
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1765674936,
@@ -229,19 +210,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-<<<<<<< Updated upstream
         "lastModified": 1766622938,
         "narHash": "sha256-Eovt/DOCYjFFBZuYbbG9j5jhklzxdNbUGVYYxh3lG3s=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "5900a0a8850cbba98e16d5a7a6ed389402dfcf4f",
-=======
-        "lastModified": 1766201043,
-        "narHash": "sha256-eplAP+rorKKd0gNjV3rA6+0WMzb1X1i16F5m5pASnjA=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "b3aad468604d3e488d627c0b43984eb60e75e782",
->>>>>>> Stashed changes
         "type": "github"
       },
       "original": {
@@ -253,19 +226,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-<<<<<<< Updated upstream
         "lastModified": 1766651565,
         "narHash": "sha256-QEhk0eXgyIqTpJ/ehZKg9IKS7EtlWxF3N7DXy42zPfU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "3e2499d5539c16d0d173ba53552a4ff8547f4539",
-=======
-        "lastModified": 1766309749,
-        "narHash": "sha256-3xY8CZ4rSnQ0NqGhMKAy5vgC+2IVK0NoVEzDoOh4DA4=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "a6531044f6d0bef691ea18d4d4ce44d0daa6e816",
->>>>>>> Stashed changes
         "type": "github"
       },
       "original": {
@@ -311,7 +276,24 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
         "plasma-manager": "plasma-manager",
+        "secrets": "secrets",
         "sops-nix": "sops-nix"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1766712700,
+        "narHash": "sha256-QK7NHi60WFnqGvqU6q0YYfDb5gAgy3hKlDJ4l6upL6M=",
+        "ref": "refs/heads/main",
+        "rev": "54f3a0299f47e972a8c4ee3a6063e48a6d397fbe",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/sam-tee/nix-secrets.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/sam-tee/nix-secrets.git"
       }
     },
     "sops-nix": {
