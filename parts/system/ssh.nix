@@ -26,7 +26,7 @@ in {
           enable = true;
           ports = [2222];
           settings = {
-            KbdInteractiveAuthentication = true;
+            KbdInteractiveAuthentication = false;
             PasswordAuthentication = false;
             PermitRootLogin = "no";
           };
@@ -72,30 +72,19 @@ in {
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
-        "u410" = {
-          hostname = "u410";
-          user = "u410";
-          port = 2222;
-          identityFile = "~/.ssh/pubKeys/u410.pub";
+      matchBlocks = let
+        mkBlock = hostname: user: port: {
+          inherit hostname user port;
+          identityFile = "~/.ssh/pubKeys/${hostname}.pub";
         };
-        "a3" = {
-          hostname = "a3";
-          user = "sam";
-          port = 2222;
-          identityFile = "~/.ssh/pubKeys/a3.pub";
-        };
-        "duet3" = {
-          hostname = "duet3";
-          user = "sam";
-          port = 2222;
-          identityFile = "~/.ssh/pubKeys/duet3.pub";
-        };
-        "mba" = {
-          hostname = "mba";
-          user = "sam";
-          port = 22;
-          identityFile = "~/.ssh/pubKeys/mba.pub";
+      in {
+        "u410" = mkBlock "u410" "sam" 2222;
+        "a3" = mkBlock "a3" "sam" 2222;
+        "duet3" = mkBlock "duet3" "sam" 2222;
+        "mba" = mkBlock "mba" "sam" 22;
+        "git" = {
+          hostname = "github.com";
+          identityFile = "~/.ssh/pubKeys/git.pub";
         };
         "*" = {};
       };
