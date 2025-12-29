@@ -31,7 +31,7 @@
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
-    "/export" = {
+    "/var/lib/media" = {
       device = "/dev/disk/by-uuid/6aabc684-9b5a-41e0-ac4a-d7332400a6b8";
       fsType = "btrfs";
     };

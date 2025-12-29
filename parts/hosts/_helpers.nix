@@ -20,7 +20,7 @@ in {
           hm
           {
             networking.hostName = hostname;
-            ssh.pubKey = pubKeys.${hostname};
+            users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
             home-manager.sharedModules = homeModules ++ [hMod._minimal];
           }
         ]);
@@ -44,7 +44,7 @@ in {
           ./_harware/${hostname}.nix
           {
             networking.hostName = hostname;
-            ssh.pubKey = pubKeys.${hostname};
+            users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
             home-manager.sharedModules = homeModules ++ [hMod._linuxMinimal];
           }
         ]);
@@ -69,7 +69,7 @@ in {
           (import "${inputs.mobile-nixos}/lib/configuration.nix" {inherit device;})
           {
             networking.hostName = hostname;
-            ssh.pubKey = pubKeys.${hostname};
+            users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
             home-manager.sharedModules = homeModules ++ [hMod._linuxMinimal];
           }
         ]);
@@ -91,7 +91,7 @@ in {
           ./_harware/${hostname}.nix
           {
             networking.hostName = hostname;
-            ssh.pubKey = pubKeys.${hostname};
+            users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
           }
         ];
     };

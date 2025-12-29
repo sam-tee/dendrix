@@ -10,9 +10,12 @@
   ];
   boot = {
     initrd = {
-      availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "sd_mod"];
+      availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod"];
       kernelModules = [];
-      luks.devices."luksRoot".device = "/dev/disk/by-uuid/e9a7557e-5a21-4867-b89f-fcbedddc91ff";
+      luks.devices = {
+        "luksRoot".device = "/dev/disk/by-uuid/e9a7557e-5a21-4867-b89f-fcbedddc91ff";
+        "luksSwap".device = "/dev/disk/by-uuid/f83d2bd7-bce7-41a9-a319-dc192f1a2d8d";
+      };
     };
     kernelModules = ["kvm-amd"];
     extraModulePackages = [];
@@ -52,7 +55,7 @@
   };
 
   swapDevices = [
-    {device = "/dev/mapper/luks-f83d2bd7-bce7-41a9-a319-dc192f1a2d8d";}
+    {device = "/dev/mapper/luksSwap";}
   ];
 
   networking.interfaces.enp4s0.wakeOnLan.enable = lib.mkDefault true;
