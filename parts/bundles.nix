@@ -20,7 +20,19 @@
         _minimal
         boot
         homelab
+        anki
+        audiobookshelf
         calibre
+        cockpit
+        code-server
+        gitea
+        immich
+        microbin
+        navidrome
+        nextcloud
+        samba
+        terraria
+        vaultwarden
       ];
     };
     _default = {inputs, ...}: {

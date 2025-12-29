@@ -1,9 +1,13 @@
 {
-  flake.modules.nixos.calibre = let
+  flake.modules.nixos.calibre = {config, ...}: let
     group = "media";
     libDir = "/var/lib/media/Calibre";
   in {
     services = {
+      cloudflared.tunnels.${config.cloudflared.tunnel}.ingress = {
+        "calibre-server.akhlus.uk" = "http://localhost:8080";
+        "calibre.akhlus.uk" = "http://localhost:8083";
+      };
       calibre-server = {
         enable = true;
         inherit group;
