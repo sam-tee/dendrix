@@ -12,7 +12,7 @@
     initrd = {
       availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "sd_mod"];
       kernelModules = [];
-      luks.devices."luks-e9a7557e-5a21-4867-b89f-fcbedddc91ff".device = "/dev/disk/by-uuid/e9a7557e-5a21-4867-b89f-fcbedddc91ff";
+      luks.devices."luksRoot".device = "/dev/disk/by-uuid/e9a7557e-5a21-4867-b89f-fcbedddc91ff";
     };
     kernelModules = ["kvm-amd"];
     extraModulePackages = [];
@@ -22,7 +22,6 @@
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
-        clinfo
         intel-compute-runtime
         intel-media-driver
         intel-graphics-compiler
@@ -38,18 +37,19 @@
 
   fileSystems = {
     "/" = {
-    device = "/dev/mapper/luks-e9a7557e-5a21-4867-b89f-fcbedddc91ff";
-    fsType = "ext4";
+      device = "/dev/mapper/luksRoot";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/9ECA-2C6A";
+      fsType = "vfat";
+      options = ["fmask=0077" "dmask=0077"];
+    };
+    "/home/sam/hardDrive" = {
+      device = "/dev/disk/by-uuid/61410c09-7289-4d7d-aff7-b9053bb5224a";
+      fsType = "ext4";
+    };
   };
-  "/boot" = {
-    device = "/dev/disk/by-uuid/9ECA-2C6A";
-    fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
-  };
-  "/home/sam/Disks" = {
-    device = "/dev/disk/by-uuid/61410c09-7289-4d7d-aff7-b9053bb5224a";
-    fsType = "ext4";
-  };};
 
   swapDevices = [
     {device = "/dev/mapper/luks-f83d2bd7-bce7-41a9-a319-dc192f1a2d8d";}

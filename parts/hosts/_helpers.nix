@@ -1,84 +1,99 @@
-inputs: {
+inputs: let
+  pubKeys = import ./_pubKeys.nix;
+  nMod = inputs.self.modules.nixos;
+  hMod = inputs.self.modules.homeManager;
+  dMod = inputs.self.modules.darwin;
+in {
   mkDarwin = {
     hostname,
     username ? "sam",
-    sshPubKey ? "",
     darwinModules ? [],
     homeModules ? [],
-  }: let
-    darwin = inputs.self.modules.darwin;
-    home = inputs.self.modules.homeManager;
-    hmModules.home-manager.sharedModules =
-      homeModules
-      ++ (with home; [
-        _minimal
-      ]);
-  in
+  }:
     inputs.nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs username;};
       modules =
         darwinModules
-        ++ (with darwin; [
+        ++ (with dMod; [
           _default
           hm
-          hmModules
-          {networking.hostName = hostname;}
-          {ssh.pubKey = sshPubKey;}
+          {
+            networking.hostName = hostname;
+            ssh.pubKey = pubKeys.${hostname};
+            home-manager.sharedModules = homeModules ++ [hMod._minimal];
+          }
         ]);
     };
 
   mkNixos = {
     hostname,
     username ? "sam",
-    system,
-    sshPubKey ? "",
+    system ? "x86_64-linux",
     nixosModules ? [],
     homeModules ? [],
-  }: let
-    nixos = inputs.self.modules.nixos;
-    home = inputs.self.modules.homeManager;
-    hmModules.home-manager.sharedModules =
-      homeModules
-      ++ (with home; [
-        _linuxMinimal
-      ]);
-  in
+  }:
     inputs.nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {inherit inputs username;};
       modules =
         nixosModules
-        ++ (with nixos; [
+        ++ (with nMod; [
           _default
           hm
-          hmModules
           ./_harware/${hostname}.nix
-          {networking.hostName = hostname;}
-          {ssh.pubKey = sshPubKey;}
+          {
+            networking.hostName = hostname;
+            ssh.pubKey = pubKeys.${hostname};
+            home-manager.sharedModules = homeModules ++ [hMod._linuxMinimal];
+          }
+        ]);
+    };
+
+  mkMobile = {
+    hostname,
+    username ? "sam",
+    device,
+    nixosModules ? [],
+    homeModules ? [],
+  }:
+    inputs.nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      specialArgs = {inherit inputs username;};
+      modules =
+        nixosModules
+        ++ (with nMod; [
+          _mobile
+          hm
+          ./_harware/${hostname}.nix
+          (import "${inputs.mobile-nixos}/lib/configuration.nix" {inherit device;})
+          {
+            networking.hostName = hostname;
+            ssh.pubKey = pubKeys.${hostname};
+            home-manager.sharedModules = homeModules ++ [hMod._linuxMinimal];
+          }
         ]);
     };
 
   mkServer = {
     hostname,
-    username ? "server",
-    system,
-    sshPubKey ? "",
+    username ? "sam",
+    system ? "x86_64-linux",
     nixosModules ? [],
-  }: let
-    nixos = inputs.self.modules.nixos;
-  in
+  }:
     inputs.nixpkgs-stable.lib.nixosSystem {
       inherit system;
       specialArgs = {inherit inputs username;};
       modules =
         nixosModules
-        ++ (with nixos; [
-          _server
+        ++ [
+          nMod._server
           ./_harware/${hostname}.nix
-          {networking.hostName = hostname;}
-          {ssh.pubKey = sshPubKey;}
-        ]);
+          {
+            networking.hostName = hostname;
+            ssh.pubKey = pubKeys.${hostname};
+          }
+        ];
     };
 
   mkHome = {
@@ -89,43 +104,6 @@ inputs: {
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${system};
       extraSpecialArgs = {inherit username inputs;};
-      modules =
-        homeModules
-        ++ (with inputs.self.modules.homeManager; [
-          standalone
-        ]);
-    };
-
-  mkMobile = {
-    hostname,
-    username ? "sam",
-    device,
-    sshPubKey ? "",
-    nixosModules ? [],
-    homeModules ? [],
-  }: let
-    nixos = inputs.self.modules.nixos;
-    home = inputs.self.modules.homeManager;
-    hmModules.home-manager.sharedModules =
-      homeModules
-      ++ (with home; [
-        _linuxMinimal
-      ]);
-  in
-    inputs.nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      specialArgs = {inherit inputs username;};
-      modules =
-        nixosModules
-        ++ (with nixos; [
-          _mobile
-          hm
-          hmModules
-          (import "${inputs.mobile-nixos}/lib/configuration.nix" {inherit device;})
-          {
-            networking.hostName = hostname;
-            ssh.pubKey = sshPubKey;
-          }
-        ]);
+      modules = homeModules ++ [hMod.standalone];
     };
 }
