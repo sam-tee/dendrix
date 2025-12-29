@@ -1,4 +1,8 @@
-{
+let
+  monoFont = "Lilex Nerd Font Propo";
+  uiFont = "IBM Plex Sans";
+  fontSize = 14;
+in {
   agent.dock = "left";
   auto_install_extensions = {
     html = true;
@@ -9,47 +13,16 @@
     rainbow-csv = true;
     toml = true;
   };
-  base_keymap = "VSCode";
-  buffer_font_family = "Lilex Nerd Font";
-  buffer_font_size = 14;
-  edit_predictions = {
-    copilot = {
-      enterprise_uri = null;
-      proxy = null;
-      proxy_no_verify = null;
-    };
-    enabled_in_text_threads = false;
-    mode = "subtle";
-  };
-  features.edit_prediction_provider = "zed";
+  buffer_font_family = monoFont;
+  buffer_font_size = fontSize;
+  buffer_line_height.custom = 1.5;
+  edit_predictions.mode = "subtle";
   file_types = {Markdown = ["qmd"];};
-  gutter = {
-    breakpoints = true;
-    folds = true;
-    line_numbers = true;
-    runnables = true;
-  };
-  icon_theme = "Zed (Default)";
-  inlay_hints = {
-    edit_debounce_ms = 700;
-    enabled = true;
-    scroll_debounce_ms = 50;
-    show_background = false;
-    show_other_hints = false;
-    show_parameter_hints = true;
-    show_type_hints = true;
-    show_value_hints = true;
-    toggle_on_modifiers_press = {
-      alt = false;
-      control = false;
-      function = false;
-      platform = false;
-      shift = false;
-    };
-  };
+  hover_popover_delay = 200;
+  inlay_hints.enabled = true;
   languages = {
     Nix = {
-      format_on_save = "off";
+      format_on_save = "on";
       formatter.external = {
         command = "alejandra";
         arguments = ["--quiet" "--"];
@@ -63,11 +36,7 @@
       language_servers = ["ty" "ruff"];
     };
   };
-  load_direnv = "shell_hook";
   lsp = {
-    basedpyright = {
-      settings.python.analysis.typeCheckingMode = "standard";
-    };
     nixd = {
       settings.options = let
         options = system: "(builtins.getFlake github:sam-tee/nixd-hosts).${system}.lsp.options";
@@ -79,21 +48,14 @@
     };
   };
   notification_panel = {dock = "left";};
-  outline_panel = {button = false;};
   project_panel = {
     button = true;
     dock = "right";
+    entry_spacing = "standard";
   };
-  scrollbar = {show = "auto";};
   show_edit_predictions = false;
-  soft_wrap = "none";
-  tab_bar = {show = false;};
-  terminal = {
-    dock = "bottom";
-    font_family = "Lilex Nerd Font";
-    working_directory = "current_project_directory";
-  };
+  tab_bar.show = false;
   theme = "akhlus";
-  ui_font_family = "Lilex";
-  ui_font_size = 14;
+  ui_font_family = uiFont;
+  ui_font_size = fontSize;
 }

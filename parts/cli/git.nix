@@ -16,7 +16,7 @@
         push.autoSetupRemote = "true";
         user = {
           name = "sam-tee";
-          email = "93236986+akhlus@users.noreply.github.com";
+          email = "93236986+sam-tee@users.noreply.github.com";
         };
       };
     };

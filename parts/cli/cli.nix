@@ -34,7 +34,6 @@ in {
           lm_sensors
           lshw
           pciutils
-          spotdl
           usbutils
           v4l-utils
           wakeonlan

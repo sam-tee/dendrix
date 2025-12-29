@@ -1,12 +1,14 @@
 {
-  flake.modules.nixos.samba = {
+  flake.modules.nixos.samba = {config, username, ...}: {
+    sops.secrets."samba" = {};
     services.samba = {
       enable = true;
       openFirewall = true;
       settings = {
         global = {
           "workgroup" = "WORKGROUP";
-          "server string" = "u410 share";
+          "server string" = "u410";
+          "netbios name" = "u410";
           "security" = "user";
           "guest account" = "nobody";
           "map to guest" = "bad user";
@@ -21,6 +23,11 @@
           "force group" = "media";
         };
       };
+    };
+    system.activationScripts = {
+      init_smbpasswd.text = ''
+        /run/current-system/sw/bin/printf "$(/run/current-system/sw/bin/cat ${config.sops.secrets.samba.path})\n$(/run/current-system/sw/bin/cat ${config.sops.secrets.samba.path})\n" | /run/current-system/sw/bin/smbpasswd -sa ${username}
+      '';
     };
   };
 }

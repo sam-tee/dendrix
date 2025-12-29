@@ -5,16 +5,14 @@
   flake.modules.darwin.cli = {pkgs, ...}: {
     environment.systemPackages = [pkgs.btop];
   };
-  flake.modules.homeManager.cli = {config, ...}: let
-    theme = config.cosmetic.theme;
-  in {
+  flake.modules.homeManager.cli = {config, ...}: {
     programs.btop = {
       enable = true;
       settings = {
         color_theme = "akhlus";
         theme_background = false;
       };
-      themes = import ./_themes.nix theme;
+      themes = import ./_themes.nix config.cosmetic.theme;
     };
   };
 }

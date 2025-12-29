@@ -1,6 +1,6 @@
 let
   sopsConf = inputs: {
-    defaultSopsFile = "${builtins.toString inputs.secrets}/secrets.yaml";
+    defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
     defaultSopsFormat = "yaml";
     age = {
       sshKeyPaths = [];
