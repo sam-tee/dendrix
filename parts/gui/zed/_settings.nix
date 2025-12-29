@@ -1,5 +1,5 @@
 {
-  agent.dock = "right";
+  agent.dock = "left";
   auto_install_extensions = {
     html = true;
     latex = true;
@@ -10,7 +10,7 @@
     toml = true;
   };
   base_keymap = "VSCode";
-  buffer_font_family = "Lilex Nerd Font Mono";
+  buffer_font_family = "Lilex Nerd Font";
   buffer_font_size = 14;
   edit_predictions = {
     copilot = {
@@ -60,7 +60,7 @@
     Python = {
       format_on_save = "on";
       formatter = [{code_action = "source.organizeImports.ruff";} {language_server = {name = "ruff";};}];
-      language_servers = ["pylsp" "!pyright" "ruff"];
+      language_servers = ["ty" "ruff"];
     };
   };
   load_direnv = "shell_hook";
@@ -70,7 +70,7 @@
     };
     nixd = {
       settings.options = let
-        options = system: "(builtins.getFlake github:sam-tee/dendrix).${system}.lsp.options";
+        options = system: "(builtins.getFlake github:sam-tee/nixd-hosts).${system}.lsp.options";
       in {
         darwin.expr = options "darwinConfigurations";
         home.expr = options "homeConfigurations";
@@ -87,19 +87,13 @@
   scrollbar = {show = "auto";};
   show_edit_predictions = false;
   soft_wrap = "none";
-  ssh_connections = [
-    {
-      host = "u410";
-      projects = [{paths = ["/home/u410/Code"];}];
-    }
-  ];
   tab_bar = {show = false;};
   terminal = {
     dock = "bottom";
-    font_family = "Lilex Nerd Font Mono";
+    font_family = "Lilex Nerd Font";
     working_directory = "current_project_directory";
   };
   theme = "akhlus";
-  ui_font_family = "IBM Plex Sans";
+  ui_font_family = "Lilex";
   ui_font_size = 14;
 }

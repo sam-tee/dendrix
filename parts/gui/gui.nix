@@ -13,6 +13,7 @@
         brave
         discord
         protonvpn-gui
+        spotify
       ];
     };
 

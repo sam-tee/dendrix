@@ -5,13 +5,16 @@
       username,
       ...
     }: {
-      users.users.${username} = {
-        description = username;
-        name = username;
-        shell = pkgs.zsh;
-        ignoreShellProgramCheck = true;
-        extraGroups = ["networkmanager" "wheel"];
-        isNormalUser = true;
+      users = {
+        users.${username} = {
+          description = username;
+          name = username;
+          shell = pkgs.zsh;
+          ignoreShellProgramCheck = true;
+          extraGroups = ["networkmanager" "samba" "wheel" "media"];
+          isNormalUser = true;
+        };
+        groups.media = {};
       };
     };
     darwin.user = {

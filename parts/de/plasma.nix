@@ -1,25 +1,34 @@
 {
-  flake.modules.nixos.plasma = {pkgs, ...}: {
-    environment = {
-      systemPackages = with pkgs; [
-        kdePackages.partitionmanager
-        maliit-keyboard
+  flake.modules.nixos = {
+    plasmaHM = {inputs, ...}: {
+      imports = with inputs.self.modules.nixos; [
+        hm
+        plasma
       ];
-      plasma6.excludePackages = with pkgs.kdePackages; [
-        elisa
-        kate
-        konsole
-        plasma-browser-integration
-      ];
+      home-manager.sharedModules = [inputs.self.modules.homeManager.plasma];
     };
-    services = {
-      displayManager.sddm = {
-        enable = true;
-        extraPackages = [pkgs.maliit-keyboard];
-        settings.Wayland.CompositorCommand = "${pkgs.kdePackages.kwin}/bin/kwin_wayland --no-global-shortcuts --no-kactivities --no-lockscreen --locale1 --inputmethod maliit-keyboard";
-        wayland.enable = true;
+    plasma = {pkgs, ...}: {
+      environment = {
+        systemPackages = with pkgs; [
+          kdePackages.partitionmanager
+          maliit-keyboard
+        ];
+        plasma6.excludePackages = with pkgs.kdePackages; [
+          elisa
+          kate
+          konsole
+          plasma-browser-integration
+        ];
       };
-      desktopManager.plasma6.enable = true;
+      services = {
+        displayManager.sddm = {
+          enable = true;
+          extraPackages = [pkgs.maliit-keyboard];
+          settings.Wayland.CompositorCommand = "${pkgs.kdePackages.kwin}/bin/kwin_wayland --no-global-shortcuts --no-kactivities --no-lockscreen --locale1 --inputmethod maliit-keyboard";
+          wayland.enable = true;
+        };
+        desktopManager.plasma6.enable = true;
+      };
     };
   };
 

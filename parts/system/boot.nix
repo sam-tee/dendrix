@@ -35,6 +35,7 @@
         enable = true;
         theme = "bgrt";
       };
+      supportedFilesystems = ["btrfs" "nfs"];
     };
   };
 }

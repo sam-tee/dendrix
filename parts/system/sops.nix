@@ -1,10 +1,12 @@
 let
   sopsConf = inputs: {
     defaultSopsFile = "${builtins.toString inputs.secrets}/secrets.yaml";
-    sops.age = {
-      keyFile = "/var/lib/sops-nix/key.txt";
-      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    defaultSopsFormat = "yaml";
+    defaultSopsKey = null;
+    age = {
+      sshKeyPaths = [];
       generateKey = true;
+      keyFile = "/var/lib/sops-nix/key.txt";
     };
   };
 in {

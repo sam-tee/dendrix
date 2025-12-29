@@ -1,5 +1,6 @@
 let
   alias = {
+    "ls" = "eza -lh --group-directories-first";
     "la" = "ls -a";
     "lt" = "eza --tree --level=2 --long --git";
     "lta" = "lt -a";
