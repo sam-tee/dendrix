@@ -42,7 +42,6 @@
     home = {
       username = username;
       homeDirectory = "/home/${username}";
-      sessionVariables = {SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";};
       stateVersion = "24.11";
       language.base = "en_GB.UTF-8";
       keyboard.layout = "gb";

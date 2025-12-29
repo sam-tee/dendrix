@@ -1,6 +1,5 @@
 {
   flake.modules.nixos.ssh = {
-    environment.variables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
     services = {
       openssh = {
         enable = true;
@@ -37,6 +36,7 @@
       matchBlocks = let
         mkBlock = hostname: user: port: {
           inherit hostname user port;
+          identitiesOnly = true;
           identityFile = "~/.ssh/pubKeys/${hostname}.pub";
         };
       in {

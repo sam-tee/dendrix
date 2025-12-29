@@ -37,6 +37,7 @@ in {
           spotdl
           usbutils
           v4l-utils
+          wakeonlan
         ]
         ++ (packages pkgs);
     };

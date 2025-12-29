@@ -8,6 +8,7 @@
     };
 
     linuxMinPkgs = {pkgs, ...}: {
+      home.sessionVariables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
       home.packages = with pkgs; [
         bitwarden-desktop
         brave
@@ -21,7 +22,6 @@
       home.packages = with pkgs; [
         gemini-cli
         google-chrome
-        spotdl
         yt-dlg
         zotero
       ];
