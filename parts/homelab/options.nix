@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.homelab = {lib, ...}: {
-    options.cloudflared = {
+    options.homelab.cloudflared = {
       tunnel = lib.mkOption {
         type = lib.types.str;
         default = "";

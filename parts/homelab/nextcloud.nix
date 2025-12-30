@@ -1,20 +1,26 @@
 {
-  flake.modules.nixos.nextcloud = {config, pkgs, ...}: {
+  flake.modules.nixos.nextcloud = {
+    config,
+    pkgs,
+    ...
+  }: {
     sops.secrets."nextcloud/adminPassword" = {};
     services = {
-      cloudflared.tunnels.${config.cloudflared.tunnel}.ingress."cloud.akhlus.uk" = "http://localhost:8009";
       nextcloud = {
         enable = true;
         home = "/var/lib/media/docs";
-        hostName = "u410-cloud";
+        hostName = "cloud.akhlus.uk";
         database.createLocally = true;
         package = pkgs.nextcloud32;
         configureRedis = true;
         https = true;
+        settings.trusted_domains = ["*.akhlus.uk" "192.168.10.0/24" "*.scylla-goblin.ts.net"];
         config = {
           dbtype = "sqlite";
+          adminuser = "admin";
           adminpassFile = config.sops.secrets."nextcloud/adminPassword".path;
-      };};
+        };
+      };
     };
   };
 }

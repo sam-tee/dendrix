@@ -1,10 +1,11 @@
 {
   flake.modules.nixos.vaultwarden = {config, ...}: {
+    sops.secrets."vaultwarden.env" = {};
     services = {
-      cloudflared.tunnels.${config.cloudflared.tunnel}.ingress."vault.akhlus.uk" = "http://localhost:8222";
       vaultwarden = {
         enable = true;
         backupDir = "/var/lib/media/vaultwarden/backup";
+        environmentFile = [config.sops.secrets."vaultwarden.env".path];
         config = {
           DOMAIN = "https://vault.akhlus.uk";
           SIGNUPS_ALLOWED = false;

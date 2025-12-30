@@ -8,7 +8,6 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-
   boot = {
     initrd = {
       availableKernelModules = ["xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "sd_mod"];
@@ -18,6 +17,7 @@
     extraModulePackages = [];
   };
 
+  homelab.cloudflared.tunnel = "74f00e3d-6f30-493c-b088-ae42a415ba23";
   environment.systemPackages = with pkgs; [
     spotdl
     yt-dlp
@@ -25,18 +25,44 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/48c2f34c-496e-42c0-96af-f7be80b7d23f";
+      device = "/dev/disk/by-uuid/d32aab21-0af6-4186-9a51-5a05ece072c2";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/FF88-5020";
+      device = "/dev/disk/by-uuid/E072-E752";
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
     "/var/lib/media" = {
-      device = "/dev/disk/by-uuid/6aabc684-9b5a-41e0-ac4a-d7332400a6b8";
+      device = "/dev/disk/by-uuid/6608ac85-7a69-4bb0-8169-64dfbf4f7830";
       fsType = "btrfs";
+      options = ["subvol=media" "compress=zstd"];
     };
+    "/export/media" = {
+      device = "/var/lib/media";
+      options = ["bind"];
+    };
+  };
+  security.sudo.wheelNeedsPassword = false;
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+  };
+  services.nfs.server = {
+    enable = true;
+    lockdPort = 4001;
+    mountdPort = 4002;
+    statdPort = 4000;
+    exports = ''
+      /export       *.scylla-goblin.ts.net(rw,fsid=0,no_subtree_check)
+      /export/media *.scylla-goblin.ts.net(rw,nohide,insecure,no_subtree_check)
+    '';
+  };
+  networking.firewall = let
+    ports = [111 2049 4000 4001 4002 20048];
+  in {
+    allowedTCPPorts = ports;
+    allowedUDPPorts = ports;
   };
   swapDevices = [];
   networking.useDHCP = lib.mkDefault true;

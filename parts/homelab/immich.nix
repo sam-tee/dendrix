@@ -1,12 +1,17 @@
 {
-  flake.modules.nixos.immich = {config, ...}: {
+  flake.modules.nixos.immich = {...}: {
     services = {
-      cloudflared.tunnels.${config.cloudflared.tunnel}.ingress."photos.akhlus.uk" = "http://localhost:2283";
       immich = {
         enable = true;
         openFirewall = true;
+        host = "127.0.0.1";
         group = "media";
-        mediaLocation = "/var/lib/media/photos";
+        mediaLocation = "/var/lib/media/immich";
+        database = {
+          enable = true;
+          createDB = true;
+        };
+        machine-learning.enable = false;
       };
     };
   };

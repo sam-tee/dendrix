@@ -1,7 +1,6 @@
 {
-  flake.modules.nixos.terraria = {config, ...}: {
+  flake.modules.nixos.terraria = {...}: {
     services = {
-      cloudflared.tunnels.${config.cloudflared.tunnel}.ingress."terraria.akhlus.uk" = "http://localhost:7777";
       terraria = {
         enable = true;
         openFirewall = true;

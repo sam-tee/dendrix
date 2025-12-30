@@ -1,10 +1,11 @@
 {
-  flake.modules.nixos.cockpit = {config, ...}: {
+  flake.modules.nixos.cockpit = {...}: {
     services = {
-      cloudflared.tunnels.${config.cloudflared.tunnel}.ingress."dash.akhlus.uk" = "http://localhost:9090";
       cockpit = {
         enable = true;
         openFirewall = true;
+        allowed-origins = ["https://*.akhlus.uk" "https://*.samtee.uk" "https://192.168.*.*"];
+        settings.WebService.AllowUnencrypted = true;
       };
     };
   };

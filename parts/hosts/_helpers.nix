@@ -44,6 +44,7 @@ in {
           ./_harware/${hostname}.nix
           {
             networking.hostName = hostname;
+            networking.useNetworkd = true;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
             home-manager.sharedModules = homeModules ++ [hMod._linuxMinimal];
           }
