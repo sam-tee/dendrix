@@ -17,6 +17,14 @@
     extraModulePackages = [];
   };
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-ocl
+      intel-vaapi-driver
+    ];
+  };
+
   homelab.cloudflared.tunnel = "74f00e3d-6f30-493c-b088-ae42a415ba23";
   environment.systemPackages = with pkgs; [
     spotdl

@@ -3,7 +3,6 @@ let
     defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
     defaultSopsFormat = "yaml";
     age = {
-      sshKeyPaths = [];
       generateKey = true;
       keyFile = "/var/lib/sops-nix/key.txt";
     };
