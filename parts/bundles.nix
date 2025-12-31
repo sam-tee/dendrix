@@ -28,7 +28,6 @@
         forgejo
         immich
         jellyfin
-        microbin
         navidrome
         nextcloud
         samba
