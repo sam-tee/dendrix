@@ -4,8 +4,9 @@
     lib,
     ...
   }: let
-    theme = config.cosmetic.theme;
+    userThemes = config.cosmetic.themes;
     removeHash = hex: lib.removePrefix "#" hex;
+    ghosttyThemes = import ./_themes.nix {inherit userThemes removeHash;};
   in {
     programs.ghostty = {
       enable = true;
@@ -22,7 +23,7 @@
         ];
         config-file = "?user-config";
       };
-      themes = import ./_themes.nix theme removeHash;
+      themes = ghosttyThemes;
     };
   };
 }

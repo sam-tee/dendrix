@@ -12,7 +12,7 @@
         color_theme = "akhlus";
         theme_background = false;
       };
-      themes = import ./_themes.nix config.cosmetic.theme;
+      themes = import ./_themes.nix config.cosmetic.themes;
     };
   };
 }

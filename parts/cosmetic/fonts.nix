@@ -1,14 +1,14 @@
 let
   mkFonts = pkgs: (with pkgs; [
-    ibm-plex
+    inter
     nerd-fonts.lilex
     noto-fonts-color-emoji
   ]);
   fontconfig = {
     enable = true;
     defaultFonts = {
-      serif = ["IBM Plex Sans"];
-      sansSerif = ["IBM Plex Sans"];
+      serif = ["Inter Variable"];
+      sansSerif = ["Inter Variable"];
       monospace = ["Lilex Nerd Font Propo"];
       emoji = ["Noto Color Emoji"];
     };

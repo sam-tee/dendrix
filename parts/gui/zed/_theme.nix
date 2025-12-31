@@ -1,9 +1,9 @@
 {
-  theme,
+  userThemes,
   lib,
 }: let
   template = builtins.readFile ./template.json;
-  replacements = {
+  mkReplacements = theme: {
     "$NAME" = theme.name;
     "$AUTHOR" = theme.author;
     "$VARIANT" = theme.variant;
@@ -24,6 +24,10 @@
     "$COLOURE_" = theme.base0E;
     "$COLOURF_" = theme.base0F;
   };
-in {
-  themeOut = lib.replaceStrings (builtins.attrNames replacements) (builtins.attrValues replacements) template;
-}
+  mkTheme = replacements: lib.replaceStrings (builtins.attrNames replacements) (builtins.attrValues replacements) template;
+in
+  builtins.listToAttrs (map (theme: {
+      name = theme.name;
+      value = mkTheme (mkReplacements theme);
+    })
+    userThemes)

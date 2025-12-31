@@ -1,5 +1,5 @@
-theme: {
-  akhlus = ''
+themes: let
+  mkTheme = theme: ''
     theme[main_bg]="${theme.base00}"
     theme[main_fg]="${theme.base05}"
     theme[title]="${theme.base05}"
@@ -43,4 +43,9 @@ theme: {
     theme[process_mid]="${theme.base0A}"
     theme[process_end]="${theme.base08}"
   '';
-}
+in
+  builtins.listToAttrs (map (theme: {
+      name = theme.name;
+      value = mkTheme theme;
+    })
+    themes)

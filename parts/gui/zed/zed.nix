@@ -4,19 +4,14 @@
     lib,
     ...
   }: let
-    inherit
-      (import ./_theme.nix {
-        theme = config.cosmetic.theme;
-        inherit lib;
-      })
-      themeOut
-      ;
+    userThemes = config.cosmetic.themes;
+    zedThemes = import ./_theme.nix {inherit lib userThemes;};
   in {
     programs.zed-editor = {
       enable = true;
       installRemoteServer = true;
-      userSettings = import ./_settings.nix;
-      themes = {akhlus = themeOut;};
+      userSettings = import ./_settings.nix {inherit config lib;};
+      themes = zedThemes;
     };
   };
 }

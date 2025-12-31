@@ -15,15 +15,22 @@
         default = "Pictures/bg.png";
         description = "Where the background should be located with in the home folder";
       };
-      themeFile = lib.mkOption {
+      themeFileDir = lib.mkOption {
         type = lib.types.path;
-        default = ./theme.toml;
-        description = "Path to the theme TOML fie";
+        default = ./themes;
+        description = "Path to a directory containing only the TOML files for each theme";
       };
-      theme = lib.mkOption {
-        type = lib.types.attrs;
-        default = fromTOML (builtins.readFile config.cosmetic.themeFile);
-        description = "Attr set of theme variables automatically read from the themeFile provided";
+      themes = lib.mkOption {
+        type = lib.types.listOf lib.types.attrs;
+        default = let
+          dir = config.cosmetic.themeFileDir;
+          files = builtins.attrNames (builtins.readDir dir);
+          themePaths = map (name: dir + "/${name}") files;
+          parseTOML = file: fromTOML (builtins.readFile file);
+        in
+          map parseTOML themePaths;
+        description = "Attr set of theme variables automatically read from the themeFileDir provided";
+        readOnly = true;
       };
     };
     config = {

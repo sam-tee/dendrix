@@ -1,6 +1,11 @@
-let
-  monoFont = "Lilex Nerd Font Propo";
-  uiFont = "IBM Plex Sans";
+{
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.fonts.fontconfig.defaultFonts;
+  monoFont = lib.head cfg.monospace;
+  uiFont = lib.head cfg.sansSerif;
   fontSize = 14;
 in {
   agent.dock = "left";
@@ -32,7 +37,7 @@ in {
     };
     Python = {
       format_on_save = "on";
-      formatter = [{code_action = "source.organizeImports.ruff";} {language_server = {name = "ruff";};}];
+      formatter = [{code_action = "source.organizeImports.ruff";} {language_server.name = "ruff";}];
       language_servers = ["ty" "ruff"];
     };
   };
@@ -47,7 +52,7 @@ in {
       };
     };
   };
-  notification_panel = {dock = "left";};
+  notification_panel.dock = "left";
   project_panel = {
     button = true;
     dock = "right";

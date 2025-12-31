@@ -1,5 +1,9 @@
-theme: removeHash: {
-  akhlus = {
+{
+  userThemes,
+  removeHash,
+  ...
+}: let
+  mkTheme = theme: {
     background = "${removeHash theme.base00}";
     background-opacity = 1.;
     foreground = "${removeHash theme.base05}";
@@ -25,4 +29,9 @@ theme: removeHash: {
       "15=${theme.base07}"
     ];
   };
-}
+in
+  builtins.listToAttrs (map (theme: {
+      name = theme.name;
+      value = mkTheme theme;
+    })
+    userThemes)
