@@ -57,21 +57,12 @@
     interval = "monthly";
   };
   services.nfs.server = {
-    enable = true;
-    lockdPort = 4001;
-    mountdPort = 4002;
-    statdPort = 4000;
     exports = ''
-      /export       *.scylla-goblin.ts.net(rw,fsid=0,no_subtree_check)
-      /export/media *.scylla-goblin.ts.net(rw,nohide,insecure,no_subtree_check)
+      /export       *.scylla-goblin.ts.net(rw,fsid=0,no_subtree_check) 192.168.10.0/24(rw,fsid=0,no_subtree_check)
+      /export/media *.scylla-goblin.ts.net(rw,nohide,insecure,no_subtree_check) 192.168.10.0/24(rw,nohide,insecure,no_subtree_check)
     '';
   };
-  networking.firewall = let
-    ports = [111 2049 4000 4001 4002 20048];
-  in {
-    allowedTCPPorts = ports;
-    allowedUDPPorts = ports;
-  };
+
   swapDevices = [];
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

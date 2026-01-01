@@ -30,6 +30,7 @@
         jellyfin
         navidrome
         nextcloud
+        nfs
         samba
         terraria
         vaultwarden
