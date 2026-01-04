@@ -6,13 +6,15 @@ let
       ty
     ];
 in {
-  flake.modules.nixos.cli = {pkgs, ...}: {
-    environment.systemPackages = pyPkgs pkgs;
-  };
-  flake.modules.darwin.cli = {pkgs, ...}: {
-    environment.systemPackages = pyPkgs pkgs;
-  };
-  flake.modules.homeManager.cli = {pkgs, ...}: {
-    home.packages = pyPkgs pkgs;
+  flake.modules = {
+    nixos.cli = {pkgs, ...}: {
+      environment.systemPackages = pyPkgs pkgs;
+    };
+    darwin.cli = {pkgs, ...}: {
+      environment.systemPackages = pyPkgs pkgs;
+    };
+    homeManager.cli = {pkgs, ...}: {
+      home.packages = pyPkgs pkgs;
+    };
   };
 }

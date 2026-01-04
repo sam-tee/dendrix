@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.navidrome = {...}: {
+  flake.modules.nixos.navidrome = {
     services = {
       navidrome = {
         enable = true;

@@ -9,42 +9,44 @@ let
     "..." = "cd ../..";
   };
 in {
-  flake.modules.nixos.cli = {
-    programs = {
-      zsh = {
-        enable = true;
-        autosuggestions.enable = true;
-        ohMyZsh.enable = true;
-        shellAliases = alias;
-        syntaxHighlighting.enable = true;
-      };
-      bash = {
-        enable = true;
-        shellAliases = alias;
+  flake.modules = {
+    nixos.cli = {
+      programs = {
+        zsh = {
+          enable = true;
+          autosuggestions.enable = true;
+          ohMyZsh.enable = true;
+          shellAliases = alias;
+          syntaxHighlighting.enable = true;
+        };
+        bash = {
+          enable = true;
+          shellAliases = alias;
+        };
       };
     };
-  };
 
-  flake.modules.darwin.cli = {
-    programs.zsh = {
-      enable = true;
-      enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
-    };
-  };
-
-  flake.modules.homeManager.cli = {
-    programs = {
-      zsh = {
+    darwin.cli = {
+      programs.zsh = {
         enable = true;
-        autosuggestion.enable = true;
-        oh-my-zsh.enable = true;
-        shellAliases = alias;
-        syntaxHighlighting.enable = true;
+        enableAutosuggestions = true;
+        enableSyntaxHighlighting = true;
       };
-      bash = {
-        enable = true;
-        shellAliases = alias;
+    };
+
+    homeManager.cli = {
+      programs = {
+        zsh = {
+          enable = true;
+          autosuggestion.enable = true;
+          oh-my-zsh.enable = true;
+          shellAliases = alias;
+          syntaxHighlighting.enable = true;
+        };
+        bash = {
+          enable = true;
+          shellAliases = alias;
+        };
       };
     };
   };

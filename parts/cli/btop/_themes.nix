@@ -45,7 +45,7 @@ themes: let
   '';
 in
   builtins.listToAttrs (map (theme: {
-      name = theme.name;
+      inherit (theme) name;
       value = mkTheme theme;
     })
     themes)

@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.immich = {...}: {
+  flake.modules.nixos.immich = {
     services = {
       immich = {
         enable = true;

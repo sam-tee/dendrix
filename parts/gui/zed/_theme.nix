@@ -27,7 +27,7 @@
   mkTheme = replacements: lib.replaceStrings (builtins.attrNames replacements) (builtins.attrValues replacements) template;
 in
   builtins.listToAttrs (map (theme: {
-      name = theme.name;
+      inherit (theme) name;
       value = mkTheme (mkReplacements theme);
     })
     userThemes)

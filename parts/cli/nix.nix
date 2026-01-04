@@ -20,27 +20,29 @@ let
     overlays = [];
   };
 in {
-  flake.modules.nixos.cli = {pkgs, ...}: {
-    inherit nixpkgs;
-    nix = nixDefault // {optimise.automatic = true;};
-    environment.systemPackages = devPkgs pkgs;
-    programs.nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        stdenv.cc.cc.lib
-        zlib
-      ];
+  flake.modules = {
+    nixos.cli = {pkgs, ...}: {
+      inherit nixpkgs;
+      nix = nixDefault // {optimise.automatic = true;};
+      environment.systemPackages = devPkgs pkgs;
+      programs.nix-ld = {
+        enable = true;
+        libraries = with pkgs; [
+          stdenv.cc.cc.lib
+          zlib
+        ];
+      };
+      environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
     };
-    environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
-  };
-  flake.modules.darwin.cli = {pkgs, ...}: {
-    inherit nixpkgs;
-    nix = nixDefault // {optimise.automatic = true;};
-    environment.systemPackages = devPkgs pkgs;
-  };
-  flake.modules.homeManager.cli = {pkgs, ...}: {
-    inherit nixpkgs;
-    nix = nixDefault;
-    home.packages = devPkgs pkgs;
+    darwin.cli = {pkgs, ...}: {
+      inherit nixpkgs;
+      nix = nixDefault // {optimise.automatic = true;};
+      environment.systemPackages = devPkgs pkgs;
+    };
+    homeManager.cli = {pkgs, ...}: {
+      inherit nixpkgs;
+      nix = nixDefault;
+      home.packages = devPkgs pkgs;
+    };
   };
 }

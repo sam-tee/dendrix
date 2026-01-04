@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.nixgl = {inputs, ...}: {
     nixGL = {
-      packages = inputs.nixgl.packages;
+      inherit (inputs.nixgl) packages;
       installScripts = ["mesa"];
     };
   };

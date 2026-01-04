@@ -5,7 +5,7 @@
 }: let
   mkTheme = theme: {
     background = "${removeHash theme.base00}";
-    background-opacity = 1.;
+    background-opacity = 1.0;
     foreground = "${removeHash theme.base05}";
     cursor-color = "${removeHash theme.base05}";
     selection-background = "${removeHash theme.base02}";
@@ -31,7 +31,7 @@
   };
 in
   builtins.listToAttrs (map (theme: {
-      name = theme.name;
+      inherit (theme) name;
       value = mkTheme theme;
     })
     userThemes)

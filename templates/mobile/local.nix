@@ -1,19 +1,21 @@
 {pkgs, ...}: {
   nixpkgs.config.allowUnfree = true;
-  mobile.boot.boot-control.enable = false;
-  mobile.beautification.splash = true;
+  mobile = {
+    boot.boot-control.enable = false;
+    beautification.splash = true;
+  };
 
-  services.openssh.enable = true;
-  services.openssh.settings.PermitRootLogin = "yes";
-  services.openssh.settings.PasswordAuthentication = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "yes";
+      PasswordAuthentication = true;
+    };
+  };
 
   networking.wireless = {
     enable = true;
-    networks = {
-      "NETWORK" = {
-        psk = "PASSWORD";
-      };
-    };
+    networks."NETWORK".psk = "PASSWORD";
   };
 
   # Set root password for SSH access
@@ -21,14 +23,16 @@
 
   users.users.USER = {
     isNormalUser = true;
-    description = "sam";
+    description = "USER";
     extraGroups = ["networkmanager" "wheel"];
     password = "USER_PASSWORD";
   };
 
   nix = {
-    settings.experimental-features = ["nix-command" "flakes"];
-    settings.trusted-users = ["sam"];
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["USER"];
+    };
     optimise.automatic = true;
   };
 

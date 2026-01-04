@@ -11,7 +11,7 @@
       flake = false;
     };
   };
-  outputs = inputs @ {...}: let
+  outputs = inputs @ {self, ...}: let
     hostname = "HOSTNAME";
     username = "USERNAME";
     device = "DEVICE";

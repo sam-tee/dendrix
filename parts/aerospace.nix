@@ -1,4 +1,4 @@
-{...}: {
+{
   flake.modules.darwin.aerospace = {
     services.aerospace = {
       enable = true;
