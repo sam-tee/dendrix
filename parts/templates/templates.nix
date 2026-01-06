@@ -1,7 +1,7 @@
 let
   mkTemplate = name: description: {
     inherit description;
-    path = ./../templates/${name};
+    path = ./_templates/${name};
   };
 in {
   flake.templates = {
