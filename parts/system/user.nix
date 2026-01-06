@@ -11,7 +11,7 @@
           name = username;
           shell = pkgs.zsh;
           ignoreShellProgramCheck = true;
-          extraGroups = ["networkmanager" "samba" "wheel" "media"];
+          extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
           isNormalUser = true;
         };
         groups.media = {};

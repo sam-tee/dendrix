@@ -13,8 +13,8 @@
       enable = true;
       systemd.enable = true;
       luks.devices = {
-        "luks-df750502-9fb8-4770-b8ac-e496d1748e20".device = "/dev/disk/by-uuid/df750502-9fb8-4770-b8ac-e496d1748e20";
-        "luks-c4ebfd35-33b5-4ccb-8678-e430f35a107b".device = "/dev/disk/by-uuid/c4ebfd35-33b5-4ccb-8678-e430f35a107b";
+        "luksRoot".device = "/dev/disk/by-uuid/df750502-9fb8-4770-b8ac-e496d1748e20";
+        "luksSwap".device = "/dev/disk/by-uuid/c4ebfd35-33b5-4ccb-8678-e430f35a107b";
       };
       availableKernelModules = ["nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
       kernelModules = [];
@@ -24,7 +24,7 @@
   };
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/190d6e6f-a3e4-41bb-ba93-6b99c8b6cde4";
+    device = "/dev/mapper/luksRoot";
     fsType = "ext4";
   };
 
@@ -35,7 +35,7 @@
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-uuid/8dec1c05-64fb-4921-903c-dfe0edc135d3";}
+    {device = "/dev/mapper/luksSwap";}
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

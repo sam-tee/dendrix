@@ -3,7 +3,6 @@
   dMod = inputs.self.modules.darwin;
   hMod = inputs.self.modules.homeManager;
   nMod = inputs.self.modules.nixos;
-  pubKeys = import ./_pubKeys.nix;
 in {
   flake = {
     darwinConfigurations = {
@@ -29,8 +28,8 @@ in {
         homeModules = with hMod; [linuxExtraPkgs vscode];
       };
       duet3 = mkMobile {
-        username = "sam";
         hostname = "duet3";
+        username = "sam";
         device = "lenovo-wormdingler";
         nixosModules = with nMod; [plasmaHM];
         homeModules = with hMod; [vscode];
