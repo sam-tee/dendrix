@@ -1,10 +1,9 @@
 {
-  flake.modules.nixos.jellyfin = {username, ...}: {
+  flake.modules.nixos.jellyfin = {
     services.jellyfin = {
       enable = true;
       openFirewall = true;
       group = "media";
-      user = username;
       dataDir = "/var/lib/media/jellyfin";
     };
   };

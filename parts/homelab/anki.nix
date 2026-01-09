@@ -2,7 +2,7 @@
   flake.modules.nixos.anki = {config, ...}: {
     sops.secrets."anki/sam" = {};
     services.anki-sync-server = {
-      address = "127.0.0.1";
+      address = "0.0.0.0";
       enable = true;
       openFirewall = true;
       users = [

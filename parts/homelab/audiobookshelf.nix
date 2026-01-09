@@ -1,9 +1,8 @@
 {
-  flake.modules.nixos.audiobookshelf = {username, ...}: {
+  flake.modules.nixos.audiobookshelf = {
     services.audiobookshelf = {
       enable = true;
       openFirewall = true;
-      user = username;
       group = "media";
       dataDir = "media/audiobooks";
     };

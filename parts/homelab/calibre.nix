@@ -1,18 +1,13 @@
 {
-  flake.modules.nixos.calibre = {username, ...}: let
-    group = "media";
-    user = username;
-    libDir = "/var/lib/media/calibre";
-    host = "127.0.0.1";
-  in {
+  flake.modules.nixos.calibre = {
     services.calibre-web = {
       enable = true;
       dataDir = "/var/lib/media/calibre-web";
-      inherit group user;
-      listen.ip = host;
+      group = "media";
+      listen.ip = "0.0.0.0";
       openFirewall = true;
       options = {
-        calibreLibrary = libDir;
+        calibreLibrary = "/var/lib/media/books";
         enableBookConversion = true;
         enableBookUploading = true;
       };
