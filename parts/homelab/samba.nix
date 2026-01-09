@@ -35,9 +35,8 @@
         openFirewall = true;
       };
     };
-    systemd.services.samba-smbd.postStart =
-    let
-      users = [ username ];
+    systemd.services.samba-smbd.postStart = let
+      users = [username];
       setupUser = user: let
         passwordPath = config.sops.secrets."samba/${user}".path;
         smbpasswd = "${config.services.samba.package}/bin/smbpasswd";
@@ -46,8 +45,7 @@
          echo $(< ${passwordPath})) | \
           ${smbpasswd} -s -a ${user}
       '';
-    in
-    ''
+    in ''
       ${builtins.concatStringsSep "\n" (map setupUser users)}
     '';
   };
