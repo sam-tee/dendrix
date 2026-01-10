@@ -8,6 +8,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  services.usbmuxd.enable = true;
+
   boot = {
     initrd = {
       enable = true;

@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.anki = {config, ...}: {
-    sops.secrets."anki/sam" = {};
+    sops.secrets."anki/samPwd" = {};
     services.anki-sync-server = {
       address = "0.0.0.0";
       enable = true;
@@ -8,7 +8,7 @@
       users = [
         {
           username = "sam";
-          passwordFile = config.sops.secrets."anki/sam".path;
+          passwordFile = config.sops.secrets."anki/samPwd".path;
         }
       ];
     };

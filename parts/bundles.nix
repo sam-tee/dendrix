@@ -1,93 +1,83 @@
-{
+{inputs, ...}: let
+  dMod = inputs.self.modules.darwin;
+  hMod = inputs.self.modules.homeManager;
+  nMod = inputs.self.modules.nixos;
+in {
   flake.modules = {
     nixos = {
-      _minimal = {inputs, ...}: {
-        imports = with inputs.self.modules.nixos; [
-          cli
-          networking
-          ssh
-          system
-          user
-        ];
-      };
-      _mobile = {inputs, ...}: {
-        imports = with inputs.self.modules.nixos; [
-          _minimal
-          services
-        ];
-      };
-      _server = {inputs, ...}: {
-        imports = with inputs.self.modules.nixos; [
-          _minimal
-          boot
-          homelab
-          anki
-          audiobookshelf
-          calibre
-          cockpit
-          code-server
-          forgejo
-          immich
-          jellyfin
-          navidrome
-          nextcloud
-          nfs
-          samba
-          terraria
-          vaultwarden
-        ];
-      };
-      _default = {inputs, ...}: {
-        imports = with inputs.self.modules.nixos; [
-          _minimal
-          boot
-          services
-          nautilus
-        ];
-      };
-    };
-
-    darwin._default = {inputs, ...}: {
-      imports = with inputs.self.modules.darwin; [
-        aerospace
-        brew
+      _minimal.imports = with nMod; [
         cli
         networking
         ssh
         system
         user
       ];
+      _default.imports = with nMod; [
+        _minimal
+        boot
+        services
+        nautilus
+      ];
+      _mobile.imports = with nMod; [
+        _minimal
+        services
+      ];
+      _server.imports = with nMod; [
+        _minimal
+        boot
+        homelab
+        anki
+        #audiobookshelf
+        calibre
+        cockpit
+        code-server
+        email
+        forgejo
+        immich
+        jellyfin
+        navidrome
+        nextcloud
+        nfs
+        samba
+        #terraria
+        vaultwarden
+      ];
     };
 
-    homeManager = {
-      _minimal = {inputs, ...}: {
-        imports = with inputs.self.modules.homeManager; [
-          cli
-          cosmetic
-          fonts
-          ghostty
-          minPkgs
-          ssh
-          xournal
-          zed
-        ];
-      };
+    darwin._defaul.imports = with dMod; [
+      aerospace
+      brew
+      cli
+      networking
+      ssh
+      system
+      user
+    ];
 
-      _linuxMinimal = {inputs, ...}: {
-        imports = with inputs.self.modules.homeManager; [
-          cliLinux
-          cursor
-          linuxMinPkgs
-          cli
-          cosmetic
-          fonts
-          ghostty
-          minPkgs
-          ssh
-          xournal
-          zed
-        ];
-      };
+    homeManager = {
+      _minimal.imports = with hMod; [
+        cli
+        cosmetic
+        fonts
+        ghostty
+        minPkgs
+        ssh
+        xournal
+        zed
+      ];
+      _linuxMinimal.imports = with hMod; [
+        cliLinux
+        cursor
+        linuxMinPkgs
+        cli
+        cosmetic
+        fonts
+        ghostty
+        minPkgs
+        ssh
+        xournal
+        zed
+      ];
     };
   };
 }

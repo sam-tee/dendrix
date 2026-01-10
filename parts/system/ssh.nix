@@ -50,7 +50,7 @@ in {
           "duet3" = mkLinuxBlock "duet3";
           "mba" = mkBlock "mba" "sam" 22;
           "git" = {
-            hostname = "github.com";
+            hostname = "github.com git.akhlus.uk";
             identityFile = "~/.ssh/pubKeys/git.pub";
           };
           "*" = {};

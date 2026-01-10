@@ -4,7 +4,7 @@
     username,
     ...
   }: {
-    sops.secrets."samba/sam" = {};
+    sops.secrets."samba/samPwd" = {};
     services = {
       samba = {
         enable = true;
@@ -38,7 +38,7 @@
     systemd.services.samba-smbd.postStart = let
       users = [username];
       setupUser = user: let
-        passwordPath = config.sops.secrets."samba/${user}".path;
+        passwordPath = config.sops.secrets."samba/${user}Pwd".path;
         smbpasswd = "${config.services.samba.package}/bin/smbpasswd";
       in ''
         (echo $(< ${passwordPath});
