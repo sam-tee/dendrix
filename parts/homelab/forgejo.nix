@@ -5,6 +5,7 @@
     ...
   }: let
     cfg = config.services.forgejo;
+    hl = config.homelab;
   in {
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
@@ -19,7 +20,8 @@
           passwordFile = config.sops.secrets."forgejo/databasePwd".path;
         };
         stateDir = "/var/lib/media/git";
-        group = "media";
+        group = hl.group;
+        user = hl.user;
         lfs.enable = true;
         settings = {
           log.LEVEL = "Trace";

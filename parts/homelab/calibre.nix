@@ -1,9 +1,12 @@
 {
-  flake.modules.nixos.calibre = {
+  flake.modules.nixos.calibre = {config, ...}: let
+    cfg = config.homelab;
+  in {
     services.calibre-web = {
       enable = true;
       dataDir = "/var/lib/media/calibre-web";
-      group = "media";
+      group = cfg.group;
+      user = cfg.user;
       listen.ip = "0.0.0.0";
       openFirewall = true;
       options = {
