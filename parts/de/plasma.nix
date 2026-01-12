@@ -100,7 +100,7 @@
             left = ["close" "minimize" "maximize"];
             right = [];
           };
-          virtualDesktops.number = 4;
+          virtualDesktops.number = 9;
         };
         panels = [
           {
@@ -146,22 +146,22 @@
         session = {
           general.askForConfirmationOnLogout = false;
         };
-        shortcuts = {
-          "kwin"."Switch to Desktop 1" = "Meta+1";
-          "kwin"."Switch to Desktop 2" = "Meta+2";
-          "kwin"."Switch to Desktop 3" = "Meta+3";
-          "kwin"."Switch to Desktop 4" = "Meta+4";
-          "kwin"."Window Close" = "Meta+Q";
-          "plasmashell"."activate task manager entry 1" = "";
-          "plasmashell"."activate task manager entry 2" = "";
-          "plasmashell"."activate task manager entry 3" = "";
-          "plasmashell"."activate task manager entry 4" = "";
-          "plasmashell"."activate task manager entry 5" = "";
-          "plasmashell"."activate task manager entry 6" = "";
-          "plasmashell"."activate task manager entry 7" = "";
-          "plasmashell"."activate task manager entry 8" = "";
-          "plasmashell"."activate task manager entry 9" = "";
-          "plasmashell"."manage activities" = "";
+        shortcuts = let
+          mkNumberedAttrs = prefix: valueFn:
+            builtins.listToAttrs (map (i: {
+              name = "${prefix} ${toString i}";
+              value = valueFn i;
+            }) [1 2 3 4 5 6 7 8 9]);
+          symbols = ["!" "\"" "£" "$" "%" "^" "&" "*" "("];
+          getSymbol = i: builtins.elemAt symbols (i - 1);
+        in {
+          kwin =
+            (mkNumberedAttrs "Switch to Desktop" (i: "Meta+${toString i}"))
+            // (mkNumberedAttrs "Window to Desktop" (i: "Meta+${getSymbol i}"))
+            // {"Window Close" = "Meta+Q";};
+          plasmashell =
+            (mkNumberedAttrs "activate task manager entry" (i: ""))
+            // {"manage activities" = "";};
           "services/org.kde.dolphin.desktop"."_launch" = "Meta+F";
           "services/org.kde.konsole.desktop"."_launch" = [];
           "services/org.kde.krunner.desktop"."_launch" = "Meta+Space";
@@ -174,7 +174,6 @@
           recordScreen = "";
           recordWindow = "";
         };
-        windows.allowWindowsToRememberPositions = true;
         workspace = {
           enableMiddleClickPaste = true;
           lookAndFeel = "org.kde.breezedark.desktop";

@@ -19,7 +19,7 @@
             "map to guest" = "bad user";
           };
           media = {
-            "path" = "var/lib/media";
+            "path" = "var/lib/media/smb";
             "browsable" = "yes";
             "read only" = "no";
             "guest ok" = "no";

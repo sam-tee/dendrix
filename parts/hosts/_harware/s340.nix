@@ -35,10 +35,6 @@
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
-    "/mnt/u410" = {
-      device = "u410.scylla-goblin.ts.net:/media";
-      fsType = "nfs";
-    };
   };
 
   swapDevices = [
