@@ -8,8 +8,7 @@
       openFirewall = true;
       accelerationDevices = null;
       host = "0.0.0.0";
-      group = cfg.group;
-      user = cfg.user;
+      inherit (cfg) group;
       mediaLocation = "/var/lib/media/immich";
     };
   };

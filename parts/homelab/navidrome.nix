@@ -5,8 +5,7 @@
     services.navidrome = {
       enable = true;
       openFirewall = true;
-      group = cfg.group;
-      user = cfg.user;
+      inherit (cfg) group user;
       settings = {
         MusicFolder = "/var/lib/media/music";
         DataFolder = "/var/lib/media/navidrome";

@@ -5,9 +5,9 @@
     services.jellyfin = {
       enable = true;
       openFirewall = true;
-      group = cfg.group;
-      user = cfg.user;
+      inherit (cfg) group user;
       dataDir = "/var/lib/media/jellyfin";
+      cacheDir = "/var/lib/media/jellyfin/cache";
     };
   };
 }

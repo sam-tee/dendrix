@@ -23,6 +23,7 @@
         users.${cfg.user} = {
           isSystemUser = true;
           group = cfg.group;
+          home = "/var/lib/media";
         };
         groups.${cfg.group} = {};
       };

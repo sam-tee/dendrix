@@ -5,8 +5,7 @@
     services.audiobookshelf = {
       enable = true;
       openFirewall = true;
-      group = cfg.group;
-      user = cfg.user;
+      inherit (cfg) group user;
       dataDir = "media/audiobooks";
     };
   };

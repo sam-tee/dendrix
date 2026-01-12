@@ -88,7 +88,7 @@ in {
       modules =
         nixosModules
         ++ [
-          nMod._server
+          nMod._serverMin
           ./_harware/${hostname}.nix
           {
             networking.hostName = hostname;

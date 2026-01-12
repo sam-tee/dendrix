@@ -5,8 +5,7 @@
     services.calibre-web = {
       enable = true;
       dataDir = "/var/lib/media/calibre-web";
-      group = cfg.group;
-      user = cfg.user;
+      inherit (cfg) group user;
       listen.ip = "0.0.0.0";
       openFirewall = true;
       options = {

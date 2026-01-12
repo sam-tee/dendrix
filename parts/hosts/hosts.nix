@@ -43,7 +43,18 @@ in {
       u410 = mkServer {
         hostname = "u410";
         username = "sam";
-        nixosModules = with nMod; [];
+        nixosModules = with nMod; [
+          anki
+          calibre
+          cockpit
+          code-server
+          forgejo
+          immich
+          jellyfin
+          nfs
+          samba
+          vaultwarden
+        ];
       };
     };
   };

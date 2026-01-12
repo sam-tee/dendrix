@@ -25,15 +25,20 @@
     extraModulePackages = [];
   };
 
-  fileSystems."/" = {
-    device = "/dev/mapper/luksRoot";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/957F-1A3A";
-    fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
+  fileSystems = {
+    "/" = {
+      device = "/dev/mapper/luksRoot";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/957F-1A3A";
+      fsType = "vfat";
+      options = ["fmask=0077" "dmask=0077"];
+    };
+    "/mnt/u410" = {
+      device = "u410.scylla-goblin.ts.net:/media";
+      fsType = "nfs";
+    };
   };
 
   swapDevices = [

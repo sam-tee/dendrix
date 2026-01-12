@@ -15,19 +15,18 @@
       openssh.settings.AcceptEnv = "GIT_PROTOCOL";
       forgejo = {
         enable = true;
+        inherit (hl) group;
+        stateDir = "/var/lib/media/git";
+        lfs.enable = true;
         database = {
           type = "postgres";
           passwordFile = config.sops.secrets."forgejo/databasePwd".path;
         };
-        stateDir = "/var/lib/media/git";
-        group = hl.group;
-        user = hl.user;
-        lfs.enable = true;
         settings = {
           log.LEVEL = "Trace";
           mailer = {
             ENABLED = true;
-            FROM = config.homelab.email.from;
+            FROM = hl.email.from;
             PROTOCOL = "sendmail";
             SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
           };
@@ -49,9 +48,8 @@
     systemd.services.forgejo.preStart = let
       adminCmd = "${lib.getExe cfg.package} admin user";
       pwd = config.sops.secrets."forgejo/adminPwd";
-      user = "root";
     in ''
-      ${adminCmd} create --admin --email "root@localhost" --username ${user} --password "$(tr -d '\n' < ${pwd.path})" || true
+      ${adminCmd} create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${pwd.path})" || true
     '';
   };
 }

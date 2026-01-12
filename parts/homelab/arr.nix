@@ -1,26 +1,22 @@
 {
   flake.modules.nixos.arr = {config, ...}: let
     cfg = config.homelab;
-    user = cfg.user;
-    group = cfg.group;
     mkConf = service: {
       enable = true;
-      inherit group user;
+      inherit (cfg) group user;
       dataDir = "/var/lib/media/${service}";
     };
   in {
     services = {
-      services = {
-        bazarr = mkConf "bazarr";
-        jellyseerr.enable = true;
-        lidarr = mkConf "lidarr";
-        prowlarr.enable = true;
-        radarr = mkConf "radarr";
-        sonarr = mkConf "sonarr";
-        qbittorrent = {
-          enable = true;
-          inherit group user;
-        };
+      bazarr = mkConf "bazarr";
+      jellyseerr.enable = true;
+      lidarr = mkConf "lidarr";
+      prowlarr.enable = true;
+      radarr = mkConf "radarr";
+      sonarr = mkConf "sonarr";
+      qbittorrent = {
+        enable = true;
+        inherit (cfg) group user;
       };
     };
   };

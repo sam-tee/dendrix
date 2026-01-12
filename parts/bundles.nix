@@ -22,16 +22,20 @@ in {
         _minimal
         services
       ];
-      _server.imports = with nMod; [
+      _serverMin.imports = with nMod; [
         _minimal
         boot
         homelab
+        email
+      ];
+      _serverFull.imports = with nMod; [
+        _serverMin
         anki
-        #audiobookshelf
+        arr
+        audiobookshelf
         calibre
         cockpit
         code-server
-        email
         forgejo
         immich
         jellyfin
@@ -39,12 +43,12 @@ in {
         nextcloud
         nfs
         samba
-        #terraria
+        terraria
         vaultwarden
       ];
     };
 
-    darwin._defaul.imports = with dMod; [
+    darwin._default.imports = with dMod; [
       aerospace
       brew
       cli
