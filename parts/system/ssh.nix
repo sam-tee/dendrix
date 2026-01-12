@@ -38,21 +38,19 @@ in {
         enable = true;
         enableDefaultConfig = false;
         matchBlocks = let
-          mkBlock = hostname: user: port: {
+          mkBlock = hostname: user: port: keyName: {
             inherit hostname user port;
             identitiesOnly = true;
-            identityFile = "~/.ssh/pubKeys/${hostname}.pub";
+            identityFile = "~/.ssh/pubKeys/${keyName}.pub";
           };
-          mkLinuxBlock = hostname: mkBlock hostname "sam" linuxPort;
+          mkHost = hostname: mkBlock hostname "sam" 2222 hostname;
         in {
-          "u410" = mkLinuxBlock "u410";
-          "a3" = mkLinuxBlock "a3";
-          "duet3" = mkLinuxBlock "duet3";
-          "mba" = mkBlock "mba" "sam" 22;
-          "git" = {
-            hostname = "github.com git.akhlus.uk";
-            identityFile = "~/.ssh/pubKeys/git.pub";
-          };
+          "u410" = mkHost "u410";
+          "a3" = mkHost "a3";
+          "duet3" = mkHost "duet3";
+          "mba" = mkHost "mba" // {port = 22;};
+          "github" = mkBlock "github.com" "git" 22 "git";
+          "forgejo" = mkBlock "git.akhlus.uk" "forgejo" 2222 "git";
           "*" = {};
         };
         extraConfig = ''
