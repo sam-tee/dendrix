@@ -50,6 +50,10 @@
       device = "/var/lib/media";
       options = ["bind"];
     };
+    "/home/sam" = {
+      device = "/var/lib/media/smb/sam";
+      options = ["bind"];
+    };
   };
   security.sudo.wheelNeedsPassword = false;
   services.btrfs.autoScrub = {

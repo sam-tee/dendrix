@@ -1,19 +1,13 @@
 {
-  flake.modules.nixos.boot = {
-    config,
-    pkgs,
-    ...
-  }: {
+  flake.modules.nixos.boot = {pkgs, ...}: {
     boot = {
       binfmt.emulatedSystems = ["aarch64-linux"];
       consoleLogLevel = 0;
-      extraModulePackages = [config.boot.kernelPackages.v4l2loopback];
       initrd = {
         enable = true;
         systemd.enable = true;
         verbose = false;
       };
-      kernelModules = ["v4l2loopback"];
       kernelPackages = pkgs.linuxPackages_latest;
       kernelParams = [
         "splash"
