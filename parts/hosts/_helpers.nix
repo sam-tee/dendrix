@@ -41,7 +41,7 @@ in {
         ++ (with nMod; [
           _default
           hm
-          ./_harware/${hostname}.nix
+          ./_hardware/${hostname}.nix
           {
             networking.hostName = hostname;
             #networking.useNetworkd = true;
@@ -66,7 +66,7 @@ in {
         ++ (with nMod; [
           _mobile
           hm
-          ./_harware/${hostname}.nix
+          ./_hardware/${hostname}.nix
           (import "${inputs.mobile-nixos}/lib/configuration.nix" {inherit device;})
           {
             networking.hostName = hostname;
@@ -89,7 +89,7 @@ in {
         nixosModules
         ++ [
           nMod._serverMin
-          ./_harware/${hostname}.nix
+          ./_hardware/${hostname}.nix
           {
             networking.hostName = hostname;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
