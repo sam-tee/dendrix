@@ -17,7 +17,10 @@ in {
       deck = mkHome {
         username = "deck";
         system = "x86_64-linux";
-        homeModules = with hMod; [];
+        homeModules = with hMod; [
+          {targets.genericLinux.enable = true;}
+          _linuxMinimal
+        ];
       };
     };
     nixosConfigurations = {

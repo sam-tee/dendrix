@@ -16,7 +16,6 @@ in {
         _minimal
         boot
         services
-        nautilus
       ];
       _mobile.imports = with nMod; [
         _minimal
@@ -25,8 +24,8 @@ in {
       _serverMin.imports = with nMod; [
         _minimal
         boot
-        homelab
         email
+        homelab
       ];
       _serverFull.imports = with nMod; [
         _serverMin
@@ -66,18 +65,16 @@ in {
         ghostty
         minPkgs
         ssh
-        xournal
         zed
       ];
       _linuxMinimal.imports = with hMod; [
-        cliLinux
         cursor
-        linuxMinPkgs
         cli
+        cliLinux
         cosmetic
-        fonts
         ghostty
-        minPkgs
+        fonts
+        linuxMinPkgs
         ssh
         xournal
         zed
