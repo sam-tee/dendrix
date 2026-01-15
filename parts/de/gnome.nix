@@ -15,6 +15,7 @@
             dconf2nix
             dconf-editor
             gnome-extension-manager
+            nautilus
           ])
           ++ (with pkgs.gnomeExtensions; [
             appindicator
@@ -35,11 +36,18 @@
         platformTheme = "gnome";
         style = "adwaita-dark";
       };
+      programs.nautilus-open-any-terminal = {
+        enable = true;
+        terminal = "ghostty";
+      };
       services = {
         displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
         power-profiles-daemon.enable = true;
-        gnome.gnome-keyring.enable = true;
+        gnome = {
+          gnome-keyring.enable = true;
+          sushi.enable = true;
+        };
         udev.packages = [pkgs.gnome-settings-daemon];
       };
     };
