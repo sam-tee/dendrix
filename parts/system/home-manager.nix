@@ -39,12 +39,18 @@ in {
         };
       };
     };
-    homeManager.standalone = {username, ...}: {
+    homeManager.standalone = {
+      pkgs,
+      username,
+      ...
+    }: {
       home = {
         inherit username stateVersion language;
         homeDirectory = "/home/${username}";
         keyboard.layout = "gb";
+        packages = [pkgs.home-home-manager];
       };
+      nix.package = pkgs.nix;
     };
   };
 }

@@ -1,6 +1,8 @@
 {pkgs, ...}: {
-  hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
-  hardware.sensor.iio.enable = false;
+  hardware = {
+    firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
+    sensor.iio.enable = false;
+  };
   swapDevices = [
     {
       device = "/swapfile";

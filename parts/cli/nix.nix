@@ -41,7 +41,7 @@ in {
     };
     homeManager.cli = {pkgs, ...}: {
       inherit nixpkgs;
-      nix = nixDefault // {package = pkgs.nix;};
+      nix = nixDefault;
       home.packages = devPkgs pkgs;
     };
   };
