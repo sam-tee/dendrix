@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.cli = {
+  flake.modules.homeManager.cli = _: {
     programs.eza = {
       enable = true;
       icons = "auto";

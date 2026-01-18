@@ -68,13 +68,13 @@ in {
         zed
       ];
       _linuxMinimal.imports = with hMod; [
-        cursor
         cli
         cliLinux
         cosmetic
         ghostty
         fonts
         linuxMinPkgs
+        pointer
         ssh
         xournal
         zed

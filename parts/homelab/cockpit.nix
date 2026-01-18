@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.cockpit = {
+  flake.modules.nixos.cockpit = _: {
     services.cockpit = {
       enable = true;
       openFirewall = true;

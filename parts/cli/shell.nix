@@ -10,7 +10,7 @@ let
   };
 in {
   flake.modules = {
-    nixos.cli = {
+    nixos.cli = _: {
       programs = {
         zsh = {
           enable = true;
@@ -27,14 +27,14 @@ in {
     };
 
     darwin.cli = {
-      programs.zsh = {
+      programs.zsh = _: {
         enable = true;
         enableAutosuggestions = true;
         enableSyntaxHighlighting = true;
       };
     };
 
-    homeManager.cli = {
+    homeManager.cli = _: {
       programs = {
         zsh = {
           enable = true;

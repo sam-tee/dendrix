@@ -1,8 +1,10 @@
 {
-  flake.modules.nixos.vscode = {
-    programs.vscode.enable = true;
-  };
-  flake.modules.homeManager.vscode = {
-    programs.vscode.enable = true;
+  flake.modules = {
+    nixos.vscode = _: {
+      programs.vscode.enable = true;
+    };
+    homeManager.vscode = _: {
+      programs.vscode.enable = true;
+    };
   };
 }

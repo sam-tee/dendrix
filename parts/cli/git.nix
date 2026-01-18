@@ -7,7 +7,7 @@
       ];
       programs.git.enable = true;
     };
-    homeManager.cli = {
+    homeManager.cli = _: {
       programs.gh.enable = true;
       programs.git = {
         enable = true;

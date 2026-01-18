@@ -3,7 +3,9 @@
     config,
     lib,
     ...
-  }: {
+  }: let
+    cfg = config.cosmetic;
+  in {
     options.cosmetic = {
       background = lib.mkOption {
         type = lib.types.path;
@@ -23,7 +25,7 @@
       themes = lib.mkOption {
         type = lib.types.listOf lib.types.attrs;
         default = let
-          dir = config.cosmetic.themeFileDir;
+          dir = cfg.themeFileDir;
           files = builtins.attrNames (builtins.readDir dir);
           themePaths = map (name: dir + "/${name}") files;
           parseTOML = file: fromTOML (builtins.readFile file);
@@ -34,7 +36,7 @@
       };
     };
     config = {
-      home.file = {${config.cosmetic.backgroundPath}.source = config.cosmetic.background;};
+      home.file = {${cfg.backgroundPath}.source = cfg.background;};
     };
   };
 }

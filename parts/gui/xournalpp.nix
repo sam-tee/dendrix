@@ -1,10 +1,6 @@
 {
-  flake.modules.homeManager.xournal = {
-    lib,
-    pkgs,
-    ...
-  }: {
-    home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) [pkgs.xournalpp];
+  flake.modules.homeManager.xournal = {pkgs, ...}: {
+    home.packages = [pkgs.xournalpp];
     xdg.configFile = {
       "xournalpp/palettes/palette.gpl".text = ''
         GIMP Palette

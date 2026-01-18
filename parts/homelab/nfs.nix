@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.nfs = {
+  flake.modules.nixos.nfs = _: {
     services.nfs.server = {
       enable = true;
       lockdPort = 4001;

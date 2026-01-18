@@ -9,7 +9,7 @@ in {
       mba = mkDarwin {
         hostname = "mba";
         username = "sam";
-        darwinModules = with dMod; [];
+        darwinModules = with dMod; [aerospace];
         homeModules = with hMod; [extraPkgs vscode];
       };
     };
