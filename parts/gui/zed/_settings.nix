@@ -32,7 +32,7 @@ in {
         command = "alejandra";
         arguments = ["--quiet" "--"];
       };
-      language_servers = ["nixd" "nil"];
+      language_servers = ["nixd"];
       tab_size = 2;
     };
     Python = {

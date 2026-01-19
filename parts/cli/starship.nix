@@ -62,7 +62,7 @@ let
     };
   };
 in {
-  flake.modules = _: {
+  flake.modules = {
     nixos.cli.programs = {inherit starship;};
     homeManager.cli.programs = {inherit starship;};
   };
