@@ -2,6 +2,7 @@
   description = "Dendritic nix config";
 
   inputs = {
+    copyparty.url = "github:9001/copyparty";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     home-manager = {
