@@ -1,11 +1,12 @@
 {
   flake.modules.nixos.calibre = {config, ...}: let
-    cfg = config.homelab;
+    inherit (config.homelab) group user;
   in {
+    homelab.ingress.books = "8083";
     services.calibre-web = {
       enable = true;
       dataDir = "/var/lib/media/calibre-web";
-      inherit (cfg) group user;
+      inherit group user;
       listen.ip = "0.0.0.0";
       openFirewall = true;
       options = {

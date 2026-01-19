@@ -1,14 +1,15 @@
 {
   flake.modules.nixos.immich = {config, ...}: let
-    cfg = config.homelab;
+    inherit (config.homelab) group user;
   in {
-    users.users.${cfg.user}.extraGroups = ["video" "render"];
+    homelab.ingress.photos = "2283";
+    users.users.${user}.extraGroups = ["video" "render"];
     services.immich = {
       enable = true;
       openFirewall = true;
       accelerationDevices = null;
       host = "0.0.0.0";
-      inherit (cfg) group;
+      inherit group;
       mediaLocation = "/var/lib/media/immich";
     };
   };

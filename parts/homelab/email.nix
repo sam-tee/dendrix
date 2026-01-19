@@ -4,9 +4,7 @@
     lib,
     pkgs,
     ...
-  }: let
-    cfg = config.homelab.email;
-  in {
+  }: {
     options.homelab.email = {
       from = lib.mkOption {
         description = "The 'from' address";
@@ -28,7 +26,9 @@
         type = lib.types.path;
       };
     };
-    config = {
+    config = let
+      inherit (config.homelab.email) from host user pwdPath;
+    in {
       sops.secrets.smtpPwd = {};
       homelab.email = {
         from = "noreply@akhlus.uk";
@@ -40,9 +40,9 @@
         enable = true;
         accounts.default = {
           auth = true;
-          inherit (cfg) from host user;
+          inherit from host user;
           tls = true;
-          passwordeval = "${pkgs.coreutils}/bin/cat ${cfg.pwdPath}";
+          passwordeval = "${pkgs.coreutils}/bin/cat ${pwdPath}";
         };
       };
     };

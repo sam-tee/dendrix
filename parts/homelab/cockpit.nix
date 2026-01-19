@@ -1,5 +1,6 @@
 {
   flake.modules.nixos.cockpit = _: {
+    homelab.ingress.dash = "9090";
     services.cockpit = {
       enable = true;
       openFirewall = true;

@@ -7,6 +7,7 @@
     cfg = config.services.forgejo;
     hl = config.homelab;
   in {
+    homelab.ingress.git = "3000";
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;

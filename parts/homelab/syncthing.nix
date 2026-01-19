@@ -1,11 +1,12 @@
 {
   flake.module = {
     nixos.syncthing = {config, ...}: let
-      cfg = config.homelab;
+      inherit (config.homelab) group user;
     in {
+      homelab.ingress.sync = "";
       services.syncthing = {
         enable = true;
-        inherit (cfg) user group;
+        inherit user group;
         configDir = "/var/lib/media/syncthing";
       };
     };

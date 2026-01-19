@@ -6,8 +6,9 @@
     ...
   }: let
     cpp = inputs.copyparty;
-    cfg = config.homelab;
+    inherit (config.homelab) group user;
   in {
+    homelab.ingress.files = "3210";
     sops.secrets = {
       "copy/samPwd" = {};
       "copy/mediaPwd" = {};
@@ -17,10 +18,15 @@
     environment.systemPackages = [pkgs.copyparty];
     services.copyparty = {
       enable = true;
-      inherit (cfg) user group;
+      inherit user group;
       accounts = {
         sam.passwordFile = config.sops.secrets."samPwd";
         media.passwordFile = config.sops.secrets."mediaPwd";
+      };
+      settings = {
+        i = "127.0.0.1";
+        no-reload = true;
+        p = [3210];
       };
       groups = {
         admin = ["media"];

@@ -3,9 +3,7 @@
     config,
     lib,
     ...
-  }: let
-    cfg = config.homelab;
-  in {
+  }: {
     options.homelab = {
       user = lib.mkOption {
         default = "media";
@@ -18,14 +16,16 @@
         description = "Group to run homelab as";
       };
     };
-    config = {
+    config = let
+      inherit (config.homelab) group user;
+    in {
       users = {
-        users.${cfg.user} = {
+        users.${user} = {
           isSystemUser = true;
-          inherit (cfg) group;
+          inherit group;
           home = "/var/lib/media";
         };
-        groups.${cfg.group} = {};
+        groups.${group} = {};
       };
     };
   };
