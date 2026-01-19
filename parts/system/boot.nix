@@ -3,7 +3,6 @@
     boot = {
       consoleLogLevel = 0;
       initrd = {
-        enable = true;
         systemd.enable = true;
         verbose = false;
       };
@@ -24,10 +23,7 @@
         efi.canTouchEfiVariables = true;
         timeout = 1;
       };
-      plymouth = {
-        enable = true;
-        theme = "bgrt";
-      };
+      plymouth.enable = true;
       supportedFilesystems = ["btrfs" "nfs"];
     };
   };

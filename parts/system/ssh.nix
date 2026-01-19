@@ -3,7 +3,7 @@ let
   envVar = "LANG LC_* TERM EDITOR";
 in {
   flake.modules = {
-    nixos.ssh = {
+    nixos.ssh = _: {
       services = {
         openssh = {
           enable = true;
@@ -20,7 +20,7 @@ in {
         fail2ban.enable = true;
       };
     };
-    darwin.ssh = {
+    darwin.ssh = _: {
       environment.variables.SSH_AUTH_SOCK = "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
       services.openssh = {
         enable = true;
@@ -33,7 +33,7 @@ in {
         '';
       };
     };
-    homeManager.ssh = {
+    homeManager.ssh = _: {
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;

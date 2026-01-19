@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.system = {
+  flake.modules.nixos.system = _: {
     hardware.enableAllFirmware = true;
     xdg.terminal-exec = {
       enable = true;
