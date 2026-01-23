@@ -26,8 +26,8 @@ in {
       };
     };
 
-    darwin.cli = {
-      programs.zsh = _: {
+    darwin.cli = _: {
+      programs.zsh = {
         enable = true;
         enableAutosuggestions = true;
         enableSyntaxHighlighting = true;

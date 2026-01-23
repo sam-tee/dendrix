@@ -58,13 +58,11 @@ in {
   };
   notification_panel.dock = "left";
   project_panel = {
-    button = true;
     dock = "right";
     entry_spacing = "standard";
   };
   session.trust_all_worktrees = true;
   show_edit_predictions = false;
-  tab_bar.show = false;
   theme = "akhlus";
   ui_font_family = uiFont;
   ui_font_size = fontSize;

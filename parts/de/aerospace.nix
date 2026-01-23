@@ -10,7 +10,7 @@
         enable-normalization-flatten-containers = true;
         enable-normalization-opposite-orientation-for-nested-containers = true;
         gaps = let
-          mkGaps = keys: lib.genAttrs keys (name: "0");
+          mkGaps = keys: lib.genAttrs keys (name: 0);
         in {
           inner = mkGaps ["horizontal" "vertical"];
           outer = mkGaps ["left" "right" "top" "bottom"];
