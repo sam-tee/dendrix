@@ -29,13 +29,10 @@ in {
       inherit programs;
       environment.systemPackages = with pkgs;
         [
-          clinfo
-          inxi
           lm_sensors
           lshw
           pciutils
           usbutils
-          v4l-utils
           wakeonlan
         ]
         ++ (packages pkgs);
