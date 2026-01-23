@@ -1,10 +1,7 @@
 {
   flake.modules.nixos.system = _: {
     hardware.enableAllFirmware = true;
-    xdg.terminal-exec = {
-      enable = true;
-      settings.default = ["ghostty.desktop"];
-    };
+    xdg.terminal-exec.enable = true;
     services.xserver.xkb = {
       layout = "gb";
       variant = "";
