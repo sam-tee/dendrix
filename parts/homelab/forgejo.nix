@@ -7,17 +7,15 @@
     cfg = config.services.forgejo;
     hl = config.homelab;
     sshPort = lib.head config.services.openssh.ports;
-    sshDomain = "git-ssh.${hl.domain}";
     domain = "git.${hl.domain}";
   in {
-    homelab.ingress.git = "3000";
+    #homelab.ingress.git = "3000";
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;
     };
     services = {
       openssh.settings.AcceptEnv = "GIT_PROTOCOL";
-      cloudflared.tunnels.${hl.tunnel}.ingress."git-ssh.${sshDomain}" = "ssh://localhost:${toString sshPort}";
       forgejo = {
         enable = true;
         inherit (hl) group;
@@ -40,7 +38,7 @@
             ROOT_URL = "https://${domain}/";
             HTTP_ADDR = "0.0.0.0";
             HTTP_PORT = 3000;
-            SSH_DOMAIN = sshDomain;
+            LANDING_PAGE = "/sam-tee";
             SSH_PORT = sshPort;
           };
           service = {
@@ -49,6 +47,15 @@
             REGISTER_EMAIL_CONFIRM = true;
           };
         };
+      };
+      caddy.virtualHosts."domain" = {
+        useACMEHost = hl.domain;
+        extraConfig = ''
+          reverse_proxy http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}
+          request_body {
+            max_size 10GB
+          }
+        '';
       };
     };
     systemd.services.forgejo.preStart = let
