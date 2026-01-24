@@ -20,8 +20,8 @@
       enable = true;
       inherit user group;
       accounts = {
-        sam.passwordFile = config.sops.secrets."samPwd";
-        media.passwordFile = config.sops.secrets."mediaPwd";
+        sam.passwordFile = config.sops.secrets."copy/samPwd";
+        media.passwordFile = config.sops.secrets."copy/mediaPwd";
       };
       settings = {
         i = "127.0.0.1";
