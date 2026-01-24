@@ -6,6 +6,9 @@
   }: let
     cfg = config.services.forgejo;
     hl = config.homelab;
+    sshPort = lib.head config.services.openssh.ports;
+    sshDomain = "git-ssh.${hl.domain}";
+    domain = "git.${hl.domain}";
   in {
     homelab.ingress.git = "3000";
     sops.secrets = {
@@ -14,6 +17,7 @@
     };
     services = {
       openssh.settings.AcceptEnv = "GIT_PROTOCOL";
+      cloudflared.tunnels.${hl.tunnel}.ingress."git-ssh.${sshDomain}" = "ssh://localhost:${toString sshPort}";
       forgejo = {
         enable = true;
         inherit (hl) group;
@@ -32,12 +36,12 @@
             SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
           };
           server = {
-            DOMAIN = "git.akhlus.uk";
-            ROOT_URL = "https://git.akhlus.uk/";
+            DOMAIN = domain;
+            ROOT_URL = "https://${domain}/";
             HTTP_ADDR = "0.0.0.0";
             HTTP_PORT = 3000;
-            SSH_DOMAIN = "git-ssh.akhlus.uk";
-            SSH_PORT = lib.head config.services.openssh.ports;
+            SSH_DOMAIN = sshDomain;
+            SSH_PORT = sshPort;
           };
           service = {
             DISABLE_REGISTRATION = true;

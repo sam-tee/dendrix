@@ -23,11 +23,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1768972187,
-        "narHash": "sha256-gNqKLIaDgjrZm3B2IxVJ2TG+XYGQ/xNcaxLO0iU/Z9A=",
+        "lastModified": 1769129981,
+        "narHash": "sha256-94H7vZqNMzgqWEHg8XGb8wKdijOgJ+hMwzTF6w0g5ac=",
         "owner": "9001",
         "repo": "copyparty",
-        "rev": "dc8c229bcdc49419f16c983fe1f97d9d1e57bde2",
+        "rev": "d750f3f0d2a2daf0466f73c4d81dfae6b68f63ef",
         "type": "github"
       },
       "original": {
@@ -94,11 +94,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769015285,
-        "narHash": "sha256-MlqzCJbckJsgwfkRs64H2xaX2Uxl4o6Z9XYfkYS1N/E=",
+        "lastModified": 1769187349,
+        "narHash": "sha256-clG+nT6I2qxjIgk5WoSDKJyNhzKJs9jzbCujPF2S/yg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ec0247a7a19f641595c24ac1ea4df6461d1cdb36",
+        "rev": "082a4cd87c6089d1d9c58ebe52655f9e07245fcb",
         "type": "github"
       },
       "original": {
@@ -244,11 +244,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1768940263,
-        "narHash": "sha256-sJERJIYTKPFXkoz/gBaBtRKke82h4DkX3BBSsKbfbvI=",
+        "lastModified": 1769089682,
+        "narHash": "sha256-9yA/LIuAVQq0lXelrZPjLuLVuZdm03p8tfmHhnDIkms=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3ceaaa8bc963ced4d830e06ea2d0863b6490ff03",
+        "rev": "078d69f03934859a181e81ba987c2bb033eebfc5",
         "type": "github"
       },
       "original": {
@@ -275,11 +275,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1768886240,
-        "narHash": "sha256-C2TjvwYZ2VDxYWeqvvJ5XPPp6U7H66zeJlRaErJKoEM=",
+        "lastModified": 1769018530,
+        "narHash": "sha256-MJ27Cy2NtBEV5tsK+YraYr2g851f3Fl1LpNHDzDX15c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "80e4adbcf8992d3fd27ad4964fbb84907f9478b0",
+        "rev": "88d3861acdd3d2f0e361767018218e51810df8a1",
         "type": "github"
       },
       "original": {
@@ -333,11 +333,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1768095744,
-        "narHash": "sha256-+1eWsr0ScwmY6gZa+RbX+1P1ss3L81vlMxe2P4gfvQ8=",
+        "lastModified": 1769230565,
+        "narHash": "sha256-/oscS3cArSu2iF1kXeukN7NANNmG/MAccEZjPYinj5Q=",
         "ref": "refs/heads/main",
-        "rev": "c484e580ce23b966ffccd45973752e95c1068725",
-        "revCount": 20,
+        "rev": "a782cac5a7f62f197530b7982fd6a616d20728eb",
+        "revCount": 23,
         "type": "git",
         "url": "ssh://git@github.com/sam-tee/nix-secrets.git"
       },
