@@ -48,10 +48,10 @@
           };
         };
       };
-      caddy.virtualHosts."${domain}" = {
-        useACMEHost = hl.domain;
+      caddy.virtualHosts."git.${config.homelab.domain}" = {
+        useACMEHost = config.homelab.domain;
         extraConfig = ''
-          reverse_proxy http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}
+          reverse_proxy http://127.0.0.1:3000
           request_body {
             max_size 10GB
           }
