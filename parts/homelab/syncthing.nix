@@ -1,5 +1,5 @@
 {
-  flake.module = {
+  flake.modules = {
     nixos.syncthing = {config, ...}: let
       inherit (config.homelab) group user;
     in {
