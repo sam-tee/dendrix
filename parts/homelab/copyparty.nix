@@ -10,8 +10,8 @@
   in {
     homelab.ingress.files = "3210";
     sops.secrets = {
-      "copy/samPwd" = {};
-      "copy/mediaPwd" = {};
+      "copy/samPwd".owner = user;
+      "copy/mediaPwd".owner = user;
     };
     imports = [cpp.nixosModules.default];
     nixpkgs.overlays = [cpp.overlays.default];
@@ -20,8 +20,8 @@
       enable = true;
       inherit user group;
       accounts = {
-        sam.passwordFile = config.sops.secrets."copy/samPwd";
-        media.passwordFile = config.sops.secrets."copy/mediaPwd";
+        sam.passwordFile = config.sops.secrets."copy/samPwd".path;
+        media.passwordFile = config.sops.secrets."copy/mediaPwd".path;
       };
       settings = {
         i = "127.0.0.1";
