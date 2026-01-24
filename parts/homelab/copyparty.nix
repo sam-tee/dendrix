@@ -36,7 +36,7 @@
         path = "/var/lib/media";
         access = {
           rwmd = ["sam" "media"];
-          a = ["admin"];
+          a = ["media"];
         };
         flags = {
           fk = 4;

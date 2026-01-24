@@ -11,7 +11,7 @@
     programs.ghostty = {
       enable = true;
       settings = {
-        command = "/run/current-system/bin/tmux";
+        command = "~/.nix-profile/bin/tmux";
         font-family = "Lilex Nerd Font";
         font-size = 14;
         window-decoration = "auto";

@@ -57,6 +57,7 @@ in {
           jellyfin
           nfs
           samba
+          syncthing
           vaultwarden
         ];
       };
