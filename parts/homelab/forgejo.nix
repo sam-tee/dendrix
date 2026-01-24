@@ -36,6 +36,7 @@
             ROOT_URL = "https://git.akhlus.uk/";
             HTTP_ADDR = "0.0.0.0";
             HTTP_PORT = 3000;
+            SSH_DOMAIN = "git-ssh.akhlus.uk";
             SSH_PORT = lib.head config.services.openssh.ports;
           };
           service = {

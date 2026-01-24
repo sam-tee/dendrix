@@ -35,7 +35,7 @@
         enable = true;
         certificateFile = config.sops.secrets."cloudflared/cert.pem".path;
         tunnels.${tunnel} = {
-          default = "http_status:404";
+          default = "http_status:503";
           credentialsFile = config.sops.secrets."cloudflared/credentials.json".path;
           ingress =
             lib.mapAttrs' (key: value: {
