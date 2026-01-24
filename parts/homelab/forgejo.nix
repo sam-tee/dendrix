@@ -48,7 +48,7 @@
           };
         };
       };
-      caddy.virtualHosts."domain" = {
+      caddy.virtualHosts."${domain}" = {
         useACMEHost = hl.domain;
         extraConfig = ''
           reverse_proxy http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}
