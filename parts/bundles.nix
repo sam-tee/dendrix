@@ -35,6 +35,7 @@ in {
         calibre
         cockpit
         code-server
+        copyparty
         forgejo
         immich
         jellyfin
