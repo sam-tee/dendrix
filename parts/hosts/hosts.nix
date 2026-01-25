@@ -10,7 +10,7 @@ in {
         hostname = "mba";
         username = "sam";
         darwinModules = with dMod; [aerospace];
-        homeModules = with hMod; [extraPkgs vscode];
+        homeModules = with hMod; [extraPkgs syncthing vscode];
       };
     };
     homeConfigurations = {
