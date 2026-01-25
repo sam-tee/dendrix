@@ -22,6 +22,12 @@
       globalConfig = ''
         auto_https off
       '';
+      virtualHosts."*.${domain}" = {
+        useACMEHost = domain;
+        extraConfig = ''
+          respond "Not Found" 404
+        '';
+      };
     };
     networking.firewall.allowedTCPPorts = [80 443];
   };

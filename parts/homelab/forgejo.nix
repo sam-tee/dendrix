@@ -9,7 +9,7 @@
     sshPort = lib.head config.services.openssh.ports;
     domain = "git.${hl.domain}";
   in {
-    #homelab.ingress.git = "3000";
+    homelab.ingress.git = "3000";
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;
@@ -47,15 +47,6 @@
             REGISTER_EMAIL_CONFIRM = true;
           };
         };
-      };
-      caddy.virtualHosts."git.${config.homelab.domain}" = {
-        useACMEHost = config.homelab.domain;
-        extraConfig = ''
-          reverse_proxy http://127.0.0.1:3000
-          request_body {
-            max_size 10GB
-          }
-        '';
       };
     };
     systemd.services.forgejo.preStart = let
