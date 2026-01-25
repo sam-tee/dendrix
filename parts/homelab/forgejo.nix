@@ -15,10 +15,8 @@
       "forgejo/databasePwd".owner = cfg.database.user;
     };
     services = {
-      openssh.settings.AcceptEnv = "GIT_PROTOCOL";
       forgejo = {
         enable = true;
-        inherit (hl) group;
         stateDir = "/var/lib/media/git";
         lfs.enable = true;
         database = {
@@ -40,6 +38,7 @@
             HTTP_PORT = 3000;
             LANDING_PAGE = "/sam-tee";
             SSH_PORT = sshPort;
+            SSH_DOMAIN = "git-ssh.${hl.domain}";
           };
           service = {
             DISABLE_REGISTRATION = true;

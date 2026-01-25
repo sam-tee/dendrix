@@ -50,7 +50,7 @@ in {
           "duet3" = mkHost "duet3";
           "mba" = mkHost "mba" // {port = 22;};
           "github" = mkBlock "github.com" "git" 22 "git";
-          "forgejo" = mkBlock "git.akhlus.uk" "forgejo" 2222 "git";
+          "forgejo" = mkBlock "git-ssh.akhlus.uk" "forgejo" 2222 "git";
           "*" = {};
         };
         extraConfig = ''
