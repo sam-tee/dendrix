@@ -17,24 +17,30 @@ let
 in {
   flake.modules = {
     nixos.syncthing = {config, ...}: let
-      inherit (config.homelab) group user;
+      inherit (config.homelab) domain group user;
     in {
-      homelab.ingress.sync = "8384";
       sops.secrets."syncPwd".owner = user;
-      services.syncthing = {
-        enable = true;
-        inherit user group;
-        configDir = "/var/lib/media/syncthing";
-        dataDir = "/var/lib/media";
-        guiAddress = "0.0.0.0:8384";
-        guiPasswordFile = config.sops.secrets."syncPwd".path;
-        settings = {
-          gui.user = "sam";
-          inherit devices folders;
+      services = {
+        caddy.virtualHosts."sync.${domain}" = {
+          useACMEHost = domain;
+          extraConfig = ''
+            reverse_proxy http://127.0.0.1:8384
+          '';
+        };
+        syncthing = {
+          enable = true;
+          inherit user group;
+          configDir = "/var/lib/media/syncthing";
+          dataDir = "/var/lib/media";
+          guiAddress = "0.0.0.0:8384";
+          openDefaultPorts = true;
+          guiPasswordFile = config.sops.secrets."syncPwd".path;
+          settings = {
+            gui.user = "sam";
+            inherit devices folders;
+          };
         };
       };
-      networking.firewall.allowedTCPPorts = [8384 22000];
-      networking.firewall.allowedUDPPorts = [22000 21027];
     };
     homeManager.syncthing = _: {
       services.syncthing = {
