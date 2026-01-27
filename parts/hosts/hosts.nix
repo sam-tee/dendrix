@@ -19,7 +19,12 @@ in {
         system = "x86_64-linux";
         homeModules = with hMod; [
           {targets.genericLinux.enable = true;}
-          _linuxMinimal
+          _minimal
+          cliLinux
+          linuxMinPkgs
+          plasma
+          pointer
+          xournal
         ];
       };
     };
@@ -28,26 +33,25 @@ in {
         hostname = "a3";
         username = "sam";
         nixosModules = with nMod; [plasmaHM steam];
-        homeModules = with hMod; [linuxExtraPkgs vscode];
+        homeModules = with hMod; [linuxExtraPkgs syncthing vscode];
       };
       duet3 = mkMobile {
         hostname = "duet3";
         username = "sam";
         device = "lenovo-wormdingler";
         nixosModules = with nMod; [plasmaHM];
-        homeModules = with hMod; [vscode];
+        homeModules = with hMod; [syncthing vscode];
       };
       s340 = mkNixos {
         hostname = "s340";
         username = "sam";
         nixosModules = with nMod; [plasmaHM];
-        homeModules = with hMod; [linuxExtraPkgs vscode];
+        homeModules = with hMod; [linuxExtraPkgs syncthing vscode];
       };
       u410 = mkServer {
         hostname = "u410";
         username = "sam";
         nixosModules = with nMod; [
-          anki
           calibre
           cockpit
           code-server
@@ -55,8 +59,7 @@ in {
           forgejo
           immich
           jellyfin
-          nfs
-          samba
+          navidrome
           syncthing
           vaultwarden
         ];

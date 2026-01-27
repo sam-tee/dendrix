@@ -63,8 +63,13 @@ in {
         cli
         cosmetic
         fonts
+        ssh
+      ];
+      _darwinMinimal.imports = with hMod; [
+        cli
+        cosmetic
+        fonts
         ghostty
-        minPkgs
         ssh
         zed
       ];

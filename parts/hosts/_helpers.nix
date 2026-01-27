@@ -21,7 +21,7 @@ in {
           {
             networking.hostName = hostname;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKeys.${hostname}];
-            home-manager.sharedModules = homeModules ++ [hMod._minimal];
+            home-manager.sharedModules = homeModules ++ [hMod._darwinMinimal];
           }
         ]);
     };

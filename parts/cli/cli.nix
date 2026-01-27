@@ -45,12 +45,10 @@ in {
 
     homeManager.cliLinux = {pkgs, ...}: {
       home.packages = with pkgs; [
-        inxi
         lm_sensors
         lshw
         pciutils
         usbutils
-        v4l-utils
       ];
     };
 
