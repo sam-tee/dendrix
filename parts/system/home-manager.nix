@@ -48,7 +48,7 @@ in {
         inherit username stateVersion language;
         homeDirectory = "/home/${username}";
         keyboard.layout = "gb";
-        packages = [pkgs.home-home-manager];
+        packages = [pkgs.home-manager];
       };
       nix.package = pkgs.nix;
     };
