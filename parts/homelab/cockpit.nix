@@ -1,7 +1,12 @@
 {
-  flake.modules.nixos.cockpit = _: {
-    homelab.ingress.dash = "9090";
+  flake.modules.nixos.cockpit = {config, ...}: {
     services = {
+      caddy.virtualHosts."dash.${config.homelab.domain}" = {
+        useACMEHost = config.homelab.domain;
+        extraConfig = ''
+          reverse_proxy http://127.0.0.1:9090
+        '';
+      };
       cockpit = {
         enable = true;
         openFirewall = true;
