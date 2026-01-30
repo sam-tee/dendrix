@@ -70,6 +70,7 @@ in {
         cosmetic
         fonts
         ghostty
+        minPkgs
         ssh
         zed
       ];
