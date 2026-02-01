@@ -16,6 +16,7 @@ in {
         extraSpecialArgs = {inherit inputs username;};
         users.${username} = {
           programs.ghostty.package = null;
+          programs.home-manager.enable = true;
           home = {
             inherit username stateVersion language;
             homeDirectory = lib.mkForce "/Users/${username}";
@@ -33,9 +34,12 @@ in {
       home-manager = {
         inherit backupFileExtension;
         extraSpecialArgs = {inherit inputs username;};
-        users.${username}.home = {
-          inherit username stateVersion language;
-          homeDirectory = "/home/${username}";
+        users.${username} = {
+          home = {
+            inherit username stateVersion language;
+            homeDirectory = "/home/${username}";
+          };
+          programs.home-manager.enable = true;
         };
       };
     };
@@ -48,9 +52,9 @@ in {
         inherit username stateVersion language;
         homeDirectory = "/home/${username}";
         keyboard.layout = "gb";
-        packages = [pkgs.home-manager];
       };
       nix.package = pkgs.nix;
+      programs.home-manager.enable = true;
     };
   };
 }
