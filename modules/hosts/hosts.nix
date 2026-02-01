@@ -45,7 +45,7 @@ in {
       s340 = mkNixos {
         hostname = "s340";
         username = "sam";
-        nixosModules = with nMod; [plasmaHM];
+        nixosModules = with nMod; [plasmaHM hyprlandHM];
         homeModules = with hMod; [linuxExtraPkgs syncthing vscode];
       };
       u410 = mkServer {
