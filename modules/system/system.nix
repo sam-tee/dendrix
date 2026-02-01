@@ -24,7 +24,6 @@
       };
     };
   };
-
   flake.modules.darwin.system = {
     pkgs,
     username,

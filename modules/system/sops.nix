@@ -1,14 +1,24 @@
-let
-  sopsConf = inputs: {
-    defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
-    defaultSopsFormat = "yaml";
-    age = {
-      generateKey = true;
-      keyFile = "/var/lib/sops-nix/key.txt";
+{
+  flake-file.inputs = {
+    secrets = {
+      url = "git+ssh://git@github.com/sam-tee/nix-secrets.git";
+      flake = false;
+    };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-in {
-  flake.modules = {
+  flake.modules = let
+    sopsConf = inputs: {
+      defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
+      defaultSopsFormat = "yaml";
+      age = {
+        generateKey = true;
+        keyFile = "/var/lib/sops-nix/key.txt";
+      };
+    };
+  in {
     nixos.system = {inputs, ...}: {
       imports = [inputs.sops-nix.nixosModules.sops];
       sops = sopsConf inputs;

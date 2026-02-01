@@ -1,4 +1,5 @@
 {
+  flake-file.inputs.nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   flake.modules.darwin.brew = {
     inputs,
     username,
