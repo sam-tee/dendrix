@@ -1,21 +1,33 @@
 {
-  flake.modules.homeManager = {
-    minPkgs = {pkgs, ...}: {
-      home.packages = with pkgs; [
-        brave
-        discord
-      ];
+  flake.modules.homeManager = let
+    isNotAarchLinux = pkgs: (pkgs.stdenv.hostPlatform.system != "aarch64-linux");
+  in {
+    minPkgs = {
+      lib,
+      pkgs,
+      ...
+    }: {
+      home.packages =
+        (with pkgs; [brave])
+        ++ lib.optionals (isNotAarchLinux pkgs) (with pkgs; [discord]);
     };
 
-    linuxMinPkgs = {pkgs, ...}: {
+    linuxMinPkgs = {
+      lib,
+      pkgs,
+      ...
+    }: {
       home.sessionVariables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
-      home.packages = with pkgs; [
-        bitwarden-desktop
-        brave
-        discord
-        protonvpn-gui
-        spotify
-      ];
+      home.packages =
+        (with pkgs; [
+          bitwarden-desktop
+          brave
+          protonvpn-gui
+        ])
+        ++ lib.optionals (isNotAarchLinux pkgs) (with pkgs; [
+          discord
+          spotify
+        ]);
     };
 
     extraPkgs = {pkgs, ...}: {
