@@ -13,14 +13,28 @@
         ];
         home-manager.sharedModules = [inputs.self.modules.homeManager.plasma];
       };
+      plasmaMobileHM = {
+        inputs,
+        pkgs,
+        ...
+      }: {
+        imports = [inputs.self.modules.plasmaHM];
+        environment.systemPackages = [pkgs.maliit-keyboard];
+        displayManager.sddm = {
+          extraPackages = [pkgs.maliit-keyboard];
+          settings.Wayland.CompositorCommand = "${pkgs.kdePackages.kwin}/bin/kwin_wayland --no-global-shortcuts --no-kactivities --no-lockscreen --locale1 --inputmethod maliit-keyboard";
+        };
+      };
       plasma = {pkgs, ...}: {
         environment = {
-          systemPackages = with pkgs; [
-            kdePackages.partitionmanager
-            maliit-keyboard
+          systemPackages = with pkgs.kdePackages; [
+            filelight
+            partitionmanager
           ];
           plasma6.excludePackages = with pkgs.kdePackages; [
+            discover
             elisa
+            gwenview
             kate
             konsole
             plasma-browser-integration
@@ -29,8 +43,6 @@
         services = {
           displayManager.sddm = {
             enable = true;
-            extraPackages = [pkgs.maliit-keyboard];
-            settings.Wayland.CompositorCommand = "${pkgs.kdePackages.kwin}/bin/kwin_wayland --no-global-shortcuts --no-kactivities --no-lockscreen --locale1 --inputmethod maliit-keyboard";
             wayland.enable = true;
           };
           desktopManager.plasma6.enable = true;

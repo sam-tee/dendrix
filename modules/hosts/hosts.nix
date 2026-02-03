@@ -39,13 +39,13 @@ in {
         hostname = "duet3";
         username = "sam";
         device = "lenovo-wormdingler";
-        nixosModules = with nMod; [plasmaHM];
+        nixosModules = with nMod; [plasmaMobileHM];
         homeModules = with hMod; [syncthing vscode];
       };
       s340 = mkNixos {
         hostname = "s340";
         username = "sam";
-        nixosModules = with nMod; [plasmaHM hyprlandHM];
+        nixosModules = with nMod; [hyprlandHM];
         homeModules = with hMod; [linuxExtraPkgs syncthing vscode];
       };
       u410 = mkServer {
