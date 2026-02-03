@@ -1,5 +1,5 @@
 {
-  homeManager.hyprland = _: {
+  flake.modules.homeManager.hyprland = _: {
     wayland.windowManager.hyprland.settings = {
       bind =
         (builtins.concatLists (builtins.genList (

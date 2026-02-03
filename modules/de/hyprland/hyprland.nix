@@ -15,6 +15,9 @@
             brightnessctl
             kdePackages.dolphin
             ghostty
+            hyprpaper
+            hyprshot
+            hyprpolkitagent
             pamixer
             playerctl
             pavucontrol
@@ -31,9 +34,11 @@
           };
           hyprlock.enable = true;
         };
+        security.pam.services.login.enableGnomeKeyring = true;
         services = {
           displayManager.sddm.enable = true;
           blueman.enable = true;
+          gnome.gnome-keyring.enable = true;
           hypridle.enable = true;
         };
         xdg.portal = {
@@ -59,6 +64,7 @@
       };
       wayland.windowManager.hyprland = {
         enable = true;
+        systemd.enable = false;
         settings = {
           "$mod" = "SUPER";
           "$terminal" = "ghostty";
