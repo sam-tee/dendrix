@@ -1,6 +1,12 @@
 {
   flake.modules.homeManager.hyprland = _: {
     wayland.windowManager.hyprland.settings = {
+      "$mod" = "SUPER";
+      "$terminal" = "ghostty";
+      "$fileManager" = "dolphin --new-window";
+      "$browser" = "brave --new-window --ozone-platform=wayland";
+      "$passwordManager" = "bitwarden";
+      "$webapp" = "$browser --app";
       bind =
         (builtins.concatLists (builtins.genList (
             i: [

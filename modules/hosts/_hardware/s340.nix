@@ -31,11 +31,6 @@
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
-    "/mnt/u410" = {
-      device = "u410:/export/media";
-      fsType = "nfs";
-      options = ["x-systemd.automount" "noauto" "x-systemd.idle-timeout=60"];
-    };
   };
   swapDevices = [{device = "/dev/mapper/luksSwap";}];
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

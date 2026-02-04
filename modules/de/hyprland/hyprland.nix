@@ -8,7 +8,11 @@
         ];
         home-manager.sharedModules = [inputs.self.modules.homeManager.hyprland];
       };
-      hyprland = {pkgs, ...}: {
+      hyprland = {
+        pkgs,
+        username,
+        ...
+      }: {
         environment = {
           sessionVariables.NIXOS_OZONE_WL = "1";
           systemPackages = with pkgs; [
@@ -34,11 +38,19 @@
           };
           hyprlock.enable = true;
         };
-        security.pam.services.login.enableGnomeKeyring = true;
+        security.pam.services.login.kwallet.enable = true;
         services = {
-          displayManager.sddm.enable = true;
+          displayManager = {
+            sddm = {
+              enable = true;
+              wayland.enable = true;
+            };
+            autoLogin = {
+              enable = true;
+              user = username;
+            };
+          };
           blueman.enable = true;
-          gnome.gnome-keyring.enable = true;
           hypridle.enable = true;
         };
         xdg.portal = {
@@ -47,16 +59,23 @@
         };
       };
     };
-    homeManager.hyprland = {config, ...}: {
+    homeManager.hyprland = {
+      config,
+      lib,
+      ...
+    }: {
       programs.hyprshot.enable = true;
       services = {
         hyprpaper = {
           enable = true;
-          settings = let
-            bgPath = "~/${config.cosmetic.backgroundPath}";
-          in {
-            preload = [bgPath];
-            wallpaper = [",${bgPath}"];
+          settings = {
+            splash = false;
+            wallpaper = [
+              {
+                monitor = "";
+                path = "~/${config.cosmetic.backgroundPath}";
+              }
+            ];
           };
         };
         hyprpolkitagent.enable = true;
@@ -66,12 +85,14 @@
         enable = true;
         systemd.enable = false;
         settings = {
-          "$mod" = "SUPER";
-          "$terminal" = "ghostty";
-          "$fileManager" = "dolphin --new-window";
-          "$browser" = "brave --new-window --ozone-platform=wayland";
-          "$passwordManager" = "bitwarden";
-          "$webapp" = "$browser --app";
+          monitor = config.hypr.monitors;
+          general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 0);
+          animations.enabled = false;
+          input = {
+            kb_layout = "gb";
+            kb_options = "caps:escape";
+            touchpad.natural_scroll = true;
+          };
         };
       };
     };
