@@ -6,7 +6,9 @@
           hm
           hyprland
         ];
-        home-manager.sharedModules = [inputs.self.modules.homeManager.hyprland];
+        home-manager.sharedModules = with inputs.self.modules.homeManager; [
+          hyprland
+        ];
       };
       hyprland = {
         pkgs,
@@ -15,20 +17,27 @@
       }: {
         environment = {
           sessionVariables.NIXOS_OZONE_WL = "1";
-          systemPackages = with pkgs; [
-            brightnessctl
-            kdePackages.dolphin
-            ghostty
-            hyprpaper
-            hyprshot
-            hyprpolkitagent
-            pamixer
-            playerctl
-            pavucontrol
-            waybar
-            wl-clipboard
-            wofi
-          ];
+          systemPackages =
+            (with pkgs; [
+              brightnessctl
+              ghostty
+              hyprpaper
+              hyprshot
+              hyprpolkitagent
+              pamixer
+              playerctl
+              pavucontrol
+              sddm-sugar-dark
+              waybar
+              wl-clipboard
+              wofi
+            ])
+            ++ (with pkgs.kdePackages; [
+              dolphin
+              kwallet
+              kwallet-pam
+              kwalletmanager
+            ]);
         };
         programs = {
           hyprland = {
@@ -40,15 +49,10 @@
         };
         security.pam.services.login.kwallet.enable = true;
         services = {
-          displayManager = {
-            sddm = {
-              enable = true;
-              wayland.enable = true;
-            };
-            autoLogin = {
-              enable = true;
-              user = username;
-            };
+          displayManager.sddm = {
+            enable = true;
+            wayland.enable = true;
+            theme = "sugar-dark";
           };
           blueman.enable = true;
           hypridle.enable = true;
@@ -85,6 +89,9 @@
         enable = true;
         systemd.enable = false;
         settings = {
+          exec-once = [
+            "hyprpaper"
+          ];
           monitor = config.hypr.monitors;
           general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 0);
           animations.enabled = false;

@@ -5,8 +5,6 @@
       "$terminal" = "ghostty";
       "$fileManager" = "dolphin --new-window";
       "$browser" = "brave --new-window --ozone-platform=wayland";
-      "$passwordManager" = "bitwarden";
-      "$webapp" = "$browser --app";
       bind =
         (builtins.concatLists (builtins.genList (
             i: [
@@ -16,19 +14,9 @@
           )
           9))
         ++ [
-          "$mod, space, exec, wofi --show drun --sort-order=alphabetical"
-          "$mod SHIFT, SPACE, exec, pkill -SIGUSR1 waybar"
           "$mod, Q, killactive,"
-
-          "$mod, ESCAPE, exec, hyprlock"
-          "$mod SHIFT, ESCAPE, exit,"
-          "$mod CTRL, ESCAPE, exec, reboot"
-          "$mod SHIFT CTRL, ESCAPE, exec, systemctl poweroff"
-
-          "$mod, J, togglesplit, # dwindle"
-          "$mod, P, pseudo, # dwindle"
           "$mod, V, togglefloating,"
-          "$mod SHIFT, Plus, fullscreen,"
+          "$mod, F, fullscreen,"
 
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
@@ -42,16 +30,17 @@
           "$mod, equal, resizeactive, 100 0"
           "$mod SHIFT, minus, resizeactive, 0 -100"
           "$mod SHIFT, equal, resizeactive, 0 100"
+          "$mod, comma, workspace, -1"
+          "$mod, period, workspace, +1"
 
-          "$mod, S, togglespecialworkspace, magic"
-          "$mod SHIFT, S, movetoworkspace, special:magic"
-
-          ", PRINT, exec, hyprshot -m region"
-          "SHIFT, PRINT, exec, hyprshot -m window"
-          "CTRL, PRINT, exec, hyprshot -m output"
-
-          "$mod, PRINT, exec, hyprpicker -a"
-          "CTRL $mod, V, exec, ghostty --class clipse -e clipse"
+          "$mod SHIFT, S, exec, hyprshot -m region"
+          "$mod, return, exec, $terminal"
+          "$mod, B, exec, $browser"
+          "$mod, E, exec, $fileManager"
+          "$mod, ESCAPE, exec, hyprlock"
+          "$mod SHIFT, ESCAPE, exit,"
+          "$mod, space, exec, wofi --show drun --sort-order=alphabetical"
+          "$mod SHIFT, SPACE, exec, pkill -SIGUSR1 waybar"
         ];
 
       bindm = [
