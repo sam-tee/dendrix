@@ -59,8 +59,10 @@ in {
           forgejo
           immich
           jellyfin
+          mealie
           navidrome
           syncthing
+          tandoor
           vaultwarden
         ];
       };
