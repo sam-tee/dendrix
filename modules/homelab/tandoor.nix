@@ -11,7 +11,8 @@
       extraConfig = {
         TZ = "Europe/London";
         ALLOWED_HOSTS = "cooking.${domain}";
-        POSTGRES_PASSWORD = config.sops.secrets.tandoorPwd;
+        POSTGRES_PASSWORD = config.sops.secrets.tandoorPwd.path;
+	    START_SSH_SERVER = true;
       };
     };
   };
