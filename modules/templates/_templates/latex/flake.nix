@@ -6,7 +6,7 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFLake {inherit inputs;} {
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
       perSystem = {pkgs, ...}: let
         latexScript = extraArgs: name:
