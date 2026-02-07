@@ -5,9 +5,12 @@
         imports = with inputs.self.modules.nixos; [
           hm
           hyprland
+          noctalia
         ];
         home-manager.sharedModules = with inputs.self.modules.homeManager; [
           hyprland
+          gtk
+          noctalia
         ];
       };
       hyprland = {
@@ -19,24 +22,19 @@
           sessionVariables.NIXOS_OZONE_WL = "1";
           systemPackages =
             (with pkgs; [
-              brightnessctl
               ghostty
               hyprpaper
               hyprshot
               hyprpolkitagent
-              pamixer
-              playerctl
-              pavucontrol
               sddm-sugar-dark
-              waybar
               wl-clipboard
-              wofi
             ])
             ++ (with pkgs.kdePackages; [
               dolphin
               kwallet
               kwallet-pam
               kwalletmanager
+              sddm-kcm
             ]);
         };
         programs = {
@@ -54,7 +52,6 @@
             wayland.enable = true;
             theme = "sugar-dark";
           };
-          blueman.enable = true;
           hypridle.enable = true;
         };
         xdg.portal = {
@@ -83,7 +80,6 @@
           };
         };
         hyprpolkitagent.enable = true;
-        mako.enable = true;
       };
       wayland.windowManager.hyprland = {
         enable = true;
@@ -92,6 +88,7 @@
           exec-once = [
             "hyprpaper"
           ];
+          env = ["QT_QPA_PLATFORMTHEME,qt6ct"];
           monitor = config.hypr.monitors;
           general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 0);
           animations.enabled = false;

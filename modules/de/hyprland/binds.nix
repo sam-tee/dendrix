@@ -1,6 +1,7 @@
 {
   flake.modules.homeManager.hyprland = _: {
     wayland.windowManager.hyprland.settings = {
+      "$noctalia" = "noctalia-shell ipc call";
       "$mod" = "SUPER";
       "$terminal" = "ghostty";
       "$fileManager" = "dolphin --new-window";
@@ -30,7 +31,7 @@
           "$mod, equal, resizeactive, 100 0"
           "$mod SHIFT, minus, resizeactive, 0 -100"
           "$mod SHIFT, equal, resizeactive, 0 100"
-          "$mod, comma, workspace, -1"
+          "$mod SHIFT, period, workspace, -1"
           "$mod, period, workspace, +1"
 
           "$mod SHIFT, S, exec, hyprshot -m region"
@@ -39,8 +40,9 @@
           "$mod, E, exec, $fileManager"
           "$mod, ESCAPE, exec, hyprlock"
           "$mod SHIFT, ESCAPE, exit,"
-          "$mod, space, exec, wofi --show drun --sort-order=alphabetical"
-          "$mod SHIFT, SPACE, exec, pkill -SIGUSR1 waybar"
+          "$mod, space, exec, $noctalia launcher toggle"
+          "$mod, S, exec, $noctalia controlCenter toggle"
+          "$mod, comma, exec, $noctalia settings toggle"
         ];
 
       bindm = [
@@ -49,12 +51,12 @@
         "$mod ALT, mouse:272, resizewindow"
       ];
       bindel = [
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ",XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
+        ",XF86AudioRaiseVolume, exec, $noctalia volume increase"
+        ",XF86AudioLowerVolume, exec, $noctalia volume decrease"
+        ",XF86AudioMute, exec, $noctalia volume muteOutput"
+        ",XF86AudioMicMute, exec, $noctalia volume muteInput"
+        ",XF86MonBrightnessUp, exec, $noctalia brightness increase"
+        ",XF86MonBrightnessDown, exec, $noctalia brightness decrease"
       ];
     };
   };
