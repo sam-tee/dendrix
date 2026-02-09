@@ -33,7 +33,6 @@
     extraPkgs = {pkgs, ...}: {
       home.packages = with pkgs; [
         gemini-cli
-        google-chrome
         yt-dlg
         zotero
       ];
