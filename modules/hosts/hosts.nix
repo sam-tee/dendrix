@@ -42,6 +42,12 @@ in {
         nixosModules = with nMod; [plasmaMobileHM];
         homeModules = with hMod; [syncthing vscode];
       };
+      hp = mkNixos {
+        hostname = "hp";
+        username = "sam";
+        nixosModules = with nMod; [hyprlandHM];
+        homeModules = with hMod; [linuxExtraPkgs syncthing];
+      };
       s340 = mkNixos {
         hostname = "s340";
         username = "sam";
