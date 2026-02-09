@@ -66,7 +66,6 @@ in {
           immich
           jellyfin
           mealie
-          navidrome
           syncthing
           tandoor
           vaultwarden
