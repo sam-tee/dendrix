@@ -21,11 +21,11 @@ in {
   };
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/d32aab21-0af6-4186-9a51-5a05ece072c2";
+      device = "/dev/disk/by-uuid/689713b3-b949-41d4-b7ca-3cab4cabf47f";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/E072-E752";
+      device = "/dev/disk/by-uuid/3BB9-4AC9";
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
@@ -33,14 +33,6 @@ in {
       device = "/dev/disk/by-uuid/6608ac85-7a69-4bb0-8169-64dfbf4f7830";
       fsType = "btrfs";
       options = ["subvol=media" "compress=zstd"];
-    };
-    "/export/media" = {
-      device = "/var/lib/media";
-      options = ["bind"];
-    };
-    "/home/sam" = {
-      device = "/var/lib/media/smb/sam";
-      options = ["bind"];
     };
   };
   hardware = {
@@ -59,15 +51,10 @@ in {
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   security.sudo.wheelNeedsPassword = false;
-  services = {
-    btrfs.autoScrub = {
-      enable = true;
-      interval = "monthly";
-    };
-    nfs.server.exports = ''
-      /export       *.scylla-goblin.ts.net(rw,fsid=0,no_subtree_check) 192.168.10.0/24(rw,fsid=0,no_subtree_check)
-      /export/media *.scylla-goblin.ts.net(rw,nohide,insecure,no_subtree_check) 192.168.10.0/24(rw,nohide,insecure,no_subtree_check)
-    '';
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
   };
+  swapDevices = [{device = "/dev/disk/by-uuid/b87f930d-667c-45c2-a45b-77e8d1971a12";}];
   systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
 }
