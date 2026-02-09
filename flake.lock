@@ -361,11 +361,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1770288777,
-        "narHash": "sha256-6yv/OW5K7Dy8pWDwC38jVCB666M0ArJJLt86EsZXpyc=",
+        "lastModified": 1770653118,
+        "narHash": "sha256-z3C+kWUrQLgmID14nCtRD/MaldpfKzVDKc+iunizCQo=",
         "ref": "refs/heads/main",
-        "rev": "31566385e7ab50e62075f4733699a9e4a488fb59",
-        "revCount": 32,
+        "rev": "6b88b256fa0b76a1e67a9746705685afac4cb301",
+        "revCount": 33,
         "type": "git",
         "url": "ssh://git@github.com/sam-tee/nix-secrets.git"
       },
