@@ -14,9 +14,7 @@
         power-profiles-daemon.enable = true;
         upower.enable = true;
       };
-      environment.systemPackages = with pkgs; [
-        inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
+      environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
     homeManager.noctalia = {
       config,

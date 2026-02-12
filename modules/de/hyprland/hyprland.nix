@@ -13,11 +13,7 @@
           noctalia
         ];
       };
-      hyprland = {
-        pkgs,
-        username,
-        ...
-      }: {
+      hyprland = {pkgs, ...}: {
         environment = {
           sessionVariables.NIXOS_OZONE_WL = "1";
           systemPackages =
@@ -56,7 +52,11 @@
         };
         xdg.portal = {
           enable = true;
-          extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
+          extraPortals = with pkgs; [
+            xdg-desktop-portal-hyprland
+            xdg-desktop-portal-gtk
+          ];
+          config.common.default = ["gtk"];
         };
       };
     };
