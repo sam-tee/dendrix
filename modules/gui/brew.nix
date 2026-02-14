@@ -15,7 +15,14 @@
 
     homebrew = {
       enable = true;
-      casks = ["ghostty" "protonvpn" "raycast" "spotify"];
+      casks = [
+        "ghostty"
+        "google-chrome"
+        "protonvpn"
+        "raycast"
+        "slicer"
+        "spotify"
+      ];
       masApps = {"Bitwarden" = 1352778147;};
       onActivation.cleanup = "zap";
     };
