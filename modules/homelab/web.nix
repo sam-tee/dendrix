@@ -20,6 +20,7 @@
         extraConfig = ''
           file_server
           root ${dir}/test
+          file_server /* browse
         '';
       };
     };
