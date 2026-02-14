@@ -1,3 +1,3 @@
 .DS_Store
 result
-!parts/templates/**/.envrc
+.direnv
