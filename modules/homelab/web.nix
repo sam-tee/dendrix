@@ -11,15 +11,14 @@
       "${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
-          file_server
-          root ${dir}/www
+          file_server browse
+          root * ${dir}/www
         '';
       };
       "test.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
-          file_server
-          root ${dir}/test
+          root * ${dir}/test
           file_server /* browse
         '';
       };
