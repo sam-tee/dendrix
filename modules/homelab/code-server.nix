@@ -12,6 +12,7 @@
       };
       code-server = {
         enable = true;
+        host = "127.0.0.1";
         inherit group user;
         hashedPassword = "$argon2i$v=19$m=4096,t=3,p=1$NFNaZnQyd0hpYzhPN3NYdlRGZHZlTzIwbjlNPQ$7RPhiHoXyvGq+FILur5+PYdEBjk3EHhkdrV/YPR6Q6Q";
         userDataDir = "/var/lib/media/code";

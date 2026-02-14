@@ -3,15 +3,16 @@ let
     mba.id = "OBTLFOZ-UTYW6JE-3MDA6YU-YXOZPEI-62JF23C-EAII64O-TSBIVZG-TBARUQX";
     s340.id = "QA2SIUE-GMC6AD7-OAEPXEU-RQZUYU6-7DHIXGJ-GMFNXKQ-QJUVRNO-N6EYRAL";
     u410.id = "UTMRHSO-5UGRFRV-6WMVUQR-N4B47H6-3AYB7NI-3YGFPEI-E3U42S3-VLCKWAN";
+    a3.id = "GITF6T5-Q23HCQ6-SBMP3ZC-J77WSL4-BBNHO2U-6C2L2XA-GVJ2FWQ-RERKCQH";
   };
   folders = {
     books = {
       path = "~/books";
-      devices = ["u410" "s340"];
+      devices = ["a3" "u410" "s340"];
     };
     Docs = {
       path = "~/Documents";
-      devices = ["mba" "s340" "u410"];
+      devices = ["a3" "mba" "s340" "u410"];
     };
   };
 in {
