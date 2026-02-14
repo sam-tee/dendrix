@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.homelab = {config, ...}: let
-    inherit (config.homelab) domain;
+    inherit (config.homelab) domain group user;
   in {
     sops.secrets."cloudflareAPI" = {};
     security.acme = {
@@ -19,6 +19,7 @@
     };
     services.caddy = {
       enable = true;
+      inherit group user;
       globalConfig = ''
         auto_https off
       '';
