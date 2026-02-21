@@ -1,5 +1,12 @@
 {
-  flake.modules.darwin.aerospace = {lib, ...}: {
+  flake.modules.darwin.aerospace = {lib, ...}: let
+    mkGaps = keys: lib.genAttrs keys (name: 0);
+    mkBindings = prefix: command:
+      builtins.listToAttrs (map (i: {
+        name = "${prefix}-${toString i}";
+        value = "${command} ${toString i}";
+      }) [1 2 3 4 5 6 7 8 9]);
+  in {
     services.aerospace = {
       enable = true;
       settings = {
@@ -9,20 +16,12 @@
         default-root-container-orientation = "auto";
         enable-normalization-flatten-containers = true;
         enable-normalization-opposite-orientation-for-nested-containers = true;
-        gaps = let
-          mkGaps = keys: lib.genAttrs keys (name: 0);
-        in {
+        gaps = {
           inner = mkGaps ["horizontal" "vertical"];
           outer = mkGaps ["left" "right" "top" "bottom"];
         };
         key-mapping.preset = "qwerty";
-        mode.main.binding = let
-          mkBindings = prefix: command:
-            builtins.listToAttrs (map (i: {
-              name = "${prefix}-${toString i}";
-              value = "${command} ${toString i}";
-            }) [1 2 3 4 5 6 7 8 9]);
-        in
+        mode.main.binding =
           {
             ctrl-h = "focus left";
             ctrl-j = "focus down";
@@ -38,8 +37,14 @@
             ctrl-slash = "layout tiles horizontal vertical";
           }
           // (mkBindings "ctrl" "workspace")
-          // (mkBindings "ctrl-shift" "move-node-to-workspace");
+          // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
         on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
+        on-window-detected = [
+          {
+            "if".app-id = "com.mitchellh.ghostty";
+            run = "layout tiling";
+          }
+        ];
         start-at-login = false;
       };
     };
