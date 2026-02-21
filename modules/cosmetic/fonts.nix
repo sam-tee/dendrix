@@ -15,14 +15,14 @@ let
   };
 in {
   flake.modules = {
-    nixos.system = {pkgs, ...}: {
+    nixos.fonts = {pkgs, ...}: {
       fonts = {
         packages = mkFonts pkgs;
         inherit fontconfig;
       };
     };
 
-    darwin.system = {pkgs, ...}: {
+    darwin.fonts = {pkgs, ...}: {
       fonts.packages = mkFonts pkgs;
     };
 

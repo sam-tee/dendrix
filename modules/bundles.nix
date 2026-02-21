@@ -9,6 +9,7 @@ in {
         cli
         networking
         ssh
+        stylix
         system
         user
       ];
@@ -64,6 +65,7 @@ in {
         cosmetic
         fonts
         ssh
+        stylix
       ];
       _darwinMinimal.imports = with hMod; [
         cli
