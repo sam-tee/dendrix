@@ -195,10 +195,6 @@
           };
           workspace = {
             enableMiddleClickPaste = true;
-            lookAndFeel = "org.kde.breezedark.desktop";
-            colorScheme = "BreezeDark";
-            wallpaper = "/home/${username}/${config.cosmetic.backgroundPath}";
-            wallpaperFillMode = "stretch";
           };
         };
       };

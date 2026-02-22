@@ -1,13 +1,4 @@
 {
-  config,
-  lib,
-  ...
-}: let
-  cfg = config.fonts.fontconfig.defaultFonts;
-  monoFont = lib.head cfg.monospace;
-  uiFont = lib.head cfg.sansSerif;
-  fontSize = 14;
-in {
   agent.dock = "left";
   auto_install_extensions = {
     html = true;
@@ -18,8 +9,6 @@ in {
     rainbow-csv = true;
     toml = true;
   };
-  buffer_font_family = monoFont;
-  buffer_font_size = fontSize;
   buffer_line_height.custom = 1.5;
   edit_predictions.mode = "subtle";
   file_types.Markdown = ["qmd"];
@@ -64,6 +53,4 @@ in {
   session.trust_all_worktrees = true;
   show_edit_predictions = false;
   theme = "akhlus";
-  ui_font_family = uiFont;
-  ui_font_size = fontSize;
 }

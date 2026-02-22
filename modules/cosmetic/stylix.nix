@@ -16,39 +16,46 @@
   in {
     nixos.stylix = {
       pkgs,
-      self,
+      inputs,
       ...
     }: {
-      imports = [self.inputs.stylix.nixosModules.stylix];
+      imports = [inputs.stylix.nixosModules.stylix];
       stylix = {
         enable = true;
-        base16Scheme = config.cosmetic.themeFile;
+        base16Scheme = config.cosmetic.theme;
         image = config.cosmetic.backgroundFile;
         autoEnable = true;
         polarity = "dark";
         fonts = mkFonts pkgs;
-        cursor = {
+      };
+    };
+    homeManager = {
+      stylixLinux = {
+        inputs,
+        pkgs,
+        ...
+      }: {
+        imports = [inputs.self.modules.homeManager.stylix];
+        stylix.cursor = {
           name = "Afterglow-Recolored-Catppuccin-Macchiato";
           package = pkgs.afterglow-cursors-recolored;
           size = 24;
         };
       };
-    };
-    homeManager.stylix = {
-      pkgs,
-      self,
-      ...
-    }: {
-      imports = [self.inputs.stylix.homeModules.stylix];
       stylix = {
-        enable = true;
-        base16Scheme = config.cosmetic.themeFile;
-        image = config.cosmetic.backgroundFile;
-        autoEnable = true;
-        polarity = "dark";
-        fonts = mkFonts pkgs;
-        targets = {
-          zed.enable = false;
+        pkgs,
+        inputs,
+        ...
+      }: {
+        imports = [inputs.stylix.homeModules.stylix];
+        stylix = {
+          enable = true;
+          base16Scheme = config.cosmetic.theme;
+          image = config.cosmetic.backgroundFile;
+          autoEnable = true;
+          polarity = "dark";
+          fonts = mkFonts pkgs;
+          targets.zed.colors.enable = false;
         };
       };
     };

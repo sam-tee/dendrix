@@ -9,7 +9,6 @@ in {
         cli
         networking
         ssh
-        stylix
         system
         user
       ];
@@ -24,6 +23,7 @@ in {
       ];
       _serverMin.imports = with nMod; [
         _minimal
+        stylix
         boot
         email
         homelab
@@ -63,14 +63,13 @@ in {
       _minimal.imports = with hMod; [
         cli
         cosmetic
-        fonts
         ssh
         stylix
       ];
       _darwinMinimal.imports = with hMod; [
         cli
         cosmetic
-        fonts
+        stylix
         ghostty
         minPkgs
         ssh
@@ -80,11 +79,11 @@ in {
         cli
         cliLinux
         cosmetic
-        ghostty
         fonts
+        ghostty
         linuxMinPkgs
-        pointer
         ssh
+        stylixLinux
         xournal
         zed
       ];

@@ -10,10 +10,10 @@
       programs.btop = {
         enable = true;
         settings = {
-          color_theme = "akhlus";
+          #color_theme = "akhlus";
           theme_background = false;
         };
-        themes = import ./_themes.nix config.cosmetic.themes;
+        #themes = import ./_themes.nix config.cosmetic.themes;
       };
     };
   };

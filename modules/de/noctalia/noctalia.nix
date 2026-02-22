@@ -98,11 +98,6 @@
             name = "London, UK";
             weatherShowEffects = false;
           };
-          ui = {
-            fontDefault = "Inter";
-            fontFixed = "Lilex Nerd Font Mono";
-            panelBackgroundOpacity = 1;
-          };
           wallpaper.enabled = false;
           appLauncher = {
             enableClipboardHistory = true;

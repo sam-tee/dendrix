@@ -1,16 +1,4 @@
 {
-  options = {lib, ...}: {
-    cosmetic = {
-      themeFile = lib.mkOption {
-        type = lib.types.path;
-        default = ./themes/akhlus.toml;
-      };
-      backgroundFile = lib.mkOption {
-        type = lib.types.path;
-        default = ./cassiopeia.png;
-      };
-    };
-  };
   flake.modules.homeManager.cosmetic = {
     config,
     lib,

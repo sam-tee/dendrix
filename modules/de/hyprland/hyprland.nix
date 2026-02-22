@@ -9,7 +9,6 @@
         ];
         home-manager.sharedModules = with inputs.self.modules.homeManager; [
           hyprland
-          gtk
           noctalia
         ];
       };

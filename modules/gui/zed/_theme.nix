@@ -1,5 +1,5 @@
 {
-  userThemes,
+  userTheme,
   lib,
 }: let
   template = builtins.readFile ./template.json;
@@ -26,8 +26,4 @@
   };
   mkTheme = replacements: lib.replaceStrings (builtins.attrNames replacements) (builtins.attrValues replacements) template;
 in
-  builtins.listToAttrs (map (theme: {
-      inherit (theme) name;
-      value = mkTheme (mkReplacements theme);
-    })
-    userThemes)
+  mkTheme (mkReplacements userTheme)
