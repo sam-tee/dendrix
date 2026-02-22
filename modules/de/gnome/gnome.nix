@@ -31,11 +31,6 @@
           totem
         ];
       };
-      qt = {
-        enable = true;
-        platformTheme = "gnome";
-        style = "adwaita-dark";
-      };
       programs.nautilus-open-any-terminal = {
         enable = true;
         terminal = "ghostty";

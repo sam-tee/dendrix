@@ -22,6 +22,14 @@
           file_server /* browse
         '';
       };
+      "router.${domain}" = {
+        useACMEHost = domain;
+        extraConfig = ''
+          reverse_proxy http://192.168.1.1:80 {
+              header_up Host {upstream_hostport}
+          }
+        '';
+      };
     };
   };
 }

@@ -1,27 +1,11 @@
 {
-  flake.modules.homeManager.gnome = {
-    config,
-    lib,
-    username,
-    ...
-  }: let
-    bg = config.cosmetic.backgroundPath;
-  in {
+  flake.modules.homeManager.gnome = {lib, ...}: {
     dconf.settings = with lib.hm.gvariant; {
       "org/gnome/TextEditor" = {
         restore-session = false;
       };
 
-      "org/gnome/desktop/background" = {
-        color-shading-type = "solid";
-        picture-options = "zoom";
-        picture-uri = "file:///home/${username}/${bg}";
-        picture-uri-dark = "file:///home/${username}/${bg}";
-      };
-
       "org/gnome/desktop/interface" = {
-        accent-color = "teal";
-        color-scheme = "prefer-dark";
         enable-animations = false;
         enable-hot-corners = false;
       };
@@ -33,13 +17,6 @@
       "org/gnome/desktop/peripherals/touchpad" = {
         accel-profile = "flat";
         two-finger-scrolling-enabled = true;
-      };
-
-      "org/gnome/desktop/screensaver" = {
-        color-shading-type = "solid";
-        picture-options = "zoom";
-        picture-uri = "file:///home/${username}/${bg}";
-        picture-uri-dark = "file:///home/${username}/${bg}";
       };
 
       "org/gnome/desktop/search-providers" = {

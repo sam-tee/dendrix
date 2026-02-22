@@ -50,13 +50,7 @@
       };
     };
 
-    homeManager.plasma = {
-      config,
-      inputs,
-      lib,
-      username,
-      ...
-    }: {
+    homeManager.plasma = {inputs, ...}: {
       imports = [inputs.plasma-manager.homeModules.plasma-manager];
       programs = {
         okular = {
@@ -72,23 +66,6 @@
           configFile = {
             "kdeglobals"."KDE"."AnimationDurationFactor" = 0;
             "kwinrc"."Windows"."FocusPolicy" = "FocusFollowsMouse";
-          };
-          fonts = let
-            cfg = config.fonts.fontconfig.defaultFonts;
-            monoFont = lib.head cfg.monospace;
-            uiFont = lib.head cfg.sansSerif;
-            fontSize = 12;
-            mkFont = family: size: {
-              inherit family;
-              pointSize = size;
-            };
-          in {
-            fixedWidth = mkFont monoFont fontSize;
-            general = mkFont uiFont fontSize;
-            menu = mkFont uiFont fontSize;
-            small = mkFont uiFont 9;
-            toolbar = mkFont uiFont fontSize;
-            windowTitle = mkFont uiFont fontSize;
           };
           hotkeys.commands."launch-ghostty" = {
             name = "Launch Ghostty";
@@ -117,10 +94,6 @@
               windowOpenClose.animation = "off";
             };
             nightLight.enable = false;
-            titlebarButtons = {
-              left = ["close" "minimize" "maximize"];
-              right = [];
-            };
             virtualDesktops.number = 9;
           };
           panels = [

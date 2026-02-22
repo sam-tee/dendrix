@@ -6,7 +6,6 @@ let
       nix-direnv.enable = true;
     };
     lazygit.enable = true;
-    tmux.enable = true;
     zoxide.enable = true;
   };
   packages = pkgs:
@@ -22,6 +21,8 @@ let
       ripgrep
       speedtest-cli
       tldr
+      wget
+      zellij
     ];
 in {
   flake.modules = {
@@ -39,7 +40,12 @@ in {
     };
 
     homeManager.cli = {pkgs, ...}: {
-      programs = programs // {ripgrep.enable = true;};
+      programs =
+        {
+          ripgrep.enable = true;
+          zellij.enable = true;
+        }
+        // programs;
       home.packages = packages pkgs;
     };
 

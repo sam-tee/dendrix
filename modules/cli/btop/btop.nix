@@ -6,14 +6,10 @@
     darwin.cli = {pkgs, ...}: {
       environment.systemPackages = [pkgs.btop];
     };
-    homeManager.cli = {config, ...}: {
+    homeManager.cli = _: {
       programs.btop = {
         enable = true;
-        settings = {
-          #color_theme = "akhlus";
-          theme_background = false;
-        };
-        #themes = import ./_themes.nix config.cosmetic.themes;
+        settings.theme_background = false;
       };
     };
   };

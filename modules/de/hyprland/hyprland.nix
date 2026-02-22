@@ -66,27 +66,12 @@
     }: {
       programs.hyprshot.enable = true;
       services = {
-        hyprpaper = {
-          enable = true;
-          settings = {
-            splash = false;
-            wallpaper = [
-              {
-                monitor = "";
-                path = "~/${config.cosmetic.backgroundPath}";
-              }
-            ];
-          };
-        };
         hyprpolkitagent.enable = true;
       };
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false;
         settings = {
-          exec-once = [
-            "hyprpaper"
-          ];
           env = ["QT_QPA_PLATFORMTHEME,qt6ct"];
           monitor = config.hypr.monitors;
           general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 0);

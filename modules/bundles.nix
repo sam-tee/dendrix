@@ -62,13 +62,11 @@ in {
     homeManager = {
       _minimal.imports = with hMod; [
         cli
-        cosmetic
         ssh
         stylix
       ];
       _darwinMinimal.imports = with hMod; [
         cli
-        cosmetic
         stylix
         ghostty
         minPkgs
@@ -78,7 +76,6 @@ in {
       _linuxMinimal.imports = with hMod; [
         cli
         cliLinux
-        cosmetic
         fonts
         ghostty
         linuxMinPkgs

@@ -12,7 +12,6 @@
       user = username;
       autoMigrate = true;
     };
-
     homebrew = {
       enable = true;
       casks = [

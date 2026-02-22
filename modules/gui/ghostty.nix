@@ -3,7 +3,6 @@
     programs.ghostty = {
       enable = true;
       settings = {
-        #command = "~/.nix-profile/bin/tmux";
         font-size = 14;
         window-decoration = "auto";
         window-theme = "ghostty";
