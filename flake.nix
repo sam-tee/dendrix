@@ -53,7 +53,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/stylix";
     };
-    systems.url = "github:nix-systems/default";
   };
 
 }

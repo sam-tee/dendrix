@@ -32,9 +32,9 @@
 
     extraPkgs = {pkgs, ...}: {
       home.packages = with pkgs; [
-        gemini-cli
+        kilocode-cli
         yt-dlg
-        zotero
+        #zotero
       ];
     };
 

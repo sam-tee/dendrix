@@ -4,7 +4,8 @@ let
       python3
       ruff
       ty
-    ];
+      uv
+];
 in {
   flake.modules = {
     nixos.cli = {pkgs, ...}: {
