@@ -11,22 +11,22 @@
       "${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
-          file_server browse
           root * ${dir}/www
+          file_server
         '';
       };
       "test.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
           root * ${dir}/test
-          file_server /* browse
+          file_server
         '';
       };
       "router.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
           reverse_proxy http://192.168.1.1:80 {
-              header_up Host {upstream_hostport}
+            header_up Host {upstream_hostport}
           }
         '';
       };
