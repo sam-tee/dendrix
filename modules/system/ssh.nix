@@ -51,6 +51,7 @@ in {
           "mba" = mkHost "mba" // {port = 22;};
           "github" = mkBlock "github.com" "git" 22 "git";
           "forgejo" = mkBlock "git-ssh.akhlus.uk" "forgejo" 2222 "git";
+          "uni" = mkBlock "10.148.2.163" "sl2110" 22 "uni";
           "*" = {};
         };
         extraConfig = ''
