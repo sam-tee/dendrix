@@ -12,6 +12,7 @@
       monospace = mkFont "Lilex Nerd Font Propo" pkgs.nerd-fonts.lilex;
       sansSerif = mkFont "Inter Variable" pkgs.inter;
       serif = mkFont "Inter Variable" pkgs.inter;
+      sizes.applications = 10.5;
     };
   in {
     nixos.stylix = {
