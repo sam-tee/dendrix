@@ -34,6 +34,7 @@
       stateVersion = 6;
       primaryUser = username;
       defaults = {
+        LaunchServices.LSQuarantine = false;
         NSGlobalDomain = {
           AppleInterfaceStyle = "Dark";
           ApplePressAndHoldEnabled = false;
@@ -101,6 +102,17 @@
           ShowHardDrivesOnDesktop = false;
           ShowPathbar = true;
           ShowRemovableMediaOnDesktop = false;
+        };
+        CustomUserPreferences = {
+          "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
+          "com.apple.screencapture" = {
+            location = "~/Pictures/screenshots";
+            type = "png";
+          };
+          "com.apple.desktopservices" = {
+            DSDontWriteNetworkStores = true;
+            DSDontWriteUSBStores = true;
+          };
         };
       };
       keyboard = {
