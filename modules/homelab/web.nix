@@ -12,14 +12,14 @@
         useACMEHost = domain;
         extraConfig = ''
           root * ${dir}/www
-          file_server
+          file_server browse
         '';
       };
       "test.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
           root * ${dir}/test
-          file_server
+          file_server browse
         '';
       };
       "router.${domain}" = {
