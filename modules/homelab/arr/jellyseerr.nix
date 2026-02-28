@@ -1,12 +1,9 @@
 {
   flake.modules.nixos.arr = {config, ...}: let
-    inherit (config.homelab) domain group user;
+    inherit (config.homelab) domain;
   in {
     services = {
-      jellyseerr = {
-        enable = true;
-        inherit group user;
-      };
+      jellyseerr.enable = true;
       caddy.virtualHosts."jellyseerr.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
