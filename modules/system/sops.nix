@@ -27,7 +27,7 @@
       imports = [inputs.sops-nix.darwinModules.sops];
       sops = sopsConf inputs;
     };
-    homeManager.system = {inputs, ...}: {
+    homeManager.sops = {inputs, ...}: {
       imports = [inputs.sops-nix.homeManagerModules.sops];
       sops = sopsConf inputs;
     };

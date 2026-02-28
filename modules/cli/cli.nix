@@ -10,6 +10,7 @@ let
   };
   packages = pkgs:
     with pkgs; [
+      atuin
       bat
       direnv
       dust

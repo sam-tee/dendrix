@@ -62,6 +62,7 @@ in {
     homeManager = {
       _minimal.imports = with hMod; [
         cli
+        sops
         ssh
         stylix
       ];
@@ -70,6 +71,7 @@ in {
         stylix
         ghostty
         minPkgs
+        sops
         ssh
         zed
       ];
@@ -79,6 +81,7 @@ in {
         fonts
         ghostty
         linuxMinPkgs
+        sops
         ssh
         stylixLinux
         xournal

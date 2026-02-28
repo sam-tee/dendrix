@@ -58,6 +58,7 @@ in {
         hostname = "u410";
         username = "sam";
         nixosModules = with nMod; [
+          atuin
           calibre
           cockpit
           code-server
