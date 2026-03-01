@@ -4,20 +4,17 @@ let
 in {
   flake.modules = {
     nixos.ssh = _: {
-      services = {
-        openssh = {
-          enable = true;
-          ports = [linuxPort];
-          settings = {
-            KbdInteractiveAuthentication = false;
-            PasswordAuthentication = false;
-            PermitRootLogin = "no";
-          };
-          extraConfig = ''
-            AcceptEnv ${envVar}
-          '';
+      services.openssh = {
+        enable = true;
+        ports = [linuxPort];
+        settings = {
+          KbdInteractiveAuthentication = false;
+          PasswordAuthentication = false;
+          PermitRootLogin = "no";
         };
-        fail2ban.enable = true;
+        extraConfig = ''
+          AcceptEnv ${envVar}
+        '';
       };
     };
     darwin.ssh = _: {
