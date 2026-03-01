@@ -13,7 +13,7 @@
       "${name}.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
-          reverse_proxy http://127.0.0.1:${lib.toString port}
+          reverse_proxy http://127.0.0.1:${toString port}
         '';
       };
     };
