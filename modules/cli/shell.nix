@@ -38,6 +38,7 @@ in {
       programs = {
         zsh = {
           enable = true;
+          history.ignoreAllDups = true;
           autosuggestion.enable = true;
           oh-my-zsh.enable = true;
           shellAliases = alias;

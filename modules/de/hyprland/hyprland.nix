@@ -12,25 +12,22 @@
           noctalia
         ];
       };
-      hyprland = {pkgs, ...}: {
+      hyprland = {
+        pkgs,
+        username,
+        ...
+      }: {
         environment = {
           sessionVariables.NIXOS_OZONE_WL = "1";
-          systemPackages =
-            (with pkgs; [
-              ghostty
-              hyprpaper
-              hyprshot
-              hyprpolkitagent
-              sddm-sugar-dark
-              wl-clipboard
-            ])
-            ++ (with pkgs.kdePackages; [
-              dolphin
-              kwallet
-              kwallet-pam
-              kwalletmanager
-              sddm-kcm
-            ]);
+          systemPackages = with pkgs; [
+            ghostty
+            hyprpaper
+            hyprshot
+            hyprpolkitagent
+            sddm-sugar-dark
+            wl-clipboard
+            kdePackages.dolphin
+          ];
         };
         programs = {
           hyprland = {
@@ -40,13 +37,17 @@
           };
           hyprlock.enable = true;
         };
-        security.pam.services.login.kwallet.enable = true;
         services = {
           displayManager.sddm = {
             enable = true;
             wayland.enable = true;
-            theme = "sugar-dark";
+            theme = "sugar";
+            autoLogin = {
+              enable = true;
+              user = username;
+            };
           };
+          gnome.gnome-keyring.enable = true;
           hypridle.enable = true;
         };
         xdg.portal = {
