@@ -14,6 +14,7 @@
           enable = true;
           openFirewall = true;
           openRegistration = false;
+          maxHistoryLength = 1024 * 16;
         };
       };
     };
@@ -24,11 +25,16 @@
       };
       programs.atuin = {
         enable = true;
+        flags = ["--disable-up-arrow"];
         settings = {
+          dialect = "uk";
+          show_preview = true;
+          inline_height = 30;
+          style = "compact";
+          update_check = false;
           auto_sync = true;
           sync_frequency = "5m";
           sync_address = "https://atuin.akhlus.uk";
-          search_mode = "prefix";
           key_path = config.sops.secrets."atuin/key".path;
           session_path = config.sops.secrets."atuin/session".path;
         };
