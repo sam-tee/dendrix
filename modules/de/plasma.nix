@@ -144,8 +144,7 @@
                 name = "${prefix} ${toString i}";
                 value = valueFn i;
               }) [1 2 3 4 5 6 7 8 9]);
-            symbols = ["!" "\"" "£" "$" "%" "^" "&" "*" "("];
-            getSymbol = i: builtins.elemAt symbols (i - 1);
+            getSymbol = i: builtins.elemAt ["!" "\"" "£" "$" "%" "^" "&" "*" "("] (i - 1);
           in {
             kwin =
               (mkNumberedAttrs "Switch to Desktop" (i: "Meta+${toString i}"))

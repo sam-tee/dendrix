@@ -76,6 +76,9 @@
           monitor = config.hypr.monitors;
           general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 0);
           animations.enabled = false;
+          workspace = map (
+            i: "${toString (i + 1)}, persistent:true"
+          ) (builtins.genList (i: i) 9);
           input = {
             kb_layout = "gb";
             kb_options = "caps:escape";

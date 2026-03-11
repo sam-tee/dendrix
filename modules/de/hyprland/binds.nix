@@ -8,9 +8,11 @@
       "$browser" = "brave --new-window --ozone-platform=wayland";
       bind =
         (builtins.concatLists (builtins.genList (
-            i: [
-              "$mod, code:1${toString i}, workspace, ${toString (i + 1)}"
-              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString (i + 1)}"
+            i: let
+              ws = toString (i + 1);
+            in [
+              "$mod, ${ws}, workspace, ${ws}"
+              "$mod SHIFT, ${ws}, movetoworkspace, ${ws}"
             ]
           )
           9))

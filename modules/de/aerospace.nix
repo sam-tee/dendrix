@@ -10,6 +10,7 @@
     services.aerospace = {
       enable = true;
       settings = {
+        config-version = 2;
         accordion-padding = 30;
         after-startup-command = [];
         default-root-container-layout = "tiles";
@@ -21,6 +22,7 @@
           outer = mkGaps ["left" "right" "top" "bottom"];
         };
         key-mapping.preset = "qwerty";
+        persistent-workspaces = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
         mode.main.binding =
           {
             ctrl-h = "focus left";

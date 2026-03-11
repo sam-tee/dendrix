@@ -16,19 +16,10 @@
       };
       environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
-    homeManager.noctalia = {
-      config,
-      inputs,
-      lib,
-      ...
-    }: let
-      theme = lib.head config.cosmetic.themes;
-    in {
+    homeManager.noctalia = {inputs, ...}: {
       imports = [
         inputs.noctalia.homeModules.default
       ];
-
-      #xdg.configFile = {"noctalia/colorschemes/${theme.name}/${theme.name}.json".text = builtins.toJSON (import ./_palette.nix theme);};
 
       programs.noctalia-shell = {
         enable = true;
@@ -135,7 +126,6 @@
             largeButtonsStyle = false;
           };
           audio.visualizerType = "none";
-          #colorSchemes.predefinedScheme = theme.name;
         };
       };
     };
