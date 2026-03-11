@@ -20,7 +20,7 @@
       }: {
         imports = [inputs.self.modules.nixos.plasmaHM];
         environment.systemPackages = [pkgs.maliit-keyboard];
-        displayManager.sddm = {
+        services.displayManager.sddm = {
           extraPackages = [pkgs.maliit-keyboard];
           settings.Wayland.CompositorCommand = "${pkgs.kdePackages.kwin}/bin/kwin_wayland --no-global-shortcuts --no-kactivities --no-lockscreen --locale1 --inputmethod maliit-keyboard";
         };
