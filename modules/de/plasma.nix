@@ -18,7 +18,7 @@
         pkgs,
         ...
       }: {
-        imports = [inputs.self.modules.plasmaHM];
+        imports = [inputs.self.modules.nixos.plasmaHM];
         environment.systemPackages = [pkgs.maliit-keyboard];
         displayManager.sddm = {
           extraPackages = [pkgs.maliit-keyboard];
