@@ -32,7 +32,7 @@
 
     extraPkgs = {pkgs, ...}: {
       home.packages = with pkgs; [
-        kilocode-cli
+        #kilocode-cli
         yt-dlg
         #zotero
       ];

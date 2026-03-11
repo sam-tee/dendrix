@@ -15,7 +15,7 @@ let
         "auto-allocate-uids"
         "pipe-operators"
       ];
-      trusted-users = ["@wheel" "root"];
+      trusted-users = ["@wheel" "root" "sam"];
     };
     registry."dendrix".to = {
       type = "github";
