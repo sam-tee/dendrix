@@ -1,12 +1,18 @@
-let
+{
+  inputs,
+  lib,
+  ...
+}: let
+  flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
   nixDefault = {
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 3d";
+    };
+    registry =
+      (builtins.mapAttrs (_: flake: {inherit flake;}) flakeInputs)
+      // {nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};};
     settings = {
-      trusted-substituters = [
-        "https://nix-community.cachix.org"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
       use-xdg-base-directories = true;
       keep-going = true;
       experimental-features = [
@@ -15,14 +21,14 @@ let
         "auto-allocate-uids"
         "pipe-operators"
       ];
-      trusted-users = ["@wheel" "root" "sam"];
-    };
-    registry."dendrix".to = {
-      type = "github";
-      owner = "sam-tee";
-      repo = "dendrix";
+      trusted-users = [
+        "@admin"
+        "@wheel"
+        "sam"
+      ];
     };
   };
+  nix = nixDefault // {optimise.automatic = true;};
   devPkgs = pkgs:
     with pkgs; [
       alejandra
@@ -35,8 +41,7 @@ let
 in {
   flake.modules = {
     nixos.cli = {pkgs, ...}: {
-      inherit nixpkgs;
-      nix = nixDefault // {optimise.automatic = true;};
+      inherit nix nixpkgs;
       environment.systemPackages = devPkgs pkgs;
       programs.nix-ld = {
         enable = true;
@@ -48,14 +53,16 @@ in {
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
     };
     darwin.cli = {pkgs, ...}: {
-      inherit nixpkgs;
-      nix = nixDefault // {optimise.automatic = true;};
+      inherit nix nixpkgs;
       environment.systemPackages = devPkgs pkgs;
     };
-    homeManager.cli = {pkgs, ...}: {
-      inherit nixpkgs;
-      nix = nixDefault;
-      home.packages = devPkgs pkgs;
+    homeManager = {
+      cli = {inherit nixpkgs;};
+      nix = {pkgs, ...}: {
+        inherit nixpkgs;
+        nix = nixDefault;
+        home.packages = devPkgs pkgs;
+      };
     };
   };
 }

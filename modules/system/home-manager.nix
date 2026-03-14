@@ -44,16 +44,17 @@ in {
       };
     };
     homeManager.standalone = {
+      inputs,
       pkgs,
       username,
       ...
     }: {
+      imports = [inputs.self.modules.homeModules.nix];
       home = {
         inherit username stateVersion language;
         homeDirectory = "/home/${username}";
         keyboard.layout = "gb";
       };
-      nix.package = pkgs.nix;
       programs.home-manager.enable = true;
     };
   };
