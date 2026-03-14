@@ -4,7 +4,7 @@
       enable = true;
       icons = "auto";
       extraOptions = [
-        "-lh"
+        "-la"
         "--group-directories-first"
       ];
     };
