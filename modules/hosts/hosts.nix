@@ -57,7 +57,7 @@ in {
         hostname = "s340";
         username = "sam";
         nixosModules = with nMod; [hyprlandHM];
-        homeModules = with hMod; [linuxExtraPkgs syncthing vscode];
+        homeModules = with hMod; [linuxExtraPkgs syncthing];
       };
       u410 = mkServer {
         hostname = "u410";
