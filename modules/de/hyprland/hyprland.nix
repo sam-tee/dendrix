@@ -21,7 +21,6 @@
           sessionVariables.NIXOS_OZONE_WL = "1";
           systemPackages = with pkgs; [
             ghostty
-            hyprpaper
             hyprshot
             hyprpolkitagent
             sddm-sugar-dark
@@ -35,7 +34,6 @@
             withUWSM = true;
             xwayland.enable = true;
           };
-          hyprlock.enable = true;
         };
         services = {
           displayManager.sddm = {
@@ -48,7 +46,6 @@
             };
           };
           gnome.gnome-keyring.enable = true;
-          hypridle.enable = true;
         };
         xdg.portal = {
           enable = true;
@@ -56,7 +53,10 @@
             xdg-desktop-portal-hyprland
             xdg-desktop-portal-gtk
           ];
-          config.common.default = ["gtk"];
+          config = {
+            common.default = ["gtk"];
+            hyprland."org.freedesktop.impl.portal.FileChooser" = ["kde"];
+          };
         };
       };
     };

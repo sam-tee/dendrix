@@ -50,7 +50,6 @@ in {
     };
 
     darwin._default.imports = with dMod; [
-      aerospace
       brew
       cli
       networking

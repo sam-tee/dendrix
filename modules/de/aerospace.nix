@@ -1,5 +1,5 @@
 {
-  flake.modules.darwin.aerospace = {lib, ...}: let
+  flake.modules.homeManager.aerospace = {lib, ...}: let
     mkGaps = keys: lib.genAttrs keys (name: 0);
     mkBindings = prefix: command:
       builtins.listToAttrs (map (i: {
@@ -7,7 +7,7 @@
         value = "${command} ${toString i}";
       }) [1 2 3 4 5 6 7 8 9]);
   in {
-    services.aerospace = {
+    programs.aerospace = {
       enable = true;
       settings = {
         config-version = 2;

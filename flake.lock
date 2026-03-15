@@ -417,11 +417,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1773385838,
-        "narHash": "sha256-XEe12xo1wSLWCBDcQxAdg97W32GilGHRaf57HGWS2WU=",
-        "rev": "fef542e7a88eec2b698389e6279464fd479926b6",
+        "lastModified": 1773476965,
+        "narHash": "sha256-pUpbgKKT6FLo43tTJh3KokVpVV1nyVf4J2f58N0pGNY=",
+        "rev": "f82ce7af0b79ac154b12e27ed800aeb97413723c",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre962785.fef542e7a88e/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre963303.f82ce7af0b79/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -454,11 +454,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773498808,
-        "narHash": "sha256-YnSRPOQC+fwSE3aA2C1rt9zaI4i3S4LTYY/3fqmRM4s=",
+        "lastModified": 1773535355,
+        "narHash": "sha256-lVwPDzVVmFNiKLHL8APvJTqHC4TfIPce+Cugrql+fMM=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "793771cd770431443d71e30ceede201048435a04",
+        "rev": "2ff67234fc3660b28c91e18c623c366a6ae295d4",
         "type": "github"
       },
       "original": {
@@ -476,11 +476,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1773497298,
-        "narHash": "sha256-ZLv4gLG7PR4ASLYdlW7VNLLMVnQQW1/nSdUfJzuk6+Y=",
+        "lastModified": 1773514555,
+        "narHash": "sha256-XNmLf4HqUM6/he/eJiHT+Mvxmt7QuwgGU14jB4Ha+pM=",
         "owner": "noctalia-dev",
         "repo": "noctalia-qs",
-        "rev": "7db1b8067cdab7c4749815f023e6bd218027e644",
+        "rev": "8aa9d8ce86ef018fb442c585ad7fbb2a15a4f822",
         "type": "github"
       },
       "original": {
@@ -511,6 +511,26 @@
       "original": {
         "owner": "nix-community",
         "repo": "NUR",
+        "type": "github"
+      }
+    },
+    "paneru": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773496630,
+        "narHash": "sha256-42FGOcLlULvFHYTJ0euAevmHC326eL8piMhWryYd3FE=",
+        "owner": "karinushka",
+        "repo": "paneru",
+        "rev": "09f53949c9e517fd950dd2f76a791de1368438d4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "karinushka",
+        "repo": "paneru",
         "type": "github"
       }
     },
@@ -556,6 +576,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "noctalia": "noctalia",
         "noctalia-qs": "noctalia-qs",
+        "paneru": "paneru",
         "plasma-manager": "plasma-manager",
         "secrets": "secrets",
         "sops-nix": "sops-nix",

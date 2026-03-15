@@ -4,11 +4,12 @@
   ...
 }: let
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
+  nh = {
+    enable = true;
+    flake = "$HOME/dendrix";
+    clean.enable = true;
+  };
   nixDefault = {
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 3d";
-    };
     registry =
       (builtins.mapAttrs (_: flake: {inherit flake;}) flakeInputs)
       // {nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};};
@@ -43,12 +44,15 @@ in {
     nixos.cli = {pkgs, ...}: {
       inherit nix nixpkgs;
       environment.systemPackages = devPkgs pkgs;
-      programs.nix-ld = {
-        enable = true;
-        libraries = with pkgs; [
-          stdenv.cc.cc.lib
-          zlib
-        ];
+      programs = {
+        inherit nh;
+        nix-ld = {
+          enable = true;
+          libraries = with pkgs; [
+            stdenv.cc.cc.lib
+            zlib
+          ];
+        };
       };
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
     };
@@ -57,7 +61,10 @@ in {
       environment.systemPackages = devPkgs pkgs;
     };
     homeManager = {
-      cli = {inherit nixpkgs;};
+      cli = {
+        inherit nixpkgs;
+        programs = {inherit nh;};
+      };
       nix = {pkgs, ...}: {
         inherit nixpkgs;
         nix = nixDefault;
