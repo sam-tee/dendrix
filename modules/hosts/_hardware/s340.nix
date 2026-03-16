@@ -14,8 +14,8 @@
     initrd = {
       availableKernelModules = ["nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
       luks.devices = {
-        "root".device = "/dev/disk/by-uuid/cd146ce4-d082-4a5d-a277-4083f8f42cea";
-        "swap".device = "/dev/disk/by-uuid/0858f521-0528-4836-8a0a-3fed95ad39cc";
+        "luksRoot".device = "/dev/disk/by-uuid/7929a7d8-eb16-4eed-9e16-09d1fb3a2352";
+        "luksSwap".device = "/dev/disk/by-uuid/110f6b06-9cb5-49ce-a6db-2a19e0b86689";
       };
     };
     kernelModules = ["kvm-amd"];
@@ -23,16 +23,16 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/mapper/root";
+      device = "/dev/mapper/luksRoot";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/9B79-5238";
+      device = "/dev/disk/by-uuid/9377-4F26";
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
   };
-  swapDevices = [{device = "/dev/mapper/swap";}];
+  swapDevices = [{device = "/dev/mapper/luksSwap";}];
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

@@ -36,13 +36,15 @@
           };
         };
         services = {
-          displayManager.sddm = {
-            enable = true;
-            wayland.enable = true;
-            theme = "sugar";
+          displayManager = {
             autoLogin = {
               enable = true;
               user = username;
+            };
+            sddm = {
+              enable = true;
+              wayland.enable = true;
+              theme = "sugar-dark";
             };
           };
           gnome.gnome-keyring.enable = true;
