@@ -50,6 +50,7 @@ in {
     tunnel = "9dd0d2e2-bc4d-4f2b-9f5b-9e8f1389e123";
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  programs.ssh.startAgent = true;
   security.sudo.wheelNeedsPassword = false;
   services.btrfs.autoScrub = {
     enable = true;

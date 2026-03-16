@@ -9,27 +9,36 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  flake.modules = let
-    sopsConf = inputs: {
-      defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
-      defaultSopsFormat = "yaml";
-      age = {
-        generateKey = false;
-        keyFile = "/var/lib/sops-key.txt";
-      };
-    };
-  in {
+  flake.modules = {
     nixos.system = {inputs, ...}: {
       imports = [inputs.sops-nix.nixosModules.sops];
-      sops = sopsConf inputs;
+      sops = {
+        defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
+        age = {
+          generateKey = true;
+          keyFile = "/var/lib/sops-key.txt";
+        };
+      };
     };
     darwin.system = {inputs, ...}: {
       imports = [inputs.sops-nix.darwinModules.sops];
-      sops = sopsConf inputs;
+      sops = {
+        defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
+        age = {
+          generateKey = true;
+          keyFile = "/var/lib/sops-key.txt";
+        };
+      };
     };
     homeManager.sops = {inputs, ...}: {
       imports = [inputs.sops-nix.homeManagerModules.sops];
-      sops = sopsConf inputs;
+      sops = {
+        defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
+        age = {
+          generateKey = true;
+          keyFile = "~/.sops-key.txt";
+        };
+      };
     };
   };
 }
