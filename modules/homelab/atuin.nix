@@ -20,8 +20,8 @@
     };
     homeManager.cli = {config, ...}: {
       sops.secrets = {
-        "atuin/key" = {};
-        "atuin/session" = {};
+        "atuin-key" = {};
+        "atuin-session" = {};
       };
       programs.atuin = {
         enable = true;
@@ -35,8 +35,8 @@
           auto_sync = true;
           sync_frequency = "5m";
           sync_address = "https://atuin.akhlus.uk";
-          key_path = config.sops.secrets."atuin/key".path;
-          session_path = config.sops.secrets."atuin/session".path;
+          key_path = config.sops.secrets."atuin-key".path;
+          session_path = config.sops.secrets."atuin-session".path;
         };
       };
     };
