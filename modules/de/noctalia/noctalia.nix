@@ -18,22 +18,20 @@
     }: {
       hardware.bluetooth.enable = true;
       services = {
-        power-profiles-daemon.enable = true;
+        tuned.enable = true;
         upower.enable = true;
       };
       environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
     homeManager.noctalia = {inputs, ...}: {
-      imports = [
-        inputs.noctalia.homeModules.default
-      ];
+      imports = [inputs.noctalia.homeModules.default];
 
       programs.noctalia-shell = {
         enable = true;
         systemd.enable = true;
         settings = {
           bar = {
-            position = "top";
+            position = "left";
             density = "mini";
             showCapsule = false;
             widgets = {
