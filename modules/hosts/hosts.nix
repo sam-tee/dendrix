@@ -44,7 +44,7 @@ in {
         hostname = "duet3";
         username = "sam";
         device = "lenovo-wormdingler";
-        nixosModules = with nMod; [plasmaMobileHM];
+        nixosModules = with nMod; [];
         homeModules = with hMod; [syncthing vscode];
       };
       hp = mkNixos {
