@@ -81,7 +81,7 @@ in {
     system ? "x86_64-linux",
     nixosModules ? [],
   }:
-    inputs.nixpkgs-stable.lib.nixosSystem {
+    inputs.nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {inherit inputs username;};
       modules =
