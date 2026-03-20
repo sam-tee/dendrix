@@ -28,12 +28,13 @@
 
       programs.noctalia-shell = {
         enable = true;
-        systemd.enable = true;
         settings = {
           bar = {
+            barType = "simple";
             position = "left";
             density = "mini";
             showCapsule = false;
+            showOutline = false;
             widgets = {
               left = [
                 {
@@ -43,21 +44,26 @@
                 {
                   id = "Workspace";
                   hideUnoccupied = false;
-                  labelMode = "none";
+                  labelMode = "index";
+                  emptyColor = "none";
+                  focusedColor = "primary";
+                  occupiedColor = "secondary";
+                  pillSize = 0.6;
                 }
               ];
               center = [
                 {
                   id = "Clock";
                   formatHorizontal = "dd MMM | HH:mm";
-                  useMonospacedFont = true;
-                  usePrimaryColor = true;
+                  formatVertical = "HH mm - dd MM";
                 }
               ];
               right = [
                 {
                   id = "Tray";
-                  hidePAssive = true;
+                  hidePassive = true;
+                  chevronColor = "none";
+                  drawerEnabled = true;
                 }
                 {
                   id = "Network";
@@ -88,42 +94,14 @@
             autoStartAuth = true;
             allowPasswordWithFprintd = true;
           };
-          location = {
-            name = "London, UK";
-            weatherShowEffects = false;
-          };
-          wallpaper.enabled = false;
+          ui.scrollbarAlwaysVisible = false;
+          location.weatherShowEffects = false;
+          wallpaper.enabled = true;
           appLauncher = {
             enableClipboardHistory = true;
             terminalCommand = "ghostty -e";
             showCategories = false;
           };
-          controlCenter.cards = [
-            {
-              enabled = true;
-              id = "profile-card";
-            }
-            {
-              enabled = true;
-              id = "shortcuts-card";
-            }
-            {
-              enabled = true;
-              id = "audio-card";
-            }
-            {
-              enabled = true;
-              id = "brightness-card";
-            }
-            {
-              enabled = true;
-              id = "weather-card";
-            }
-            {
-              enabled = true;
-              id = "media-sysmon-card";
-            }
-          ];
           dock.enabled = false;
           sessionMenu = {
             enableCountdown = false;
@@ -131,6 +109,12 @@
             largeButtonsStyle = false;
           };
           audio.visualizerType = "none";
+          idle = {
+            enabled = true;
+            screenOffTimeout = 299;
+            lockTimeout = 300;
+            suspendTimeout = 600;
+          };
         };
       };
     };
