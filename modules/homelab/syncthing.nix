@@ -12,6 +12,11 @@ let
       devices = ["a3" "u410" "s340"];
       ignorePatterns = ["(?d).DS_Store"];
     };
+    calibre_config = {
+      path = "~/.config/calibre";
+      devices = ["a3" "u410" "s340"];
+      ignorePatterns = ["(?d).DS_Store"];
+    };
     Docs = {
       path = "~/Documents";
       devices = ["a3" "duet3" "mba" "s340" "u410"];
