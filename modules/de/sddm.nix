@@ -4,15 +4,8 @@
     username,
     ...
   }: {
-    environment.systemPackages = with pkgs; [
-      (
-        catppuccin-sddm.override {
-          flavor = "mocha";
-          accent = "mauve";
-        }
-      )
-      sddm-astronaut
-      sddm-chili-theme
+    environment.systemPackages = [
+      (pkgs.sddm-astronaut.override {embeddedTheme = "black_hole";})
     ];
     services.displayManager = {
       autoLogin = {
