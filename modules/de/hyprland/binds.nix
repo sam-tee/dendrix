@@ -40,7 +40,6 @@
           "$mod, return, exec, $terminal"
           "$mod, B, exec, $browser"
           "$mod, E, exec, $fileManager"
-          "$mod, ESCAPE, exec, hyprlock"
           "$mod SHIFT, ESCAPE, exit,"
           "$mod, space, exec, $noctalia launcher toggle"
           "$mod, S, exec, $noctalia controlCenter toggle"

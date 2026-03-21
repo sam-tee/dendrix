@@ -96,7 +96,10 @@
           };
           ui.scrollbarAlwaysVisible = false;
           location.weatherShowEffects = false;
-          wallpaper.enabled = true;
+          wallpaper = {
+            enabled = true;
+            skipStartupTransition = true;
+          };
           appLauncher = {
             enableClipboardHistory = true;
             terminalCommand = "ghostty -e";

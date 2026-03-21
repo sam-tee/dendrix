@@ -6,26 +6,23 @@
           hm
           hyprland
           noctalia
+          sddm
         ];
         home-manager.sharedModules = with inputs.self.modules.homeManager; [
           hyprland
           noctalia
         ];
       };
-      hyprland = {
-        pkgs,
-        username,
-        ...
-      }: {
+      hyprland = {pkgs, ...}: {
         environment = {
           sessionVariables.NIXOS_OZONE_WL = "1";
           systemPackages = with pkgs; [
             ghostty
             hyprshot
             hyprpolkitagent
-            sddm-sugar-dark
             wl-clipboard
             kdePackages.dolphin
+            sddm-astronaut
           ];
         };
         programs = {
@@ -35,29 +32,17 @@
             xwayland.enable = true;
           };
         };
-        services = {
-          displayManager = {
-            autoLogin = {
-              enable = true;
-              user = username;
-            };
-            sddm = {
-              enable = true;
-              wayland.enable = true;
-              theme = "sugar-dark";
-            };
-          };
-          gnome.gnome-keyring.enable = true;
-        };
+        services.gnome.gnome-keyring.enable = true;
         xdg.portal = {
           enable = true;
           extraPortals = with pkgs; [
             xdg-desktop-portal-hyprland
             xdg-desktop-portal-gtk
           ];
-          config = {
-            common.default = ["gtk"];
-            hyprland."org.freedesktop.impl.portal.FileChooser" = ["kde"];
+          config.common = {
+            default = ["gtk"];
+            "org.freedesktop.impl.portal.ScreenCast" = ["hyprland"];
+            "org.freedesktop.impl.portal.Screenshot" = ["hyprland"];
           };
         };
       };
@@ -68,9 +53,7 @@
       ...
     }: {
       programs.hyprshot.enable = true;
-      services = {
-        hyprpolkitagent.enable = true;
-      };
+      services.hyprpolkitagent.enable = true;
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false;
