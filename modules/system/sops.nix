@@ -36,7 +36,7 @@
         defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
         age = {
           generateKey = true;
-          keyFile = "~/.sops-key.txt";
+          keyFile = ".sops-key.txt";
         };
       };
     };

@@ -18,6 +18,7 @@
         "luksSwap".device = "/dev/disk/by-uuid/110f6b06-9cb5-49ce-a6db-2a19e0b86689";
       };
     };
+    binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
     kernelModules = ["kvm-amd"];
   };
 
