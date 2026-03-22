@@ -42,13 +42,14 @@ in {
           };
           mkHost = hostname: mkBlock hostname "sam" 2222 hostname;
         in {
-          "u410" = mkHost "u410";
-          "a3" = mkHost "a3";
-          "duet3" = mkHost "duet3";
-          "mba" = mkHost "mba" // {port = 22;};
-          "github" = mkBlock "github.com" "git" 22 "git";
-          "forgejo" = mkBlock "git-ssh.akhlus.uk" "forgejo" 2222 "git";
-          "uni" = mkBlock "10.148.2.163" "sl2110" 22 "uni";
+          u410 = mkHost "u410";
+          a3 = mkHost "a3";
+          duet3 = mkHost "duet3";
+          s340 = mkHost "s340";
+          mba = mkHost "mba" // {port = 22;};
+          github = mkBlock "github.com" "git" 22 "git";
+          forgejo = mkBlock "git-ssh.akhlus.uk" "forgejo" 2222 "git";
+          uni = mkBlock "10.148.2.163" "sl2110" 22 "uni";
           "*" = {};
         };
         extraConfig = ''

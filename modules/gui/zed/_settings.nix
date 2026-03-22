@@ -1,6 +1,7 @@
 {
   agent.dock = "left";
   auto_install_extensions = {
+    color-highlight = true;
     html = true;
     latex = true;
     log = true;

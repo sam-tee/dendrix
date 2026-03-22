@@ -37,16 +37,12 @@
             ctrl-shift-l = "move right";
             ctrl-comma = "layout accordion horizontal vertical";
             ctrl-slash = "layout tiles horizontal vertical";
+            ctrl-cmd-shift-enter = "exec-and-forget open -a Ghostty";
+            ctrl-cmd-shift-e = "exec-and-forget open -a Finder";
           }
           // (mkBindings "ctrl" "workspace")
           // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
         on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
-        on-window-detected = [
-          {
-            "if".app-id = "com.mitchellh.ghostty";
-            run = "layout tiling";
-          }
-        ];
         start-at-login = false;
       };
     };
