@@ -6,11 +6,10 @@
       "$terminal" = "ghostty";
       "$fileManager" = "dolphin --new-window";
       "$browser" = "brave --new-window --ozone-platform=wayland";
-      gestures = {
-        workspace_swipe = true;
-        workspace_swipe_fingers = 3;
-        workspace_swipe_cancel_ratio = 0.15;
-      };
+      gesture = [
+        "3, horizontal, workspace"
+        "3, vertical, dispatcher, exec, $noctalia launcher toggle"
+      ];
       bind =
         (builtins.concatLists (builtins.genList (
             i: let

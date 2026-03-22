@@ -45,7 +45,7 @@ in {
         username = "sam";
         device = "lenovo-wormdingler";
         nixosModules = with nMod; [hyprland];
-        homeModules = with hMod; [syncthing];
+        homeModules = with hMod; [syncthing hyprTouch];
       };
       hp = mkNixos {
         hostname = "hp";
