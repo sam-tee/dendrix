@@ -44,19 +44,19 @@ in {
         hostname = "duet3";
         username = "sam";
         device = "lenovo-wormdingler";
-        nixosModules = with nMod; [];
-        homeModules = with hMod; [syncthing vscode];
+        nixosModules = with nMod; [hyprland];
+        homeModules = with hMod; [syncthing];
       };
       hp = mkNixos {
         hostname = "hp";
         username = "sam";
-        nixosModules = with nMod; [hyprlandHM];
+        nixosModules = with nMod; [hyprland];
         homeModules = with hMod; [linuxExtraPkgs syncthing];
       };
       s340 = mkNixos {
         hostname = "s340";
         username = "sam";
-        nixosModules = with nMod; [hyprlandHM];
+        nixosModules = with nMod; [hyprland];
         homeModules = with hMod; [linuxExtraPkgs syncthing];
       };
       u410 = mkServer {

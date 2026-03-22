@@ -3,12 +3,16 @@
   lib,
   modulesPath,
   pkgs,
+  username,
   ...
 }: {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
   services.usbmuxd.enable = true;
   environment.systemPackages = with pkgs; [calibre];
+  home-manager.users.${username} = {
+    hypr.monitors = ["eDP-1,1920x1080@60,auto,1"];
+  };
 
   boot = {
     initrd = {

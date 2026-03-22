@@ -14,7 +14,10 @@
         noctalia
       ];
       environment = {
-        sessionVariables.NIXOS_OZONE_WL = "1";
+        sessionVariables = {
+          NIXOS_OZONE_WL = "1";
+          HYPRSHOT_DIR = "$HOME/Pictures/Screenshots";
+        };
         systemPackages = with pkgs; [
           ghostty
           wl-clipboard
