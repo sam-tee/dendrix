@@ -13,9 +13,9 @@
       wvkbd
       toggleKeyboard
     ];
-    wayland.windowManager.hyprland.settings = {
-      plugins = [pkgs.hyprlandPlugins.hyprgrass];
-      plugin.touch_gestures = {
+    wayland.windowManager.hyprland = {
+      plugins = [(pkgs.callPackage ./_hyprgrass.nix {})];
+      settings.plugin.touch_gestures = {
         sensitivity = 1.0;
         workspace_swipe_fingers = 3;
         workspace_swipe_edge = "";
