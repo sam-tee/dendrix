@@ -4,9 +4,9 @@
     services.terraria = {
       enable = true;
       openFirewall = true;
-      dataDir = "/var/lib/media/terraria";
+      dataDir = "${config.homelab.dataDir}/terraria";
       password = config.sops.secrets."terraria/serverPwd".path;
-      worldPath = "/var/lib/media/terraria/u410_Test.wld";
+      worldPath = "${config.homelab.dataDir}/terraria/u410_Test.wld";
     };
   };
 }

@@ -6,6 +6,7 @@
   ...
 }: let
   LIBVA_DRIVER_NAME = "i965";
+  driveMount = "/var/lib/drive";
 in {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
   boot = {
@@ -15,6 +16,7 @@ in {
   environment = {
     sessionVariables = {inherit LIBVA_DRIVER_NAME;};
     systemPackages = with pkgs; [
+      (ffmpeg-full.override {withUnfree = true;})
       spotdl
       yt-dlp
     ];
@@ -29,7 +31,7 @@ in {
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
-    "/var/lib/media" = {
+    ${driveMount} = {
       device = "/dev/disk/by-uuid/6608ac85-7a69-4bb0-8169-64dfbf4f7830";
       fsType = "btrfs";
       options = ["subvol=media" "compress=zstd"];
@@ -48,6 +50,7 @@ in {
   homelab = {
     domain = "akhlus.uk";
     tunnel = "9dd0d2e2-bc4d-4f2b-9f5b-9e8f1389e123";
+    dataDir = driveMount;
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   programs.ssh.startAgent = true;

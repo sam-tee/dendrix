@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.jellyfin = {config, ...}: let
-    inherit (config.homelab) domain group user;
+    inherit (config.homelab) domain group user dataDir;
   in {
     services = {
       caddy.virtualHosts."media.${domain}" = {
@@ -13,8 +13,8 @@
         enable = true;
         openFirewall = true;
         inherit group user;
-        dataDir = "/var/lib/media/jellyfin";
-        cacheDir = "/var/lib/media/jellyfin/cache";
+        dataDir = "${dataDir}/jellyfin";
+        cacheDir = "${dataDir}/jellyfin/cache";
       };
     };
   };

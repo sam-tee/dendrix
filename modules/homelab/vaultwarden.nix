@@ -1,12 +1,13 @@
 {
   flake.modules.nixos.vaultwarden = {config, ...}: let
-    inherit (config.homelab.email) from host user;
+    inherit (config.homelab) email dataDir;
+    inherit (email) from host user;
   in {
     homelab.ingress.vault = "8222";
     sops.secrets."vaultwarden.env".owner = "vaultwarden";
     services.vaultwarden = {
       enable = true;
-      backupDir = "/var/lib/media/vaultwarden/backup";
+      backupDir = "${dataDir}/vaultwarden/backup";
       environmentFile = config.sops.secrets."vaultwarden.env".path;
       config = {
         DOMAIN = "https://vault.akhlus.uk";

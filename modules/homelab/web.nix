@@ -1,24 +1,23 @@
 {
   flake.modules.nixos.homelab = {config, ...}: let
-    inherit (config.homelab) domain group user;
-    dir = config.users.users.${user}.home;
+    inherit (config.homelab) domain group user dataDir;
   in {
     systemd.tmpfiles.rules = [
-      "d ${dir}/www 0755 ${user} ${group} -"
-      "d ${dir}/test 0755 ${user} ${group} -"
+      "d ${dataDir}/www 0755 ${user} ${group} -"
+      "d ${dataDir}/test 0755 ${user} ${group} -"
     ];
     services.caddy.virtualHosts = {
       "${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
-          root * ${dir}/www
+          root * ${dataDir}/www
           file_server browse
         '';
       };
       "test.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
-          root * ${dir}/test
+          root * ${dataDir}/test
           file_server browse
         '';
       };

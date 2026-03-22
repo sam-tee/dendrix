@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.navidrome = {config, ...}: let
-    inherit (config.homelab) domain group user;
+    inherit (config.homelab) domain group user dataDir;
   in {
     homelab.ingress.music = "4533";
     services = {
@@ -15,8 +15,8 @@
         openFirewall = true;
         inherit group user;
         settings = {
-          MusicFolder = "/var/lib/media/music";
-          DataFolder = "/var/lib/media/navidrome";
+          MusicFolder = "${dataDir}/media/music";
+          DataFolder = "${dataDir}/navidrome";
         };
       };
     };

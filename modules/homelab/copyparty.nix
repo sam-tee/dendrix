@@ -7,7 +7,7 @@
     ...
   }: let
     cpp = inputs.copyparty;
-    inherit (config.homelab) domain group user;
+    inherit (config.homelab) domain group user dataDir;
   in {
     sops.secrets = {
       "copy/samPwd".owner = user;
@@ -40,7 +40,7 @@
           users = ["sam" "media"];
         };
         volumes."/" = {
-          path = "/var/lib/media";
+          path = "${dataDir}";
           access = {
             rwmd = ["sam" "media"];
             a = ["media"];

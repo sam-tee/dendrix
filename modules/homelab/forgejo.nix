@@ -16,7 +16,7 @@
     };
     services.forgejo = {
       enable = true;
-      stateDir = "/var/lib/media/git";
+      stateDir = "${hl.dataDir}/git";
       lfs.enable = true;
       database = {
         type = "postgres";

@@ -26,7 +26,7 @@ let
 in {
   flake.modules = {
     nixos.syncthing = {config, ...}: let
-      inherit (config.homelab) domain group user;
+      inherit (config.homelab) domain group user dataDir;
     in {
       sops.secrets."syncPwd".owner = user;
       services = {
@@ -38,9 +38,8 @@ in {
         };
         syncthing = {
           enable = true;
-          inherit user group;
-          configDir = "/var/lib/media/syncthing";
-          dataDir = "/var/lib/media";
+          inherit user group dataDir;
+          configDir = "${dataDir}/syncthing";
           guiAddress = "0.0.0.0:8384";
           openDefaultPorts = true;
           guiPasswordFile = config.sops.secrets."syncPwd".path;

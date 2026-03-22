@@ -3,10 +3,12 @@
     config,
     pkgs,
     ...
-  }: {
+  }: let
+    inherit (config.homelab) domain dataDir;
+  in {
     sops.secrets."nextcloud/adminPwd" = {};
     services = {
-      caddy.virtualHosts."cloud.${config.homelab.domain}" = {
+      caddy.virtualHosts."cloud.${domain}" = {
         useACMEHost = config.homelab.domain;
         extraConfig = ''
           reverse_proxy http://127.0.0.1:8009
@@ -14,10 +16,10 @@
       };
       nextcloud = {
         enable = true;
-        home = "/var/lib/media/docs";
+        home = "${dataDir}/docs";
         hostName = "u410";
         database.createLocally = true;
-        package = pkgs.nextcloud32;
+        package = pkgs.nextcloud33;
         configureRedis = true;
         maxUploadSize = "16G";
         https = true;

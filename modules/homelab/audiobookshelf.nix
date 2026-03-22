@@ -7,7 +7,7 @@
         enable = true;
         openFirewall = true;
         inherit group user;
-        dataDir = "media/audiobooks";
+        dataDir = "drive/media/audiobooks";
       };
       caddy.virtualHosts."audio.${domain}" = {
         useACMEHost = domain;

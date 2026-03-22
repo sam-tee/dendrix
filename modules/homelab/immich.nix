@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.immich = {config, ...}: let
-    inherit (config.homelab) domain group user;
+    inherit (config.homelab) domain group user dataDir;
   in {
     homelab.ingress.photos = "2283";
     users.users.${user}.extraGroups = ["video" "render"];
@@ -17,7 +17,7 @@
         accelerationDevices = null;
         host = "0.0.0.0";
         inherit group;
-        mediaLocation = "/var/lib/media/immich";
+        mediaLocation = "${dataDir}/immich";
       };
     };
   };
