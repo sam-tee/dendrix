@@ -99,6 +99,7 @@
           wallpaper = {
             enabled = true;
             skipStartupTransition = true;
+            fillMode = "stretch";
           };
           appLauncher = {
             enableClipboardHistory = true;

@@ -44,7 +44,6 @@ in {
     homeManager.cli = {pkgs, ...}: {
       programs =
         {
-          eza.enable = true;
           ripgrep.enable = true;
           zellij.enable = true;
         }

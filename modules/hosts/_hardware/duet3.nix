@@ -16,10 +16,15 @@
       {
         name = "hid-over-i2c-0603:604a";
         output = "DSI-1";
-        trnsform = 1;
+        transform = 1;
       }
       {
         name = "hid-over-i2c-0603:604a-stylus";
+        output = "DSI-1";
+        transform = 1;
+      }
+      {
+        name = "google-inc.-hammer-1";
         output = "DSI-1";
         transform = 1;
       }

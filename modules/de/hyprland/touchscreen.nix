@@ -21,7 +21,7 @@
         workspace_swipe_edge = "";
         resize_on_border_long_press = true;
         hyprgrass-bind = [
-          ", edge:b:u, exec, ${toggleKeyboard}/bin/toggle-keyboard"
+          ", swipe:3:u, exec, pkill -SIGUSR1 wvkbd || wvkbd-mobintl"
           ", tap:3, exec, $noctalia launcher toggle"
           ", swipe:4:d, killactive"
         ];
