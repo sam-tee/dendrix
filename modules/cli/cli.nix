@@ -12,6 +12,7 @@ let
     with pkgs; [
       atuin
       bat
+      btop
       direnv
       dust
       eza
@@ -43,6 +44,7 @@ in {
     homeManager.cli = {pkgs, ...}: {
       programs =
         {
+          eza.enable = true;
           ripgrep.enable = true;
           zellij.enable = true;
         }
