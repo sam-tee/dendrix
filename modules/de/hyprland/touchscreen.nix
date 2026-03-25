@@ -16,7 +16,7 @@
     wayland.windowManager.hyprland = {
       plugins = [(pkgs.callPackage ./_hyprgrass.nix {})];
       settings.plugin.touch_gestures = {
-        sensitivity = 1.0;
+        sensitivity = 3.0;
         workspace_swipe_fingers = 3;
         workspace_swipe_edge = "";
         resize_on_border_long_press = true;

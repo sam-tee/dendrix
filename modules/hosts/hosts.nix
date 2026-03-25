@@ -51,7 +51,7 @@ in {
         hostname = "hp";
         username = "sam";
         nixosModules = with nMod; [hyprland];
-        homeModules = with hMod; [linuxExtraPkgs syncthing];
+        homeModules = with hMod; [hyprTouch linuxExtraPkgs syncthing];
       };
       s340 = mkNixos {
         hostname = "s340";
