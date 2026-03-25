@@ -15,7 +15,6 @@ in {
         inherit backupFileExtension;
         extraSpecialArgs = {inherit inputs username;};
         users.${username} = {
-          programs.ghostty.package = null;
           programs.home-manager.enable = true;
           home = {
             inherit username stateVersion language;
@@ -45,11 +44,10 @@ in {
     };
     homeManager.standalone = {
       inputs,
-      pkgs,
       username,
       ...
     }: {
-      imports = [inputs.self.modules.homeModules.nix];
+      imports = [inputs.self.modules.homeManager.nix];
       home = {
         inherit username stateVersion language;
         homeDirectory = "/home/${username}";

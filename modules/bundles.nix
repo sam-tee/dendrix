@@ -65,15 +65,18 @@ in {
         ssh
         stylix
       ];
-      _darwinMinimal.imports = with hMod; [
-        cli
-        stylix
-        ghostty
-        minPkgs
-        sops
-        ssh
-        zed
-      ];
+      _darwinMinimal = {
+        programs.ghostty.package = null;
+        imports = with hMod; [
+          cli
+          stylix
+          ghostty
+          minPkgs
+          sops
+          ssh
+          zed
+        ];
+      };
       _linuxMinimal.imports = with hMod; [
         cli
         cliLinux
