@@ -28,16 +28,13 @@
       config,
       inputs,
       ...
-    }: let
-      homeDir = config.home.homeDirectory;
-    in {
+    }: {
       imports = [inputs.sops-nix.homeManagerModules.sops];
       sops = {
-        secrets.syncPwd = {};
         defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
         age = {
           generateKey = true;
-          keyFile = "${homeDir}/.sops-key.txt";
+          keyFile = "${config.home.homeDirectory}/.sops-key.txt";
         };
       };
     };
