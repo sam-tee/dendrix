@@ -22,21 +22,22 @@
     };
     darwin.system = {inputs, ...}: {
       imports = [inputs.sops-nix.darwinModules.sops];
-      sops = {
-        defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
-        age = {
-          generateKey = true;
-          keyFile = "/var/lib/sops-key.txt";
-        };
-      };
+      sops.defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
     };
-    homeManager.sops = {inputs, ...}: {
+    homeManager.sops = {
+      config,
+      inputs,
+      ...
+    }: let
+      homeDir = config.home.homeDirectory;
+    in {
       imports = [inputs.sops-nix.homeManagerModules.sops];
       sops = {
+        secrets.syncPwd = {};
         defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
         age = {
           generateKey = true;
-          keyFile = ".sops-key.txt";
+          keyFile = "${homeDir}/.sops-key.txt";
         };
       };
     };
