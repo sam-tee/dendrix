@@ -9,6 +9,7 @@
   in {
     programs.aerospace = {
       enable = true;
+      launchd.enable = true;
       settings = {
         config-version = 2;
         accordion-padding = 30;
