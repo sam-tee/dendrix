@@ -24,15 +24,10 @@
       };
     };
   };
-  flake.modules.darwin.system = {
-    pkgs,
-    username,
-    ...
-  }: {
+  flake.modules.darwin.system = {pkgs, ...}: {
     security.pam.services.sudo_local.touchIdAuth = true;
     system = {
       stateVersion = 6;
-      primaryUser = username;
       defaults = {
         LaunchServices.LSQuarantine = false;
         NSGlobalDomain = {

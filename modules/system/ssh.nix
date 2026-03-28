@@ -1,4 +1,4 @@
-let
+{self, ...}: let
   linuxPort = 2222;
   envVar = "LANG LC_* TERM EDITOR";
 in {
@@ -31,6 +31,12 @@ in {
       };
     };
     homeManager.ssh = _: {
+      home.file =
+        builtins.mapAttrs (name: value: {
+          target = ".ssh/pubKeys/${name}.pub";
+          text = "${value.pubKey}\n";
+        })
+        self.hosts;
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;

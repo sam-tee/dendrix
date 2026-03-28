@@ -1,10 +1,8 @@
-{
+{inputs, ...}: {
   flake-file.inputs.nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-  flake.modules.darwin.brew = {
-    inputs,
-    username,
-    ...
-  }: {
+  flake.modules.darwin.brew = {config, ...}: let
+    inherit (config) username;
+  in {
     imports = [inputs.nix-homebrew.darwinModules.default];
     nix-homebrew = {
       enable = true;

@@ -1,15 +1,11 @@
-{
+{self, ...}: {
   flake.modules = {
-    nixos.wm = {
-      inputs,
-      pkgs,
-      ...
-    }: {
-      imports = with inputs.self.modules.nixos; [
+    nixos.wm = {pkgs, ...}: {
+      imports = with self.modules.nixos; [
         hm
         noctalia
       ];
-      home-manager.sharedModules = with inputs.self.modules.homeManager; [
+      home-manager.sharedModules = with self.modules.homeManager; [
         wm
         noctalia
       ];

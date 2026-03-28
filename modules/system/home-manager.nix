@@ -1,19 +1,23 @@
-let
+{
+  inputs,
+  self,
+  ...
+}: let
   stateVersion = "24.11";
   language.base = "en_GB.UTF-8";
   backupFileExtension = "bak";
 in {
   flake.modules = {
     darwin.hm = {
-      inputs,
       lib,
-      username,
+      config,
       ...
-    }: {
+    }: let
+      inherit (config) username;
+    in {
       imports = [inputs.home-manager.darwinModules.home-manager];
       home-manager = {
         inherit backupFileExtension;
-        extraSpecialArgs = {inherit inputs username;};
         users.${username} = {
           programs.home-manager.enable = true;
           home = {
@@ -24,15 +28,12 @@ in {
         };
       };
     };
-    nixos.hm = {
-      inputs,
-      username,
-      ...
-    }: {
+    nixos.hm = {config, ...}: let
+      inherit (config) username;
+    in {
       imports = [inputs.home-manager.nixosModules.home-manager];
       home-manager = {
         inherit backupFileExtension;
-        extraSpecialArgs = {inherit inputs username;};
         users.${username} = {
           home = {
             inherit username stateVersion language;
@@ -42,12 +43,10 @@ in {
         };
       };
     };
-    homeManager.standalone = {
-      inputs,
-      username,
-      ...
-    }: {
-      imports = [inputs.self.modules.homeManager.nix];
+    homeManager.standalone = {config, ...}: let
+      inherit (config) username;
+    in {
+      imports = [self.modules.homeManager.nix];
       home = {
         inherit username stateVersion language;
         homeDirectory = "/home/${username}";

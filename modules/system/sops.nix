@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   flake-file.inputs = {
     secrets = {
       url = "git+ssh://git@github.com/sam-tee/nix-secrets.git";
@@ -10,7 +10,7 @@
     };
   };
   flake.modules = {
-    nixos.system = {inputs, ...}: {
+    nixos.system = _: {
       imports = [inputs.sops-nix.nixosModules.sops];
       sops = {
         defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
@@ -20,15 +20,11 @@
         };
       };
     };
-    darwin.system = {inputs, ...}: {
+    darwin.system = _: {
       imports = [inputs.sops-nix.darwinModules.sops];
       sops.defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
     };
-    homeManager.sops = {
-      config,
-      inputs,
-      ...
-    }: {
+    homeManager.sops = {config, ...}: {
       imports = [inputs.sops-nix.homeManagerModules.sops];
       sops = {
         defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";

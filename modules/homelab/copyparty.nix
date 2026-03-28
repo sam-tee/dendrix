@@ -1,8 +1,7 @@
-{
+{inputs, ...}: {
   flake-file.inputs.copyparty.url = "github:9001/copyparty";
   flake.modules.nixos.copyparty = {
     config,
-    inputs,
     pkgs,
     ...
   }: let

@@ -1,6 +1,6 @@
-{
+{inputs, ...}: {
   flake.modules = {
-    nixos.niri = {inputs, ...}: {
+    nixos.niri = _: {
       imports = with inputs.self.modules.nixos; [
         sddm
         wm

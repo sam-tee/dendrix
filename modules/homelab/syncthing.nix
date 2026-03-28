@@ -1,12 +1,9 @@
-let
-  devices = {
-    a3.id = "GITF6T5-Q23HCQ6-SBMP3ZC-J77WSL4-BBNHO2U-6C2L2XA-GVJ2FWQ-RERKCQH";
-    duet3.id = "LVSIHL6-LFUENR2-KX22SIV-TMVCDWF-3RSQAZJ-ACD5DHB-ATHYI2E-GW63LAQ";
-    hp.id = "DK3XF6A-JKNRNEY-XRRAKHZ-76S4OTX-F25HKP7-YWAA253-SPKMWHL-DNBOJAK";
-    mba.id = "OBTLFOZ-UTYW6JE-3MDA6YU-YXOZPEI-62JF23C-EAII64O-TSBIVZG-TBARUQX";
-    s340.id = "7Z2QWJX-7FGBQRR-NTSJKT4-NYXLPX2-PYFARFH-WRAB5NS-DXQU64N-P3FBEAF";
-    u410.id = "UTMRHSO-5UGRFRV-6WMVUQR-N4B47H6-3AYB7NI-3YGFPEI-E3U42S3-VLCKWAN";
-  };
+{self, ...}: let
+  devices =
+    builtins.mapAttrs (name: value: {
+      id = value.syncID;
+    })
+    self.hosts;
   folders = {
     books = {
       path = "~/books";

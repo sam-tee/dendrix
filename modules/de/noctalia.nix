@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   flake-file.inputs = {
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -11,11 +11,7 @@
     };
   };
   flake.modules = {
-    nixos.noctalia = {
-      inputs,
-      pkgs,
-      ...
-    }: {
+    nixos.noctalia = {pkgs, ...}: {
       hardware.bluetooth.enable = true;
       services = {
         tuned.enable = true;
@@ -23,7 +19,7 @@
       };
       environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
-    homeManager.noctalia = {inputs, ...}: {
+    homeManager.noctalia = _: {
       imports = [inputs.noctalia.homeModules.default];
 
       programs.noctalia-shell = {

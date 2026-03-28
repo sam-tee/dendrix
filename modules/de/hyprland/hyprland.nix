@@ -1,11 +1,11 @@
-{
+{self, ...}: {
   flake.modules = {
-    nixos.hyprland = {inputs, ...}: {
-      imports = with inputs.self.modules.nixos; [
+    nixos.hyprland = _: {
+      imports = with self.modules.nixos; [
         sddm
         wm
       ];
-      home-manager.sharedModules = with inputs.self.modules.homeManager; [
+      home-manager.sharedModules = with self.modules.homeManager; [
         hyprland
       ];
       programs = {
@@ -16,18 +16,13 @@
         };
       };
     };
-    homeManager.hyprland = {
-      config,
-      lib,
-      ...
-    }: {
+    homeManager.hyprland = {lib, ...}: {
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false;
         settings = {
           cursor = [{no_hardware_cursors = true;}];
           env = ["QT_QPA_PLATFORMTHEME,qt6ct"];
-          monitor = config.hypr.monitors;
           general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 1);
           animations.enabled = false;
           exec-once = ["noctalia-shell" "bitwarden"];

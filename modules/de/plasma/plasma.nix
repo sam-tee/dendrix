@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.modules.nixos = {
     plasma = {pkgs, ...}: {
       environment = {
@@ -17,13 +17,13 @@
       };
       services.desktopManager.plasma6.enable = true;
     };
-    plasmaHM = {inputs, ...}: {
-      imports = with inputs.self.modules.nixos; [
+    plasmaHM = _: {
+      imports = with self.modules.nixos; [
         hm
         plasma
         sddm
       ];
-      home-manager.sharedModules = [inputs.self.modules.homeManager.plasma];
+      home-manager.sharedModules = [self.modules.homeManager.plasma];
     };
   };
 }

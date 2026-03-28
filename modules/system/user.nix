@@ -1,10 +1,15 @@
 {
   flake.modules = {
+    generic.userOption = {lib, ...}: {
+      options.username = lib.mkOption {type = lib.types.str;};
+    };
     nixos.user = {
       pkgs,
-      username,
+      config,
       ...
-    }: {
+    }: let
+      inherit (config) username;
+    in {
       users = {
         users.${username} = {
           description = username;
@@ -15,7 +20,7 @@
           extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
           isNormalUser = true;
         };
-        groups.media.gid = 991;
+        groups.media.gid = 951;
       };
     };
     nixos.homelab = {config, ...}: let
@@ -28,14 +33,16 @@
           uid = 992;
           home = dataDir;
         };
-        groups.${group}.gid = 991;
+        groups.${group}.gid = 951;
       };
     };
     darwin.user = {
       pkgs,
-      username,
+      config,
       ...
-    }: {
+    }: let
+      inherit (config) username;
+    in {
       users.users.${username} = {
         description = username;
         name = username;

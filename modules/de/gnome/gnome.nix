@@ -1,11 +1,11 @@
-{
+{self, ...}: {
   flake.modules.nixos = {
-    gnomeHM = {inputs, ...}: {
-      imports = with inputs.self.modules.nixos; [
+    gnomeHM = _: {
+      imports = with self.modules.nixos; [
         hm
         gnome
       ];
-      home-manager.sharedModules = [inputs.self.modules.homeManager.gnome];
+      home-manager.sharedModules = [self.modules.homeManager.gnome];
     };
     gnome = {pkgs, ...}: {
       environment = {

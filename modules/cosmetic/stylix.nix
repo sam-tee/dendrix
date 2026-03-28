@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   flake-file.inputs.stylix = {
     url = "github:nix-community/stylix";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -15,11 +19,7 @@
       sizes.applications = 10.5;
     };
   in {
-    nixos.stylix = {
-      pkgs,
-      inputs,
-      ...
-    }: {
+    nixos.stylix = {pkgs, ...}: {
       imports = [inputs.stylix.nixosModules.stylix];
       stylix = {
         enable = true;
@@ -31,11 +31,7 @@
       };
     };
     homeManager = {
-      stylixLinux = {
-        inputs,
-        pkgs,
-        ...
-      }: {
+      stylixLinux = {pkgs, ...}: {
         imports = [inputs.self.modules.homeManager.stylix];
         stylix.cursor = {
           name = "Afterglow-Recolored-Catppuccin-Macchiato";
@@ -43,11 +39,7 @@
           size = 24;
         };
       };
-      stylix = {
-        pkgs,
-        inputs,
-        ...
-      }: {
+      stylix = {pkgs, ...}: {
         imports = [inputs.stylix.homeModules.stylix];
         stylix = {
           enable = true;
