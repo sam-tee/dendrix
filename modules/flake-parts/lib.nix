@@ -56,6 +56,23 @@
       };
     };
 
+    mkMobile = name: let
+      inherit (inputs.self.hosts.${name}) username system pubKey;
+    in {
+      ${name} = inputs.nixpkgs.lib.nixosSystem {
+        modules = [
+          inputs.self.modules.generic.hostOption
+          inputs.self.modules.nixos."${name}Config"
+          (import "${inputs.mobile-nixos}/lib/configuration.nix" {device = system;})
+          {
+            host = {inherit name username;};
+            networking.hostName = name;
+            users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
+          }
+        ];
+      };
+    };
+
     mkDarwin = name: let
       inherit (inputs.self.hosts.${name}) username system pubKey;
     in {

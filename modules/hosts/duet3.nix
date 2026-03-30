@@ -4,16 +4,15 @@ in {
   flake = {
     hosts.${hostname} = {
       username = "sam";
-      system = "x86_64-linux";
+      system = "lenovo-wormdingler";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6mOpHficE7rnvg6pNw6SwSU39O2riglK511CGh5p+V";
       syncID = "LVSIHL6-LFUENR2-KX22SIV-TMVCDWF-3RSQAZJ-ACD5DHB-ATHYI2E-GW63LAQ";
     };
 
-    nixosConfigurations = self.lib.mkNixos hostname;
+    nixosConfigurations = self.lib.mkMobile hostname;
 
     modules.nixos.duet3Config = {pkgs, ...}: {
       imports = with self.modules.nixos; [
-        (import "${inputs.mobile-nixos}/lib/configuration.nix" {device = "lenovo-wormdingler";})
         _mobile
         hm
         hyprland
