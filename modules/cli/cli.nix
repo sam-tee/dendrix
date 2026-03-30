@@ -1,4 +1,4 @@
-let
+{self, ...}: let
   programs = {
     bat.enable = true;
     direnv = {
@@ -29,6 +29,7 @@ let
 in {
   flake.modules = {
     nixos.cli = {pkgs, ...}: {
+      imports = [self.modules.generic.cli];
       inherit programs;
       environment.systemPackages = with pkgs;
         [
@@ -42,6 +43,7 @@ in {
     };
 
     homeManager.cli = {pkgs, ...}: {
+      imports = [self.modules.generic.cli];
       programs =
         {
           ripgrep.enable = true;
