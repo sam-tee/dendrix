@@ -32,7 +32,7 @@
       };
     };
     systemd.services.samba-smbd.postStart = let
-      users = [config.username];
+      users = [config.host.username];
       setupUser = user: let
         passwordPath = config.sops.secrets."samba/${user}Pwd".path;
         smbpasswd = "${config.services.samba.package}/bin/smbpasswd";

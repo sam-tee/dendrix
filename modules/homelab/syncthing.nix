@@ -4,7 +4,7 @@
       id = value.syncID;
     })
     self.hosts;
-  folders = {
+  allFolders = {
     books = {
       path = "~/books";
       devices = ["a3" "u410" "s340"];
@@ -12,7 +12,7 @@
     };
     calibre_config = {
       path = "~/.config/calibre";
-      devices = ["a3" "u410" "s340"];
+      devices = ["a3" "u410" "s340" "deck"];
       ignorePatterns = ["(?d).DS_Store"];
     };
     Docs = {
@@ -23,8 +23,13 @@
   };
 in {
   flake.modules = {
-    nixos.syncthing = {config, ...}: let
+    nixos.syncthing = {
+      config,
+      lib,
+      ...
+    }: let
       inherit (config.homelab) domain group user dataDir;
+      folders = lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices) allFolders;
     in {
       sops.secrets."syncPwd".owner = user;
       services = {
@@ -48,7 +53,15 @@ in {
         };
       };
     };
-    homeManager.syncthing = _: {
+    homeManager.syncthing = {
+      config,
+      lib,
+      osConfig,
+      ...
+    }: let
+      hostname = osConfig.host.name or config.host.name;
+      folders = lib.filterAttrs (_: v: lib.elem hostname v.devices) allFolders;
+    in {
       services.syncthing = {
         enable = true;
         settings = {inherit devices folders;};

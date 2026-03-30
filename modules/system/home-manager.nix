@@ -13,7 +13,7 @@ in {
       config,
       ...
     }: let
-      inherit (config) username;
+      inherit (config.host) username;
     in {
       imports = [inputs.home-manager.darwinModules.home-manager];
       home-manager = {
@@ -29,7 +29,7 @@ in {
       };
     };
     nixos.hm = {config, ...}: let
-      inherit (config) username;
+      inherit (config.host) username;
     in {
       imports = [inputs.home-manager.nixosModules.home-manager];
       home-manager = {
@@ -44,7 +44,7 @@ in {
       };
     };
     homeManager.standalone = {config, ...}: let
-      inherit (config) username;
+      inherit (config.host) username;
     in {
       imports = [self.modules.homeManager.nix];
       home = {

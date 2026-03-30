@@ -32,19 +32,25 @@
       default = {};
     };
   };
+  config.flake.modules.generic.hostOption = {lib, ...}: {
+    options.host = {
+      username = lib.mkOption {type = lib.types.str;};
+      name = lib.mkOption {type = lib.types.str;};
+    };
+  };
   config.flake.lib = {
     mkNixos = name: let
       inherit (inputs.self.hosts.${name}) username system pubKey;
     in {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
         modules = [
-          inputs.self.modules.generic.userOption
+          inputs.self.modules.generic.hostOption
           inputs.self.modules.nixos."${name}Config"
           {
+            host = {inherit name username;};
             networking.hostName = name;
             nixpkgs.hostPlatform = lib.mkDefault system;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
-            inherit username;
           }
         ];
       };
@@ -55,14 +61,14 @@
     in {
       ${name} = inputs.nix-darwin.lib.darwinSystem {
         modules = [
-          inputs.self.modules.generic.userOption
+          inputs.self.modules.generic.hostOption
           inputs.self.modules.darwin."${name}Config"
           {
+            host = {inherit name username;};
             networking.hostName = name;
             nixpkgs.hostPlatform = lib.mkDefault system;
             system.primaryUser = username;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
-            inherit username;
           }
         ];
       };
@@ -74,9 +80,10 @@
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [
-          inputs.self.modules.generic.userOption
+          inputs.self.modules.generic.hostOption
           inputs.self.modules.homeManager."${name}Config"
           {
+            host = {inherit name username;};
             nixpkgs.config.allowUnfree = true;
             inherit username;
           }

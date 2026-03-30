@@ -1,14 +1,11 @@
 {
   flake.modules = {
-    generic.userOption = {lib, ...}: {
-      options.username = lib.mkOption {type = lib.types.str;};
-    };
     nixos.user = {
       pkgs,
       config,
       ...
     }: let
-      inherit (config) username;
+      inherit (config.host) username;
     in {
       users = {
         users.${username} = {
@@ -41,7 +38,7 @@
       config,
       ...
     }: let
-      inherit (config) username;
+      inherit (config.host) username;
     in {
       users.users.${username} = {
         description = username;

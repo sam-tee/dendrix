@@ -18,6 +18,7 @@ in {
         linuxMinPkgs
         plasma
         standalone
+        syncthing
         xournal
       ];
       targets.genericLinux.enable = true;
