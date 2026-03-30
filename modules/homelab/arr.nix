@@ -20,7 +20,7 @@
   in {
     services = {
       bazarr = mkService;
-      jellyseerr.enable = true;
+      seerr.enable = true;
       lidarr = mkService;
       prowlarr.enable = true;
       radarr = mkService;
