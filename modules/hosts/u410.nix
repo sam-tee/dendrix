@@ -54,9 +54,12 @@ in {
         };
         programs.ssh.startAgent = true;
         security.sudo.wheelNeedsPassword = false;
-        services.btrfs.autoScrub = {
-          enable = true;
-          interval = "monthly";
+        services = {
+          btrfs.autoScrub = {
+            enable = true;
+            interval = "monthly";
+          };
+          iperf3.enable = true;
         };
         systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
       };
