@@ -5,6 +5,7 @@
         systemPackages = with pkgs.kdePackages; [
           filelight
           partitionmanager
+          qtstyleplugin-kvantum
         ];
         plasma6.excludePackages = with pkgs.kdePackages; [
           discover

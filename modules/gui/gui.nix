@@ -22,7 +22,7 @@
         (with pkgs; [
           bitwarden-desktop
           brave
-          protonvpn-gui
+          proton-vpn
         ])
         ++ lib.optionals (isNotAarchLinux pkgs) (with pkgs; [
           discord

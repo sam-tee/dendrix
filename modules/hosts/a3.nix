@@ -17,6 +17,7 @@ in {
           _default
           hm
           a3Hardware
+          hyprland
           plasmaHM
           steam
         ];
