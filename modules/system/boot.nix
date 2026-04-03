@@ -1,6 +1,7 @@
 {
   flake.modules.nixos.boot = {pkgs, ...}: {
     boot = {
+      binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
       consoleLogLevel = 0;
       initrd = {
         systemd.enable = true;
