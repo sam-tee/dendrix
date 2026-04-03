@@ -46,6 +46,10 @@ in {
       imports = [self.modules.generic.cli];
       programs =
         {
+          fzf = {
+            enable = true;
+            defaultOptions = ["--preview 'bat --style=numbers --color=always {}'"];
+          };
           ripgrep.enable = true;
           zellij.enable = true;
         }

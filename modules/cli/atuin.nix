@@ -13,6 +13,8 @@
         style = "compact";
         update_check = false;
         auto_sync = true;
+        search_mode = "fuzzy";
+        search_mode_shell_up_key_binding = "prefix";
         sync_frequency = "5m";
         sync_address = "https://atuin.akhlus.uk";
         key_path = config.sops.secrets."atuin-key".path;

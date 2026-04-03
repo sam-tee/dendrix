@@ -48,7 +48,10 @@
           autoEnable = true;
           polarity = "dark";
           fonts = mkFonts pkgs;
-          targets.zed.colors.enable = false;
+          targets = {
+            hyprland.hyprpaper.enable = false;
+            zed.colors.enable = false;
+          };
         };
       };
     };
