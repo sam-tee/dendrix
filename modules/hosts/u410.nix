@@ -59,7 +59,7 @@ in {
             enable = true;
             interval = "monthly";
           };
-          iperf3.enable = true;
+          iperf3 = {enable = true; openFirewall = true;};
         };
         systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
       };
