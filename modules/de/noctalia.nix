@@ -35,7 +35,7 @@
             density = "mini";
             showCapsule = false;
             showOutline = false;
-            enableExclusionZoneInsert = false;
+            enableExclusionZoneInset = false;
             widgets = {
               left = [
                 {

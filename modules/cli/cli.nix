@@ -6,6 +6,7 @@
       nix-direnv.enable = true;
     };
     lazygit.enable = true;
+    yazi.enable = true;
     zoxide.enable = true;
   };
   packages = pkgs:

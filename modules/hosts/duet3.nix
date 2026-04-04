@@ -15,6 +15,7 @@ in {
       imports = with self.modules.nixos; [
         _mobile
         hm
+        autologin
         hyprland
       ];
       home-manager.sharedModules = with self.modules.homeManager; [
