@@ -7,17 +7,17 @@
   allFolders = {
     books = {
       path = "~/books";
-      devices = ["a3" "u410" "s340"];
+      devices = ["a3" "hp" "s340" "u410"];
       ignorePatterns = ["(?d).DS_Store"];
     };
     calibre_config = {
       path = "~/.config/calibre";
-      devices = ["a3" "u410" "s340" "deck"];
+      devices = ["a3" "deck" "hp" "s340" "u410"];
       ignorePatterns = ["(?d).DS_Store"];
     };
     Docs = {
       path = "~/Documents";
-      devices = ["a3" "duet3" "mba" "s340" "u410"];
+      devices = ["a3" "duet3" "hp" "mba" "s340" "u410"];
       ignorePatterns = ["(?d).DS_Store" ".venv" "result"];
     };
   };
