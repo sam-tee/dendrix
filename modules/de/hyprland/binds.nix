@@ -4,7 +4,7 @@
       "$noctalia" = "noctalia-shell ipc call";
       "$mod" = "SUPER";
       "$terminal" = "ghostty";
-      "$fileManager" = "dolphin --new-window";
+      "$fileManager" = "ghostty -e yazi";
       "$browser" = "brave --new-window --ozone-platform=wayland";
       gesture = [
         "3, horizontal, workspace"
@@ -44,6 +44,7 @@
           "$mod, return, exec, $terminal"
           "$mod, B, exec, $browser"
           "$mod, E, exec, $fileManager"
+          "$mod, Z, exec, zeditor"
           "$mod SHIFT, ESCAPE, exit,"
           "$mod, space, exec, $noctalia launcher toggle"
           "$mod, S, exec, $noctalia controlCenter toggle"

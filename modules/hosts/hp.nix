@@ -18,6 +18,7 @@ in {
           hm
           hpHardware
           hyprland
+          plasmaHM
         ];
         home-manager.sharedModules = with self.modules.homeManager; [
           _linuxMinimal

@@ -51,6 +51,7 @@
           polarity = "dark";
           fonts = mkFonts pkgs;
           targets = {
+            kde.enable = false;
             hyprland.hyprpaper.enable = false;
             zed.colors.enable = false;
           };
