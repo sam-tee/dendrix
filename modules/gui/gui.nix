@@ -45,7 +45,7 @@
         chromium
         gparted
         libreoffice
-        protonvpn-gui
+        proton-vpn
         vlc
       ];
     };
