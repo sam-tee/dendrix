@@ -12,6 +12,10 @@
   };
   flake.modules = {
     nixos.noctalia = {pkgs, ...}: {
+      nix.settings = {
+        extra-substituters = ["https://noctalia.cachix.org"];
+        extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
+      };
       hardware.bluetooth.enable = true;
       services = {
         tuned.enable = true;
@@ -31,6 +35,7 @@
             density = "mini";
             showCapsule = false;
             showOutline = false;
+            enableExclusionZoneInsert = false;
             widgets = {
               left = [
                 {
@@ -82,7 +87,34 @@
               ];
             };
           };
+          controlCenter.cards = [
+            {
+              enabled = true;
+              id = "profile-card";
+            }
+            {
+              enabled = true;
+              id = "shortcuts-card";
+            }
+            {
+              enabled = true;
+              id = "audio-card";
+            }
+            {
+              enabled = true;
+              id = "brightness-card";
+            }
+            {
+              enabled = true;
+              id = "weather-card";
+            }
+            {
+              enabled = true;
+              id = "media-sysmon-card";
+            }
+          ];
           general = {
+            enableShadows = false;
             radiusRatio = 0;
             iRadiusRatio = 0;
             animationDisabled = true;

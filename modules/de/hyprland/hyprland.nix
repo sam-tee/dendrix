@@ -16,14 +16,18 @@
         };
       };
     };
-    homeManager.hyprland = {lib, ...}: {
+    homeManager.hyprland = _: {
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false;
         settings = {
           cursor = [{no_hardware_cursors = true;}];
           env = ["QT_QPA_PLATFORMTHEME,qt6ct"];
-          general = lib.genAttrs ["gaps_in" "gaps_out" "border_size"] (_: 1);
+          general = {
+            border_size = 1;
+            gaps_in = 0;
+            gaps_out = 0;
+          };
           animations.enabled = false;
           exec-once = ["noctalia-shell" "bitwarden"];
           workspace = map (

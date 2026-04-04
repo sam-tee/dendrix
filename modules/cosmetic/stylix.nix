@@ -42,7 +42,7 @@
       };
       stylix = {pkgs, ...}: {
         imports = [inputs.stylix.homeModules.stylix];
-        fonts.packages = with pkgs; [noto-fonts-cjk-sans];
+        home.packages = with pkgs; [noto-fonts-cjk-sans];
         stylix = {
           enable = true;
           base16Scheme = config.cosmetic.theme;
