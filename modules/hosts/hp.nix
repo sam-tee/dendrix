@@ -12,7 +12,7 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      hpConfig = _: {
+      hpConfig = {pkgs, ...}: {
         imports = with self.modules.nixos; [
           _default
           hm
@@ -26,6 +26,7 @@ in {
           syncthing
           {wayland.windowManager.hyprland.settings.monitor = ["eDP-1,1920x1080@60,auto,1"];}
         ];
+        environment.systemPackages = [pkgs.calibre];
       };
 
       hpHardware = {
