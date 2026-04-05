@@ -1,13 +1,24 @@
-{
+{self, ...}: let
+  inherit (self.cosmetic) bgFile fonts;
+in {
   flake.modules.homeManager.gnome = {lib, ...}: {
     dconf.settings = with lib.hm.gvariant; {
       "org/gnome/TextEditor" = {
         restore-session = false;
       };
 
+      "org/gnome/desktop/background" = {
+        picture-uri = "file://${bgFile}";
+        picture-uri-dark = "file://${bgFile}";
+      };
+
       "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
         enable-animations = false;
         enable-hot-corners = false;
+        font-name = "${fonts.ui.name} ${fonts.size}";
+        document-font-name = "${fonts.ui.name}  ${fonts.size}";
+        monospace-font-name = "${fonts.mono.name} ${fonts.size}";
       };
 
       "org/gnome/desktop/peripherals/mouse" = {

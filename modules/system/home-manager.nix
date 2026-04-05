@@ -6,6 +6,7 @@
   stateVersion = "24.11";
   language.base = "en_GB.UTF-8";
   backupFileExtension = "bak";
+  overwriteBackup = true;
 in {
   flake.modules = {
     darwin.hm = {
@@ -17,7 +18,7 @@ in {
     in {
       imports = [inputs.home-manager.darwinModules.home-manager];
       home-manager = {
-        inherit backupFileExtension;
+        inherit backupFileExtension overwriteBackup;
         users.${username} = {
           programs.home-manager.enable = true;
           home = {
@@ -33,7 +34,7 @@ in {
     in {
       imports = [inputs.home-manager.nixosModules.home-manager];
       home-manager = {
-        inherit backupFileExtension;
+        inherit backupFileExtension overwriteBackup;
         users.${username} = {
           home = {
             inherit username stateVersion language;

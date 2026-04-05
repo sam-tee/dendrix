@@ -1,15 +1,17 @@
-let
+{self, ...}: let
+  inherit (self.cosmetic.fonts) ui mono;
   mkFonts = pkgs: (with pkgs; [
-    inter
-    nerd-fonts.lilex
+    (mono.pkgsName pkgs)
+    (ui.pkgsName pkgs)
     noto-fonts-color-emoji
+    noto-fonts-cjk-sans
   ]);
   fontconfig = {
     enable = true;
     defaultFonts = {
-      serif = ["Inter Variable"];
-      sansSerif = ["Inter Variable"];
-      monospace = ["Lilex Nerd Font Propo"];
+      serif = [ui.name];
+      sansSerif = [ui.name];
+      monospace = [mono.name];
       emoji = ["Noto Color Emoji"];
     };
   };

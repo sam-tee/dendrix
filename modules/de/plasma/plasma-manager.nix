@@ -1,4 +1,14 @@
-{inputs, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: let
+  cfg = self.cosmetic.fonts;
+  mkFont = family: size: {
+    inherit family;
+    pointSize = size;
+  };
+in {
   flake-file.inputs.plasma-manager = {
     url = "github:nix-community/plasma-manager";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +30,14 @@
         configFile = {
           "kdeglobals"."KDE"."AnimationDurationFactor" = 0;
           "kwinrc"."Windows"."FocusPolicy" = "FocusFollowsMouse";
+        };
+        fonts = with cfg; {
+          fixedWidth = mkFont mono.name size;
+          general = mkFont ui.name size;
+          menu = mkFont ui.name size;
+          small = mkFont ui.name 9;
+          toolbar = mkFont ui.name size;
+          windowTitle = mkFont ui.name size;
         };
         hotkeys.commands."launch-ghostty" = {
           name = "Launch Ghostty";
@@ -121,6 +139,10 @@
         };
         workspace = {
           enableMiddleClickPaste = true;
+          lookAndFeel = "org.kde.breezedark.desktop";
+          colorScheme = "BreezeDark";
+          wallpaper = self.cosmetic.bgFile;
+          wallpaperFillMode = "stretch";
         };
       };
     };

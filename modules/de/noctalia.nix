@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   flake-file.inputs = {
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -23,11 +27,43 @@
       };
       environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
-    homeManager.noctalia = _: {
+    homeManager.noctalia = _: let
+      bgTmp = ".cache/wallpaper.png";
+    in {
       imports = [inputs.noctalia.homeModules.default];
-
+      home.file.${bgTmp}.source = self.cosmetic.bgFile;
+      services.hyprpaper = {
+        enable = true;
+        settings = {
+          wallpaper = [
+            {
+              monitor = "";
+              path = bgTmp;
+            }
+          ];
+          splash = false;
+        };
+      };
       programs.noctalia-shell = {
         enable = true;
+        colors = with self.cosmetic.theme.attrs; {
+          mPrimary = base0E;
+          mOnPrimary = base00;
+          mSecondary = base0D;
+          mOnSecondary = base01;
+          mTertiary = base0B;
+          mOnTertiary = base01;
+          mError = base08;
+          mOnError = base01;
+          mSurface = base00;
+          mOnSurface = base05;
+          mHover = base0C;
+          mOnHover = base01;
+          mSurfaceVariant = base02;
+          mOnSurfaceVariant = base04;
+          mOutline = base03;
+          mShadow = base00;
+        };
         settings = {
           bar = {
             barType = "simple";
@@ -35,6 +71,7 @@
             density = "mini";
             showCapsule = false;
             showOutline = false;
+            backgroundOpacity = 0.93;
             enableExclusionZoneInset = false;
             widgets = {
               left = [
@@ -122,13 +159,12 @@
             autoStartAuth = true;
             allowPasswordWithFprintd = true;
           };
-          ui.scrollbarAlwaysVisible = false;
-          location.weatherShowEffects = false;
-          wallpaper = {
-            enabled = true;
-            skipStartupTransition = true;
-            fillMode = "stretch";
+          ui = {
+            panelBackgroundOpacity = 0.93;
+            scrollbarAlwaysVisible = false;
           };
+          location.weatherShowEffects = false;
+          wallpaper.enabled = false;
           appLauncher = {
             enableClipboardHistory = true;
             terminalCommand = "ghostty -e";

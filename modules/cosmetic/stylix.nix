@@ -1,5 +1,5 @@
 {
-  config,
+  self,
   inputs,
   ...
 }: {
@@ -24,8 +24,8 @@
       fonts.packages = with pkgs; [noto-fonts-cjk-sans];
       stylix = {
         enable = true;
-        base16Scheme = config.cosmetic.theme;
-        image = config.cosmetic.backgroundFile;
+        base16Scheme = self.cosmetic.theme;
+        image = self.cosmetic.backgroundFile;
         autoEnable = true;
         polarity = "dark";
         fonts = mkFonts pkgs;
@@ -45,12 +45,13 @@
         home.packages = with pkgs; [noto-fonts-cjk-sans];
         stylix = {
           enable = true;
-          base16Scheme = config.cosmetic.theme;
-          image = config.cosmetic.backgroundFile;
+          base16Scheme = self.cosmetic.theme;
+          image = self.cosmetic.backgroundFile;
           autoEnable = true;
           polarity = "dark";
           fonts = mkFonts pkgs;
           targets = {
+            kde.enable = false;
             hyprland.hyprpaper.enable = false;
             zed.colors.enable = false;
           };

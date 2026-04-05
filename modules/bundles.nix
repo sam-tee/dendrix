@@ -7,6 +7,7 @@ in {
     nixos = {
       _minimal.imports = with nMod; [
         cli
+        fonts
         networking
         ssh
         system
@@ -23,7 +24,6 @@ in {
       ];
       _serverMin.imports = with nMod; [
         _minimal
-        stylix
         boot
         email
         homelab
@@ -61,9 +61,10 @@ in {
     homeManager = {
       _minimal.imports = with hMod; [
         cli
+        fonts
         sops
         ssh
-        stylix
+        theming
       ];
       _darwinMinimal = {
         programs.ghostty.package = null;
@@ -83,9 +84,10 @@ in {
         fonts
         ghostty
         linuxMinPkgs
+        pointer
         sops
         ssh
-        stylixLinux
+        theming
         xournal
         zed
       ];
