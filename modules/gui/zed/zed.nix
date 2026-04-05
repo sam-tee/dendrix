@@ -1,5 +1,5 @@
-{config, ...}: let
-  inherit (config.cosmetic) theme fonts;
+{self, ...}: let
+  inherit (self.cosmetic) theme fonts;
   userTheme = theme.attrs;
 in {
   flake.modules.homeManager.zed = _: {
@@ -20,9 +20,9 @@ in {
           toml = true;
         };
         buffer_font_family = fonts.mono.name;
-        buffer_font_size = fonts.size;
+        buffer_font_size = fonts.size * 4 / 3;
         ui_font_family = fonts.ui.name;
-        ui_font_size = fonts.size;
+        ui_font_size = fonts.size * 4 / 3;
         buffer_line_height.custom = 1.5;
         edit_predictions.mode = "subtle";
         file_types.Markdown = ["qmd"];

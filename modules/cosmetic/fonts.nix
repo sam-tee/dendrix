@@ -1,11 +1,11 @@
-{config, ...}: let
-  inherit (config.cosmetic.fonts) ui mono;
-  mkFonts = pkgs: [
-    pkgs.${ui.pkgsName}
-    pkgs.${mono.pkgsName}
-    pkgs.noto-fonts-color-emoji
-    pkgs.noto-fonts-cjk-sans
-  ];
+{self, ...}: let
+  inherit (self.cosmetic.fonts) ui mono;
+  mkFonts = pkgs: (with pkgs; [
+    (mono.pkgsName pkgs)
+    (ui.pkgsName pkgs)
+    noto-fonts-color-emoji
+    noto-fonts-cjk-sans
+  ]);
   fontconfig = {
     enable = true;
     defaultFonts = {

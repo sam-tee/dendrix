@@ -1,5 +1,5 @@
-{config, ...}: let
-  inherit (config.cosmetic) bgFile fonts;
+{self, ...}: let
+  inherit (self.cosmetic) bgFile fonts;
 in {
   flake.modules.homeManager.gnome = {lib, ...}: {
     dconf.settings = with lib.hm.gvariant; {

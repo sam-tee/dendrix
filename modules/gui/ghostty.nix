@@ -1,11 +1,5 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  inherit (config.cosmetic) fonts theme;
-  userTheme = theme.attrs;
-  removeHash = hex: lib.removePrefix "#" hex;
+{self, ...}: let
+  inherit (self.cosmetic) fonts theme;
 in {
   flake.modules.homeManager.ghostty = _: {
     programs.ghostty = {
@@ -13,7 +7,7 @@ in {
       settings = {
         font-family = [fonts.mono.name];
         font-size = fonts.size;
-        theme = userTheme.name;
+        theme = theme.attrs.name;
         window-decoration = "auto";
         unfocused-split-opacity = 0.75;
         shell-integration-features = "ssh-terminfo";
@@ -21,30 +15,30 @@ in {
           "ctrl+shift+w=close_surface"
         ];
       };
-      themes.${userTheme.name} = {
-        background = "${removeHash userTheme.base00}";
+      themes.${theme.attrs.name} = {
+        background = "${theme.noHash.base00}";
         background-opacity = 1.0;
-        foreground = "${removeHash userTheme.base05}";
-        cursor-color = "${removeHash userTheme.base05}";
-        selection-background = "${removeHash userTheme.base02}";
-        selection-foreground = "${removeHash userTheme.base05}";
+        foreground = "${theme.noHash.base05}";
+        cursor-color = "${theme.noHash.base05}";
+        selection-background = "${theme.noHash.base02}";
+        selection-foreground = "${theme.noHash.base05}";
         palette = [
-          "0=${userTheme.base01}"
-          "1=${userTheme.base08}"
-          "2=${userTheme.base0B}"
-          "3=${userTheme.base0A}"
-          "4=${userTheme.base0D}"
-          "5=${userTheme.base0E}"
-          "6=${userTheme.base0C}"
-          "7=${userTheme.base05}"
-          "8=${userTheme.base03}"
-          "9=${userTheme.base08}"
-          "10=${userTheme.base0B}"
-          "11=${userTheme.base0A}"
-          "12=${userTheme.base0D}"
-          "13=${userTheme.base0E}"
-          "14=${userTheme.base0C}"
-          "15=${userTheme.base07}"
+          "0=${theme.attrs.base01}"
+          "1=${theme.attrs.base08}"
+          "2=${theme.attrs.base0B}"
+          "3=${theme.attrs.base0A}"
+          "4=${theme.attrs.base0D}"
+          "5=${theme.attrs.base0E}"
+          "6=${theme.attrs.base0C}"
+          "7=${theme.attrs.base05}"
+          "8=${theme.attrs.base03}"
+          "9=${theme.attrs.base08}"
+          "10=${theme.attrs.base0B}"
+          "11=${theme.attrs.base0A}"
+          "12=${theme.attrs.base0D}"
+          "13=${theme.attrs.base0E}"
+          "14=${theme.attrs.base0C}"
+          "15=${theme.attrs.base07}"
         ];
       };
     };

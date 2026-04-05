@@ -1,4 +1,6 @@
-{self, ...}: {
+{self, ...}: let
+  inherit (self.cosmetic.theme.noHash) base03;
+in {
   flake.modules = {
     nixos.hyprland = _: {
       imports = with self.modules.nixos; [
@@ -27,6 +29,8 @@
             border_size = 1;
             gaps_in = 0;
             gaps_out = 0;
+            "col.active_border" = "rgb(${base03})";
+            "col.inactive_border" = "rgb(${base03})";
           };
           animations.enabled = false;
           exec-once = ["noctalia-shell" "bitwarden"];
