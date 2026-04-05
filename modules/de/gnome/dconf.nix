@@ -16,9 +16,9 @@ in {
         color-scheme = "prefer-dark";
         enable-animations = false;
         enable-hot-corners = false;
-        font-name = "${fonts.ui.name} ${fonts.size}";
-        document-font-name = "${fonts.ui.name}  ${fonts.size}";
-        monospace-font-name = "${fonts.mono.name} ${fonts.size}";
+        font-name = "${fonts.ui.name} ${toString fonts.size}";
+        document-font-name = "${fonts.ui.name}   ${toString fonts.size}";
+        monospace-font-name = "${fonts.mono.name} ${toString fonts.size}";
       };
 
       "org/gnome/desktop/peripherals/mouse" = {
