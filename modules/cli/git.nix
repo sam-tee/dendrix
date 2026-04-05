@@ -12,7 +12,8 @@
       programs.git = {
         enable = true;
         signing = {
-          key = self.hosts.git.pubKey;
+          format = "ssh";
+          key = self.hosts.git-sign.pubKey;
           signByDefault = true;
         };
         settings = {
