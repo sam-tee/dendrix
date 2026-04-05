@@ -16,7 +16,7 @@
           pull.rebase = "true";
           push.autoSetupRemote = "true";
           user = {
-            name = "sam-tee";
+            name = "Sam Tee";
             email = "93236986+sam-tee@users.noreply.github.com";
           };
         };
