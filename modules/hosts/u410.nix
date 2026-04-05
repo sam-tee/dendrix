@@ -21,6 +21,7 @@ in {
           u410Hardware
           arr
           atuin
+          battery
           calibre
           cockpit
           code-server
@@ -28,6 +29,7 @@ in {
           forgejo
           immich
           jellyfin
+          ntfy
           syncthing
           vaultwarden
         ];
@@ -59,7 +61,10 @@ in {
             enable = true;
             interval = "monthly";
           };
-          iperf3 = {enable = true; openFirewall = true;};
+          iperf3 = {
+            enable = true;
+            openFirewall = true;
+          };
         };
         systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
       };
