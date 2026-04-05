@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.modules = {
     nixos.cli = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
@@ -11,7 +11,12 @@
       programs.gh.enable = true;
       programs.git = {
         enable = true;
+        signing = {
+          key = self.hosts.git.pubKey;
+          signByDefault = true;
+        };
         settings = {
+          gpg.format = "ssh";
           init.defaultBranch = "main";
           pull.rebase = "true";
           push.autoSetupRemote = "true";
