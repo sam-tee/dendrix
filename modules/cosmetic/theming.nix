@@ -1,25 +1,29 @@
 {self, ...}: {
-  flake.modules.homeManager.theming = {pkgs, ...}: {
-    qt = let
-      qtctSettings = {
-        Appearance = {
-          custom_palette = true;
-          standard_dialogs = "default";
-          style = "kvantum";
-        };
-        Fonts = {
-          fixed = ''"${self.cosmetic.fonts.mono.name},${toString self.cosmetic.fonts.size}"'';
-          general = ''"${self.cosmetic.fonts.ui.name},${toString self.cosmetic.fonts.size}"'';
-        };
+  flake.modules.homeManager.theming = {
+    lib,
+    pkgs,
+    ...
+  }: let
+    qtctSettings = {
+      Appearance = {
+        custom_palette = true;
+        standard_dialogs = "default";
+        style = "kvantum";
       };
-    in {
+      Fonts = {
+        fixed = ''"${self.cosmetic.fonts.mono.name},${toString self.cosmetic.fonts.size}"'';
+        general = ''"${self.cosmetic.fonts.ui.name},${toString self.cosmetic.fonts.size}"'';
+      };
+    };
+  in {
+    qt = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
       platformTheme.name = "qtct";
       style.name = "kvantum";
       qt5ctSettings = qtctSettings;
       qt6ctSettings = qtctSettings;
     };
-    dconf = {
+    dconf = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
       settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
     };

@@ -45,7 +45,7 @@
         home.packages = with pkgs; [noto-fonts-cjk-sans];
         stylix = {
           enable = true;
-          base16Scheme = self.cosmetic.theme;
+          base16Scheme = self.cosmetic.theme.attrs;
           image = self.cosmetic.backgroundFile;
           autoEnable = true;
           polarity = "dark";

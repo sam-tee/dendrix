@@ -70,7 +70,8 @@ in {
         programs.ghostty.package = null;
         imports = with hMod; [
           cli
-          stylix
+          fonts
+          theming
           ghostty
           minPkgs
           sops
