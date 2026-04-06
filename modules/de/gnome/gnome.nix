@@ -5,7 +5,7 @@
         hm
         gnome
       ];
-      home-manager.sharedModules = [self.modules.homeManager.gnome];
+      home-manager.sharedModules = with self.modules.homeManager; [gnome];
     };
     gnome = {pkgs, ...}: {
       environment = {

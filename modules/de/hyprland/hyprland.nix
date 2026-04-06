@@ -18,13 +18,12 @@ in {
         };
       };
     };
-    homeManager.hyprland = {lib, ...}: {
+    homeManager.hyprland = _: {
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false;
         settings = {
-          cursor = lib.singleton {no_hardware_cursors = true;};
-          env = lib.singleton "QT_QPA_PLATFORMTHEME,qt6ct";
+          cursor.no_hardware_cursors = true;
           general = {
             border_size = 1;
             gaps_in = 0;
@@ -32,7 +31,7 @@ in {
             "col.active_border" = "rgb(${base03})";
             "col.inactive_border" = "rgb(${base03})";
           };
-          windowrule = lib.singleton {
+          windowrule = {
             name = "browser-pip";
             "match:title" = "^(Picture-in-[Pp]icture)$";
             float = 1;

@@ -5,7 +5,6 @@
         systemPackages = with pkgs.kdePackages; [
           filelight
           partitionmanager
-          qtstyleplugin-kvantum
         ];
         plasma6.excludePackages = with pkgs.kdePackages; [
           discover
@@ -24,7 +23,7 @@
         plasma
         sddm
       ];
-      home-manager.sharedModules = [self.modules.homeManager.plasma];
+      home-manager.sharedModules = with self.modules.homeManager; [plasma];
     };
   };
 }

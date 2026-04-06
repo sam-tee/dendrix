@@ -64,14 +64,12 @@ in {
         fonts
         sops
         ssh
-        theming
       ];
       _darwinMinimal = {
         programs.ghostty.package = null;
         imports = with hMod; [
           cli
           fonts
-          theming
           ghostty
           minPkgs
           sops
@@ -84,11 +82,11 @@ in {
         cliLinux
         fonts
         ghostty
+        gtk
         linuxMinPkgs
         pointer
         sops
         ssh
-        theming
         xournal
         zed
       ];

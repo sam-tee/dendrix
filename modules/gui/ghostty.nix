@@ -10,7 +10,7 @@ in {
         theme = theme.attrs.name;
         window-decoration = "auto";
         unfocused-split-opacity = 0.75;
-        shell-integration-features = "ssh-terminfo";
+        shell-integration-features = "ssh-env";
         keybind = [
           "ctrl+shift+w=close_surface"
         ];

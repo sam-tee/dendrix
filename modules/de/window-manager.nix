@@ -13,6 +13,7 @@
         sessionVariables = {
           NIXOS_OZONE_WL = "1";
           HYPRSHOT_DIR = "$HOME/Pictures/Screenshots";
+          QT_QPA_PLATFORMTHEME = "gtk3";
         };
         systemPackages = with pkgs; [
           ghostty
