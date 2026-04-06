@@ -27,22 +27,14 @@
       };
       environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
-    homeManager.noctalia = _: let
-      bgTmp = ".cache/wallpaper.png";
+    homeManager.noctalia = {config, ...}: let
+      bgDirFull = "${config.home.homeDirectory}/${bgDir}";
+      bgDir = ".cache/noctalia/wallpapers";
     in {
       imports = [inputs.noctalia.homeModules.default];
-      home.file.${bgTmp}.source = self.cosmetic.bgFile;
-      services.hyprpaper = {
-        enable = true;
-        settings = {
-          wallpaper = [
-            {
-              monitor = "";
-              path = bgTmp;
-            }
-          ];
-          splash = false;
-        };
+      home.file = {
+        "${bgDir}/bg.png".source = self.cosmetic.bgFile;
+        ".cache/noctalia/wallpapers.json".text = builtins.toJSON {defaultWallpaper = "${bgDirFull}/bg.png";};
       };
       programs.noctalia-shell = {
         enable = true;
@@ -120,6 +112,7 @@
                 {
                   id = "ControlCenter";
                   useDistroLogo = false;
+                  icon = "settings-2";
                 }
                 {
                   id = "SessionMenu";
@@ -168,7 +161,11 @@
             scrollbarAlwaysVisible = false;
           };
           location.weatherShowEffects = false;
-          wallpaper.enabled = false;
+          wallpaper = {
+            enabled = true;
+            directory = bgDirFull;
+            fillMode = "stretch";
+          };
           appLauncher = {
             enableClipboardHistory = true;
             terminalCommand = "ghostty -e";
