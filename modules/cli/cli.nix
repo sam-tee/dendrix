@@ -7,7 +7,6 @@
       nix-direnv.enable = true;
     };
     lazygit.enable = true;
-    yazi.enable = true;
     zoxide.enable = true;
   };
   packages = pkgs:
@@ -26,6 +25,7 @@
       speedtest-cli
       tldr
       wget
+      yazi
       zellij
     ];
 in {
@@ -54,7 +54,10 @@ in {
             defaultOptions = ["--preview 'bat --style=numbers --color=always {}'"];
           };
           ripgrep.enable = true;
-          yazi.shellWrapperName = "y";
+          yazi = {
+            enable = true;
+            shellWrapperName = "y";
+          };
           zellij.enable = true;
         }
         // programs;
