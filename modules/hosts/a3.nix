@@ -18,7 +18,6 @@ in {
           hm
           a3Hardware
           hyprland
-          plasmaHM
           steam
         ];
         home-manager.sharedModules = with self.modules.homeManager; [
@@ -26,7 +25,20 @@ in {
           linuxExtraPkgs
           syncthing
           vscode
+          {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,1"];}
         ];
+        virtualisation = {
+          spiceUSBRedirection.enable = true;
+          libvirtd = {
+            enable = true;
+            qemu.verbatimConfig = ''display_gl = "on"'';
+          };
+        };
+        programs = {
+          virt-manager.enable = true;
+          dconf.enable = true;
+        };
+        users.users.sam.extraGroups = ["libvirtd"];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
         hardware = {
           graphics.extraPackages = with pkgs; [

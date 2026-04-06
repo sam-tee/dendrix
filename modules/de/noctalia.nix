@@ -71,14 +71,21 @@
             density = "mini";
             showCapsule = false;
             showOutline = false;
-            backgroundOpacity = 0.93;
+            backgroundOpacity = 1.0;
             enableExclusionZoneInset = false;
             widgets = {
               left = [
                 {
-                  id = "ControlCenter";
+                  id = "Launcher";
                   useDistroLogo = true;
                 }
+                {
+                  id = "Clock";
+                  formatHorizontal = "dd MMM | HH:mm";
+                  formatVertical = "HH mm - dd MM";
+                }
+              ];
+              center = [
                 {
                   id = "Workspace";
                   hideUnoccupied = false;
@@ -87,13 +94,6 @@
                   focusedColor = "primary";
                   occupiedColor = "secondary";
                   pillSize = 0.6;
-                }
-              ];
-              center = [
-                {
-                  id = "Clock";
-                  formatHorizontal = "dd MMM | HH:mm";
-                  formatVertical = "HH mm - dd MM";
                 }
               ];
               right = [
@@ -116,6 +116,10 @@
                   id = "Battery";
                   showNoctaliaPerformance = true;
                   showPowerProfiles = true;
+                }
+                {
+                  id = "ControlCenter";
+                  useDistroLogo = false;
                 }
                 {
                   id = "SessionMenu";
@@ -160,7 +164,7 @@
             allowPasswordWithFprintd = true;
           };
           ui = {
-            panelBackgroundOpacity = 0.93;
+            panelBackgroundOpacity = 1.0;
             scrollbarAlwaysVisible = false;
           };
           location.weatherShowEffects = false;
