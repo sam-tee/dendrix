@@ -17,7 +17,7 @@
           extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
           isNormalUser = true;
         };
-        groups.media.gid = 951;
+        groups.media.gid = 991;
       };
     };
     nixos.homelab = {config, ...}: let

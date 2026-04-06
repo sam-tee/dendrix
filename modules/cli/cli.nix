@@ -54,6 +54,7 @@ in {
             defaultOptions = ["--preview 'bat --style=numbers --color=always {}'"];
           };
           ripgrep.enable = true;
+          yazi.shellWrapperName = "y";
           zellij.enable = true;
         }
         // programs;
