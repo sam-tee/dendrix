@@ -23,7 +23,7 @@ in {
         selection-background = "${theme.noHash.base02}";
         selection-foreground = "${theme.noHash.base05}";
         palette = [
-          "0=${theme.attrs.base01}"
+          "0=${theme.attrs.base00}"
           "1=${theme.attrs.base08}"
           "2=${theme.attrs.base0B}"
           "3=${theme.attrs.base0A}"
@@ -38,7 +38,7 @@ in {
           "12=${theme.attrs.base0D}"
           "13=${theme.attrs.base0E}"
           "14=${theme.attrs.base0C}"
-          "15=${theme.attrs.base07}"
+          "15=#ffffff"
         ];
       };
     };

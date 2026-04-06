@@ -163,6 +163,7 @@
           location.weatherShowEffects = false;
           wallpaper = {
             enabled = true;
+            skipStartupTransition = true;
             directory = bgDirFull;
             fillMode = "stretch";
           };

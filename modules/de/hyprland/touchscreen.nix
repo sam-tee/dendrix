@@ -11,8 +11,8 @@
           workspace_swipe_edge = "";
           resize_on_border_long_press = true;
           hyprgrass-bind = [
-            ", tap:3, exec, kill -34 $(ps -C wvkbd-mobintl)"
-            ", swipe:3:u, exec, $noctalia launcher toggle"
+            ", edge:d:u, exec, kill -34 $(ps -C wvkbd-mobintl)"
+            ", tap:3, exec, $noctalia launcher toggle"
             ", swipe:4:d, killactive"
           ];
         };
