@@ -40,19 +40,13 @@ in {
         };
         users.users.sam.extraGroups = ["libvirtd"];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
-        hardware = {
-          graphics.extraPackages = with pkgs; [
-            intel-compute-runtime
-            intel-media-driver
-            intel-graphics-compiler
-            vpl-gpu-rt
-            level-zero
-          ];
-          bluetooth = {
-            enable = true;
-            powerOnBoot = true;
-          };
-        };
+        hardware.graphics.extraPackages = with pkgs; [
+          intel-compute-runtime
+          intel-media-driver
+          intel-graphics-compiler
+          vpl-gpu-rt
+          level-zero
+        ];
       };
 
       "${hostname}Hardware" = {

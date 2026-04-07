@@ -1,8 +1,6 @@
 {
   flake.modules.nixos.sddm = {pkgs, ...}: {
-    environment.systemPackages = [
-      (pkgs.sddm-astronaut.override {embeddedTheme = "black_hole";})
-    ];
+    environment.systemPackages = [pkgs.sddm-astronaut];
     services.displayManager.sddm = {
       enable = true;
       wayland.enable = true;

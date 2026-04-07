@@ -31,14 +31,21 @@ in {
             "col.active_border" = "rgb(${base03})";
             "col.inactive_border" = "rgb(${base03})";
           };
-          windowrule = {
-            name = "browser-pip";
-            "match:title" = "^(Picture-in-[Pp]icture)$";
-            float = 1;
-            pin = 1;
-            size = "368 207";
-            move = "(monitor_w-window_w) (monitor_h-window_h)";
-          };
+          windowrule = [
+            {
+              name = "browser-pip";
+              "match:title" = "^(Picture-in-[Pp]icture)$";
+              float = 1;
+              pin = 1;
+              size = "368 207";
+              move = "(monitor_w-window_w) (monitor_h-window_h)";
+            }
+            {
+              name = "fullscreen inhibit idle";
+              "match:class" = ".*";
+              idle_inhibit = "fullscreen";
+            }
+          ];
           animations.enabled = false;
           exec-once = ["noctalia-shell" "bitwarden"];
           workspace = map (

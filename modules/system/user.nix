@@ -1,5 +1,7 @@
 {
-  flake.modules = {
+  flake.modules = let
+    groupID = 991;
+  in {
     nixos.user = {
       pkgs,
       config,
@@ -17,7 +19,7 @@
           extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
           isNormalUser = true;
         };
-        groups.media.gid = 991;
+        groups.media.gid = groupID;
       };
     };
     nixos.homelab = {config, ...}: let
@@ -30,7 +32,7 @@
           uid = 992;
           home = dataDir;
         };
-        groups.${group}.gid = 951;
+        groups.${group}.gid = groupID;
       };
     };
     darwin.user = {

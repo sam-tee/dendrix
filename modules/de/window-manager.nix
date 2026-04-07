@@ -17,6 +17,7 @@
         };
         systemPackages = with pkgs; [
           ghostty
+          pavucontrol
           wl-clipboard
           xwayland-satellite
         ];

@@ -20,7 +20,10 @@
         extra-substituters = ["https://noctalia.cachix.org"];
         extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
       };
-      hardware.bluetooth.enable = true;
+      hardware.bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+      };
       services = {
         tuned.enable = true;
         upower.enable = true;
@@ -94,6 +97,9 @@
                   hidePassive = true;
                   chevronColor = "none";
                   drawerEnabled = true;
+                }
+                {
+                  id = "Volume";
                 }
                 {
                   id = "Network";
