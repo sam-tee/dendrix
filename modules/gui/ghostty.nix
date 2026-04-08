@@ -1,12 +1,21 @@
 {self, ...}: let
   inherit (self.cosmetic) fonts theme;
 in {
-  flake.modules.homeManager.ghostty = _: {
+  flake.modules.homeManager.ghostty = {pkgs, ...}: let
+    isLinux = pkgs.stdenv.hostPlatform.isLinux;
+  in {
     programs.ghostty = {
       enable = true;
+      package =
+        if isLinux
+        then pkgs.ghostty
+        else null;
       settings = {
         font-family = [fonts.mono.name];
-        font-size = fonts.size;
+        font-size =
+          if isLinux
+          then fonts.size
+          else fonts.size * 4 / 3;
         theme = theme.attrs.name;
         window-decoration = "auto";
         unfocused-split-opacity = 0.75;

@@ -34,7 +34,7 @@ in {
       home.file =
         builtins.mapAttrs (name: value: {
           target = ".ssh/pubKeys/${name}.pub";
-          text = "${value.pubKey}\n";
+          text = "${value.pubKey}";
         })
         self.hosts;
       programs.ssh = {
