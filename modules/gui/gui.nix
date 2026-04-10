@@ -8,7 +8,10 @@
       ...
     }: {
       home.packages =
-        (with pkgs; [brave])
+        (with pkgs; [
+          brave
+          localsend
+        ])
         ++ lib.optionals (isNotAarchLinux pkgs) (with pkgs; [discord]);
     };
 
