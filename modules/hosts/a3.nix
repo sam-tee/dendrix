@@ -27,6 +27,7 @@ in {
           vscode
           {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,1"];}
         ];
+        environment.systemPackages = with pkgs; [ffmpeg-full handbrake];
         virtualisation = {
           spiceUSBRedirection.enable = true;
           libvirtd = {

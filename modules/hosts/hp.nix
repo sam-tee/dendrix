@@ -24,7 +24,21 @@ in {
           hyprTouch
           linuxExtraPkgs
           syncthing
-          {wayland.windowManager.hyprland.settings.monitor = ["eDP-1,1920x1080@60,auto,1"];}
+          {
+            wayland.windowManager.hyprland.settings = {
+              monitor = ["eDP-1,1920x1080@60,auto,1"];
+              device = [
+                {
+                  name = "elan2514:00-04f3:2cf1-stylus";
+                  output = "eDP-1";
+                }
+                {
+                  name = "elan2514:00-04f3:2cf1";
+                  output = "eDP-1";
+                }
+              ];
+            };
+          }
         ];
         environment.systemPackages = [pkgs.calibre];
       };

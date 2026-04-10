@@ -29,6 +29,7 @@ in {
           forgejo
           immich
           jellyfin
+          navidrome
           ntfy
           syncthing
           vaultwarden
