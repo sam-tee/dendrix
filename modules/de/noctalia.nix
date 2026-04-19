@@ -75,13 +75,6 @@
                   useDistroLogo = true;
                 }
                 {
-                  id = "Clock";
-                  formatHorizontal = "dd MMM | HH:mm";
-                  formatVertical = "HH mm - dd MM";
-                }
-              ];
-              center = [
-                {
                   id = "Workspace";
                   hideUnoccupied = false;
                   labelMode = "index";
@@ -89,6 +82,13 @@
                   focusedColor = "primary";
                   occupiedColor = "secondary";
                   pillSize = 0.6;
+                }
+              ];
+              center = [
+                {
+                  id = "Clock";
+                  formatHorizontal = "dd MMM | HH:mm";
+                  formatVertical = "HH mm - dd MM";
                 }
               ];
               right = [

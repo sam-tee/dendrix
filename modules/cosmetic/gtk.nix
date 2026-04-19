@@ -12,7 +12,6 @@
     };
     gtk = {
       enable = true;
-      colorScheme = "dark";
       theme = {
         package = pkgs.adw-gtk3;
         name = "adw-gtk3";
@@ -46,7 +45,7 @@
         @define-color view_fg_color ${theme.base05};
         @define-color headerbar_bg_color ${theme.base01};
         @define-color headerbar_fg_color ${theme.base05};
-        @define-color headerbar_border_color rgba({{base01-dec-r}}, {{base01-dec-g}}, {{base01-dec-b}}, 0.7);
+        @define-color headerbar_border_color ${theme.base01};
         @define-color headerbar_backdrop_color @window_bg_color;
         @define-color headerbar_shade_color rgba(0, 0, 0, 0.07);
         @define-color headerbar_darker_shade_color rgba(0, 0, 0, 0.07);

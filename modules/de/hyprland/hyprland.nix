@@ -51,6 +51,10 @@ in {
           workspace = map (
             i: "${toString (i + 1)}, persistent:true"
           ) (builtins.genList (i: i) 9);
+          misc = {
+            disable_hyprland_logo = true;
+            disable_splash_rendering = true;
+          };
           input = {
             kb_layout = "gb";
             kb_options = "caps:escape";
