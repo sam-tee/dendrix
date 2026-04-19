@@ -39,7 +39,7 @@
             ctrl-comma = "layout accordion horizontal vertical";
             ctrl-slash = "layout tiles horizontal vertical";
             ctrl-cmd-enter = "exec-and-forget open -a Ghostty";
-            ctrl-cmd-e = "exec-and-forget ghostty -a Ghostty --args -e yazi";
+            ctrl-cmd-e = "exec-and-forget open -a Finder";
             ctrl-cmd-b = "exec-and-forget open -a 'Brave Browser'";
             ctrl-cmd-z = "exec-and-forget open -a Zed";
           }

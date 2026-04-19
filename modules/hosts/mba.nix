@@ -20,7 +20,7 @@ in {
         aerospace
         extraPkgs
         syncthing
-        vscode
+        #vscode
       ];
     };
   };
