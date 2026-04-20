@@ -29,6 +29,8 @@ in {
           forgejo
           immich
           jellyfin
+          linkwarden
+          mealie
           navidrome
           ntfy
           syncthing
