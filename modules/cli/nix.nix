@@ -11,7 +11,7 @@
   };
   nixDefault = {
     registry =
-      (builtins.mapAttrs (_: flake: {inherit flake;}) flakeInputs)
+      (flakeInputs |> builtins.mapAttrs (_: flake: {inherit flake;}))
       // {nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};};
     settings = {
       use-xdg-base-directories = true;

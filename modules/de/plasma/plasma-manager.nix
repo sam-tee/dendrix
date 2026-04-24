@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  lib,
   ...
 }: let
   cfg = self.cosmetic.fonts;
@@ -112,11 +113,10 @@ in {
         session.general.askForConfirmationOnLogout = false;
         shortcuts = let
           mkNumberedAttrs = prefix: valueFn:
-            builtins.listToAttrs (map (i: {
-              name = "${prefix} ${toString i}";
-              value = valueFn i;
-            }) [1 2 3 4 5 6 7 8 9]);
-          getSymbol = i: builtins.elemAt ["!" "\"" "£" "$" "%" "^" "&" "*" "("] (i - 1);
+            lib.range 1 9
+            |> map (i: lib.nameValuePair "${prefix} ${toString i}" (valueFn i))
+            |> builtins.listToAttrs;
+          getSymbol = i: (i - 1) |> builtins.elemAt ["!" "\"" "£" "$" "%" "^" "&" "*" "("];
         in {
           kwin =
             (mkNumberedAttrs "Switch to Desktop" (i: "Meta+${toString i}"))

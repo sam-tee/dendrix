@@ -1,11 +1,10 @@
 {
   flake.modules.homeManager.aerospace = {lib, ...}: let
-    mkGaps = keys: lib.genAttrs keys (name: 0);
+    mkGaps = keys: lib.genAttrs keys (_: 0);
     mkBindings = prefix: command:
-      builtins.listToAttrs (map (i: {
-        name = "${prefix}-${toString i}";
-        value = "${command} ${toString i}";
-      }) [1 2 3 4 5 6 7 8 9]);
+      lib.range 1 9
+      |> map (i: lib.nameValuePair "${prefix}-${toString i}" "${command} ${toString i}")
+      |> builtins.listToAttrs;
   in {
     programs.aerospace = {
       enable = true;

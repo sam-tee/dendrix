@@ -17,11 +17,11 @@
         default = "http_status:503";
         credentialsFile = config.sops.secrets."cloudflared/credentials.json".path;
         ingress =
-          lib.mapAttrs' (key: value: {
+          ingress
+          |> lib.mapAttrs' (key: value: {
             name = "${key}.${domain}";
             value = "http://localhost:${value}";
-          })
-          ingress;
+          });
       };
     };
   };

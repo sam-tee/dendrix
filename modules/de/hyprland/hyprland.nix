@@ -48,9 +48,7 @@ in {
           ];
           animations.enabled = false;
           exec-once = ["noctalia-shell" "bitwarden"];
-          workspace = map (
-            i: "${toString (i + 1)}, persistent:true"
-          ) (builtins.genList (i: i) 9);
+          workspace = builtins.genList (i: "${toString (i + 1)}, persistent:true") 9;
           misc = {
             disable_hyprland_logo = true;
             disable_splash_rendering = true;

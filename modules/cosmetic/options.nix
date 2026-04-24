@@ -61,11 +61,11 @@
             description = "Path to TOML theme file";
           };
           attrs = lib.mkOption {
-            default = fromTOML (builtins.readFile self.cosmetic.theme.file);
+            default = self.cosmetic.theme.file |> builtins.readFile |> fromTOML;
             description = "Theme to use for stylix. Must be either path to yaml or attrset";
           };
           noHash = lib.mkOption {
-            default = (builtins.mapAttrs (name: value: lib.removePrefix "#" value)) self.cosmetic.theme.attrs;
+            default = self.cosmetic.theme.attrs |> builtins.mapAttrs (name: value: lib.removePrefix "#" value);
           };
         };
         bgFile = lib.mkOption {

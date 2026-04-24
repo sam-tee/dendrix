@@ -47,10 +47,8 @@
       };
     };
     systemd.services.forgejo.preStart = let
-      adminCmd = "${lib.getExe cfg.package} admin user";
-      pwd = config.sops.secrets."forgejo/adminPwd";
     in ''
-      ${adminCmd} create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${pwd.path})" || true
+      ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
     '';
   };
 }

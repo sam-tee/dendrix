@@ -22,7 +22,7 @@
           configurationLimit = 5;
         };
         efi.canTouchEfiVariables = true;
-        timeout = 1;
+        timeout = 0;
       };
       plymouth.enable = true;
       supportedFilesystems = ["btrfs" "nfs"];

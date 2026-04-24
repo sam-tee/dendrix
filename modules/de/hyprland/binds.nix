@@ -10,16 +10,16 @@
         "3, horizontal, workspace"
         "3, vertical, dispatcher, exec, $noctalia launcher toggle"
       ];
-      bind =
-        (builtins.concatLists (builtins.genList (
-            i: let
-              ws = toString (i + 1);
-            in [
-              "$mod, ${ws}, workspace, ${ws}"
-              "$mod SHIFT, ${ws}, movetoworkspace, ${ws}"
-            ]
-          )
-          9))
+      bind = let
+        fn = i:
+          toString (i + 1)
+          |> (ws: [
+            "$mod, ${ws}, workspace, ${ws}"
+            "$mod SHIFT, ${ws}, movetoworkspace, ${ws}"
+          ]);
+        binds = 9 |> builtins.genList fn |> builtins.concatLists;
+      in
+        binds
         ++ [
           "$mod, Q, killactive,"
           "$mod, V, togglefloating,"

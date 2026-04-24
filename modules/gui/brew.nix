@@ -15,6 +15,7 @@
       casks = [
         "ghostty"
         "google-chrome"
+        "helium-browser"
         "protonvpn"
         "raycast"
         "slicer"
