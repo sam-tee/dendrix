@@ -17,7 +17,7 @@ in {
         zsh = {
           enable = true;
           autosuggestions.enable = true;
-          ohMyZsh.enable = false;
+          ohMyZsh.enable = true;
           shellAliases = alias;
           syntaxHighlighting.enable = true;
         };
@@ -42,7 +42,7 @@ in {
           enable = true;
           history.ignoreAllDups = true;
           autosuggestion.enable = true;
-          oh-my-zsh.enable = false;
+          oh-my-zsh.enable = true;
           shellAliases = alias;
           syntaxHighlighting.enable = true;
         };
