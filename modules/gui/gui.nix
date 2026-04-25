@@ -47,6 +47,7 @@
         baobab
         chromium
         gparted
+        haruna
         libreoffice
         proton-vpn
         vlc

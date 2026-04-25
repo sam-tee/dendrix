@@ -16,6 +16,7 @@
         "ghostty"
         "google-chrome"
         "helium-browser"
+        "iina"
         "protonvpn"
         "raycast"
         "slicer"
