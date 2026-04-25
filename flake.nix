@@ -8,7 +8,7 @@
     flake-file.url = "github:vic/flake-file";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs-lib";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -27,7 +27,6 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nixgl.url = "github:nix-community/nixgl";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
-    nixpkgs-lib.follows = "nixpkgs";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";

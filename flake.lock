@@ -138,7 +138,7 @@
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
-          "nixpkgs-lib"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -624,9 +624,6 @@
         "nix-homebrew": "nix-homebrew",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-lib": [
-          "nixpkgs"
-        ],
         "nixpkgs-stable": "nixpkgs-stable",
         "noctalia": "noctalia",
         "noctalia-qs": "noctalia-qs",

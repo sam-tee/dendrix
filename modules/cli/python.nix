@@ -5,7 +5,7 @@ let
       ruff
       ty
       uv
-];
+    ];
 in {
   flake.modules = {
     nixos.cli = {pkgs, ...}: {
