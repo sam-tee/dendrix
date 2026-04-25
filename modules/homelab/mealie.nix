@@ -11,7 +11,10 @@
       settings = {
         BASE_URL = "https://cooking.${config.homelab.domain}";
         SMTP_HOST = host;
+        SMTP_PORT = 587;
+        SMTP_FROM_NAME = "Mealie";
         SMTP_FROM_EMAIL = from;
+        SMTP_AUTH_STRATEGY = "TLS";
         SMTP_USER = user;
         SMTP_PASSWORD_FILE = pwdPath;
         ALLOW_SIGNUP = "false";
