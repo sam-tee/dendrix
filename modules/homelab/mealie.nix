@@ -9,7 +9,6 @@
       port = 9876;
       credentialsFile = config.sops.secrets.mealieEnv.path;
       settings = {
-        DB_ENGINE = "postgres";
         BASE_URL = "https://cooking.${config.homelab.domain}";
         SMTP_HOST = host;
         SMTP_FROM_EMAIL = from;

@@ -4,7 +4,7 @@
   in {
     homelab.ingress.music = "4533";
     services = {
-      caddy.virtualHosts."music.${domain}" = {
+      caddy.virtualHosts."navi.${domain}" = {
         useACMEHost = domain;
         extraConfig = ''
           reverse_proxy http://127.0.0.1:4533
