@@ -5,13 +5,12 @@
   in {
     homelab.ingress.ntfy = port;
     services.ntfy-sh = {
-        enable = true;
-        settings = {
-          base-url = "https://ntfy.${domain}";
-          listen-http = ":${port}";
-          upstream-base-url = "https://ntfy.sh";
-          behind-proxy = true;
-        };
+      enable = true;
+      settings = {
+        base-url = "https://ntfy.${domain}";
+        listen-http = ":${port}";
+        upstream-base-url = "https://ntfy.sh";
+        behind-proxy = true;
       };
     };
   };
