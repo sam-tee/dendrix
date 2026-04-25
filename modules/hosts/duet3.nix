@@ -46,6 +46,7 @@ in {
         }
       ];
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
+      hardware.sensor.iio.enable = true;
       swapDevices = [
         {
           device = "/swapfile";

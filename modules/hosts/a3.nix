@@ -19,6 +19,7 @@ in {
           a3Hardware
           hyprland
           steam
+          vms
         ];
         home-manager.sharedModules = with self.modules.homeManager; [
           _linuxMinimal
@@ -28,13 +29,6 @@ in {
           {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,1"];}
         ];
         environment.systemPackages = with pkgs; [ffmpeg-full handbrake];
-        virtualisation = {
-          spiceUSBRedirection.enable = true;
-          libvirtd = {
-            enable = true;
-            qemu.verbatimConfig = ''display_gl = "on"'';
-          };
-        };
         programs = {
           virt-manager.enable = true;
           dconf.enable = true;

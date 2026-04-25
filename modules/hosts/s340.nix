@@ -19,6 +19,7 @@ in {
           s340Hardware
           autologin
           hyprland
+          vms
         ];
         home-manager = {
           sharedModules = with self.modules.homeManager; [

@@ -1,5 +1,9 @@
 {
-  flake.modules.nixos.boot = {pkgs, ...}: {
+  flake.modules.nixos.boot = {
+    lib,
+    pkgs,
+    ...
+  }: {
     boot = {
       binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
       consoleLogLevel = 0;
@@ -22,7 +26,7 @@
           configurationLimit = 5;
         };
         efi.canTouchEfiVariables = true;
-        timeout = 0;
+        timeout = lib.mkForce 0;
       };
       plymouth.enable = true;
       supportedFilesystems = ["btrfs" "nfs"];
