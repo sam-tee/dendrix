@@ -46,8 +46,7 @@
         log.LEVEL = "Trace";
       };
     };
-    systemd.services.forgejo.preStart = let
-    in ''
+    systemd.services.forgejo.preStart = ''
       ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
     '';
   };

@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.mealie = {config, ...}: let
-    inherit (config.homelab.email) host user from pwdPath;
+    inherit (config.homelab.email) host user from;
   in {
     sops.secrets."mealieEnv" = {};
     homelab.ingress.mealie = "9876";
@@ -16,7 +16,6 @@
         SMTP_FROM_EMAIL = from;
         SMTP_AUTH_STRATEGY = "TLS";
         SMTP_USER = user;
-        SMTP_PASSWORD_FILE = pwdPath;
         ALLOW_SIGNUP = "false";
       };
     };
