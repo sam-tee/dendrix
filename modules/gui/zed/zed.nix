@@ -56,7 +56,7 @@ in {
             home.expr = options "homeConfigurations";
             nixos.expr = options "nixosConfigurations";
             fp.expr = "${flake}.debug.options";
-            fp2.expr = "${flake}.currentSystem.options";
+            nixvim.expr = "${flake}.packages.x86_64-linux.nixvim.options";
           };
         };
         notification_panel.dock = "left";
