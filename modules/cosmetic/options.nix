@@ -67,6 +67,12 @@
           noHash = lib.mkOption {
             default = self.cosmetic.theme.attrs |> builtins.mapAttrs (name: value: lib.removePrefix "#" value);
           };
+          colours = lib.mkOption {
+            default = removeAttrs self.cosmetic.theme.attrs ["name" "author" "variant"];
+          };
+          coloursNoHash = lib.mkOption {
+            default = removeAttrs self.cosmetic.theme.noHash ["name" "author" "variant"];
+          };
         };
         bgFile = lib.mkOption {
           type = lib.types.path;

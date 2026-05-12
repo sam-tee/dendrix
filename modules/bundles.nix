@@ -9,6 +9,7 @@ in {
         cli
         fonts
         networking
+        nixvim
         ssh
         system
         user
@@ -53,6 +54,7 @@ in {
       brew
       cli
       networking
+      nixvim
       ssh
       system
       user
@@ -62,28 +64,23 @@ in {
       _minimal.imports = with hMod; [
         cli
         fonts
+        nixvim
         sops
         ssh
       ];
       _darwinMinimal.imports = with hMod; [
-        cli
-        fonts
+        _minimal
         ghostty
         minPkgs
-        sops
-        ssh
         zed
       ];
       _linuxMinimal.imports = with hMod; [
-        cli
+        _minimal
         cliLinux
-        fonts
         ghostty
         gtk
         linuxMinPkgs
         pointer
-        sops
-        ssh
         xournal
         zed
       ];
