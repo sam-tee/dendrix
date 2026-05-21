@@ -67,6 +67,7 @@ in {
         nixvim
         sops
         ssh
+        system
       ];
       _darwinMinimal.imports = with hMod; [
         _minimal

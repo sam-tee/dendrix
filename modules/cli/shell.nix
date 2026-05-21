@@ -17,9 +17,9 @@ in {
         zsh = {
           enable = true;
           autosuggestions.enable = true;
-          ohMyZsh.enable = true;
           shellAliases = alias;
           syntaxHighlighting.enable = true;
+          histFile = "$XDG_CONFIG_DIR/zsh/.zsh_history";
         };
         bash = {
           enable = true;
@@ -27,24 +27,19 @@ in {
         };
       };
     };
-
-    darwin.cli = _: {
-      programs.zsh = {
-        enable = true;
-        enableAutosuggestions = true;
-        enableSyntaxHighlighting = true;
-      };
-    };
-
-    homeManager.cli = _: {
+    homeManager.cli = {config, ...}: {
       programs = {
         zsh = {
           enable = true;
-          history.ignoreAllDups = true;
+          history = {
+            size = 10000;
+            save = 10000;
+            ignoreAllDups = true;
+          };
           autosuggestion.enable = true;
-          oh-my-zsh.enable = true;
           shellAliases = alias;
           syntaxHighlighting.enable = true;
+          dotDir = "${config.xdg.configHome}/zsh";
         };
         bash = {
           enable = true;
