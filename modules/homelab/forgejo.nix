@@ -29,6 +29,10 @@
           PROTOCOL = "sendmail";
           SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
         };
+        repository = {
+          ENABLE_PUSH_CREATE_USER = true;
+          ENABLE_PUSH_CREATE_ORG = true;
+        };
         server = {
           DOMAIN = domain;
           ROOT_URL = "https://${domain}/";
