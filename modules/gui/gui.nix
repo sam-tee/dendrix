@@ -12,7 +12,7 @@
           brave
           localsend
         ])
-        ++ lib.optionals (isNotAarchLinux pkgs) (with pkgs; [discord]);
+        ++ lib.optionals (pkgs.stdenv.hostPlatform.system == "x86_64-linux") (with pkgs; [discord]);
     };
 
     linuxMinPkgs = {
@@ -35,9 +35,7 @@
 
     extraPkgs = {pkgs, ...}: {
       home.packages = with pkgs; [
-        #kilocode-cli
-        yt-dlg
-        #zotero
+        zotero
       ];
     };
 

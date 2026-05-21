@@ -29,6 +29,10 @@ in {
         hover_popover_delay = 200;
         inlay_hints.enabled = true;
         languages = {
+          LaTeX = {
+            soft_wrap = "preferred_line_length";
+            preferred_line_length = 80;
+          };
           Nix = {
             format_on_save = "on";
             formatter.external = {
