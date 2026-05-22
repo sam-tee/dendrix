@@ -5,6 +5,11 @@
     })
     self.hosts;
   allFolders = {
+    project_data = {
+      path = "~/data";
+      devices = ["a3" "mba" "u410"];
+      ignorePatterns = ["(?d).DS_Store"];
+    };
     books = {
       path = "~/books";
       devices = ["a3" "hp" "s340" "u410"];

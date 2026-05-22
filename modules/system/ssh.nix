@@ -40,11 +40,11 @@ in {
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
-        matchBlocks = let
-          mkBlock = hostname: user: port: keyName: {
-            inherit hostname user port;
-            identitiesOnly = true;
-            identityFile = "~/.ssh/pubKeys/${keyName}.pub";
+        settings = let
+          mkBlock = HostName: User: Port: keyName: {
+            inherit HostName User Port;
+            IdentitiesOnly = true;
+            IdentityFile = "~/.ssh/pubKeys/${keyName}.pub";
           };
           mkHost = hostname: mkBlock hostname "sam" 2222 hostname;
         in {
@@ -52,7 +52,7 @@ in {
           deck = mkHost "deck";
           duet3 = mkHost "duet3";
           hp = mkHost "hp";
-          mba = mkHost "mba" // {port = 22;};
+          mba = mkHost "mba" // {Port = 22;};
           s340 = mkHost "s340";
           u410 = mkHost "u410";
           github = mkBlock "github.com" "git" 22 "git";
