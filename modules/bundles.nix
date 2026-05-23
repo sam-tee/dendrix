@@ -29,25 +29,7 @@ in {
         boot
         email
         homelab
-      ];
-      _serverFull.imports = with nMod; [
-        _serverMin
-        anki
-        arr
-        audiobookshelf
-        calibre
-        cockpit
-        code-server
-        copyparty
-        forgejo
-        immich
-        jellyfin
-        navidrome
-        nextcloud
-        nfs
-        samba
-        terraria
-        vaultwarden
+        mkServer
       ];
     };
 

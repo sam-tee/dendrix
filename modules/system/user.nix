@@ -4,11 +4,9 @@
   in {
     nixos.user = {
       pkgs,
-      config,
+      username,
       ...
-    }: let
-      inherit (config.host) username;
-    in {
+    }: {
       users = {
         users.${username} = {
           description = username;
@@ -25,6 +23,7 @@
     nixos.homelab = {config, ...}: let
       inherit (config.homelab) group user dataDir;
     in {
+      security.sudo.wheelNeedsPassword = false;
       users = {
         users.${user} = {
           isSystemUser = true;
@@ -37,11 +36,9 @@
     };
     darwin.user = {
       pkgs,
-      config,
+      username,
       ...
-    }: let
-      inherit (config.host) username;
-    in {
+    }: {
       users.users.${username} = {
         description = username;
         name = username;

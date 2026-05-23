@@ -1,16 +1,15 @@
-{
+{self, ...}: {
   flake.modules.nixos.tandoor = {config, ...}: let
     inherit (config.homelab) domain group user;
+    inherit (self.services.tandoor) port subdomain;
   in {
-    homelab.ingress.cooking = "8765";
     sops.secrets.tandoorPwd = {};
     services.tandoor-recipes = {
       enable = true;
-      inherit group user;
-      port = 8765;
+      inherit group user port;
       extraConfig = {
         TZ = "Europe/London";
-        ALLOWED_HOSTS = "cooking.${domain}";
+        ALLOWED_HOSTS = "${subdomain}.${domain}";
         POSTGRES_PASSWORD = config.sops.secrets.tandoorPwd.path;
         START_SSH_SERVER = true;
       };

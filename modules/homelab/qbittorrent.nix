@@ -1,19 +1,11 @@
-{
-  flake.modules.nixos.torrent = {config, ...}: let
-    inherit (config.homelab) domain group user;
+{self, ...}: {
+  flake.modules.nixos.qbittorrent = {config, ...}: let
+    inherit (config.homelab) group user;
   in {
-    services = {
-      qbittorrent = {
-        enable = true;
-        inherit group user;
-        webuiPort = 4095;
-      };
-      caddy.virtualHosts."qbit.${domain}" = {
-        useACMEHost = domain;
-        extraConfig = ''
-          reverse_proxy http://127.0.0.1:4095
-        '';
-      };
+    services.qbittorrent = {
+      enable = true;
+      inherit group user;
+      webuiPort = self.services.qbittorrent.port;
     };
   };
 }

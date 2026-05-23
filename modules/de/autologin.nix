@@ -1,8 +1,8 @@
 {
-  flake.modules.nixos.autologin = {config, ...}: {
+  flake.modules.nixos.autologin = {username, ...}: {
     services.displayManager.autoLogin = {
       enable = true;
-      user = config.host.username;
+      user = username;
     };
   };
 }

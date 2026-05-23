@@ -27,15 +27,27 @@
       });
       default = {};
     };
+    services = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          port = lib.mkOption {type = lib.types.int;};
+          host = lib.mkOption {
+            type = lib.types.str;
+            description = "Name of tailscale host service runs on";
+          };
+          private = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+          };
+          subdomain = lib.mkOption {
+            type = lib.types.str;
+          };
+        };
+      });
+    };
     lib = lib.mkOption {
       type = lib.types.attrsOf lib.types.unspecified;
       default = {};
-    };
-  };
-  config.flake.modules.generic.hostOption = {lib, ...}: {
-    options.host = {
-      username = lib.mkOption {type = lib.types.str;};
-      name = lib.mkOption {type = lib.types.str;};
     };
   };
   config.flake.lib = {
@@ -43,11 +55,10 @@
       inherit (inputs.self.hosts.${name}) username system pubKey;
     in {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit name username;};
         modules = [
-          inputs.self.modules.generic.hostOption
           inputs.self.modules.nixos."${name}Config"
           {
-            host = {inherit name username;};
             networking.hostName = name;
             nixpkgs.hostPlatform = lib.mkDefault system;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
@@ -60,12 +71,11 @@
       inherit (inputs.self.hosts.${name}) username system pubKey;
     in {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit name username;};
         modules = [
-          inputs.self.modules.generic.hostOption
           inputs.self.modules.nixos."${name}Config"
           (import "${inputs.mobile-nixos}/lib/configuration.nix" {device = system;})
           {
-            host = {inherit name username;};
             networking.hostName = name;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
           }
@@ -77,11 +87,10 @@
       inherit (inputs.self.hosts.${name}) username system pubKey;
     in {
       ${name} = inputs.nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit name username;};
         modules = [
-          inputs.self.modules.generic.hostOption
           inputs.self.modules.darwin."${name}Config"
           {
-            host = {inherit name username;};
             networking.hostName = name;
             nixpkgs.hostPlatform = lib.mkDefault system;
             system.primaryUser = username;
@@ -95,12 +104,11 @@
       inherit (inputs.self.hosts.${name}) username system;
     in {
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit name username;};
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [
-          inputs.self.modules.generic.hostOption
           inputs.self.modules.homeManager."${name}Config"
           {
-            host = {inherit name username;};
             nixpkgs.config.allowUnfree = true;
             inherit username;
           }

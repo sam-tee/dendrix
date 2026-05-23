@@ -1,49 +1,34 @@
-{
-  flake.modules.nixos.arr = {
-    config,
-    lib,
-    ...
-  }: let
-    inherit (config.homelab) domain group user dataDir;
-    mkService = {
+{self, ...}: let
+  mkArrModule = name: {config, ...}: {
+    services.${name} = {
       enable = true;
-      inherit group user;
+      inherit (config.homelab) group user;
+      settings.server.port = self.services.lidarr.port;
     };
-    mkHost = name: port: {
-      "${name}.${domain}" = {
-        useACMEHost = domain;
-        extraConfig = ''
-          reverse_proxy http://127.0.0.1:${toString port}
-        '';
-      };
-    };
-  in {
-    sops.secrets.slskd = {};
-    services = {
-      bazarr = mkService;
-      seerr.enable = true;
-      lidarr = mkService;
-      prowlarr.enable = true;
-      radarr = mkService;
-      sonarr = mkService;
-      slskd = {
-        inherit user group;
+  };
+in {
+  flake.modules.nixos = {
+    bazarr = {config, ...}: {
+      services.bazarr = {
         enable = true;
-        environmentFile = config.sops.secrets.slskd.path;
-        settings.directories = {
-          downloads = "${dataDir}/slskd/downloads";
-          incomplete = "${dataDir}/slskd/incomplete";
-        };
+        inherit (config.homelab) group user;
+        listenPort = self.services.lidarr.port;
       };
-      caddy.virtualHosts = lib.mkMerge [
-        (mkHost "slskd" 5030)
-        (mkHost "bazarr" 6767)
-        (mkHost "jellyseerr" 5055)
-        (mkHost "lidarr" 8686)
-        (mkHost "prowlarr" 9696)
-        (mkHost "radarr" 7878)
-        (mkHost "sonarr" 8989)
-      ];
+    };
+    radarr = mkArrModule "radarr";
+    sonarr = mkArrModule "sonarr";
+    lidarr = mkArrModule "lidarr";
+    prowlarr = _: {
+      services.prowlarr = {
+        enable = true;
+        settings.server.port = self.services.prowlarr.port;
+      };
+    };
+    seerr = _: {
+      services.seerr = {
+        enable = true;
+        inherit (self.services.seerr) port;
+      };
     };
   };
 }

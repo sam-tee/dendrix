@@ -33,38 +33,28 @@ in {
       lib,
       ...
     }: let
-      inherit (config.homelab) domain group user dataDir;
+      inherit (config.homelab) group user dataDir;
       folders = lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices) allFolders;
     in {
       sops.secrets."syncPwd".owner = user;
-      services = {
-        caddy.virtualHosts."sync.${domain}" = {
-          useACMEHost = domain;
-          extraConfig = ''
-            reverse_proxy http://127.0.0.1:8384
-          '';
-        };
-        syncthing = {
-          enable = true;
-          inherit user group dataDir;
-          configDir = "${dataDir}/syncthing";
-          guiAddress = "0.0.0.0:8384";
-          openDefaultPorts = true;
-          guiPasswordFile = config.sops.secrets."syncPwd".path;
-          settings = {
-            gui.user = "sam";
-            inherit devices folders;
-          };
+      services.syncthing = {
+        enable = true;
+        inherit user group dataDir;
+        configDir = "${dataDir}/syncthing";
+        guiAddress = "0.0.0.0:${toString self.services.syncthing.port}";
+        openDefaultPorts = true;
+        guiPasswordFile = config.sops.secrets."syncPwd".path;
+        settings = {
+          gui.user = "sam";
+          inherit devices folders;
         };
       };
     };
     homeManager.syncthing = {
-      config,
+      hostname,
       lib,
-      osConfig,
       ...
     }: let
-      hostname = osConfig.host.name or config.host.name;
       folders = lib.filterAttrs (_: v: lib.elem hostname v.devices) allFolders;
     in {
       services.syncthing = {

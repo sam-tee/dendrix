@@ -17,18 +17,6 @@
         description = "Domain name to use";
         example = "zed.dev";
       };
-      ingress = lib.mkOption {
-        type = lib.types.attrsOf lib.types.str;
-        default = {};
-        description = "Mapping of subdomain names to their backend ports.";
-        example = {nextcloud = "8080";};
-      };
-      tunnel = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        example = "00000000-0000-0000-0000-000000000000";
-        description = "ID of cloudflared tunnel";
-      };
       dataDir = lib.mkOption {
         type = lib.types.str;
         default = "/var/lib/drive";

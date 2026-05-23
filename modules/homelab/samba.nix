@@ -1,5 +1,9 @@
 {
-  flake.modules.nixos.samba = {config, ...}: {
+  flake.modules.nixos.samba = {
+    config,
+    username,
+    ...
+  }: {
     sops.secrets."samba/samPwd" = {};
     services = {
       samba = {
@@ -32,7 +36,7 @@
       };
     };
     systemd.services.samba-smbd.postStart = let
-      users = [config.host.username];
+      users = [username];
       setupUser = user: let
         passwordPath = config.sops.secrets."samba/${user}Pwd".path;
         smbpasswd = "${config.services.samba.package}/bin/smbpasswd";

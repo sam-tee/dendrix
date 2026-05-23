@@ -1,10 +1,10 @@
 {
-  flake.modules.nixos.vms = {config, ...}: {
+  flake.modules.nixos.vms = {username, ...}: {
     virtualisation = {
       spiceUSBRedirection.enable = true;
       libvirtd.enable = true;
     };
     programs.virt-manager.enable = true;
-    users.users.${config.host.username}.extraGroups = ["libvirtd"];
+    users.users.${username}.extraGroups = ["libvirtd"];
   };
 }

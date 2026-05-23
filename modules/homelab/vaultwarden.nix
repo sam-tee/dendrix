@@ -1,19 +1,19 @@
-{
+{self, ...}: {
   flake.modules.nixos.vaultwarden = {config, ...}: let
-    inherit (config.homelab) email dataDir;
+    inherit (config.homelab) domain email dataDir;
     inherit (email) from host user;
+    inherit (self.services.vaultwarden) port subdomain;
   in {
-    homelab.ingress.vault = "8222";
     sops.secrets."vaultwarden.env".owner = "vaultwarden";
     services.vaultwarden = {
       enable = true;
       backupDir = "${dataDir}/vaultwarden/backup";
       environmentFile = config.sops.secrets."vaultwarden.env".path;
       config = {
-        DOMAIN = "https://vault.akhlus.uk";
+        DOMAIN = "https://${subdomain}.${domain}";
         SIGNUPS_ALLOWED = false;
-        ROCKET_ADDRESS = "127.0.0.1";
-        ROCKET_PORT = 8222;
+        ROCKET_ADDRESS = "0.0.0.0";
+        ROCKET_PORT = port;
         SMTP_HOST = host;
         SMTP_FROM = from;
         SMTP_USERNAME = user;

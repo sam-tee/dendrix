@@ -17,24 +17,9 @@ in {
       u410Config = {pkgs, ...}: {
         imports = with self.modules.nixos; [
           _serverMin
-          hm
           u410Hardware
-          arr
-          atuin
+          u410Disko
           battery
-          calibre
-          cockpit
-          code-server
-          copyparty
-          forgejo
-          immich
-          jellyfin
-          linkwarden
-          mealie
-          navidrome
-          ntfy
-          syncthing
-          vaultwarden
         ];
 
         environment = {
@@ -54,19 +39,13 @@ in {
         };
         homelab = {
           domain = "akhlus.uk";
-          tunnel = "9dd0d2e2-bc4d-4f2b-9f5b-9e8f1389e123";
           dataDir = driveMount;
         };
         programs.ssh.startAgent = true;
-        security.sudo.wheelNeedsPassword = false;
         services = {
           btrfs.autoScrub = {
             enable = true;
             interval = "monthly";
-          };
-          iperf3 = {
-            enable = true;
-            openFirewall = true;
           };
         };
         systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
@@ -83,25 +62,51 @@ in {
           initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "sd_mod"];
           kernelModules = ["kvm-intel"];
         };
-        fileSystems = {
-          "/" = {
-            device = "/dev/disk/by-uuid/689713b3-b949-41d4-b7ca-3cab4cabf47f";
-            fsType = "ext4";
-          };
-          "/boot" = {
-            device = "/dev/disk/by-uuid/3BB9-4AC9";
-            fsType = "vfat";
-            options = ["fmask=0077" "dmask=0077"];
-          };
-          ${driveMount} = {
-            device = "/dev/disk/by-uuid/6608ac85-7a69-4bb0-8169-64dfbf4f7830";
-            fsType = "btrfs";
-            options = ["subvol=media" "compress=zstd"];
-          };
+        fileSystems.${driveMount} = {
+          device = "/dev/disk/by-uuid/6608ac85-7a69-4bb0-8169-64dfbf4f7830";
+          fsType = "btrfs";
+          options = ["subvol=media" "compress=zstd"];
         };
         hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-        swapDevices = [{device = "/dev/disk/by-uuid/b87f930d-667c-45c2-a45b-77e8d1971a12";}];
+      };
+
+      u410Disko = _: {
+        disko.devices.disk.main = {
+          type = "disk";
+          device = "/dev/disk/by-id/ata-SAMSUNG_MZMTE128HMGR-00005_S2BLNWAG202715";
+          content = {
+            type = "gpt";
+            partitions = {
+              ESP = {
+                size = "1G";
+                type = "EF00";
+                content = {
+                  type = "filesystem";
+                  format = "vfat";
+                  mountpoint = "/boot";
+                  mountOptions = ["umask=0077"];
+                };
+              };
+              swap = {
+                size = "8G";
+                content = {
+                  type = "swap";
+                  discardPolicy = "both";
+                  resumeDevice = true;
+                };
+              };
+              root = {
+                size = "100%";
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/";
+                };
+              };
+            };
+          };
+        };
       };
     };
   };

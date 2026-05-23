@@ -1,20 +1,11 @@
-{
-  flake.modules.nixos.audiobookshelf = {config, ...}: let
-    inherit (config.homelab) domain group user;
-  in {
-    services = {
-      audiobookshelf = {
-        enable = true;
-        openFirewall = true;
-        inherit group user;
-        dataDir = "drive/media/audiobooks";
-      };
-      caddy.virtualHosts."audio.${domain}" = {
-        useACMEHost = domain;
-        extraConfig = ''
-          reverse_proxy http://127.0.0.1:8000
-        '';
-      };
+{self, ...}: {
+  flake.modules.nixos.audiobookshelf = {config, ...}: {
+    services.audiobookshelf = {
+      enable = true;
+      openFirewall = true;
+      inherit (self.services.audiobookshelf) port;
+      inherit (config.homelab) group user;
+      dataDir = "drive/media/audiobooks";
     };
   };
 }

@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.modules.nixos.forgejo = {
     config,
     lib,
@@ -7,9 +7,9 @@
     cfg = config.services.forgejo;
     hl = config.homelab;
     sshPort = lib.head config.services.openssh.ports;
-    domain = "git.${hl.domain}";
+    inherit (self.services.forgejo) port subdomain;
+    domain = "${subdomain}.${hl.domain}";
   in {
-    homelab.ingress.git = "3000";
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;
@@ -37,10 +37,10 @@
           DOMAIN = domain;
           ROOT_URL = "https://${domain}/";
           HTTP_ADDR = "0.0.0.0";
-          HTTP_PORT = 3000;
+          HTTP_PORT = port;
           LANDING_PAGE = "/sam-tee";
           SSH_PORT = sshPort;
-          SSH_DOMAIN = "git-ssh.${hl.domain}";
+          SSH_DOMAIN = domain;
         };
         service = {
           DISABLE_REGISTRATION = true;

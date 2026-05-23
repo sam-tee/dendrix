@@ -14,12 +14,13 @@ in {
     modules.nixos = {
       oracleConfig = _: {
         imports = with self.modules.nixos; [
-          _minimal
-          boot
+          _serverMin
           oracleHardware
           oracleDisko
         ];
-        security.sudo.wheelNeedsPassword = false;
+        homelab = {
+          domain = "akhlus.uk";
+        };
         nix.settings = {
           max-jobs = 4;
           builders-use-substitutes = true;
