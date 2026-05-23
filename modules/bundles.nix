@@ -7,6 +7,7 @@ in {
     nixos = {
       _minimal.imports = with nMod; [
         cli
+        disko
         fonts
         networking
         nixvim

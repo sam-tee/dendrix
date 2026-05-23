@@ -54,6 +54,7 @@ in {
           hp = mkHost "hp";
           mba = mkHost "mba" // {Port = 22;};
           s340 = mkHost "s340";
+          oracle = mkHost "oracle";
           u410 = mkHost "u410";
           github = mkBlock "github.com" "git" 22 "git";
           forgejo = mkBlock "git-ssh.akhlus.uk" "forgejo" 2222 "git";
