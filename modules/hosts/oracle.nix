@@ -12,9 +12,10 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      oracleConfig = {}: {
+      oracleConfig = _: {
         imports = with self.modules.nixos; [
           _minimal
+          boot
           oracleHardware
           oracleDisko
         ];
@@ -38,7 +39,7 @@ in {
         nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
       };
 
-      oracleDisko = {...}: {
+      oracleDisko = _: {
         disko.devices.disk.main = {
           type = "disk";
           device = "/dev/sda";
@@ -46,7 +47,7 @@ in {
             type = "gpt";
             partitions = {
               ESP = {
-                size = "512M";
+                size = "1G";
                 type = "EF00";
                 content = {
                   type = "filesystem";

@@ -5,7 +5,9 @@
     ...
   }: {
     boot = {
-      binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
+      binfmt.emulatedSystems =
+        ["x86_64-linux" "aarch64-linux" "x86_64-windows"]
+        |> builtins.filter (s: s != pkgs.stdenv.hostPlatform.system);
       consoleLogLevel = 0;
       initrd = {
         systemd.enable = true;
