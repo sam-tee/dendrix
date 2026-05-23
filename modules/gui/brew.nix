@@ -21,6 +21,7 @@
         "raycast"
         "slicer"
         "spotify"
+        "zotero"
       ];
       masApps = {"Bitwarden" = 1352778147;};
       onActivation.cleanup = "zap";
