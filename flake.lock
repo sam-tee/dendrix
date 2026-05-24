@@ -91,11 +91,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1779485759,
-        "narHash": "sha256-lgL1feacjPiLDwupOsk+qZud7IpCCOviz7wcmCbYck8=",
+        "lastModified": 1779558850,
+        "narHash": "sha256-GeiUFndv35wLApj0M8wiRAnRXoroYYIgWP64x97pKh0=",
         "owner": "9001",
         "repo": "copyparty",
-        "rev": "ca406472f4b45f68842bc31716deb52b66698637",
+        "rev": "2c778e0828fac843f51adbfc510ab207df0de179",
         "type": "github"
       },
       "original": {
@@ -526,11 +526,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1779414690,
-        "narHash": "sha256-N5FzTQ6c0ZFX4b7LeOMqYHccvQZTVMx5RBxrDeLgWYo=",
-        "rev": "6dedf69f94d03cbe7bdde106f2d4c23ae2a853bf",
+        "lastModified": 1779475168,
+        "narHash": "sha256-5kB9V6f63Htxk/O8vzfXXw/mOCrR6F75GO7fJvQ9pJA=",
+        "rev": "a0991c886dc83e6e9de01d5266e4842985b1850e",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre1003183.6dedf69f94d0/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre1003446.a0991c886dc8/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -546,11 +546,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1779415812,
-        "narHash": "sha256-kNCxRBKYMzX7PC4AGiHV4MV2A0SlBvP/89LJVB/mIDs=",
+        "lastModified": 1779554657,
+        "narHash": "sha256-qjLcUp7DBpmSUL+nVjLymp2nEvAzeKKoAVDCRgZYxFk=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "4503b3c5e99c825ca6055a393f1bb3c95e68ba16",
+        "rev": "1a380f12453ba97ad8cc9c60f223afb1cb8bace8",
         "type": "github"
       },
       "original": {
@@ -703,11 +703,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1777745316,
-        "narHash": "sha256-CVwfV7zjeqLtqCzTOmUT1yQan1NZab608L4L/JraGR0=",
+        "lastModified": 1779559183,
+        "narHash": "sha256-jmr0lTF5idFGBzEFhtDhbU+5tVma3aYypbgKvZADVgg=",
         "ref": "refs/heads/main",
-        "rev": "4da4039803c77b1e0e3fb805a0db39ce2ebc3698",
-        "revCount": 46,
+        "rev": "db9dc30df1b17ed4f0edf7861c61a21b7b8a1554",
+        "revCount": 47,
         "type": "git",
         "url": "ssh://git@github.com/sam-tee/nix-secrets.git"
       },

@@ -5,7 +5,7 @@
     };
   in {
     anki = mkService 27701 "u410" false "anki";
-    atuin = mkService 8888 "u410" true "atuin";
+    atuin = mkService 8888 "u410" false "atuin";
     audiobookshelf = mkService 8000 "" true "audio";
     bazarr = mkService 6767 "u410" true "bazarr";
     caddy = mkService 0 "oracle" true "";

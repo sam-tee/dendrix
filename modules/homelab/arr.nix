@@ -3,7 +3,7 @@
     services.${name} = {
       enable = true;
       inherit (config.homelab) group user;
-      settings.server.port = self.services.lidarr.port;
+      settings.server.port = self.services.${name}.port;
     };
   };
 in {

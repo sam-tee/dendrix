@@ -2,6 +2,7 @@
   flake.modules.nixos.caddy = {
     config,
     lib,
+    pkgs,
     ...
   }: let
     inherit (config.homelab) domain group user;
@@ -15,7 +16,7 @@
       lib.nameValuePair fqdn {
         useACMEHost = domain;
         extraConfig = ''
-          reverse_proxy http://${svc.host}:${toString svc.port}
+          reverse_proxy http://${svc.host}.scylla-goblin.ts.net:${toString svc.port}
         '';
       };
     caddyHosts =
@@ -30,7 +31,6 @@
       defaults.email = "sam@akhlus.uk";
       certs.${domain} = {
         reloadServices = ["caddy.service"];
-        inherit domain;
         extraDomainNames = ["*.${domain}" "*.ts.${domain}"];
         dnsProvider = "cloudflare";
         dnsResolver = "1.1.1.1:53";
@@ -42,13 +42,22 @@
     services.caddy = {
       enable = true;
       inherit group user;
+      environmentFile = pkgs.writeText "caddyEnv" ''
+        TS_PERMIT_CERT_UID = "caddy";
+      '';
       globalConfig = ''
-        auto_https off
+        auto_https disable_certs
       '';
       virtualHosts =
         caddyHosts
         // {
           "*.${domain}" = {
+            useACMEHost = domain;
+            extraConfig = ''
+              respond "Not Found" 404
+            '';
+          };
+          "*.ts.${domain}" = {
             useACMEHost = domain;
             extraConfig = ''
               respond "Not Found" 404

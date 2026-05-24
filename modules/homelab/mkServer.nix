@@ -1,12 +1,12 @@
 {self, ...}: {
   flake.modules.nixos.mkServer = {
-    name,
+    hostname,
     lib,
     ...
   }: {
     imports =
       self.services
-      |> (lib.filterAttrs (_: value: value.host == name))
+      |> (lib.filterAttrs (_: value: value.host == hostname))
       |> builtins.attrNames
       |> map (service: self.modules.nixos.${service});
   };

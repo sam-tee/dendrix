@@ -10,15 +10,15 @@
 in {
   flake.modules = {
     darwin.hm = {
+      hostname,
       lib,
-      name,
       username,
       ...
     }: {
       imports = [inputs.home-manager.darwinModules.home-manager];
       home-manager = {
         inherit backupFileExtension overwriteBackup;
-        extraSpecialArgs = {inherit name username;};
+        extraSpecialArgs = {inherit hostname username;};
         users.${username} = {
           programs.home-manager.enable = true;
           home = {
@@ -30,14 +30,14 @@ in {
       };
     };
     nixos.hm = {
-      name,
+      hostname,
       username,
       ...
     }: {
       imports = [inputs.home-manager.nixosModules.home-manager];
       home-manager = {
         inherit backupFileExtension overwriteBackup;
-        extraSpecialArgs = {inherit name username;};
+        extraSpecialArgs = {inherit hostname username;};
         users.${username} = {
           home = {
             inherit username stateVersion language;
@@ -47,6 +47,7 @@ in {
         };
       };
     };
+
     homeManager.standalone = {username, ...}: {
       imports = [self.modules.homeManager.nix];
       home = {

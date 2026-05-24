@@ -51,15 +51,15 @@
     };
   };
   config.flake.lib = {
-    mkNixos = name: let
-      inherit (inputs.self.hosts.${name}) username system pubKey;
+    mkNixos = hostname: let
+      inherit (inputs.self.hosts.${hostname}) username system pubKey;
     in {
-      ${name} = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit name username;};
+      ${hostname} = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit hostname username;};
         modules = [
-          inputs.self.modules.nixos."${name}Config"
+          inputs.self.modules.nixos."${hostname}Config"
           {
-            networking.hostName = name;
+            networking.hostName = hostname;
             nixpkgs.hostPlatform = lib.mkDefault system;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
           }
@@ -67,31 +67,31 @@
       };
     };
 
-    mkMobile = name: let
-      inherit (inputs.self.hosts.${name}) username system pubKey;
+    mkMobile = hostname: let
+      inherit (inputs.self.hosts.${hostname}) username system pubKey;
     in {
-      ${name} = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit name username;};
+      ${hostname} = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit hostname username;};
         modules = [
-          inputs.self.modules.nixos."${name}Config"
+          inputs.self.modules.nixos."${hostname}Config"
           (import "${inputs.mobile-nixos}/lib/configuration.nix" {device = system;})
           {
-            networking.hostName = name;
+            networking.hostName = hostname;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
           }
         ];
       };
     };
 
-    mkDarwin = name: let
-      inherit (inputs.self.hosts.${name}) username system pubKey;
+    mkDarwin = hostname: let
+      inherit (inputs.self.hosts.${hostname}) username system pubKey;
     in {
-      ${name} = inputs.nix-darwin.lib.darwinSystem {
-        specialArgs = {inherit name username;};
+      ${hostname} = inputs.nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit hostname username;};
         modules = [
-          inputs.self.modules.darwin."${name}Config"
+          inputs.self.modules.darwin."${hostname}Config"
           {
-            networking.hostName = name;
+            networking.hostName = hostname;
             nixpkgs.hostPlatform = lib.mkDefault system;
             system.primaryUser = username;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
@@ -100,14 +100,16 @@
       };
     };
 
-    mkHome = name: let
-      inherit (inputs.self.hosts.${name}) username system;
+    mkHome = hostname: let
+      inherit (inputs.self.hosts.${hostname}) username system;
     in {
-      ${name} = inputs.home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit name username;};
+      ${hostname} = inputs.home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {
+          inherit hostname username;
+        };
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [
-          inputs.self.modules.homeManager."${name}Config"
+          inputs.self.modules.homeManager."${hostname}Config"
           {
             nixpkgs.config.allowUnfree = true;
             inherit username;
