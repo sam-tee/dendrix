@@ -4,28 +4,33 @@ Uses flake-parts to make every file under modules/ a module
 
 ## Services
 
-|   Service   | Machine | Port | Subdomain | Private |
-| :---------: | :-----: | :--: | :-------: | :-----: |
-|    atuin    |  u410   | 8888 |   atuin   |    n    |
-|   bazarr    |  u410   | 6767 |  bazarr   |    y    |
-| calibre-web |  u410   | 8083 |   books   |    n    |
-|   Immich    |  u410   | 2283 |  photos   |    n    |
-|   forgejo   |  s340   | 3000 |    git    |    n    |
-| qbittorrent |  u410   | 4095 |   qbit    |    y    |
-|    ntfy     |  u410   | 4198 |   ntfy    |    n    |
-|  navidrome  |  u410   | 4533 |   music   |    n    |
-|    slskd    |  u410   | 5030 |   slskd   |    y    |
-|  jellyseer  |  u410   | 5055 |   seerr   |    y    |
-|   radarr    |  u410   | 7878 |  radarr   |    y    |
-|  Jellyfin   |  u410   | 8096 |   media   |    n    |
-| vaultwarden |  s340   | 8222 |   vault   |    n    |
-|  syncthing  |  u410   | 8384 |   sync    |    y    |
-|   lidarr    |  u410   | 8686 |  lidarr   |    y    |
-|   sonarr    |  u410   | 8989 |  sonarr   |    y    |
-|   cockpit   |  u410   | 9090 |   dash    |    y    |
-| linkwarden  |  u410   | 9183 |   link    |    y    |
-|  prowlarr   |  u410   | 9696 | prowlarr  |    y    |
-|   mealie    |  u410   | 9876 |  cooking  |    n    |
+|   Service       | Machine | Port  | Subdomain | Private |
+| :-------------: | :-----: | :---: | :-------: | :-----: |
+|    anki         |  u410   | 27701 |    anki   |    n    |
+|    atuin        |  u410   | 8888  |   atuin   |    n    |
+| audiobookshelf  |  -      | -     |  -        |    -    |
+|   bazarr        |  u410   | 6767  |  bazarr   |    y    |
+|    caddy        |  oracle |  -    |     @     |    n    |
+| calibre-web     |  u410   | 8083  |   books   |    n    |
+| cockpit         |  u410   | 9090  |   dash    |    y    |
+| code-server     |  oracle | 4444  |   code    |    y    |
+| copyparty       |  u410   | 3210  |   files   |    y    |
+|   forgejo       |  u410   | 3000  |    git    |    n    |
+|   Immich        |  u410   | 2283  |  photos   |    n    |
+|  Jellyfin       |  u410   | 8096  |   media   |    n    |
+|   lidarr        |  u410   | 8686  |  lidarr   |    y    |
+| linkwarden      |  u410   | 9183  |   link    |    y    |
+|   mealie        |  u410   | 9876  |  cooking  |    n    |
+|  navidrome      |  u410   | 4533  |   music   |    n    |
+|    ntfy         |  u410   | 4198  |   ntfy    |    n    |
+|  prowlarr       |  u410   | 9696  | prowlarr  |    y    |
+| qbittorrent     |  u410   | 4095  |   qbit    |    y    |
+|   radarr        |  u410   | 7878  |  radarr   |    y    |
+|  seerr          |  u410   | 5055  |   seerr   |    y    |
+|    slskd        |  u410   | 5030  |   slskd   |    y    |
+|   sonarr        |  u410   | 8989  |  sonarr   |    y    |
+|  syncthing      |  u410   | 8384  |   sync    |    y    |
+| vaultwarden     |  s340   | 8222  |   vault   |    n    |
 
 Modules that bundle other modules are prefixed with \_ to distinguish them
 

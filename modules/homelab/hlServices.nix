@@ -11,7 +11,7 @@
     caddy = mkService 0 "oracle" true "";
     calibre = mkService 8083 "u410" false "books";
     cockpit = mkService 9090 "u410" true "dash";
-    code-server = mkService 4444 "" true "code";
+    code-server = mkService 4444 "oracle" true "code";
     copyparty = mkService 3210 "u410" true "files";
     forgejo = mkService 3000 "u410" false "git";
     immich = mkService 2283 "u410" false "photos";
