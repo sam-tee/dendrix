@@ -30,6 +30,7 @@ in {
         email
         homelab
         mkServer
+        syncthing
       ];
     };
 

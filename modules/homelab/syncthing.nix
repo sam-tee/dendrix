@@ -7,12 +7,12 @@
   allFolders = {
     project_data = {
       path = "~/data";
-      devices = ["a3" "mba" "u410"];
+      devices = ["a3" "mba" "oracle" "u410"];
       ignorePatterns = ["(?d).DS_Store"];
     };
     books = {
       path = "~/books";
-      devices = ["a3" "hp" "s340" "u410"];
+      devices = ["a3" "hp" "oracle" "s340" "u410"];
       ignorePatterns = ["(?d).DS_Store"];
     };
     calibre_config = {
@@ -22,7 +22,7 @@
     };
     Docs = {
       path = "~/Documents";
-      devices = ["a3" "duet3" "hp" "mba" "s340" "u410"];
+      devices = ["a3" "duet3" "hp" "mba" "oracle" "s340" "u410"];
       ignorePatterns = ["(?d).DS_Store" ".venv" "result"];
     };
   };
@@ -41,7 +41,7 @@ in {
         enable = true;
         inherit user group dataDir;
         configDir = "${dataDir}/syncthing";
-        guiAddress = "0.0.0.0:${toString self.services.syncthing.port}";
+        guiAddress = "0.0.0.0:8384";
         openDefaultPorts = true;
         guiPasswordFile = config.sops.secrets."syncPwd".path;
         settings = {

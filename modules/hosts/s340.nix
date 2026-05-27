@@ -6,7 +6,7 @@ in {
       username = "sam";
       system = "x86_64-linux";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIuHm83l7+Fu0CPrHWCL7tcG//mh4/626QImgUXxJekc";
-      syncID = "7Z2QWJX-7FGBQRR-NTSJKT4-NYXLPX2-PYFARFH-WRAB5NS-DXQU64N-P3FBEAF";
+      syncID = "7LWGZAU-X6P4OAZ-NXVGDMA-6E6G65K-XK7KFLE-HQSGKM2-US2ATJP-XNZFTA6";
     };
 
     nixosConfigurations = self.lib.mkNixos hostname;
