@@ -13,10 +13,7 @@
     };
   };
 in {
-  flake-file.inputs.nixvim = {
-    url = "github:nix-community/nixvim";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  flake-file.inputs.nixvim.url = "github:nix-community/nixvim";
   imports = [inputs.nixvim.flakeModules.default];
   nixvim = {
     checks.enable = true;
