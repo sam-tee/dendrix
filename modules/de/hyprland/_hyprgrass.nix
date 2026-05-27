@@ -12,13 +12,13 @@
 }:
 hyprlandPlugins.mkHyprlandPlugin {
   pluginName = "hyprgrass";
-  version = "0.54.2";
+  version = "0.55.2";
 
   src = fetchFromGitHub {
     owner = "horriblename";
     repo = "hyprgrass";
-    rev = "hl-0.54.2";
-    hash = "sha256-XI9j4gXRMeMR+dycRMZ1QwbVK5xYoXDBbihFeGapv04=";
+    tag = "hl-0.55.2";
+    hash = "sha256-5YU8CV5/tjgyO9V8MJQ0h5OlshpM+e39QZj8lBfTJRU=";
   };
 
   nativeBuildInputs = [cmake ninja meson doctest];

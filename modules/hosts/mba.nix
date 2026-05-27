@@ -10,7 +10,7 @@ in {
     };
     darwinConfigurations = self.lib.mkDarwin hostname;
 
-    modules.darwin.mbaConfig = _: {
+    modules.darwin.mbaConfig = {pkgs, ...}: {
       imports = with self.modules.darwin; [
         _default
         hm
@@ -21,6 +21,9 @@ in {
         extraPkgs
         syncthing
         #vscode
+      ];
+      environment.systemPackages = with pkgs; [
+        texlab
       ];
     };
   };

@@ -15,12 +15,12 @@
       bat
       btop
       direnv
-      dust
       eza
       fastfetch
       fzf
       lazygit
       nano
+      ncdu
       ripgrep
       speedtest-cli
       tldr
