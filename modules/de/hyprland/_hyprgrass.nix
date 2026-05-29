@@ -23,7 +23,11 @@ hyprlandPlugins.mkHyprlandPlugin {
 
   nativeBuildInputs = [cmake ninja meson doctest];
 
-  buildInputs = [wf-touch];
+  buildInputs = [
+    (wf-touch.overrideAttrs (oldAttrs: {
+      mesonFlags = (oldAttrs.mesonFlags or []) ++ ["-Dtests=disabled"];
+    }))
+  ];
 
   dontUseCmakeConfigure = true;
 

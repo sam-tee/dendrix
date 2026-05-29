@@ -12,7 +12,10 @@
   nixDefault = {
     registry =
       (flakeInputs |> builtins.mapAttrs (_: flake: {inherit flake;}))
-      // {nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};};
+      // rec {
+        nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};
+        n = nixpkgs;
+      };
     settings = {
       use-xdg-base-directories = true;
       keep-going = true;

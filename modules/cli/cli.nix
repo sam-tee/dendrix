@@ -4,6 +4,7 @@
     bat.enable = true;
     direnv = {
       enable = true;
+      silent = true;
       nix-direnv.enable = true;
     };
     lazygit.enable = true;
