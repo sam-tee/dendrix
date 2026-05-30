@@ -35,6 +35,16 @@ in {
         };
         users.users.sam.extraGroups = ["libvirtd"];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
+        networking.networkmanager.ensureProfiles.profiles."House" = {
+          connection = {
+            id = "House";
+            type = "wifi";
+          };
+          ipv4 = {
+            route-metric = 90;
+            method = "auto";
+          };
+        };
         hardware.graphics.extraPackages = with pkgs; [
           intel-compute-runtime
           intel-media-driver
