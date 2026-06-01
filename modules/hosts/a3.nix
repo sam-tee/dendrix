@@ -12,12 +12,18 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      "${hostname}Config" = {pkgs, ...}: {
+      "${hostname}Config" = {
+        config,
+        pkgs,
+        ...
+      }: {
         imports = with self.modules.nixos; [
           _default
           hm
           a3Hardware
           hyprland
+          jovian
+          mullvad
           steam
           vms
         ];
@@ -28,21 +34,47 @@ in {
           vscode
           {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,1"];}
         ];
-        environment.systemPackages = with pkgs; [ffmpeg-full handbrake];
+        environment.systemPackages = with pkgs; [ffmpeg-full handbrake nautilus];
         programs = {
           virt-manager.enable = true;
           dconf.enable = true;
         };
         users.users.sam.extraGroups = ["libvirtd"];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
-        networking.networkmanager.ensureProfiles.profiles."House" = {
-          connection = {
-            id = "House";
-            type = "wifi";
-          };
-          ipv4 = {
-            route-metric = 90;
-            method = "auto";
+        sops.secrets."wifiHouse.env" = {};
+        networking.networkmanager.ensureProfiles = {
+          environmentFiles = [config.sops.secrets."wifiHouse.env".path];
+          profiles = {
+            homeWifi = {
+              connection = {
+                id = "homeWifi";
+                type = "wifi";
+                autoconnect = true;
+                autoconnect-priority = 100;
+              };
+              wifi = {
+                ssid = "House";
+                mode = "infrastructure";
+              };
+              ipv4 = {
+                route-metric = 100;
+                method = "auto";
+              };
+            };
+            fallbackEth = {
+              connection = {
+                id = "fallbackEth";
+                type = "ethernet";
+                autoconnect = true;
+                autoconnect-priority = 0;
+                interface-name = "enp4s0";
+              };
+              ethernet = {};
+              ipv4 = {
+                method = "auto";
+                route-metric = 600;
+              };
+            };
           };
         };
         hardware.graphics.extraPackages = with pkgs; [
@@ -68,7 +100,7 @@ in {
             "luksSwap".device = "/dev/disk/by-uuid/f83d2bd7-bce7-41a9-a319-dc192f1a2d8d";
           };
         };
-        boot.kernelModules = ["kvm-amd"];
+        boot.kernelModules = ["kvm-amd" "rtw88_8821au" "uinput"];
         fileSystems = {
           "/" = {
             device = "/dev/mapper/luksRoot";
@@ -83,10 +115,16 @@ in {
             device = "/dev/disk/by-uuid/61410c09-7289-4d7d-aff7-b9053bb5224a";
             fsType = "ext4";
           };
+          "/mnt/320" = {
+            device = "/dev/disk/by-uuid/7fe30e78-6b4b-4364-aff6-bdcac4befc3d";
+            fsType = "xfs";
+            options = ["defaults" "nofail"];
+          };
         };
         swapDevices = [{device = "/dev/mapper/luksSwap";}];
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
         hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        hardware.enableRedistributableFirmware = true;
       };
     };
   };
