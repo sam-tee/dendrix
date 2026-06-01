@@ -19,6 +19,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
+    jovian = {
+      url = "github:jovian-experiments/jovian-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     mobile-nixos = {
       url = "github:mobile-nixos/mobile-nixos";
       flake = false;
