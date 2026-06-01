@@ -2,9 +2,9 @@
   inherit (self.cosmetic.theme.noHash) base03;
 in {
   flake.modules = {
-    nixos.hyprland = _: {
+    nixos.hyprland = {pkgs, ...}: {
       imports = with self.modules.nixos; [
-        sddm
+        #sddm
         wm
       ];
       home-manager.sharedModules = with self.modules.homeManager; [
@@ -17,8 +17,24 @@ in {
           xwayland.enable = true;
         };
       };
+      xdg.portal = {
+        enable = true;
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-termfilechooser
+          xdg-desktop-portal-gtk
+        ];
+        config.common."org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
+      };
     };
-    homeManager.hyprland = _: {
+    homeManager.hyprland = {pkgs, ...}: {
+      xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
+        [filechooser]
+        cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+        default_dir=$HOME
+        env=TERMCMD=ghostty --title="terminal-filechooser" -e
+        open_mode=suggested
+        save_mode=last
+      '';
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false;
