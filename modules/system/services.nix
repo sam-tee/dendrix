@@ -24,6 +24,7 @@
       };
       printing.enable = true;
       pulseaudio.enable = false;
+      udisks2.enable = true;
     };
   };
 }

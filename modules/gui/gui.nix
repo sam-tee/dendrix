@@ -31,6 +31,7 @@
           discord
           spotify
         ]);
+      services.udiskie.enable = true;
     };
 
     extraPkgs = {pkgs, ...}: {
