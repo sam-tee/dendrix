@@ -34,7 +34,7 @@
         timeout = lib.mkForce 0;
       };
       plymouth.enable = true;
-      supportedFilesystems = ["btrfs" "nfs"];
+      supportedFilesystems = ["btrfs" "nfs" "ntfs" "xfs" "exfat"];
     };
   };
 }
