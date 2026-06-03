@@ -61,6 +61,12 @@ in {
               "match:class" = ".*";
               idle_inhibit = "fullscreen";
             }
+            {
+              name = "gamescope";
+              "match:class" = "^(gamescope)$";
+              fullscreen = 1;
+              float = 1;
+            }
           ];
           animations.enabled = false;
           exec-once = ["noctalia-shell" "bitwarden"];
