@@ -31,6 +31,8 @@
         i = "0.0.0.0";
         no-reload = true;
         p = [port];
+        xff-hdr = "x-forwarded-for";
+        rproxy = 1;
       };
       groups = {
         admin = ["media"];
