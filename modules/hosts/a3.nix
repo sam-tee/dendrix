@@ -38,11 +38,6 @@ in {
           nautilus
           codex
         ];
-        programs = {
-          virt-manager.enable = true;
-          dconf.enable = true;
-        };
-        users.users.sam.extraGroups = ["libvirtd"];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
         hardware.graphics.extraPackages = with pkgs; [
           intel-compute-runtime

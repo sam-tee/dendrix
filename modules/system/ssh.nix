@@ -30,10 +30,22 @@ in {
         '';
       };
     };
-    homeManager.ssh = _: {
+    homeManager.ssh = {config, ...}: let
+      hostKeys = builtins.attrNames self.hosts;
+    in {
+      sops.secrets =
+        builtins.listToAttrs
+        (map (name: {
+            name = "ssh/${name}";
+            value = {
+              path = "${config.home.homeDirectory}/.ssh/keys/${name}";
+              mode = "0600";
+            };
+          })
+          hostKeys);
       home.file =
         builtins.mapAttrs (name: value: {
-          target = ".ssh/pubKeys/${name}.pub";
+          target = ".ssh/keys/${name}.pub";
           text = "${value.pubKey}";
         })
         self.hosts;
@@ -44,7 +56,7 @@ in {
           mkBlock = HostName: User: Port: keyName: {
             inherit HostName User Port;
             IdentitiesOnly = true;
-            IdentityFile = "~/.ssh/pubKeys/${keyName}.pub";
+            IdentityFile = "~/.ssh/keys/${keyName}";
           };
           mkHost = hostname: mkBlock hostname "sam" 2222 hostname;
         in {
