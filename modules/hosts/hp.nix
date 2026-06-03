@@ -18,12 +18,10 @@ in {
           hm
           hpHardware
           hpDisko
-          plasmaHM
         ];
         home-manager.sharedModules = with self.modules.homeManager; [
           _linuxMinimal
           #hyprTouch
-          linuxExtraPkgs
           syncthing
           {
             wayland.windowManager.hyprland.settings = {

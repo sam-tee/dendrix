@@ -696,11 +696,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780237673,
-        "narHash": "sha256-3EAqoIIuzi3USq38PqH5fcQrE6pvsZMMoRqZojEO26I=",
+        "lastModified": 1780434929,
+        "narHash": "sha256-cKzoes5ZyOYX24hifxy45Rt9aNh3kkEfIhgnhDP7254=",
         "owner": "karinushka",
         "repo": "paneru",
-        "rev": "8a352ff07d9c17af47ca60da509565277c74e9e9",
+        "rev": "433bf8e5ce46d2bb169bcfabc812a9369f6b6bd9",
         "type": "github"
       },
       "original": {
@@ -761,11 +761,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1780345489,
-        "narHash": "sha256-mRTHMFXzhiavXm33WMcetK6ruz6LJsti6AiW0gdCiZ0=",
+        "lastModified": 1780466523,
+        "narHash": "sha256-A0IFlHmGAdL/vxBxPSUAAD3gFHmSzdmPZw3FZudhF9U=",
         "ref": "refs/heads/main",
-        "rev": "30d6f5cc66aff8040ea09bbc263f640b95882924",
-        "revCount": 49,
+        "rev": "d1e9087cd11566342c774e2380f88fde3584ba54",
+        "revCount": 50,
         "type": "git",
         "url": "ssh://git@github.com/sam-tee/nix-secrets.git"
       },
@@ -814,11 +814,11 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1780418031,
-        "narHash": "sha256-/lkloe/Vlpq8GmKiHzxA3woYUubWX1mV/RDtv8TE4d0=",
+        "lastModified": 1780468555,
+        "narHash": "sha256-QV9DCDTy37iWPBFB3HKf5mzeW2lvFyxi97C4KNBiNcc=",
         "owner": "nix-community",
         "repo": "stylix",
-        "rev": "b670c2bdf09861b3215f30fc8a70f2fe26dc5f16",
+        "rev": "879889a4e5243b73fecac1f54bd636f35bc97b06",
         "type": "github"
       },
       "original": {

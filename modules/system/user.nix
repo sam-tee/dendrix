@@ -3,19 +3,26 @@
     groupID = 991;
   in {
     nixos.user = {
+      config,
       pkgs,
       username,
       ...
     }: {
+      sops.secrets.password.neededForUsers = true;
       users = {
-        users.${username} = {
-          description = username;
-          name = username;
-          shell = pkgs.zsh;
-          uid = 1000;
-          ignoreShellProgramCheck = true;
-          extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
-          isNormalUser = true;
+        mutableUsers = false;
+        users = {
+          root.hashedPasswordFile = config.sops.secrets.password.path;
+          ${username} = {
+            description = username;
+            name = username;
+            shell = pkgs.zsh;
+            uid = 1000;
+            hashedPasswordFile = config.sops.secrets.password.path;
+            ignoreShellProgramCheck = true;
+            extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
+            isNormalUser = true;
+          };
         };
         groups.media.gid = groupID;
       };
