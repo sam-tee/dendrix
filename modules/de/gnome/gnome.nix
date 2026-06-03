@@ -4,6 +4,7 @@
       imports = with self.modules.nixos; [
         hm
         gnome
+        gdm
       ];
       home-manager.sharedModules = with self.modules.homeManager; [gnome];
     };
@@ -36,7 +37,6 @@
         terminal = "ghostty";
       };
       services = {
-        displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
         power-profiles-daemon.enable = true;
         gnome = {
