@@ -17,11 +17,12 @@ in {
           _default
           hm
           hpHardware
-          hyprland
+          hpDisko
+          plasmaHM
         ];
         home-manager.sharedModules = with self.modules.homeManager; [
           _linuxMinimal
-          hyprTouch
+          #hyprTouch
           linuxExtraPkgs
           syncthing
           {
@@ -54,20 +55,49 @@ in {
           initrd.availableKernelModules = ["xhci_pci" "vmd" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
           kernelModules = ["kvm-intel"];
         };
-        fileSystems = {
-          "/" = {
-            device = "/dev/disk/by-uuid/2c56f58d-c167-4b62-955a-575e48ede51d";
-            fsType = "ext4";
-          };
-          "/boot" = {
-            device = "/dev/disk/by-uuid/F398-9314";
-            fsType = "vfat";
-            options = ["fmask=0077" "dmask=0077"];
-          };
-        };
-        swapDevices = [{device = "/dev/disk/by-uuid/167d6486-1689-442d-b64a-f7ff75e1bce9";}];
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
         hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      };
+
+      hpDisko = _: {
+        disko.devices.disk.main = {
+          type = "disk";
+          device = "/dev/nvme0n1";
+          content = {
+            type = "gpt";
+            partitions = {
+              ESP = {
+                size = "1G";
+                type = "EF00";
+                content = {
+                  type = "filesystem";
+                  format = "vfat";
+                  mountpoint = "/boot";
+                  mountOptions = ["umask=0077"];
+                };
+              };
+              swap = {
+                size = "8G";
+                content = {
+                  type = "swap";
+                  randomEncryption = true;
+                };
+              };
+              root = {
+                size = "100%";
+                content = {
+                  type = "btrfs";
+                  extraArgs = ["-f"];
+                  mountpoint = "/";
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
+                };
+              };
+            };
+          };
+        };
       };
     };
   };

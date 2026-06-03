@@ -12,11 +12,7 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      "${hostname}Config" = {
-        config,
-        pkgs,
-        ...
-      }: {
+      "${hostname}Config" = {pkgs, ...}: {
         imports = with self.modules.nixos; [
           _default
           hm
@@ -24,6 +20,7 @@ in {
           hyprland
           #jovian
           autologin
+          ly
           mullvad
           steam
           vms
@@ -47,42 +44,6 @@ in {
         };
         users.users.sam.extraGroups = ["libvirtd"];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
-        sops.secrets."wifiHouse.env" = {};
-        networking.networkmanager.ensureProfiles = {
-          environmentFiles = [config.sops.secrets."wifiHouse.env".path];
-          profiles = {
-            homeWifi = {
-              connection = {
-                id = "homeWifi";
-                type = "wifi";
-                autoconnect = true;
-                autoconnect-priority = 100;
-              };
-              wifi = {
-                ssid = "House";
-                mode = "infrastructure";
-              };
-              ipv4 = {
-                route-metric = 100;
-                method = "auto";
-              };
-            };
-            fallbackEth = {
-              connection = {
-                id = "fallbackEth";
-                type = "ethernet";
-                autoconnect = true;
-                autoconnect-priority = 0;
-                interface-name = "enp4s0";
-              };
-              ethernet = {};
-              ipv4 = {
-                method = "auto";
-                route-metric = 600;
-              };
-            };
-          };
-        };
         hardware.graphics.extraPackages = with pkgs; [
           intel-compute-runtime
           intel-media-driver
