@@ -22,7 +22,8 @@ in {
           hm
           a3Hardware
           hyprland
-          jovian
+          #jovian
+          autologin
           mullvad
           steam
           vms
@@ -32,9 +33,14 @@ in {
           linuxExtraPkgs
           syncthing
           vscode
-          {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,1"];}
+          {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,2"];}
         ];
-        environment.systemPackages = with pkgs; [ffmpeg-full handbrake nautilus];
+        environment.systemPackages = with pkgs; [
+          ffmpeg-full
+          handbrake
+          nautilus
+          codex
+        ];
         programs = {
           virt-manager.enable = true;
           dconf.enable = true;
