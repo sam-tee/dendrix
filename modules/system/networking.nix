@@ -1,11 +1,10 @@
 {
   flake.modules.nixos.networking = _: {
-    networking.networkmanager = {
-      enable = true;
-      unmanaged = [
-        "interface-name:tailscale*"
-        "type:bridge"
-      ];
+    systemd.network.wait-online.enable = false;
+    networking = {
+      firewall.enable = true;
+      nftables.enable = true;
+      networkmanager.enable = true;
     };
   };
 }

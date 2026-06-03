@@ -10,7 +10,10 @@
         |> builtins.filter (s: s != pkgs.stdenv.hostPlatform.system);
       consoleLogLevel = 0;
       initrd = {
-        systemd.enable = true;
+        systemd = {
+          enable = true;
+          network.wait-online.enable = false;
+        };
         verbose = false;
       };
       kernelPackages = pkgs.linuxPackages_latest;
