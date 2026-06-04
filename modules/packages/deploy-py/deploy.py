@@ -48,7 +48,7 @@ def update_secrets(
     keys = data["keys"]
 
     found = False
-    for idx, key in enumerate(keys):
+    for key in keys:
         anchor = getattr(key, "anchor", None)
         anchor_name = anchor.value if anchor else None
         if anchor_name == target_host:
@@ -61,7 +61,22 @@ def update_secrets(
             found = True
             break
     if not found:
-        raise RuntimeError(f"Host {target_host!r} is not present in {yaml_file}")
+        replacement = PlainScalarString(host_age_key)
+        replacement.yaml_set_anchor(target_host, always_dump=True)
+        keys.append(replacement)
+
+        age_groups = [
+            key_group["age"]
+            for rule in data.get("creation_rules", [])
+            for key_group in rule.get("key_groups", [])
+            if "age" in key_group
+        ]
+        if not age_groups:
+            raise RuntimeError(f"No age key groups found in {yaml_file}")
+        for age_group in age_groups:
+            age_group.append(replacement)
+
+        print(f"Added secrets key for {target_host}")
     with yaml_file.open("w") as f:
         yaml.dump(data, f)
 
@@ -109,6 +124,7 @@ def get_age_key(host_ip: str, host_port: int) -> str:
 
 
 def deploy(
+    flake_path: Path,
     flake_uri: str,
     ssh_host: str,
     build_remote: bool,
@@ -116,14 +132,17 @@ def deploy(
     """
     Runs nixos-anywhere with specified parameters
     """
+    subprocess.run(
+        ["nix", "flake", "archive", "--no-write-lock-file"],
+        cwd=flake_path,
+        check=True,
+    )
+
     cmd = [
-        # "sudo",
         "nix",
         "run",
         "github:nix-community/nixos-anywhere",
         "--",
-        "--ssh-option",
-        "IdentitiesOnly=yes",
         "--flake",
         f"{flake_uri}",
         "--copy-host-keys",
@@ -135,7 +154,9 @@ def deploy(
 
     print(f"Running: {' '.join(cmd)}\n")
 
-    subprocess.run(cmd, check=True)
+    deploy_env = os.environ.copy()
+    deploy_env.pop("SSH_AUTH_SOCK", None)
+    subprocess.run(cmd, env=deploy_env, check=True)
 
 
 if __name__ == "__main__":
@@ -188,6 +209,7 @@ if __name__ == "__main__":
         flake_path=args.flake,
     )
     deploy(
+        flake_path=args.flake,
         flake_uri=f"{args.flake}#{args.host}",
         ssh_host=args.target,
         build_remote=args.remote,
