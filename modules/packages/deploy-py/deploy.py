@@ -2,11 +2,26 @@
 import argparse
 import os
 import subprocess
-import sys
 from pathlib import Path
 
 from ruamel.yaml import YAML
+from ruamel.yaml.comments import CommentedMap, CommentedSeq
 from ruamel.yaml.scalarstring import PlainScalarString
+
+
+def replace_references(node, old_value, new_value):
+    if isinstance(node, CommentedMap):
+        for key, value in node.items():
+            if value is old_value:
+                node[key] = new_value
+            else:
+                replace_references(value, old_value, new_value)
+    elif isinstance(node, CommentedSeq):
+        for idx, value in enumerate(node):
+            if value is old_value:
+                node[idx] = new_value
+            else:
+                replace_references(value, old_value, new_value)
 
 
 def update_secrets(
@@ -16,6 +31,16 @@ def update_secrets(
     flake_path: Path,
 ):
     yaml_file = secret_dir / ".sops.yaml"
+    status = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=secret_dir,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    if status.stdout:
+        raise RuntimeError(f"Secrets repository {secret_dir} has uncommitted changes")
+
     yaml = YAML()
     yaml.preserve_quotes = True
     yaml.indent(mapping=2, sequence=4, offset=2)
@@ -29,20 +54,27 @@ def update_secrets(
         if anchor_name == target_host:
             replacement = PlainScalarString(host_age_key)
             replacement.yaml_set_anchor(target_host, always_dump=True)
-            keys[idx] = replacement
+            replace_references(data, key, replacement)
             found = True
             break
     if not found:
-        sys.exit(1)
+        raise RuntimeError(f"Host {target_host!r} is not present in {yaml_file}")
     with yaml_file.open("w") as f:
         yaml.dump(data, f)
 
-    subprocess.run(["nix", "flake", "update", "secrets"], cwd=flake_path)
+    subprocess.run(
+        ["sops", "updatekeys", "-y", "secrets.yaml"],
+        cwd=secret_dir,
+        check=True,
+    )
 
     subprocess.run(
-        ["git", "commit", "-am", f"deploy: updated host {target_host}"], cwd=secret_dir
+        ["git", "commit", "-am", f"deploy: updated host {target_host}"],
+        cwd=secret_dir,
+        check=True,
     )
-    subprocess.run(["git", "push"], cwd=secret_dir)
+    subprocess.run(["git", "push"], cwd=secret_dir, check=True)
+    subprocess.run(["nix", "flake", "update", "secrets"], cwd=flake_path, check=True)
 
 
 def get_age_key(host_ip: str, host_port: int) -> str:
@@ -50,20 +82,26 @@ def get_age_key(host_ip: str, host_port: int) -> str:
         "ssh-keyscan",
         "-t",
         "ed25519",
-        "-P",
+        "-p",
         str(host_port),
         host_ip,
     ]
-    keyscan = subprocess.run(keyscan_cmd, text=True, check=False)
+    keyscan = subprocess.run(keyscan_cmd, text=True, capture_output=True, check=True)
 
     ssh_to_age = subprocess.run(
-        ["ssh-to-age"], input=keyscan.stdout, text=True, check=False
+        ["ssh-to-age"],
+        input=keyscan.stdout,
+        text=True,
+        capture_output=True,
+        check=True,
     )
     keys = [
         line.strip()
         for line in ssh_to_age.stdout.splitlines()
         if line.strip().startswith("age1")
     ]
+    if not keys:
+        raise RuntimeError(f"No age key found for {host_ip}:{host_port}")
     return keys[0]
 
 
@@ -88,14 +126,11 @@ def deploy(
         ssh_host,
     ]
     if build_remote:
-        cmd.extend("--build-on-remote")
+        cmd.append("--build-on-remote")
 
     print(f"Running: {' '.join(cmd)}\n")
 
-    try:
-        subprocess.run(cmd, check=True)
-    except subprocess.CalledProcessError as e:
-        print(e)
+    subprocess.run(cmd, check=True)
 
 
 if __name__ == "__main__":
@@ -112,14 +147,16 @@ if __name__ == "__main__":
         "-F",
         type=Path,
         help="Path to flake. Defaults to NH_FLAKE",
-        default=os.getenv("NH_FLAKE"),
+        default=Path(os.environ["NH_FLAKE"]).expanduser()
+        if "NH_FLAKE" in os.environ
+        else None,
     )
     parser.add_argument(
         "--secrets",
         "-S",
         type=Path,
         help="Path to secrets directory",
-        default=Path("~/nix-secrets").resolve(),
+        default=Path("~/nix-secrets").expanduser(),
     )
     parser.add_argument(
         "--target",
@@ -131,8 +168,14 @@ if __name__ == "__main__":
     parser.add_argument("--port", "-p", type=int, help="Port to access ssh", default=22)
     parser.add_argument("--remote", "-R", action="store_true", help="build on remote")
     args = parser.parse_args()
-    ip, user = args.target.split("@")
-    age_key = get_age_key(host_ip=ip, host_port=args.port)
+    if args.flake is None:
+        parser.error("--flake is required when NH_FLAKE is not set")
+    try:
+        _, target_host = args.target.rsplit("@", 1)
+    except ValueError:
+        parser.error("--target must be in the form <user>@<ip/hostname>")
+
+    age_key = get_age_key(host_ip=target_host, host_port=args.port)
     update_secrets(
         host_age_key=age_key,
         target_host=args.host,
