@@ -29,6 +29,7 @@
         "@admin"
         "@wheel"
         "sam"
+        "deck"
       ];
     };
   };
