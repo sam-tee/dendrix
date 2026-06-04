@@ -52,6 +52,9 @@ def update_secrets(
         anchor = getattr(key, "anchor", None)
         anchor_name = anchor.value if anchor else None
         if anchor_name == target_host:
+            if str(key) == host_age_key:
+                print(f"Secrets key for {target_host} is unchanged")
+                return
             replacement = PlainScalarString(host_age_key)
             replacement.yaml_set_anchor(target_host, always_dump=True)
             replace_references(data, key, replacement)
@@ -114,11 +117,13 @@ def deploy(
     Runs nixos-anywhere with specified parameters
     """
     cmd = [
-        "sudo",
+        # "sudo",
         "nix",
         "run",
         "github:nix-community/nixos-anywhere",
         "--",
+        "--ssh-option",
+        "IdentitiesOnly=yes",
         "--flake",
         f"{flake_uri}",
         "--copy-host-keys",
