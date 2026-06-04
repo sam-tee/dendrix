@@ -65,7 +65,7 @@
             description = "Theme to use for stylix. Must be either path to yaml or attrset";
           };
           noHash = lib.mkOption {
-            default = self.cosmetic.theme.attrs |> builtins.mapAttrs (name: value: lib.removePrefix "#" value);
+            default = self.cosmetic.theme.attrs |> builtins.mapAttrs (_: value: lib.removePrefix "#" value);
           };
           colours = lib.mkOption {
             default = removeAttrs self.cosmetic.theme.attrs ["name" "author" "variant"];

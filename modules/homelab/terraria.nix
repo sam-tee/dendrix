@@ -1,4 +1,4 @@
-{self, ...}: {
+{
   flake.modules.nixos.terraria = {config, ...}: {
     sops.secrets."terraria/serverPwd" = {};
     services.terraria = {

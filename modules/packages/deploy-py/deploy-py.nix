@@ -1,4 +1,4 @@
-{...}: {
+{
   perSystem = {pkgs, ...}: let
     python = pkgs.python3.withPackages (pythonPackages: [
       pythonPackages.ruamel-yaml

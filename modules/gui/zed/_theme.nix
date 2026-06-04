@@ -1,11 +1,10 @@
 theme: {
   "$schema" = "https://zed.dev/schema/themes/v0.2.0.json";
-  author = theme.author;
-  name = theme.name;
+  inherit (theme) author name;
   themes = [
     {
       appearance = theme.variant;
-      name = theme.name;
+      inherit (theme) name;
       style = {
         background = "${theme.base00}";
         "background.appearance" = "transparent";

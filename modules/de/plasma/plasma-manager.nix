@@ -123,7 +123,7 @@ in {
             // (mkNumberedAttrs "Window to Desktop" (i: "Meta+${getSymbol i}"))
             // {"Window Close" = "Meta+Q";};
           plasmashell =
-            (mkNumberedAttrs "activate task manager entry" (i: ""))
+            (mkNumberedAttrs "activate task manager entry" (_: ""))
             // {"manage activities" = "";};
           "services/org.kde.dolphin.desktop"."_launch" = "Meta+F";
           "services/org.kde.konsole.desktop"."_launch" = [];

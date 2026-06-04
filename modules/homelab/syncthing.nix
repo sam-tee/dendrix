@@ -1,6 +1,6 @@
 {self, ...}: let
   devices =
-    builtins.mapAttrs (name: value: {
+    builtins.mapAttrs (_: value: {
       id = value.syncID;
     })
     self.hosts;
