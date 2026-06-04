@@ -1,47 +1,33 @@
 {self, ...}: let
-  hostname = "hp";
+  hostname = "prometheus";
 in {
   flake = {
     hosts.${hostname} = {
       username = "sam";
       system = "x86_64-linux";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADGGLpndCsctBNb2X8bpEHYHFpL3ew9RI5r18FhK8tc";
-      syncID = "DK3XF6A-JKNRNEY-XRRAKHZ-76S4OTX-F25HKP7-YWAA253-SPKMWHL-DNBOJAK";
     };
-
     nixosConfigurations = self.lib.mkNixos hostname;
-
     modules.nixos = {
-      hpConfig = {pkgs, ...}: {
+      prometheusConfig = _: {
         imports = with self.modules.nixos; [
-          _default
-          hm
-          hpHardware
-          hpDisko
+          prometheusHardware
+          prometheusDisko
+          ssh
         ];
-        home-manager.sharedModules = with self.modules.homeManager; [
-          _minimal
-          #hyprTouch
-          syncthing
-          {
-            wayland.windowManager.hyprland.settings = {
-              monitor = ["eDP-1,1920x1080@60,auto,1"];
-              device = [
-                {
-                  name = "elan2514:00-04f3:2cf1-stylus";
-                  output = "eDP-1";
-                }
-                {
-                  name = "elan2514:00-04f3:2cf1";
-                  output = "eDP-1";
-                }
-              ];
-            };
-          }
-        ];
+        boot.loader = {
+          systemd-boot.enable = true;
+          efi.canTouchEfiVariables = true;
+        };
+        users.users.sam = {
+          isNormalUser = true;
+          extraGroups = ["networkmanager" "wheel"];
+          initialPassword = "temp";
+        };
+        services.tailscale.enable = true;
+        nixpkgs.config.allowUnfree = true;
       };
-
-      hpHardware = {
+      prometheusHardware = {
         config,
         lib,
         modulesPath,
@@ -55,8 +41,7 @@ in {
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
         hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       };
-
-      hpDisko = _: {
+      prometheusDisko = _: {
         disko.devices.disk.main = {
           type = "disk";
           device = "/dev/nvme0n1";
