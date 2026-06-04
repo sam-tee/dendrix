@@ -10,7 +10,7 @@
     }: {
       sops.secrets.password.neededForUsers = true;
       users = {
-        mutableUsers = false;
+        mutableUsers = true;
         users = {
           root.hashedPasswordFile = config.sops.secrets.password.path;
           ${username} = {

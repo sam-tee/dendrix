@@ -12,13 +12,7 @@
   flake.modules = {
     nixos.system = _: {
       imports = [inputs.sops-nix.nixosModules.sops];
-      sops = {
-        defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
-        age = {
-          generateKey = true;
-          keyFile = "/var/lib/sops-key.txt";
-        };
-      };
+      sops.defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
     };
     darwin.system = _: {
       imports = [inputs.sops-nix.darwinModules.sops];
@@ -30,7 +24,7 @@
         defaultSopsFile = "${toString inputs.secrets}/secrets.yaml";
         age = {
           generateKey = true;
-          keyFile = "${config.home.homeDirectory}/.sops-key.txt";
+          keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
         };
       };
     };
