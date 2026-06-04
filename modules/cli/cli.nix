@@ -17,7 +17,6 @@
       btop
       direnv
       eza
-      fastfetch
       fzf
       lazygit
       nano

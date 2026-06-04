@@ -8,7 +8,6 @@
     };
     nixos.system = _: {
       system.stateVersion = "24.05";
-      security.lockKernelModules = true;
       xdg.terminal-exec.enable = true;
       services.xserver.xkb = {
         layout = "gb";

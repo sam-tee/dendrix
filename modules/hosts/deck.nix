@@ -22,6 +22,7 @@ in {
         xournal
       ];
       targets.genericLinux.enable = true;
+      home.file.".ssh/authorized_keys".text = self.hosts.${hostname}.pubKey;
     };
   };
 }

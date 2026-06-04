@@ -61,7 +61,7 @@ in {
           mkHost = hostname: mkBlock hostname "sam" 2222 hostname;
         in {
           a3 = mkHost "a3";
-          deck = mkHost "deck";
+          deck = mkBlock "steamdeck" "deck" 22 "deck";
           duet3 = mkHost "duet3";
           hp = mkHost "hp";
           mba = mkHost "mba" // {Port = 22;};

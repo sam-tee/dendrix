@@ -112,7 +112,6 @@
           inputs.self.modules.homeManager."${hostname}Config"
           {
             nixpkgs.config.allowUnfree = true;
-            inherit username;
           }
         ];
       };

@@ -1,10 +1,6 @@
 {self, ...}: {
   flake.modules = {
-    nixos.cli = {pkgs, ...}: {
-      environment.systemPackages = with pkgs; [
-        gh
-        git
-      ];
+    nixos.cli = _: {
       programs.git.enable = true;
     };
     homeManager.cli = _: {
@@ -30,7 +26,6 @@
     };
     darwin.cli = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
-        gh
         git
       ];
     };
