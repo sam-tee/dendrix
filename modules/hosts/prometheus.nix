@@ -28,8 +28,12 @@ in {
         networking.networkmanager.enable = true;
         services.tailscale.enable = true;
         programs = {
+          bat.enable = true;
+          git.enable = true;
+          lazygit.enable = true;
           nh.enable = true;
           ssh.startAgent = true;
+          zoxide.enable = true;
         };
         nix.settings = {
           use-xdg-base-directories = true;
