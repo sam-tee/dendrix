@@ -11,6 +11,7 @@ in {
     modules.nixos = {
       prometheusConfig = _: {
         imports = with self.modules.nixos; [
+          self.inputs.disko.nixosModules.disko
           prometheusHardware
           prometheusDisko
           ssh
@@ -24,7 +25,27 @@ in {
           extraGroups = ["networkmanager" "wheel"];
           initialPassword = "temp";
         };
+        networking.networkmanager.enable = true;
         services.tailscale.enable = true;
+        programs = {
+          nh.enable = true;
+          ssh.startAgent = true;
+        };
+        nix.settings = {
+          use-xdg-base-directories = true;
+          keep-going = true;
+          experimental-features = [
+            "nix-command"
+            "flakes"
+            "auto-allocate-uids"
+            "pipe-operators"
+          ];
+          trusted-users = [
+            "@admin"
+            "@wheel"
+            "sam"
+          ];
+        };
         nixpkgs.config.allowUnfree = true;
       };
       prometheusHardware = {
