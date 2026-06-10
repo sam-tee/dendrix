@@ -19,7 +19,6 @@ in {
           autosuggestions.enable = true;
           shellAliases = alias;
           syntaxHighlighting.enable = true;
-          histFile = "$XDG_CONFIG_DIR/zsh/.zsh_history";
         };
         bash = {
           enable = true;
@@ -40,10 +39,17 @@ in {
           shellAliases = alias;
           syntaxHighlighting.enable = true;
           dotDir = "${config.xdg.configHome}/zsh";
+          initContent = ''
+            bindkey ' ' magic-space
+          '';
         };
         bash = {
           enable = true;
           shellAliases = alias;
+        };
+        carapace = {
+          enable = true;
+          ignoreCase = true;
         };
       };
     };
