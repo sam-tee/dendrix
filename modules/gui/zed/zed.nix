@@ -8,7 +8,7 @@ in {
       installRemoteServer = true;
       themes.${userTheme.name} = import ./_theme.nix userTheme;
       userSettings = {
-        agent.dock = "left";
+        agent.dock = "right";
         auto_install_extensions = {
           color-highlight = true;
           html = true;
@@ -51,19 +51,7 @@ in {
             language_servers = ["ty" "ruff"];
           };
         };
-        lsp = {
-          nixd.settings.options = let
-            flake = "(builtins.getFlake github:sam-tee/nixd-hosts)";
-            options = system: "${flake}.${system}.lsp.options";
-          in {
-            darwin.expr = options "darwinConfigurations";
-            home.expr = options "homeConfigurations";
-            nixos.expr = options "nixosConfigurations";
-            fp.expr = "${flake}.debug.options";
-            nixvim.expr = "${flake}.packages.x86_64-linux.nixvim.options";
-          };
-        };
-        notification_panel.dock = "left";
+        notification_panel.dock = "right";
         project_panel = {
           dock = "right";
           entry_spacing = "standard";
