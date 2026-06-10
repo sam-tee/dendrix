@@ -9,7 +9,7 @@ in {
       package =
         if isLinux
         then pkgs.ghostty
-        else null;
+        else pkgs.ghostty-bin;
       settings = {
         font-family = [fonts.mono.name];
         font-size =
@@ -17,9 +17,8 @@ in {
           then fonts.size
           else fonts.size * 4 / 3;
         theme = theme.attrs.name;
+        scrollback-limit = 100 * 1024 * 1024;
         window-decoration = "auto";
-        unfocused-split-opacity = 0.75;
-        shell-integration-features = "ssh-env";
         keybind = [
           "ctrl+shift+w=close_surface"
         ];

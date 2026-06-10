@@ -11,7 +11,6 @@
     homebrew = {
       enable = true;
       casks = [
-        "ghostty"
         "google-chrome"
         "helium-browser"
         "iina"
