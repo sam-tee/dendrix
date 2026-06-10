@@ -81,12 +81,6 @@
             magnification = false;
             mineffect = "scale";
             minimize-to-application = true;
-            persistent-apps = [
-              {app = "${pkgs.brave}/Applications/Brave Browser.app";}
-              {app = "${pkgs.zed-editor}/Applications/Zed.app";}
-              {app = "/Applications/Ghostty.app";}
-              {app = "/Applications/Spotify.app";}
-            ];
             show-process-indicators = true;
             show-recents = false;
             showhidden = true;
@@ -98,14 +92,15 @@
             AppleShowAllFiles = true;
             CreateDesktop = false;
             FXPreferredViewStyle = "Nlsv";
+            FXRemoveOldTrashItems = true;
             NewWindowTarget = "Home";
             QuitMenuItem = true;
             ShowExternalHardDrivesOnDesktop = false;
             ShowHardDrivesOnDesktop = false;
             ShowPathbar = true;
             ShowRemovableMediaOnDesktop = false;
+            ShowStatusBar = true;
           };
-          universalaccess.reduceMotion = true;
           CustomUserPreferences = {
             "com.apple.Accessibility".ReduceMotionEnabled = 1;
             "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
