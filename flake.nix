@@ -1,7 +1,28 @@
 # DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
 {
-  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+
+  nixConfig = {
+    accept-flake-config = false;
+    builders-use-substitutes = true;
+    experimental-features = [
+      "flakes"
+      "nix-command"
+      "pipe-operators"
+      "auto-allocate-uids"
+    ];
+    flake-registry = "";
+    keep-going = true;
+    trusted-users = [
+      "root"
+      "@build"
+      "@wheel"
+      "@admin"
+    ];
+    use-xdg-base-directories = true;
+    warn-dirty = false;
+  };
 
   inputs = {
     copyparty.url = "github:9001/copyparty";
@@ -28,7 +49,7 @@
       flake = false;
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/master";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
@@ -38,14 +59,7 @@
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixvim.url = "github:nix-community/nixvim";
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        noctalia-qs.follows = "noctalia-qs";
-      };
-    };
-    noctalia-qs = {
-      url = "github:noctalia-dev/noctalia-qs";
+      url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     paneru = {
