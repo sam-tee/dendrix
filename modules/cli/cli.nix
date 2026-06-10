@@ -1,4 +1,8 @@
-{self, ...}: let
+{
+  moduleWithSystem,
+  self,
+  ...
+}: let
   inherit (self.cosmetic.theme.noHash) base01 base03 base05 base07 base08 base0A base0B base0C base0D base0E;
   programs = {
     bat.enable = true;
@@ -10,8 +14,9 @@
     lazygit.enable = true;
     zoxide.enable = true;
   };
-  packages = pkgs:
+  packages = pkgs: self':
     with pkgs; [
+      alejandra
       atuin
       bat
       btop
@@ -21,17 +26,20 @@
       lazygit
       nano
       ncdu
+      nixd
       ripgrep
       speedtest-cli
       tldr
       wget
       yazi
       zellij
+      self'.packages.deploy-py
+      self'.packages.nhw
     ];
 in {
   flake.modules = {
-    nixos.cli = {pkgs, ...}: {
-      imports = [self.modules.generic.cli];
+    nixos.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
+      imports = with self.modules.generic; [cli];
       inherit programs;
       console.colors = [base01 base08 base0B base0A base0D base0E base0C base05 base03 base08 base0B base0A base0D base0E base0C base07];
       environment.systemPackages = with pkgs;
@@ -42,11 +50,11 @@ in {
           usbutils
           wakeonlan
         ]
-        ++ (packages pkgs);
-    };
+        ++ (packages pkgs self');
+    });
 
-    homeManager.cli = {pkgs, ...}: {
-      imports = [self.modules.generic.cli];
+    homeManager.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
+      imports = with self.modules.generic; [cli nix];
       programs =
         {
           fzf = {
@@ -61,8 +69,8 @@ in {
           zellij.enable = true;
         }
         // programs;
-      home.packages = packages pkgs;
-    };
+      home.packages = packages pkgs self';
+    });
 
     homeManager.cliLinux = {pkgs, ...}: {
       home.packages = with pkgs; [
@@ -73,8 +81,8 @@ in {
       ];
     };
 
-    darwin.cli = {pkgs, ...}: {
-      environment.systemPackages = packages pkgs;
-    };
+    darwin.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
+      environment.systemPackages = packages pkgs self';
+    });
   };
 }
