@@ -7,7 +7,7 @@
   allFolders = {
     project_data = {
       path = "~/data";
-      devices = ["a3" "mba" "oracle" "u410"];
+      devices = ["a3" "oracle" "u410"];
       ignorePatterns = ["(?d).DS_Store"];
     };
     books = {
