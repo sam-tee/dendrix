@@ -34,21 +34,21 @@ in {
       hostKeys = builtins.attrNames self.hosts;
     in {
       sops.secrets =
-        builtins.listToAttrs
-        (map (name: {
-            name = "ssh/${name}";
-            value = {
-              path = "${config.home.homeDirectory}/.ssh/keys/${name}";
-              mode = "0600";
-            };
-          })
-          hostKeys);
+        hostKeys
+        |> map (name: {
+          name = "ssh/${name}";
+          value = {
+            path = "${config.home.homeDirectory}/.ssh/keys/${name}";
+            mode = "0600";
+          };
+        })
+        |> builtins.listToAttrs;
       home.file =
-        builtins.mapAttrs (name: value: {
+        self.hosts
+        |> builtins.mapAttrs (name: value: {
           target = ".ssh/keys/${name}.pub";
           text = "${value.pubKey}";
-        })
-        self.hosts;
+        });
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
