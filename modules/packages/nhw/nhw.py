@@ -11,11 +11,16 @@ def mkCmd(cmd: str) -> list[str]:
     return cmd.split(" ")
 
 
-def get_build_host(host: str):
+def get_build_host(host: str) -> str:
     if host == "duet3":
         return "oracle"
     else:
         return host
+
+
+def clean() -> None:
+    cmd = mkCmd("nh clean all")
+    subprocess.run(cmd)
 
 
 def run(type: str, mode: str, host: str, flake_path: Path | str, remote: bool, update):
@@ -36,13 +41,14 @@ def get_hosts(hosts: dict) -> dict[str, str]:
     output: dict[str, str] = {}
     for host, info in hosts.items():
         system = info.get("system")
+        host_type = info.get("hostType")
         if system == "":
             continue
-        if system[-6:] == "darwin":
+        if host_type == "darwin":
             output[host] = "darwin"
-        elif host == "deck":
+        elif host_type == "home":
             output[host] = "home"
-        else:
+        elif host_type == "nixos":
             output[host] = "os"
     return output
 
@@ -82,6 +88,9 @@ def main():
         help="Update all inputs without argument or specified argument",
     )
     args = parser.parse_args()
+    if args.mode == "clean":
+        clean()
+        return
     flake_hosts = parse_flake(args.flake)
     type = flake_hosts.get(args.host)
     if type is None:
