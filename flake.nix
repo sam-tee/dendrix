@@ -3,27 +3,6 @@
 {
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
-  nixConfig = {
-    accept-flake-config = false;
-    builders-use-substitutes = true;
-    experimental-features = [
-      "flakes"
-      "nix-command"
-      "pipe-operators"
-      "auto-allocate-uids"
-    ];
-    flake-registry = "";
-    keep-going = true;
-    trusted-users = [
-      "root"
-      "@build"
-      "@wheel"
-      "@admin"
-    ];
-    use-xdg-base-directories = true;
-    warn-dirty = false;
-  };
-
   inputs = {
     copyparty.url = "github:9001/copyparty";
     disko = {
