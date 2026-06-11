@@ -7,30 +7,28 @@
 }: let
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
 in {
-  flake-file.nixConfig = {
-    use-xdg-base-directories = true;
-    keep-going = true;
-    warn-dirty = false;
-    builders-use-substitutes = true;
-    accept-flake-config = false;
-    flake-registry = "";
-    experimental-features = [
-      "flakes"
-      "nix-command"
-      "pipe-operators"
-      "auto-allocate-uids"
-    ];
-    trusted-users = [
-      "root"
-      "@build"
-      "@wheel"
-      "@admin"
-    ];
-  };
   flake.modules = {
     generic.nix = _: {
       nix = {
-        settings = config.flake-file.nixConfig;
+        settings = {
+          use-xdg-base-directories = true;
+          keep-going = true;
+          warn-dirty = false;
+          builders-use-substitutes = true;
+          flake-registry = "";
+          experimental-features = [
+            "flakes"
+            "nix-command"
+            "pipe-operators"
+            "auto-allocate-uids"
+          ];
+          trusted-users = [
+            "root"
+            "@build"
+            "@wheel"
+            "@admin"
+          ];
+        };
         registry =
           (flakeInputs |> builtins.mapAttrs (_: flake: {inherit flake;}))
           // rec {
