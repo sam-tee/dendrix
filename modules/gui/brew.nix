@@ -14,6 +14,7 @@
         "google-chrome"
         "helium-browser"
         "iina"
+        "keepassxc"
         "mullvad-vpn"
         "protonvpn"
         "raycast"
