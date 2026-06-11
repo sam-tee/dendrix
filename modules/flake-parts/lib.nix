@@ -2,51 +2,58 @@
   inputs,
   lib,
   ...
-}: {
+}: let
+  inherit (lib) mkOption types;
+  inherit (types) str bool submodule int oneOf attrsOf unspecified;
+in {
   options.flake = {
-    hosts = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
+    hosts = mkOption {
+      type = attrsOf (submodule {
         options = {
-          username = lib.mkOption {
-            type = lib.types.str;
+          username = mkOption {
+            type = str;
             default = "";
           };
-          system = lib.mkOption {
-            type = lib.types.str;
+          system = mkOption {
+            type = str;
             default = "";
           };
-          pubKey = lib.mkOption {
-            type = lib.types.str;
+          pubKey = mkOption {
+            type = str;
             default = "";
           };
-          syncID = lib.mkOption {
-            type = lib.types.str;
+          syncID = mkOption {
+            type = str;
             default = "";
+          };
+          hostType = mkOption {
+            type = oneOf ["nixos" "darwin" "home"];
           };
         };
       });
-      default = {};
     };
-    services = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
+    services = mkOption {
+      type = attrsOf (submodule {
         options = {
-          port = lib.mkOption {type = lib.types.int;};
-          host = lib.mkOption {
-            type = lib.types.str;
+          port = mkOption {type = int;};
+          host = mkOption {
+            type = str;
             description = "Name of tailscale host service runs on";
           };
-          private = lib.mkOption {
-            type = lib.types.bool;
+          private = mkOption {
+            type = bool;
             default = true;
+            description = "Whether to only expose over tailscale";
           };
-          subdomain = lib.mkOption {
-            type = lib.types.str;
+          subdomain = mkOption {
+            type = str;
+            description = "Subdomain to asign service to";
           };
         };
       });
     };
-    lib = lib.mkOption {
-      type = lib.types.attrsOf lib.types.unspecified;
+    lib = mkOption {
+      type = attrsOf unspecified;
       default = {};
     };
   };

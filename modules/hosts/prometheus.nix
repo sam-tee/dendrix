@@ -5,6 +5,7 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "x86_64-linux";
+      hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADGGLpndCsctBNb2X8bpEHYHFpL3ew9RI5r18FhK8tc";
     };
     nixosConfigurations = self.lib.mkNixos hostname;

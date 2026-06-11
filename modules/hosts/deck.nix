@@ -5,6 +5,7 @@ in {
     hosts.${hostname} = {
       username = "deck";
       system = "x86_64-linux";
+      hostType = "home";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGTZGNcChKAHaj3NdIHlaXHNLqsonXKkUqQRtYGyZM6f";
       syncID = "5EJ6MDF-JXLSJ65-OFO7E6A-YAC32Z4-P2HHOFV-W4WXT7H-B5KAUQY-4NLT4AF";
     };

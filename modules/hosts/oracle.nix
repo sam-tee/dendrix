@@ -5,6 +5,7 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "aarch64-linux";
+      hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyO7UE5sJmZcNOvsPW148NkH4tk5SefBU32Z66+KWqH";
       syncID = "JCUMZVX-TH6DHHJ-H2DPS3I-3OLW2LB-QEBRXGV-ZBRPRSR-3DHZMYB-5GRIXQ4";
     };

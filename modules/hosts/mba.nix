@@ -5,6 +5,7 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "aarch64-darwin";
+      hostType = "darwin";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFQjvsEOeipx+aSfrT6WIEdrlMxfglSgOu2NKmpzTUA";
       syncID = "OBTLFOZ-UTYW6JE-3MDA6YU-YXOZPEI-62JF23C-EAII64O-TSBIVZG-TBARUQX";
     };

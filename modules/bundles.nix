@@ -1,7 +1,7 @@
-{inputs, ...}: let
-  dMod = inputs.self.modules.darwin;
-  hMod = inputs.self.modules.homeManager;
-  nMod = inputs.self.modules.nixos;
+{self, ...}: let
+  dMod = self.modules.darwin;
+  hMod = self.modules.homeManager;
+  nMod = self.modules.nixos;
 in {
   flake.modules = {
     nixos = {
