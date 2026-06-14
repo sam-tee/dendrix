@@ -9,7 +9,7 @@ in {
       system = "x86_64-linux";
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHfvY3X0prLp/RmlR9OpDN0vJbG0RTQHDT0ZePDKsZJ2";
-      syncID = "UTMRHSO-5UGRFRV-6WMVUQR-N4B47H6-3AYB7NI-3YGFPEI-E3U42S3-VLCKWAN";
+      syncID = "IFMUCEZ-XPI7GGX-WYZJARU-PPOKXNI-5DOWGCF-3PAOELM-XNYBXX4-IXQWRAS";
     };
 
     nixosConfigurations = self.lib.mkNixos hostname;

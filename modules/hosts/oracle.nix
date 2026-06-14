@@ -7,7 +7,7 @@ in {
       system = "aarch64-linux";
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyO7UE5sJmZcNOvsPW148NkH4tk5SefBU32Z66+KWqH";
-      syncID = "JCUMZVX-TH6DHHJ-H2DPS3I-3OLW2LB-QEBRXGV-ZBRPRSR-3DHZMYB-5GRIXQ4";
+      syncID = "D4AMT2I-LC25UJA-TONYLR3-I4NLPMP-GYBVM2O-TMTAKC6-I5FE3UE-QG7SSQ3";
     };
 
     nixosConfigurations = self.lib.mkNixos hostname;
@@ -18,11 +18,12 @@ in {
           _serverMin
           oracleHardware
           oracleDisko
+          immich
         ];
         homelab.domain = "akhlus.uk";
-        nix.settings = {
-          max-jobs = 4;
-          builders-use-substitutes = true;
+        services.immich.database = {
+          user = "media";
+          name = "media";
         };
       };
 

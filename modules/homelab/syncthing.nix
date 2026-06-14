@@ -1,46 +1,42 @@
-{self, ...}: let
+{
+  self,
+  lib,
+  ...
+}: let
   devices =
-    builtins.mapAttrs (_: value: {
+    self.hosts
+    |> lib.filterAttrs (_: value: (value.syncID or "") != "")
+    |> builtins.mapAttrs (_: value: {
       id = value.syncID;
-    })
-    self.hosts;
+    });
   allFolders = {
     project_data = {
       path = "~/data";
       devices = ["a3" "oracle" "u410"];
-      ignorePatterns = ["(?d).DS_Store"];
     };
     books = {
       path = "~/books";
-      devices = ["a3" "hp" "oracle" "s340" "u410"];
-      ignorePatterns = ["(?d).DS_Store"];
+      devices = ["a3" "hp" "mba" "oracle" "s340" "u410"];
     };
     calibre_config = {
       path = "~/.config/calibre";
       devices = ["a3" "deck" "hp" "s340" "u410"];
-      ignorePatterns = ["(?d).DS_Store"];
     };
     Docs = {
       path = "~/Documents";
       devices = ["a3" "duet3" "hp" "mba" "oracle" "s340" "u410"];
-      ignorePatterns = ["(?d).DS_Store" ".venv" "result"];
     };
   };
 in {
   flake.modules = {
-    nixos.syncthing = {
-      config,
-      lib,
-      ...
-    }: let
+    nixos.syncthing = {config, ...}: let
       inherit (config.homelab) group user dataDir;
-      folders = lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices) allFolders;
+      folders = allFolders |> lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices);
     in {
       sops.secrets."syncPwd".owner = user;
       services.syncthing = {
         enable = true;
         inherit user group dataDir;
-        configDir = "${dataDir}/syncthing";
         guiAddress = "0.0.0.0:8384";
         openDefaultPorts = true;
         guiPasswordFile = config.sops.secrets."syncPwd".path;
