@@ -41,6 +41,7 @@ in {
     nixos.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
       imports = with self.modules.generic; [cli];
       inherit programs;
+      environment.variables.BAT_THEME = "base16";
       console.colors = [base01 base08 base0B base0A base0D base0E base0C base05 base03 base08 base0B base0A base0D base0E base0C base07];
       environment.systemPackages = with pkgs;
         [
@@ -55,6 +56,7 @@ in {
 
     homeManager.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
       imports = with self.modules.generic; [cli nix];
+      home.sessionVariables.BAT_THEME = "base16";
       programs =
         {
           fzf = {
