@@ -8,7 +8,7 @@
       openFirewall = true;
       accelerationDevices = null;
       host = "0.0.0.0";
-      inherit group;
+      inherit group user;
       inherit (self.services.immich) port;
       mediaLocation = "${dataDir}/immich";
     };

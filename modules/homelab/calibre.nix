@@ -4,7 +4,6 @@
   in {
     services.calibre-web = {
       enable = true;
-      dataDir = "${dataDir}/calibre-web";
       inherit group user;
       listen = {
         ip = "0.0.0.0";

@@ -18,10 +18,7 @@
       enable = true;
       stateDir = "${hl.dataDir}/git";
       lfs.enable = true;
-      database = {
-        type = "postgres";
-        passwordFile = config.sops.secrets."forgejo/databasePwd".path;
-      };
+      database.type = "postgres";
       settings = {
         mailer = {
           ENABLED = true;

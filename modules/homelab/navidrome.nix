@@ -10,7 +10,6 @@
         Port = self.services.navidrome.port;
         Address = "0.0.0.0";
         MusicFolder = "${dataDir}/media/music";
-        DataFolder = "${dataDir}/navidrome";
       };
     };
   };

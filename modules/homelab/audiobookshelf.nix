@@ -5,7 +5,7 @@
       openFirewall = true;
       inherit (self.services.audiobookshelf) port;
       inherit (config.homelab) group user;
-      dataDir = "drive/media/audiobooks";
+      dataDir = "audiobooks";
     };
   };
 }
