@@ -8,7 +8,10 @@ in {
       installRemoteServer = true;
       themes.${userTheme.name} = import ./_theme.nix userTheme;
       userSettings = {
-        agent.dock = "right";
+        agent = {
+          dock = "right";
+          sidebar_side = "right";
+        };
         auto_install_extensions = {
           color-highlight = true;
           html = true;
@@ -24,13 +27,15 @@ in {
         ui_font_family = fonts.ui.name;
         ui_font_size = fonts.size * 4 / 3;
         buffer_line_height.custom = 1.5;
+        cli_default_open_behavior = "new_window";
         edit_predictions.mode = "subtle";
         file_types.Markdown = ["qmd"];
         hover_popover_delay = 200;
+        indent_guides.active_line_width = 3;
         inlay_hints.enabled = true;
         languages = {
           LaTeX = {
-            soft_wrap = "preferred_line_length";
+            soft_wrap = "bounded";
             preferred_line_length = 80;
           };
           Nix = {
@@ -51,14 +56,23 @@ in {
             language_servers = ["ty" "ruff"];
           };
         };
-        notification_panel.dock = "right";
         project_panel = {
+          auto_reveal_entries = false;
           dock = "right";
           entry_spacing = "standard";
+          hide_root = true;
         };
         session.trust_all_worktrees = true;
         show_edit_predictions = false;
+        tabs.activate_on_close = "neighbour";
         theme = "${userTheme.name}";
+        use_smartcase_search = true;
+        vim_mode = true;
+        vim = {
+          toggle_relative_line_numbers = true;
+          use_smartcase_find = true;
+        };
+        which_key.enabled = true;
       };
     };
   };
