@@ -19,6 +19,7 @@
       alejandra
       atuin
       bat
+      browsh
       btop
       direnv
       eza
@@ -33,7 +34,6 @@
       wget
       yazi
       zellij
-      self'.packages.deploy-py
       self'.packages.nhw
     ];
 in {

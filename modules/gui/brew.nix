@@ -21,6 +21,7 @@
         "skim"
         "slicer"
         "spotify"
+        "whatsapp"
         "zotero"
       ];
       masApps = {"Bitwarden" = 1352778147;};
