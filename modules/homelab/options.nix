@@ -19,7 +19,7 @@
       };
       dataDir = lib.mkOption {
         type = lib.types.str;
-        default = "/var/lib/media";
+        default = "/var/lib";
         description = "Base directory to save data to";
       };
       email = {
