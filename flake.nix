@@ -52,8 +52,12 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    pyScripts = {
+      url = "git+https://git.akhlus.uk/sam-tee/python.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     secrets = {
-      url = "git+ssh://git@github.com/sam-tee/nix-secrets.git";
+      url = "git+ssh://forgejo@git-ssh.akhlus.uk:2222/sam-tee/nix-secrets.git";
       flake = false;
     };
     sops-nix = {
