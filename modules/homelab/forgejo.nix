@@ -41,6 +41,7 @@
           LANDING_PAGE = "/sam-tee";
           SSH_PORT = sshPort;
           SSH_DOMAIN = "git-ssh.${hl.domain}";
+          DISABLE_SSH = false;
         };
         service = {
           DISABLE_REGISTRATION = true;
