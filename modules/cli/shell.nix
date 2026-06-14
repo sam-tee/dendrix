@@ -26,7 +26,11 @@ in {
         };
       };
     };
-    homeManager.cli = {config, ...}: {
+    homeManager.cli = {
+      config,
+      lib,
+      ...
+    }: {
       programs = {
         zsh = {
           enable = true;
@@ -39,8 +43,19 @@ in {
           shellAliases = alias;
           syntaxHighlighting.enable = true;
           dotDir = "${config.xdg.configHome}/zsh";
-          initContent = ''
+          initContent = lib.mkAfter ''
+            jsonfmt() {
+              if [ -z "$1" ]; then
+                echo "Usage: formatjson <filename.json>"
+                return 1
+              fi
+
+              jq . "$1" > "$1.tmp" && mv "$1.tmp" "$1"
+            }
             bindkey ' ' magic-space
+            autoload -Uz _nix
+            compdef -d nix
+            compdef _nix nix
           '';
         };
         bash = {

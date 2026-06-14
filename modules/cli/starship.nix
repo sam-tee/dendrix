@@ -57,7 +57,7 @@
             detect_extensions = [];
             detect_files = [];
             detect_folders = [];
-            format = "[\${symbol} $virtualenv]($style)";
+            format = "[\${symbol} ]($style)";
             style = "bold yellow";
             symbol = "";
           };
