@@ -85,6 +85,12 @@
             show-recents = false;
             showhidden = true;
             tilesize = 34;
+            persistent-apps = [
+              {app = "/Applications/Helium.app";}
+              {app = "${pkgs.zed-editor}/Applications/Zed.app";}
+              {app = "${pkgs.ghostty-bin}/Applications/Ghostty.app";}
+              {app = "/Applications/Spotify.app";}
+            ];
           };
           finder = {
             _FXShowPosixPathInTitle = true;
