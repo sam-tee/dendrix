@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (lib) mkOption types;
-  inherit (types) str bool submodule int oneOf attrsOf unspecified;
+  inherit (types) str bool submodule int enum attrsOf unspecified;
 in {
   options.flake = {
     hosts = mkOption {
@@ -27,7 +27,8 @@ in {
             default = "";
           };
           hostType = mkOption {
-            type = oneOf ["nixos" "darwin" "home"];
+            type = enum ["nixos" "darwin" "home" "other"];
+            default = "other";
           };
         };
       });
