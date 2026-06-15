@@ -748,11 +748,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781232395,
-        "narHash": "sha256-JoggdKLIWEy/zJa9YSp0hGBNkFyqkj7nJoHpWlfthTI=",
+        "lastModified": 1781511149,
+        "narHash": "sha256-o/FX9TNOeEOtEuTw21RiPmmicZgUCp9ZoqbVVghnmWk=",
         "ref": "refs/heads/main",
-        "rev": "b70db5af6ee62647236027e54a8f663767cbc1bf",
-        "revCount": 3,
+        "rev": "7d8055aff16dc7bba826caf5ea63ce57975b9f87",
+        "revCount": 4,
         "type": "git",
         "url": "https://git.akhlus.uk/sam-tee/python.git"
       },
@@ -790,11 +790,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1781136506,
-        "narHash": "sha256-Spog/B4zNgW/YRyY0wKM7xc+wDo59svh4+OsVl6Qnew=",
+        "lastModified": 1781511258,
+        "narHash": "sha256-r29L5vcLJFHNNC4Zmjw1biZltXzqol0EnZvSd+gYsCc=",
         "ref": "refs/heads/main",
-        "rev": "0ec2589b1f2843cf66cd2c22fd0473c009d438e9",
-        "revCount": 68,
+        "rev": "62b8708475c57a52d987e188112dc4184dd89dfe",
+        "revCount": 69,
         "type": "git",
         "url": "ssh://forgejo@git-ssh.akhlus.uk:2222/sam-tee/nix-secrets.git"
       },

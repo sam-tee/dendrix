@@ -18,9 +18,8 @@ in {
           _default
           hm
           s340Hardware
-          autologin
-          hyprland
-          vms
+          sddm
+          plasmaHM
         ];
         home-manager = {
           sharedModules = with self.modules.homeManager; [
