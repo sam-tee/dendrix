@@ -6,7 +6,6 @@
   flake-file.inputs = {
     noctalia = {
       url = "github:noctalia-dev/noctalia";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   flake.modules = {
@@ -32,159 +31,109 @@
       imports = [inputs.noctalia.homeModules.default];
       home.file = {
         "${bgDir}/bg.png".source = self.cosmetic.bgFile;
-        ".cache/noctalia/wallpapers.json".text = builtins.toJSON {defaultWallpaper = "${bgDirFull}/bg.png";};
       };
-      programs.noctalia-shell = {
+      programs.noctalia = {
         enable = true;
-        colors = with self.cosmetic.theme.attrs; {
-          mPrimary = base0E;
-          mOnPrimary = base00;
-          mSecondary = base0D;
-          mOnSecondary = base01;
-          mTertiary = base0B;
-          mOnTertiary = base01;
-          mError = base08;
-          mOnError = base01;
-          mSurface = base00;
-          mOnSurface = base05;
-          mHover = base0C;
-          mOnHover = base01;
-          mSurfaceVariant = base02;
-          mOnSurfaceVariant = base04;
-          mOutline = base03;
-          mShadow = base00;
-        };
         settings = {
-          bar = {
-            barType = "simple";
-            position = "left";
-            density = "mini";
-            showCapsule = false;
-            showOutline = false;
-            backgroundOpacity = 1.0;
-            enableExclusionZoneInset = false;
-            widgets = {
-              left = [
-                {
-                  id = "Launcher";
-                  useDistroLogo = true;
-                }
-                {
-                  id = "Workspace";
-                  hideUnoccupied = false;
-                  labelMode = "index";
-                  emptyColor = "none";
-                  focusedColor = "primary";
-                  occupiedColor = "secondary";
-                  pillSize = 0.6;
-                }
-              ];
-              center = [
-                {
-                  id = "Clock";
-                  formatHorizontal = "dd MMM | HH:mm";
-                  formatVertical = "HH mm - dd MM";
-                }
-              ];
-              right = [
-                {
-                  id = "Tray";
-                  hidePassive = true;
-                  chevronColor = "none";
-                  drawerEnabled = true;
-                }
-                {
-                  id = "Volume";
-                }
-                {
-                  id = "Network";
-                  displayMode = "alwaysHide";
-                }
-                {
-                  id = "Bluetooth";
-                  displayMode = "alwaysHide";
-                }
-                {
-                  displayMode = "graphic-clean";
-                  id = "Battery";
-                  showNoctaliaPerformance = true;
-                  showPowerProfiles = true;
-                }
-                {
-                  id = "ControlCenter";
-                  useDistroLogo = false;
-                  icon = "settings-2";
-                }
-                {
-                  id = "SessionMenu";
-                  iconColor = "error";
-                }
-              ];
+          shell = {
+            setup_wizard_enabled = false;
+            corner_radius_scale = 0.0;
+            clipboard_enabled = true;
+            animation.enabled = false;
+            shadow.alpha = 0.0;
+            panel = {
+              transparency_mode = "solid";
+              borders = false;
+              shadow = false;
+              launcher_categories = false;
             };
           };
-          controlCenter.cards = [
-            {
-              enabled = true;
-              id = "profile-card";
-            }
-            {
-              enabled = true;
-              id = "shortcuts-card";
-            }
-            {
-              enabled = true;
-              id = "audio-card";
-            }
-            {
-              enabled = true;
-              id = "brightness-card";
-            }
-            {
-              enabled = true;
-              id = "weather-card";
-            }
-            {
-              enabled = true;
-              id = "media-sysmon-card";
-            }
+
+          theme = {
+            mode = "dark";
+            source = "builtin";
+            builtin = "Noctalia";
+          };
+
+          bar.main = {
+            position = "left";
+            background_opacity = 1.0;
+            reserve_space = false;
+            capsule = false;
+            shadow = false;
+            margin_h = 0;
+            margin_v = 0;
+            padding = 6;
+            widget_spacing = 4;
+            scale = 0.85;
+            start = ["launcher" "workspaces"];
+            center = ["clock"];
+            end = ["tray" "volume" "battery" "power_profile" "control-center" "session"];
+          };
+
+          widget = {
+            clock = {
+              format = "{:%H:%M\\n%d %b}";
+              vertical_format = "{:%H\\n%M\\n%d\\n%m}";
+            };
+            workspaces = {
+              display = "id";
+              empty_color = "surface_variant";
+              focused_color = "primary";
+              occupied_color = "secondary";
+              hide_when_empty = false;
+              pill_scale = 0.6;
+            };
+            battery = {
+              display_mode = "graphic";
+              show_label = false;
+            };
+            "control-center".glyph = "settings-2";
+          };
+
+          control_center.shortcuts = [
+            {type = "wifi";}
+            {type = "bluetooth";}
+            {type = "wallpaper";}
+            {type = "session";}
           ];
-          general = {
-            enableShadows = false;
-            radiusRatio = 0;
-            iRadiusRatio = 0;
-            animationDisabled = true;
-            compactLockScreen = true;
-            autoStartAuth = true;
-            allowPasswordWithFprintd = true;
-          };
-          ui = {
-            panelBackgroundOpacity = 1.0;
-            scrollbarAlwaysVisible = false;
-          };
-          location.weatherShowEffects = false;
+
           wallpaper = {
             enabled = true;
-            skipStartupTransition = true;
+            transition_on_startup = false;
             directory = bgDirFull;
-            fillMode = "stretch";
+            fill_mode = "stretch";
+            default.path = "${bgDirFull}/bg.png";
           };
-          appLauncher = {
-            enableClipboardHistory = true;
-            terminalCommand = "ghostty -e";
-            showCategories = false;
+
+          weather = {
+            enabled = false;
+            effects = false;
           };
+
           dock.enabled = false;
-          sessionMenu = {
-            enableCountdown = false;
-            showHeader = false;
-            largeButtonsStyle = false;
+
+          audio = {
+            enable_sounds = false;
           };
-          audio.visualizerType = "none";
-          idle = {
-            enabled = true;
-            screenOffTimeout = 299;
-            lockTimeout = 300;
-            suspendTimeout = 600;
+
+          idle.behavior = {
+            lock = {
+              enabled = true;
+              timeout = 300;
+              command = "noctalia:session lock";
+            };
+            "screen-off" = {
+              enabled = true;
+              timeout = 299;
+              command = "noctalia:dpms-off";
+              resume_command = "noctalia:dpms-on";
+            };
+            suspend = {
+              enabled = true;
+              timeout = 600;
+              command = "systemctl suspend";
+            };
           };
         };
       };
