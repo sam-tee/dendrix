@@ -16,6 +16,7 @@ in {
           prometheusHardware
           prometheusDisko
           ssh
+          self.modules.generic.nix
         ];
         boot.loader = {
           systemd-boot.enable = true;
@@ -36,22 +37,6 @@ in {
           ssh.startAgent = true;
           zoxide.enable = true;
         };
-        nix.settings = {
-          use-xdg-base-directories = true;
-          keep-going = true;
-          experimental-features = [
-            "nix-command"
-            "flakes"
-            "auto-allocate-uids"
-            "pipe-operators"
-          ];
-          trusted-users = [
-            "@admin"
-            "@wheel"
-            "sam"
-          ];
-        };
-        nixpkgs.config.allowUnfree = true;
         system.stateVersion = "24.05";
         xdg.terminal-exec.enable = true;
         services.xserver.xkb = {
