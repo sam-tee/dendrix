@@ -70,6 +70,7 @@ in {
             networking.hostName = hostname;
             nixpkgs.hostPlatform = lib.mkDefault system;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
+            system.stateVersion = "24.05";
           }
         ];
       };
@@ -86,6 +87,7 @@ in {
           {
             networking.hostName = hostname;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
+            system.stateVersion = "24.05";
           }
         ];
       };
@@ -102,6 +104,7 @@ in {
             networking.hostName = hostname;
             nixpkgs.hostPlatform = lib.mkDefault system;
             system.primaryUser = username;
+            system.stateVersion = 6;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
           }
         ];
