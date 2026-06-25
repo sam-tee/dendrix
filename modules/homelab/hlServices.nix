@@ -28,8 +28,8 @@
     seerr = mkService 5055 "u410" true "seerr";
     slskd = mkService 5030 "u410" true "slskd";
     sonarr = mkService 8989 "u410" true "sonarr";
+    site = mkService 8090 "u410" true "site";
     stirling = mkService 8998 "u410" true "pdf";
-    tandoor = mkService 8765 "" true "";
     terraria = mkService 4197 "" false "terraria";
     vaultwarden = mkService 8222 "u410" true "vault";
   };
