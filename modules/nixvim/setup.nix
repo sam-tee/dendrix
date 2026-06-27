@@ -7,6 +7,7 @@
     imports = [inputs.nixvim."${type}Modules".nixvim];
     programs.nixvim = {
       enable = true;
+      nixpkgs.useGlobalPackages = true;
       viAlias = true;
       vimAlias = true;
       imports = [self.modules.nixvim.default];

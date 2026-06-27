@@ -1,5 +1,12 @@
 {
   flake.modules.nixvim.default = _: {
+    dependencies = {
+      bat.enable = true;
+      git.enable = true;
+      ripgrep.enable = true;
+    };
+    version.enableNixpkgsReleaseCheck = false;
+
     plugins.lsp = {
       enable = true;
       keymaps = {
