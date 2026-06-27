@@ -11,20 +11,17 @@ in {
     };
     darwinConfigurations = self.lib.mkDarwin hostname;
 
-    modules.darwin.mbaConfig = {pkgs, ...}: {
+    modules.darwin.mbaConfig = _: {
       imports = with self.modules.darwin; [
         _default
         hm
       ];
       home-manager.sharedModules = with self.modules.homeManager; [
         _darwinMinimal
-        aerospace
         extraPkgs
+        paneru
         syncthing
         #vscode
-      ];
-      environment.systemPackages = with pkgs; [
-        texlab
       ];
     };
   };
