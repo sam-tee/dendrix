@@ -37,10 +37,7 @@
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixvim.url = "github:nix-community/nixvim";
-    noctalia = {
-      url = "github:noctalia-dev/noctalia";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    noctalia.url = "github:noctalia-dev/noctalia";
     paneru = {
       url = "github:karinushka/paneru";
       inputs.nixpkgs.follows = "nixpkgs";
