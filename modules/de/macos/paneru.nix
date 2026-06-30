@@ -1,12 +1,14 @@
 {
   inputs,
   lib,
+  self,
   ...
 }: {
   flake-file.inputs.paneru = {
     url = "github:karinushka/paneru";
     inputs.nixpkgs.follows = "nixpkgs";
   };
+
   flake.modules.homeManager.paneru = _: let
     mkPadding = keys: lib.genAttrs keys (_: 0);
     mkBindings = prefix: command:
@@ -14,20 +16,23 @@
       |> map (i: lib.nameValuePair "${command}_${toString i}" "${prefix} - ${toString i}")
       |> builtins.listToAttrs;
   in {
-    imports = [inputs.paneru.homeModules.paneru];
+    imports = [
+      inputs.paneru.homeModules.paneru
+      self.modules.homeManager.skhd
+    ];
     services.paneru = {
       enable = true;
       settings = {
         options = {
           focus_follows_mouse = true;
           mouse_follows_focus = true;
-          preset_column_widths = [
-            0.33
-            0.5
-            0.66
-          ];
-          swipe_gesture_fingers = 4;
-          swipe_gesture_direction = "Natural";
+          preset_column_widths = [0.5];
+          menubar_height = 0;
+        };
+        decorations.workspace_popup_status = false;
+        swipe = {
+          continuous = false;
+          gesture.fingers_count = 3;
         };
         padding = mkPadding ["left" "right" "top" "bottom"];
         bindings =
@@ -43,22 +48,18 @@
             window_center = "ctrl - m";
             window_resize = "ctrl - r";
             window_fullwidth = "ctrl - f";
-            window_manage = "ctrl + alt - t";
-            window_stack = "ctrl - comma";
-            window_unstack = "ctrl - slash";
+            window_manage = "ctrl - v";
+            window_stack = "ctrl - period";
+            window_unstack = "ctrl - comma";
+            window_nextdisplay = "ctrl - tab";
+            window_nextdisplaysend = "ctrl + shift - tab";
+            mouse_nextdisplay = "ctrl + alt - tab";
           }
           // (mkBindings "ctrl" "window_virtualnum")
           // (mkBindings "ctrl + shift" "window_virtualmovenum");
-        windows = {
-          ghostty = {
-            title = ".*";
-            bundle_id = "com.mitchellh.ghostty";
-            floating = false;
-          };
-          pip = {
-            title = "Picture.*(in)?.*[Pp]icture";
-            floating = true;
-          };
+        windows.pip = {
+          title = "Picture.*(in)?.*[Pp]icture";
+          floating = true;
         };
       };
     };

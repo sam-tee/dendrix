@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.modules.homeManager.aerospace = {lib, ...}: let
     mkGaps = keys: lib.genAttrs keys (_: 0);
     mkBindings = prefix: command:
@@ -6,6 +6,7 @@
       |> map (i: lib.nameValuePair "${prefix}-${toString i}" "${command} ${toString i}")
       |> builtins.listToAttrs;
   in {
+    imports = [self.modules.homeManager.skhd];
     programs.aerospace = {
       enable = true;
       launchd.enable = true;
@@ -37,10 +38,6 @@
             ctrl-shift-l = "move right";
             ctrl-comma = "layout accordion horizontal vertical";
             ctrl-slash = "layout tiles horizontal vertical";
-            ctrl-cmd-enter = "exec-and-forget open -a Ghostty";
-            ctrl-cmd-e = "exec-and-forget open -a Finder";
-            ctrl-cmd-b = "exec-and-forget open -a Helium";
-            ctrl-cmd-z = "exec-and-forget open -a Zed";
           }
           // (mkBindings "ctrl" "workspace")
           // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
