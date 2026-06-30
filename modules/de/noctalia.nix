@@ -34,6 +34,28 @@
       };
       programs.noctalia = {
         enable = true;
+        customPalettes = {
+          akhlus = {
+            dark = with self.cosmetic.theme.attrs; {
+              mPrimary = base0E;
+              mOnPrimary = base00;
+              mSecondary = base0D;
+              mOnSecondary = base01;
+              mTertiary = base0B;
+              mOnTertiary = base01;
+              mError = base08;
+              mOnError = base01;
+              mSurface = base00;
+              mOnSurface = base05;
+              mHover = base0C;
+              mOnHover = base01;
+              mSurfaceVariant = base02;
+              mOnSurfaceVariant = base04;
+              mOutline = base03;
+              mShadow = base00;
+            };
+          };
+        };
         settings = {
           shell = {
             setup_wizard_enabled = false;
@@ -45,85 +67,150 @@
               transparency_mode = "solid";
               borders = false;
               shadow = false;
-              launcher_categories = false;
             };
+            launcher.categories = false;
+            session.actions = [
+              {
+                action = "lock";
+                enabled = true;
+                countdown_seconds = 0.0;
+              }
+              {
+                action = "logout";
+                enabled = true;
+                countdown_seconds = 0.0;
+              }
+              {
+                action = "suspend";
+                enabled = true;
+                countdown_seconds = 0.0;
+              }
+              {
+                action = "reboot";
+                enabled = true;
+                countdown_seconds = 0.0;
+              }
+              {
+                action = "shutdown";
+                enabled = true;
+                countdown_seconds = 0.0;
+              }
+            ];
           };
 
           theme = {
             mode = "dark";
-            source = "builtin";
-            builtin = "Noctalia";
+            source = "custom";
+            custom_palette = "akhlus";
           };
 
           bar.main = {
             position = "left";
+            thickness = 34;
+            scale = 1.0;
             background_opacity = 1.0;
             reserve_space = false;
             capsule = false;
+            border_width = 0.0;
+            radius = 0;
+            margin_ends = 0;
+            margin_edge = 0;
+            padding = 4;
+            widget_spacing = 6;
             shadow = false;
-            margin_h = 0;
-            margin_v = 0;
-            padding = 6;
-            widget_spacing = 4;
-            scale = 0.85;
-            start = ["launcher" "workspaces"];
-            center = ["clock"];
-            end = ["tray" "volume" "battery" "power_profile" "control-center" "session"];
+
+            start = [
+              "launcher"
+              "clock-left"
+            ];
+            center = [
+              "workspaces"
+              "clock-center"
+            ];
+            end = [
+              "tray"
+              "volume"
+              "network"
+              "bluetooth"
+              "battery"
+              "control-center"
+              "session"
+            ];
           };
 
           widget = {
-            clock = {
-              format = "{:%H:%M\\n%d %b}";
-              vertical_format = "{:%H\\n%M\\n%d\\n%m}";
+            launcher = {
+              type = "launcher";
+              glyph = "nix-snowflake";
             };
+
+            clock-left = {
+              type = "clock";
+              format = "{:%d %b | %H:%M}";
+              vertical_format = "{:%H %M - %d %m}";
+            };
+
+            clock-center = {
+              type = "clock";
+              format = "{:%d %b | %H:%M}";
+              vertical_format = "{:%H %M - %d %m}";
+            };
+
             workspaces = {
+              type = "workspaces";
+              hide_when_empty = false;
               display = "id";
-              empty_color = "surface_variant";
+              empty_color = "none";
               focused_color = "primary";
               occupied_color = "secondary";
-              hide_when_empty = false;
               pill_scale = 0.6;
             };
-            battery = {
-              display_mode = "graphic";
+            tray = {
+              type = "tray";
+              drawer = true;
+            };
+            volume.type = "volume";
+            network = {
+              type = "network";
               show_label = false;
             };
-            "control-center".glyph = "settings-2";
+            bluetooth = {
+              type = "bluetooth";
+              show_label = false;
+            };
+            battery = {
+              type = "battery";
+              display_mode = "graphic";
+            };
+            control-center = {
+              type = "control-center";
+              glyph = "settings-2";
+            };
+            session = {
+              type = "session";
+              glyph = "shutdown";
+              color = "error";
+            };
           };
-
-          control_center.shortcuts = [
-            {type = "wifi";}
-            {type = "bluetooth";}
-            {type = "wallpaper";}
-            {type = "session";}
-          ];
-
+          weather = {
+            enabled = false;
+            effects = false;
+          };
           wallpaper = {
             enabled = true;
             transition_on_startup = false;
             directory = bgDirFull;
             fill_mode = "stretch";
-            default.path = "${bgDirFull}/bg.png";
           };
-
-          weather = {
-            enabled = false;
-            effects = false;
-          };
-
           dock.enabled = false;
-
-          audio = {
-            enable_sounds = false;
-          };
-
+          audio.enable_sounds = false;
           idle.behavior = {
             lock = {
               enabled = true;
               timeout = 300;
               command = "noctalia:session lock";
             };
-            "screen-off" = {
+            screen-off = {
               enabled = true;
               timeout = 299;
               command = "noctalia:dpms-off";
@@ -132,9 +219,10 @@
             suspend = {
               enabled = true;
               timeout = 600;
-              command = "systemctl suspend";
+              command = "noctalia:session suspend";
             };
           };
+          lockscreen.fingerprint = true;
         };
       };
     };
