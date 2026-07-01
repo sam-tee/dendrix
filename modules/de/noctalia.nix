@@ -160,7 +160,7 @@
               type = "workspaces";
               hide_when_empty = false;
               display = "id";
-              empty_color = "none";
+              empty_color = "primary";
               focused_color = "primary";
               occupied_color = "secondary";
               pill_scale = 0.6;
