@@ -16,6 +16,7 @@
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;
     };
+    services.openssh.settings.AcceptEnv = ["GIT_PROTOCOL"];
     services.forgejo = {
       enable = true;
       stateDir = "${hl.dataDir}/git";

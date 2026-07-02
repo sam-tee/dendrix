@@ -876,11 +876,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1782963827,
-        "narHash": "sha256-XB69IPRxZTdr9QGBao9oGG3zItkm+amn0/3k/AItBlI=",
+        "lastModified": 1782967260,
+        "narHash": "sha256-gJaoIdzqnxAGi2p5F9+rMVR0vwVbOh3kyXV5tkT+D9c=",
         "ref": "refs/heads/main",
-        "rev": "85a90de9b17c404fcbce067698a8c11d064cc297",
-        "revCount": 71,
+        "rev": "bfd25805078de916050682f3211fbdc71900020f",
+        "revCount": 77,
         "type": "git",
         "url": "ssh://forgejo@git-ssh.akhlus.uk:2222/sam-tee/nix-secrets.git"
       },

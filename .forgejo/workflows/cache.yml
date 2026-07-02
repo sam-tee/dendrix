@@ -21,6 +21,7 @@ jobs:
       ATTIC_CACHE: dendrix
       ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
       ORACLE_BUILDER_SSH_KEY: ${{ secrets.ORACLE_BUILDER_SSH_KEY }}
+      GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
