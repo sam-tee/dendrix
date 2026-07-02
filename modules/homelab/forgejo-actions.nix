@@ -15,11 +15,14 @@
         name = config.networking.hostName;
         tokenFile = config.sops.secrets."forgejo/token".path;
         hostPackages = with pkgs; [
+          attic-client
           bash
           coreutils
           git
+          jq
           nix
           nodejs
+          openssh
         ];
         labels = [
           "native:host"

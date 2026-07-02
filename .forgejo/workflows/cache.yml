@@ -1,0 +1,98 @@
+name: Cache flake outputs
+
+on:
+  push:
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: cache-flake-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-cache:
+    runs-on: native
+    env:
+      ATTIC_ENDPOINT: https://cache.akhlus.uk
+      ATTIC_CACHE: dendrix
+      ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+      ORACLE_BUILDER_SSH_KEY: ${{ secrets.ORACLE_BUILDER_SSH_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Nix and remote builders
+        run: |
+          set -eu
+
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+
+          {
+            echo "NIX_CONFIG<<EOF"
+            echo "experimental-features = nix-command flakes"
+            echo "builders-use-substitutes = true"
+            if [ -n "${ORACLE_BUILDER_SSH_KEY:-}" ]; then
+              printf '%s\n' "$ORACLE_BUILDER_SSH_KEY" > "$HOME/.ssh/oracle_builder"
+              chmod 600 "$HOME/.ssh/oracle_builder"
+              cat > "$HOME/.ssh/config" <<SSH_CONFIG
+          Host oracle-builder
+            HostName oracle.scylla-goblin.ts.net
+            User sam
+            IdentityFile $HOME/.ssh/oracle_builder
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+          SSH_CONFIG
+              chmod 600 "$HOME/.ssh/config"
+              echo "builders = ssh-ng://oracle-builder aarch64-linux $HOME/.ssh/oracle_builder 4 1 benchmark,big-parallel,kvm,nixos-test -"
+            fi
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+
+      - name: Update flake lock
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: nix flake update
+
+      - name: Build NixOS hosts and Linux packages
+        run: |
+          set -eu
+
+          nix flake show --json --all-systems > flake-outputs.json
+          jq -r '
+            (.nixosConfigurations // {} | keys[] | ".#nixosConfigurations.\(.).config.system.build.toplevel"),
+            (.packages // {} | to_entries[] | select(.key | endswith("-linux")) | .key as $system | .value | keys[] | ".#packages.\($system).\(.)")
+          ' flake-outputs.json > build-attrs.txt
+
+          : > store-paths.txt
+          while IFS= read -r attr; do
+            nix build --print-out-paths "$attr" | tee -a store-paths.txt
+          done < build-attrs.txt
+
+      - name: Push closures to Attic
+        run: |
+          set -eu
+          test -n "${ATTIC_TOKEN:-}"
+
+          attic login --set-default dendrix "$ATTIC_ENDPOINT" "$ATTIC_TOKEN"
+          attic cache create --public "$ATTIC_CACHE" || true
+          attic cache configure --public --retention-period "3 days" "$ATTIC_CACHE"
+          attic push "$ATTIC_CACHE" --stdin < store-paths.txt
+
+      - name: Commit updated lock file
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          set -eu
+
+          if git diff --quiet -- flake.lock; then
+            exit 0
+          fi
+
+          git config user.name "forgejo-actions"
+          git config user.email "forgejo-actions@akhlus.uk"
+          git add flake.lock
+          git commit -m "chore: update flake lock"
+          git push

@@ -5,6 +5,7 @@
     };
   in {
     anki = mkService 27701 "u410" false "anki";
+    atticd = mkService 27702 "u410" false "cache";
     atuin = mkService 8888 "u410" false "atuin";
     audiobookshelf = mkService 8000 "" true "audio";
     bazarr = mkService 6767 "u410" true "bazarr";

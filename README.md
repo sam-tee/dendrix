@@ -7,6 +7,7 @@ Uses flake-parts to make every file under modules/ a module
 |   Service       | Machine | Port  | Subdomain | Private |
 | :-------------: | :-----: | :---: | :-------: | :-----: |
 |    anki         |  u410   | 27701 |    anki   |    n    |
+|    atticd       |  u410   | 27702 |   cache   |    n    |
 |    atuin        |  u410   | 8888  |   atuin   |    n    |
 | audiobookshelf  |  -      | -     |  -        |    -    |
 |   bazarr        |  u410   | 6767  |  bazarr   |    y    |
@@ -57,6 +58,40 @@ Modules that bundle other modules are prefixed with \_ to distinguish them
 - \_mobile: collection of modules for use with mobile-nixos (no DE)
 - \_plasma: installs plasma with HM configuration
 - \_gnome: installs gnome with HM configuration
+
+## Binary cache
+
+`u410` runs Attic at `https://cache.akhlus.uk/`. Forgejo Actions updates `flake.lock` daily, builds every `nixosConfiguration` plus all Linux packages exposed by the flake, and pushes the closures to the public `dendrix` cache. Pushes to the repository also rebuild and upload the current outputs. Newer pushes cancel older in-progress cache workflows.
+
+The server needs a SOPS secret named `atticd/env` containing:
+
+```sh
+ATTIC_SERVER_TOKEN_RS256_SECRET_BASE64=<openssl genrsa -traditional 4096 | base64 -w0>
+```
+
+After deploying `u410`, create a Forgejo cache token and store it as the repository secret `ATTIC_TOKEN`:
+
+```sh
+sudo atticd-atticadm make-token --sub forgejo-cache --validity 1y --pull dendrix --push dendrix --create-cache dendrix --configure-cache dendrix --configure-cache-retention dendrix
+```
+
+To let Forgejo build `aarch64-linux` outputs on Oracle, add the private SSH key for `sam@oracle.scylla-goblin.ts.net` as the repository secret `ORACLE_BUILDER_SSH_KEY`. The matching public key must be trusted by the `sam` user on `oracle`, and the user must be allowed to use Nix remotely.
+
+To use the cache before switching a machine, create a pull token and configure the local Nix client once:
+
+```sh
+sudo atticd-atticadm make-token --sub sam --validity 1y --pull dendrix
+attic login --set-default dendrix https://cache.akhlus.uk "$TOKEN"
+attic use dendrix
+```
+
+Then switch as usual:
+
+```sh
+sudo nixos-rebuild switch --flake ~/dendrix#u410
+```
+
+Cache entries are configured with a `3 days` retention period by the workflow.
 
 ## Darwin
 
