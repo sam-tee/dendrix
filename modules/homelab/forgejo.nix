@@ -10,6 +10,8 @@
     inherit (self.services.forgejo) port subdomain;
     domain = "${subdomain}.${hl.domain}";
   in {
+    imports = [self.modules.nixos.forgejo-actions];
+
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;

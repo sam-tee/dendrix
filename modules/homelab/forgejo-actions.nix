@@ -14,8 +14,15 @@
         url = cfg.settings.server.ROOT_URL;
         name = config.networking.hostName;
         tokenFile = config.sops.secrets."forgejo/token".path;
+        hostPackages = with pkgs; [
+          bash
+          coreutils
+          git
+          nix
+          nodejs
+        ];
         labels = [
-          "ubuntu-latest:docker://node:16-bullseye"
+          "native:host"
         ];
       };
     };
