@@ -61,7 +61,7 @@ Modules that bundle other modules are prefixed with \_ to distinguish them
 
 ## Binary cache
 
-`u410` runs Attic at `https://cache.akhlus.uk/`. Forgejo Actions updates `flake.lock` daily, builds every `nixosConfiguration` plus all Linux packages exposed by the flake, and pushes the closures to the public `dendrix` cache. Pushes to the repository also rebuild and upload the current outputs. Newer pushes cancel older in-progress cache workflows.
+`u410` runs Attic at `https://cache.akhlus.uk/`. Forgejo Actions updates `flake.lock` daily, builds every `nixosConfiguration` plus Linux packages exposed by the flake, and pushes the closures to the public `dendrix` cache. Pushes to the repository also rebuild and upload the current outputs. Newer pushes cancel older in-progress cache workflows.
 
 The server needs a SOPS secret named `atticd/env` containing:
 
@@ -75,7 +75,7 @@ After deploying `u410`, create a Forgejo cache token and store it as the reposit
 sudo atticd-atticadm make-token --sub forgejo-cache --validity 1y --pull dendrix --push dendrix --create-cache dendrix --configure-cache dendrix --configure-cache-retention dendrix
 ```
 
-To let Forgejo build `aarch64-linux` outputs on Oracle, add the private SSH key for `sam@oracle.scylla-goblin.ts.net` as the repository secret `ORACLE_BUILDER_SSH_KEY`. The matching public key must be trusted by the `sam` user on `oracle`, and the user must be allowed to use Nix remotely.
+Forgejo runs on `u410`, so `x86_64-linux` outputs build locally in the runner and `aarch64-linux` outputs use `u410`'s daemon-level Oracle builder configuration. The Nix daemon on `u410` must be able to SSH to Oracle non-interactively as `sam@oracle`, and the `sam` user on Oracle must be allowed to use Nix remotely.
 
 To use the cache before switching a machine, create a pull token and configure the local Nix client once:
 

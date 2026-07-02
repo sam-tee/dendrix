@@ -6,6 +6,48 @@
   ...
 }: let
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
+  remoteBuildMachines = [
+    {
+      hostName = "mba";
+      systems = ["aarch64-darwin"];
+      protocol = "ssh-ng";
+      sshUser = "sam";
+      maxJobs = 4;
+      speedFactor = 1;
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+      ];
+    }
+    {
+      hostName = "oracle";
+      systems = ["aarch64-linux"];
+      protocol = "ssh-ng";
+      sshUser = "sam";
+      maxJobs = 4;
+      speedFactor = 1;
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+        "kvm"
+        "nixos-test"
+      ];
+    }
+    {
+      hostName = "u410";
+      systems = ["x86_64-linux"];
+      protocol = "ssh-ng";
+      sshUser = "sam";
+      maxJobs = 4;
+      speedFactor = 1;
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+        "kvm"
+        "nixos-test"
+      ];
+    }
+  ];
 in {
   flake.modules = {
     generic.nix = _: {
@@ -48,8 +90,12 @@ in {
     };
     darwin.cli = _: {
       imports = [self.modules.generic.nix];
-      nix.optimise.automatic = true;
-      nix.channel.enable = false;
+      nix = {
+        buildMachines = remoteBuildMachines;
+        distributedBuilds = true;
+        optimise.automatic = true;
+        channel.enable = false;
+      };
     };
 
     homeManager.cli = _: {
@@ -64,8 +110,12 @@ in {
     nixos.cli = {pkgs, ...}: {
       imports = [self.modules.generic.nix];
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
-      nix.optimise.automatic = true;
-      nix.channel.enable = false;
+      nix = {
+        buildMachines = remoteBuildMachines;
+        distributedBuilds = true;
+        optimise.automatic = true;
+        channel.enable = false;
+      };
       programs = {
         nh = {
           enable = true;

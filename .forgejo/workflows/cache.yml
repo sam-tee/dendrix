@@ -20,39 +20,10 @@ jobs:
       ATTIC_ENDPOINT: https://cache.akhlus.uk
       ATTIC_CACHE: dendrix
       ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-      ORACLE_BUILDER_SSH_KEY: ${{ secrets.ORACLE_BUILDER_SSH_KEY }}
       GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Configure Nix and remote builders
-        run: |
-          set -eu
-
-          mkdir -p "$HOME/.ssh"
-          chmod 700 "$HOME/.ssh"
-
-          {
-            echo "NIX_CONFIG<<EOF"
-            echo "experimental-features = nix-command flakes pipe-operators auto-allocate-uids"
-            echo "builders-use-substitutes = true"
-            if [ -n "${ORACLE_BUILDER_SSH_KEY:-}" ]; then
-              printf '%s\n' "$ORACLE_BUILDER_SSH_KEY" > "$HOME/.ssh/oracle_builder"
-              chmod 600 "$HOME/.ssh/oracle_builder"
-              cat > "$HOME/.ssh/config" <<SSH_CONFIG
-          Host oracle-builder
-            HostName oracle.scylla-goblin.ts.net
-            User sam
-            IdentityFile $HOME/.ssh/oracle_builder
-            StrictHostKeyChecking no
-            UserKnownHostsFile /dev/null
-          SSH_CONFIG
-              chmod 600 "$HOME/.ssh/config"
-              echo "builders = ssh-ng://oracle-builder aarch64-linux $HOME/.ssh/oracle_builder 4 1 benchmark,big-parallel,kvm,nixos-test -"
-            fi
-            echo "EOF"
-          } >> "$GITHUB_ENV"
 
       - name: Update flake lock
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
