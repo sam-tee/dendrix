@@ -35,7 +35,7 @@ jobs:
 
           {
             echo "NIX_CONFIG<<EOF"
-            echo "experimental-features = nix-command flakes"
+            echo "experimental-features = nix-command flakes pipe-operators auto-allocate-uids"
             echo "builders-use-substitutes = true"
             if [ -n "${ORACLE_BUILDER_SSH_KEY:-}" ]; then
               printf '%s\n' "$ORACLE_BUILDER_SSH_KEY" > "$HOME/.ssh/oracle_builder"
