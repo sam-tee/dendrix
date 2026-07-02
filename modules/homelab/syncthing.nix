@@ -20,7 +20,7 @@
     };
     calibre_config = {
       path = "~/.config/calibre";
-      devices = ["a3" "deck" "hp" "s340" "u410"];
+      devices = ["a3" "deck" "hp" "mba" "oracle" "s340" "u410"];
     };
     Docs = {
       path = "~/Documents";
