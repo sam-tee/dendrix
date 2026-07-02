@@ -1,17 +1,22 @@
 {
-  config,
   inputs,
   lib,
   self,
   ...
 }: let
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
-  remoteBuildMachines = [
+  sshKeys = {
+    "ssh/oracle".mode = "0600";
+    "ssh/mba".mode = "0600";
+    "ssh/u410".mode = "0600";
+  };
+  remoteBuildMachines = config: [
     {
       hostName = "mba";
       systems = ["aarch64-darwin"];
       protocol = "ssh-ng";
       sshUser = "sam";
+      sshKey = config.sops.secrets."ssh/mba".path;
       maxJobs = 4;
       speedFactor = 1;
       supportedFeatures = [
@@ -20,10 +25,11 @@
       ];
     }
     {
-      hostName = "oracle";
+      hostName = "oracle:2222";
       systems = ["aarch64-linux"];
       protocol = "ssh-ng";
       sshUser = "sam";
+      sshKey = config.sops.secrets."ssh/oracle".path;
       maxJobs = 4;
       speedFactor = 1;
       supportedFeatures = [
@@ -34,10 +40,11 @@
       ];
     }
     {
-      hostName = "u410";
+      hostName = "u410:2222";
       systems = ["x86_64-linux"];
       protocol = "ssh-ng";
       sshUser = "sam";
+      sshKey = config.sops.secrets."ssh/u410".path;
       maxJobs = 4;
       speedFactor = 1;
       supportedFeatures = [
@@ -88,10 +95,11 @@ in {
         overlays = [];
       };
     };
-    darwin.cli = _: {
+    darwin.cli = {config, ...}: {
       imports = [self.modules.generic.nix];
+      sops.secrets = sshKeys;
       nix = {
-        buildMachines = remoteBuildMachines;
+        buildMachines = remoteBuildMachines config;
         distributedBuilds = true;
         optimise.automatic = true;
         channel.enable = false;
@@ -107,11 +115,16 @@ in {
       };
     };
 
-    nixos.cli = {pkgs, ...}: {
+    nixos.cli = {
+      config,
+      pkgs,
+      ...
+    }: {
       imports = [self.modules.generic.nix];
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
+      sops.secrets = sshKeys;
       nix = {
-        buildMachines = remoteBuildMachines;
+        buildMachines = remoteBuildMachines config;
         distributedBuilds = true;
         optimise.automatic = true;
         channel.enable = false;
