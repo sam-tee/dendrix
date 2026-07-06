@@ -12,11 +12,12 @@
   };
   remoteBuildMachines = config: [
     {
-      hostName = "mba";
+      hostName = "mba.scylla-goblin.ts.net";
       systems = ["aarch64-darwin"];
       protocol = "ssh-ng";
       sshUser = "sam";
       sshKey = config.sops.secrets."ssh/mba".path;
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUlWTE9wMHZYMVBPNnJ4TldSQTJOYjVMTVB6OGRuTE5zeWsxQ2NNT3F0RVggCg==";
       maxJobs = 4;
       speedFactor = 1;
       supportedFeatures = [
@@ -25,11 +26,12 @@
       ];
     }
     {
-      hostName = "oracle:2222";
+      hostName = "oracle.scylla-goblin.ts.net:2222";
       systems = ["aarch64-linux"];
       protocol = "ssh-ng";
       sshUser = "sam";
       sshKey = config.sops.secrets."ssh/oracle".path;
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
       maxJobs = 4;
       speedFactor = 1;
       supportedFeatures = [
@@ -40,11 +42,12 @@
       ];
     }
     {
-      hostName = "u410:2222";
+      hostName = "u410.scylla-goblin.ts.net:2222";
       systems = ["x86_64-linux"];
       protocol = "ssh-ng";
       sshUser = "sam";
       sshKey = config.sops.secrets."ssh/u410".path;
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEBuaXhvcwo=";
       maxJobs = 4;
       speedFactor = 1;
       supportedFeatures = [

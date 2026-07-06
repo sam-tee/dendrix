@@ -33,6 +33,8 @@
           ENABLE_PUSH_CREATE_USER = true;
           ENABLE_PUSH_CREATE_ORG = true;
         };
+        actions.ENABLED = true;
+        cron.ENABLED = true;
         server = {
           DOMAIN = domain;
           ROOT_URL = "https://${domain}/";
