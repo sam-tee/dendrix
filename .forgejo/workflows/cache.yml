@@ -31,7 +31,10 @@ jobs:
 
       - name: Configure Attic
         run: |
-          attic login --set-default dendrix "$ATTIC_ENDPOINT" "$ATTIC_TOKEN"
+          token="$(printf '%s' "$ATTIC_TOKEN" | tr -d '\r\n')"
+          test -n "$token"
+
+          attic login --set-default dendrix "$ATTIC_ENDPOINT" "$token"
           attic cache configure --public --retention-period "3 days" "$ATTIC_CACHE"
           attic use "$ATTIC_CACHE"
 
