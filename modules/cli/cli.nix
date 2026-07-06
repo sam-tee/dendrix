@@ -62,6 +62,7 @@ in {
           fzf = {
             enable = true;
             defaultOptions = ["--preview 'bat --style=numbers --color=always {}'"];
+            historyWidget.command = "";
           };
           ripgrep.enable = true;
           yazi = {
