@@ -29,30 +29,70 @@ jobs:
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: nix flake update
 
-      - name: Build NixOS hosts and Linux packages
+      - name: Configure Attic
         run: |
-          set -eu
-
-          nix flake show --json --all-systems > flake-outputs.json
-          jq -r '
-            (.nixosConfigurations // {} | keys[] | ".#nixosConfigurations.\(.).config.system.build.toplevel"),
-            (.packages // {} | to_entries[] | select(.key | endswith("-linux")) | .key as $system | .value | keys[] | ".#packages.\($system).\(.)")
-          ' flake-outputs.json > build-attrs.txt
-
-          : > store-paths.txt
-          while IFS= read -r attr; do
-            nix build --print-out-paths "$attr" | tee -a store-paths.txt
-          done < build-attrs.txt
-
-      - name: Push closures to Attic
-        run: |
-          set -eu
-          test -n "${ATTIC_TOKEN:-}"
-
           attic login --set-default dendrix "$ATTIC_ENDPOINT" "$ATTIC_TOKEN"
-          attic cache create --public "$ATTIC_CACHE" || true
           attic cache configure --public --retention-period "3 days" "$ATTIC_CACHE"
-          attic push "$ATTIC_CACHE" --stdin < store-paths.txt
+          attic use "$ATTIC_CACHE"
+
+      - name: Build and push all flake packages
+        run: |
+          set -eu
+
+          nix flake show --json --all-systems \
+            | jq -r '
+              .packages // {}
+              | to_entries[]
+              | .key as $system
+              | .value
+              | to_entries[]
+              | select(.value.type == "derivation")
+              | "\($system) \(.key)"
+            ' > packages.txt
+
+          if [ ! -s packages.txt ]; then
+            echo "no packages"
+            exit 0
+          fi
+
+          while read -r system package; do
+            echo "building package $package for $system"
+            out="$(
+              nix build \
+                --accept-flake-config \
+                --print-build-logs \
+                --no-link \
+                --print-out-paths \
+                ".#packages.${system}.${package}"
+            )"
+
+            echo "pushing package $package: $out"
+            attic push "$ATTIC_CACHE" "$out"
+          done < packages.txt
+
+      - name: Build and push all NixOS configurations
+        run: |
+          set -eu
+
+          configs="$(
+            nix eval --json .#nixosConfigurations --apply builtins.attrNames \
+              | jq -r '.[]'
+          )"
+
+          for host in $configs; do
+            echo "building $host"
+            out="$(
+              nix build \
+                --accept-flake-config \
+                --print-build-logs \
+                --no-link \
+                --print-out-paths \
+                ".#nixosConfigurations.${host}.config.system.build.toplevel"
+            )"
+
+            echo "pushing $host: $out"
+            attic push "$ATTIC_CACHE" "$out"
+          done
 
       - name: Commit updated lock file
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
