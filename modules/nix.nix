@@ -74,6 +74,8 @@ in {
           keep-going = true;
           warn-dirty = false;
           builders-use-substitutes = true;
+          substituters = lib.mkBefore ["https://cache.akhlus.uk/dendrix"];
+          trusted-public-keys = lib.mkBefore ["dendrix:gw3GtUeu7QiYchM+GKrwanxDeUqa/Ddl45l8x05rD+o="];
           flake-registry = "";
           experimental-features = [
             "flakes"
