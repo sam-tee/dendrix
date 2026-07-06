@@ -13,6 +13,5 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
   };
 }
