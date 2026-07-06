@@ -10,54 +10,61 @@
     "ssh/mba".mode = "0600";
     "ssh/u410".mode = "0600";
   };
-  remoteBuildMachines = config: [
-    {
-      hostName = "mba.scylla-goblin.ts.net";
-      systems = ["aarch64-darwin"];
-      protocol = "ssh-ng";
-      sshUser = "sam";
-      sshKey = config.sops.secrets."ssh/mba".path;
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUlWTE9wMHZYMVBPNnJ4TldSQTJOYjVMTVB6OGRuTE5zeWsxQ2NNT3F0RVggCg==";
-      maxJobs = 4;
-      speedFactor = 1;
-      supportedFeatures = [
-        "benchmark"
-        "big-parallel"
-      ];
-    }
-    {
-      hostName = "oracle.scylla-goblin.ts.net:2222";
-      systems = ["aarch64-linux"];
-      protocol = "ssh-ng";
-      sshUser = "sam";
-      sshKey = config.sops.secrets."ssh/oracle".path;
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
-      maxJobs = 4;
-      speedFactor = 1;
-      supportedFeatures = [
-        "benchmark"
-        "big-parallel"
-        "kvm"
-        "nixos-test"
-      ];
-    }
-    {
-      hostName = "u410.scylla-goblin.ts.net:2222";
-      systems = ["x86_64-linux"];
-      protocol = "ssh-ng";
-      sshUser = "sam";
-      sshKey = config.sops.secrets."ssh/u410".path;
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEBuaXhvcwo=";
-      maxJobs = 4;
-      speedFactor = 1;
-      supportedFeatures = [
-        "benchmark"
-        "big-parallel"
-        "kvm"
-        "nixos-test"
-      ];
-    }
-  ];
+  remoteBuildMachines = config: currentHostname: let
+    shortHostName = machine: let
+      withoutPort = builtins.head (lib.splitString ":" machine.hostName);
+    in
+      builtins.head (lib.splitString "." withoutPort);
+  in
+    [
+      {
+        hostName = "mba.scylla-goblin.ts.net";
+        systems = ["aarch64-darwin"];
+        protocol = "ssh-ng";
+        sshUser = "sam";
+        sshKey = config.sops.secrets."ssh/mba".path;
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUlWTE9wMHZYMVBPNnJ4TldSQTJOYjVMTVB6OGRuTE5zeWsxQ2NNT3F0RVggCg==";
+        maxJobs = 4;
+        speedFactor = 1;
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+        ];
+      }
+      {
+        hostName = "oracle.scylla-goblin.ts.net:2222";
+        systems = ["aarch64-linux"];
+        protocol = "ssh-ng";
+        sshUser = "sam";
+        sshKey = config.sops.secrets."ssh/oracle".path;
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
+        maxJobs = 4;
+        speedFactor = 1;
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+          "kvm"
+          "nixos-test"
+        ];
+      }
+      {
+        hostName = "u410.scylla-goblin.ts.net:2222";
+        systems = ["x86_64-linux"];
+        protocol = "ssh-ng";
+        sshUser = "sam";
+        sshKey = config.sops.secrets."ssh/u410".path;
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEBuaXhvcwo=";
+        maxJobs = 4;
+        speedFactor = 1;
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+          "kvm"
+          "nixos-test"
+        ];
+      }
+    ]
+    |> lib.filter (machine: shortHostName machine != currentHostname);
 in {
   flake.modules = {
     generic.nix = _: {
@@ -98,11 +105,15 @@ in {
         overlays = [];
       };
     };
-    darwin.cli = {config, ...}: {
+    darwin.cli = {
+      config,
+      hostname ? config.networking.hostName,
+      ...
+    }: {
       imports = [self.modules.generic.nix];
       sops.secrets = sshKeys;
       nix = {
-        buildMachines = remoteBuildMachines config;
+        buildMachines = remoteBuildMachines config hostname;
         distributedBuilds = true;
         optimise.automatic = true;
         channel.enable = false;
@@ -120,6 +131,7 @@ in {
 
     nixos.cli = {
       config,
+      hostname ? config.networking.hostName,
       pkgs,
       ...
     }: {
@@ -127,7 +139,7 @@ in {
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
       sops.secrets = sshKeys;
       nix = {
-        buildMachines = remoteBuildMachines config;
+        buildMachines = remoteBuildMachines config hostname;
         distributedBuilds = true;
         optimise.automatic = true;
         channel.enable = false;
