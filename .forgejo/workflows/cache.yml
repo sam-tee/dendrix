@@ -25,6 +25,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure SSH for private flake inputs
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "${{ secrets.GIT_SSH_KEY }}" >> $HOME/.ssh/git
+          chmod 600 $HOME/.ssh/git
+          cat <<EOF >$HOME/.ssh/config
+          Host git-ssh.akhlus.uk
+            IdentityFile ~/.ssh/git
+            IdentitiesOnly yes
+          EOF
+          cat <<EOF >$HOME/.ssh/known_hosts
+          [git-ssh.akhlus.uk]:2222 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4a7k8VW02CvP5IC7jLyKHz1jYJ27BZUFpgbk8l1o+L
+          EOF
+
       - name: Update flake lock
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: nix flake update
