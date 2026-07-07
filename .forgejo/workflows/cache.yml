@@ -20,24 +20,18 @@ jobs:
       ATTIC_ENDPOINT: https://cache.akhlus.uk
       ATTIC_CACHE: dendrix
       ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-      GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
+      GIT_SSH_COMMAND: "ssh -i $HOME/.ssh/git -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Configure SSH for private flake inputs
         run: |
-          mkdir -p $HOME/.ssh
-          echo "${{ secrets.GIT_SSH_KEY }}" >> $HOME/.ssh/git
-          chmod 600 $HOME/.ssh/git
-          cat <<EOF >$HOME/.ssh/config
-          Host git-ssh.akhlus.uk
-            IdentityFile ~/.ssh/git
-            IdentitiesOnly yes
-          EOF
-          cat <<EOF >$HOME/.ssh/known_hosts
-          [git-ssh.akhlus.uk]:2222 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4a7k8VW02CvP5IC7jLyKHz1jYJ27BZUFpgbk8l1o+L
-          EOF
+          mkdir -p "$HOME/.ssh"
+          printf '%s\n' "${{ secrets.GIT_SSH_KEY }}" > "$HOME/.ssh/git"
+          chmod 600 "$HOME/.ssh/git"
+          ssh-keyscan -p 2222 git-ssh.akhlus.uk >> "$HOME/.ssh/known_hosts"
+          chmod 644 "$HOME/.ssh/known_hosts"
 
       - name: Update flake lock
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -50,7 +44,6 @@ jobs:
 
           attic login --set-default dendrix "$ATTIC_ENDPOINT" "$token"
           attic cache configure --public --retention-period "3 days" "$ATTIC_CACHE"
-          attic use "$ATTIC_CACHE"
 
       - name: Build and push all flake packages
         run: |
@@ -100,7 +93,6 @@ jobs:
             echo "building $host"
             out="$(
               nix build \
-                --accept-flake-config \
                 --print-build-logs \
                 --no-link \
                 --print-out-paths \
