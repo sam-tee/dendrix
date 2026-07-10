@@ -54,6 +54,7 @@ jobs:
               .packages // {}
               | to_entries[]
               | .key as $system
+              | select($system | endswith("-linux"))
               | .value
               | to_entries[]
               | select(.value.type == "derivation")
