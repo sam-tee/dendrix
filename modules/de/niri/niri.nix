@@ -93,7 +93,10 @@
               "Mod+Equal".action.set-column-width = "+10%";
               "Mod+Shift+Minus".action.set-window-height = "-10%";
               "Mod+Shift+Equal".action.set-window-height = "+10%";
-
+              "Mod+Shift+Ctrl+Left" = action "move-column-to-monitor-left";
+              "Mod+Shift+Ctrl+Right" = action "move-column-to-monitor-right";
+              "Mod+Shift+Ctrl+Up" = action "move-window-to-monitor-up";
+              "Mod+Shift+Ctrl+Down" = action "move-window-to-monitor-down";
               "Mod+Shift+S" = spawn ["hyprshot" "-m" "region"];
               "Mod+Return" = spawn "ghostty";
               "Mod+B" = spawn ["brave" "--new-window" "--ozone-platform=wayland"];

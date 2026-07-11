@@ -28,10 +28,19 @@ in {
             syncthing
             {
               wayland.windowManager.hyprland.settings.monitor = ["eDP-1,1920x1080@60,auto,1"];
-              programs.niri.settings.outputs."eDP-1" = {
-                scale = 1.0;
-                mode.height = 1080;
-                mode.width = 1920;
+              programs.niri.settings.outputs = {
+                "eDP-1" = {
+                  scale = 1.0;
+                  mode.height = 1080;
+                  mode.width = 1920;
+                };
+                "HDMI-A-1" = {
+                  scale = 1.0;
+                  mode = {
+                    height = 1080;
+                    width = 1920;
+                  };
+                };
               };
             }
           ];
