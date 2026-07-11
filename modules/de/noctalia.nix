@@ -5,24 +5,16 @@
 }: {
   flake-file.inputs = {
     noctalia = {
-      url = "github:noctalia-dev/noctalia";
+      url = "github:noctalia-dev/noctalia/cachix";
     };
   };
   flake.modules = {
-    nixos.noctalia = {pkgs, ...}: {
-      nix.settings = {
-        extra-substituters = ["https://noctalia.cachix.org"];
-        extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
-      };
-      hardware.bluetooth = {
+    nixos.noctalia = _: {
+      imports = [inputs.noctalia.nixosModules.default];
+      programs.noctalia = {
         enable = true;
-        powerOnBoot = true;
+        recommendedServices.enable = true;
       };
-      services = {
-        tuned.enable = true;
-        upower.enable = true;
-      };
-      environment.systemPackages = [inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default];
     };
     homeManager.noctalia = {config, ...}: let
       bgDirFull = "${config.home.homeDirectory}/${bgDir}";

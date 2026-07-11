@@ -103,16 +103,16 @@
               "Mod+E" = spawn ["ghostty" "-e" "yazi"];
               "Mod+Z" = spawn "zeditor";
               "Mod+Shift+Escape" = action "quit";
-              "Mod+Space" = spawn ["noctalia" "ipc" "call" "launcher" "toggle"];
-              "Mod+S" = spawn ["noctalia" "ipc" "call" "controlCenter" "toggle"];
-              "Mod+Shift+Comma" = spawn ["noctalia" "ipc" "call" "settings" "toggle"];
+              "Mod+Space" = spawn ["noctalia" "msg" "panel-toggle" "launcher"];
+              "Mod+S" = spawn ["noctalia" "msg" "panel-toggle" "control-center"];
+              "Mod+Shift+Comma" = spawn ["noctalia" "msg" "settings-toggle"];
 
-              "XF86AudioRaiseVolume" = spawn ["noctalia" "ipc" "call" "volume" "increase"];
-              "XF86AudioLowerVolume" = spawn ["noctalia" "ipc" "call" "volume" "decrease"];
-              "XF86AudioMute" = spawn ["noctalia" "ipc" "call" "volume" "muteOutput"];
-              "XF86AudioMicMute" = spawn ["noctalia" "ipc" "call" "volume" "muteInput"];
-              "XF86MonBrightnessUp" = spawn ["noctalia" "ipc" "call" "brightness" "increase"];
-              "XF86MonBrightnessDown" = spawn ["noctalia" "ipc" "call" "brightness" "decrease"];
+              "XF86AudioRaiseVolume" = spawn ["noctalia" "msg" "volume-up"];
+              "XF86AudioLowerVolume" = spawn ["noctalia" "msg" "volume-down"];
+              "XF86AudioMute" = spawn ["noctalia" "msg" "volume-mute"];
+              "XF86AudioMicMute" = spawn ["noctalia" "msg" "mic-mute"];
+              "XF86MonBrightnessUp" = spawn ["noctalia" "msg" "brightness-up"];
+              "XF86MonBrightnessDown" = spawn ["noctalia" "msg" "brightness-down"];
             }
             // (
               lib.range 1 9
