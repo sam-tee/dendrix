@@ -15,6 +15,13 @@
       };
       time.timeZone = "Europe/London";
       console.keyMap = "uk";
+      documentation = {
+        enable = false;
+        man.enable = true;
+        info.enable = false;
+        doc.enable = false;
+        nixos.enable = false;
+      };
       i18n = {
         defaultLocale = "en_GB.UTF-8";
         extraLocaleSettings = {
@@ -31,6 +38,12 @@
       };
     };
     darwin.system = {pkgs, ...}: {
+      documentation = {
+        enable = false;
+        man.enable = true;
+        info.enable = false;
+        doc.enable = false;
+      };
       security.pam.services.sudo_local.touchIdAuth = true;
       system = {
         stateVersion = 6;
