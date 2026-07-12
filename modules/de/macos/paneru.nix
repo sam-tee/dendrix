@@ -9,13 +9,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.paneru = _: let
-    mkPadding = keys: lib.genAttrs keys (_: 0);
-    mkBindings = prefix: command:
-      lib.range 1 9
-      |> map (i: lib.nameValuePair "${command}_${toString i}" "${prefix} - ${toString i}")
-      |> builtins.listToAttrs;
-  in {
+  flake.modules.homeManager.paneru = _: {
     imports = [
       inputs.paneru.homeModules.paneru
       self.modules.homeManager.skhd
@@ -31,11 +25,16 @@
         };
         decorations.workspace_popup_status = false;
         swipe = {
-          continuous = false;
+          continuous = true;
           gesture.fingers_count = 3;
         };
-        padding = mkPadding ["left" "right" "top" "bottom"];
-        bindings =
+        padding = lib.genAttrs ["left" "right" "top" "bottom"] (_: 0);
+        bindings = let
+          mkBindings = prefix: command:
+            lib.range 1 9
+            |> map (i: lib.nameValuePair "${command}_${toString i}" "${prefix} - ${toString i}")
+            |> builtins.listToAttrs;
+        in
           {
             window_focus_west = "ctrl - h";
             window_focus_east = "ctrl - l";
