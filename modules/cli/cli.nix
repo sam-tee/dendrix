@@ -3,7 +3,7 @@
   self,
   ...
 }: let
-  inherit (self.cosmetic.theme.noHash) base01 base03 base05 base07 base08 base0A base0B base0C base0D base0E;
+  inherit (self.cosmetic.theme.noHash) base00 base03 base05 base08 base0A base0B base0C base0D base0E;
   programs = {
     bat.enable = true;
     direnv = {
@@ -42,7 +42,7 @@ in {
       imports = with self.modules.generic; [cli];
       inherit programs;
       environment.variables.BAT_THEME = "base16";
-      console.colors = [base01 base08 base0B base0A base0D base0E base0C base05 base03 base08 base0B base0A base0D base0E base0C base07];
+      console.colors = [base00 base08 base0B base0A base0D base0E base0C base05 base03 base08 base0B base0A base0D base0E base0C "ffffff"];
       environment.systemPackages = with pkgs;
         [
           lm_sensors

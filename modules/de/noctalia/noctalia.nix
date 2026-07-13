@@ -26,28 +26,6 @@
       };
       programs.noctalia = {
         enable = true;
-        customPalettes = {
-          akhlus = {
-            dark = with self.cosmetic.theme.attrs; {
-              mPrimary = base0E;
-              mOnPrimary = base00;
-              mSecondary = base0D;
-              mOnSecondary = base01;
-              mTertiary = base0B;
-              mOnTertiary = base01;
-              mError = base08;
-              mOnError = base01;
-              mSurface = base00;
-              mOnSurface = base05;
-              mHover = base0C;
-              mOnHover = base01;
-              mSurfaceVariant = base02;
-              mOnSurfaceVariant = base04;
-              mOutline = base03;
-              mShadow = base00;
-            };
-          };
-        };
         settings = {
           shell = {
             setup_wizard_enabled = false;
