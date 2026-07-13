@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.hyprland = _: {
     wayland.windowManager.hyprland.settings = {
-      "$noctalia" = "noctalia-shell ipc call";
+      "$noctalia" = "noctalia msg";
       "$mod" = "SUPER";
       "$terminal" = "ghostty";
       "$fileManager" = "ghostty -e yazi";
@@ -48,8 +48,8 @@
           "$mod, E, exec, $fileManager"
           "$mod, Z, exec, zeditor"
           "$mod SHIFT, ESCAPE, exit,"
-          "$mod, space, exec, $noctalia launcher toggle"
-          "$mod, S, exec, $noctalia controlCenter toggle"
+          "$mod, space, exec, $noctalia panel-toggle launcher"
+          "$mod, S, exec, $noctalia panel-toggle control-center"
           "$mod, comma, exec, $noctalia settings toggle"
         ];
 
@@ -59,12 +59,12 @@
         "$mod ALT, mouse:272, resizewindow"
       ];
       bindel = [
-        ",XF86AudioRaiseVolume, exec, $noctalia volume increase"
-        ",XF86AudioLowerVolume, exec, $noctalia volume decrease"
-        ",XF86AudioMute, exec, $noctalia volume muteOutput"
-        ",XF86AudioMicMute, exec, $noctalia volume muteInput"
-        ",XF86MonBrightnessUp, exec, $noctalia brightness increase"
-        ",XF86MonBrightnessDown, exec, $noctalia brightness decrease"
+        ",XF86AudioRaiseVolume, exec, $noctalia volume-up"
+        ",XF86AudioLowerVolume, exec, $noctalia volume-doun"
+        ",XF86AudioMute, exec, $noctalia volume-mute"
+        ",XF86AudioMicMute, exec, $noctalia mic-mute"
+        ",XF86MonBrightnessUp, exec, $noctalia brightness-up"
+        ",XF86MonBrightnessDown, exec, $noctalia brightness-down"
       ];
     };
   };
