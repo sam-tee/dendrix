@@ -8,7 +8,6 @@
     nixos.niri = {pkgs, ...}: {
       imports = with inputs.self.modules.nixos; [
         inputs.niri-flake.nixosModules.niri
-        sddm
         wm
       ];
       home-manager.sharedModules = with inputs.self.modules.homeManager; [

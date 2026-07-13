@@ -4,7 +4,6 @@ in {
   flake.modules = {
     nixos.hyprland = {pkgs, ...}: {
       imports = with self.modules.nixos; [
-        #sddm
         wm
       ];
       home-manager.sharedModules = with self.modules.homeManager; [
@@ -69,7 +68,7 @@ in {
             }
           ];
           animations.enabled = false;
-          exec-once = ["noctalia-shell" "bitwarden"];
+          exec-once = ["noctalia" "bitwarden"];
           workspace = builtins.genList (i: "${toString (i + 1)}, persistent:true") 9;
           misc = {
             disable_hyprland_logo = true;
