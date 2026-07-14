@@ -27,84 +27,19 @@
     homeManager.noctalia = {config, ...}: let
       bgDirFull = "${config.home.homeDirectory}/${bgDir}";
       bgDir = ".cache/noctalia/wallpapers";
+      bgPath = "${bgDir}/bg.png";
     in {
       imports = [inputs.noctalia.homeModules.default];
-      home.file = {
-        "${bgDir}/bg.png".source = self.cosmetic.bgFile;
-      };
+      home.file.${bgPath}.source = self.cosmetic.bgFile;
       programs.noctalia = {
         enable = true;
         settings = {
-          shell = {
-            setup_wizard_enabled = false;
-            corner_radius_scale = 0.0;
-            clipboard_enabled = true;
-            animation.enabled = false;
-            shadow.alpha = 0.0;
-            panel = {
-              transparency_mode = "solid";
-              borders = false;
-              shadow = false;
-            };
-            launcher.categories = false;
-            session.actions = [
-              {
-                action = "lock";
-                enabled = true;
-                countdown_seconds = 0.0;
-              }
-              {
-                action = "logout";
-                enabled = true;
-                countdown_seconds = 0.0;
-              }
-              {
-                action = "suspend";
-                enabled = true;
-                countdown_seconds = 0.0;
-              }
-              {
-                action = "reboot";
-                enabled = true;
-                countdown_seconds = 0.0;
-              }
-              {
-                action = "shutdown";
-                enabled = true;
-                countdown_seconds = 0.0;
-              }
-            ];
-          };
-
-          theme = {
-            mode = "dark";
-            source = "custom";
-            custom_palette = "akhlus";
-          };
-
+          audio.enable_sounds = false;
           bar.main = {
-            position = "left";
-            thickness = 34;
-            scale = 1.0;
             background_opacity = 1.0;
-            reserve_space = false;
-            capsule = false;
             border_width = 0.0;
-            radius = 0;
-            margin_ends = 0;
-            margin_edge = 0;
-            padding = 4;
-            widget_spacing = 6;
-            shadow = false;
-
-            start = [
-              "launcher"
-              "clock-left"
-            ];
-            center = [
-              "workspaces"
-              "clock-center"
-            ];
+            capsule = false;
+            center = ["workspaces"];
             end = [
               "tray"
               "volume"
@@ -114,74 +49,29 @@
               "control-center"
               "session"
             ];
+            font_family = "Inter";
+            margin_ends = 0;
+            margin_edge = 0;
+            padding = 4;
+            position = "left";
+            radius = 0;
+            reserve_space = false;
+            scale = 1.0;
+            shadow = false;
+            start = [
+              "launcher"
+              "clock"
+            ];
+            thickness = 34;
+            widget_spacing = 6;
           };
-
-          widget = {
-            launcher = {
-              type = "launcher";
-              glyph = "nix-snowflake";
-            };
-
-            clock-left = {
-              type = "clock";
-              format = "{:%d %b | %H:%M}";
-              vertical_format = "{:%H %M - %d %m}";
-            };
-
-            clock-center = {
-              type = "clock";
-              format = "{:%d %b | %H:%M}";
-              vertical_format = "{:%H %M - %d %m}";
-            };
-
-            workspaces = {
-              type = "workspaces";
-              hide_when_empty = false;
-              display = "id";
-              empty_color = "primary";
-              focused_color = "primary";
-              occupied_color = "secondary";
-              pill_scale = 0.6;
-            };
-            tray = {
-              type = "tray";
-              drawer = true;
-            };
-            volume.type = "volume";
-            network = {
-              type = "network";
-              show_label = false;
-            };
-            bluetooth = {
-              type = "bluetooth";
-              show_label = false;
-            };
-            battery = {
-              type = "battery";
-              display_mode = "graphic";
-            };
-            control-center = {
-              type = "control-center";
-              glyph = "settings-2";
-            };
-            session = {
-              type = "session";
-              glyph = "shutdown";
-              color = "error";
-            };
-          };
-          weather = {
-            enabled = false;
-            effects = false;
-          };
-          wallpaper = {
-            enabled = true;
-            transition_on_startup = false;
-            directory = bgDirFull;
-            fill_mode = "stretch";
+          battery.warning_threshold = 15;
+          calendar.enabled = true;
+          control_center = {
+            hidden_tabs = ["media" "system"];
+            sidebar = "full";
           };
           dock.enabled = false;
-          audio.enable_sounds = false;
           idle.behavior = {
             lock = {
               enabled = true;
@@ -200,7 +90,131 @@
               command = "noctalia:session suspend";
             };
           };
+          location.auto_locate = true;
           lockscreen.fingerprint = true;
+          notification.layer = "overlay";
+          osd = {
+            position = "top-right";
+            position_vertical = "top-right";
+            kinds.media = false;
+          };
+          shell = {
+            clipboard_enabled = true;
+            corner_radius_scale = 0.0;
+            font_family = "Inter";
+            polkit_agent = true;
+            screen_time_enabled = true;
+            settings_show_advancded = true;
+            setup_wizard_enabled = false;
+            animation.enabled = false;
+            greeter_sync.auto_sync = true;
+            launcher.categories = false;
+            panel = {
+              borders = false;
+              open_near_click_session = true;
+              shadow = false;
+              transparency_mode = "solid";
+            };
+            screenshot.directory = "~/Puctures/Screenshots/";
+            session = {
+              grid = true;
+              actions = [
+                {
+                  action = "lock";
+                  enabled = true;
+                  countdown_seconds = 0.0;
+                }
+                {
+                  action = "logout";
+                  enabled = true;
+                  countdown_seconds = 0.0;
+                }
+                {
+                  action = "suspend";
+                  enabled = true;
+                  countdown_seconds = 0.0;
+                }
+                {
+                  action = "reboot";
+                  enabled = true;
+                  countdown_seconds = 0.0;
+                }
+                {
+                  action = "shutdown";
+                  enabled = true;
+                  countdown_seconds = 0.0;
+                }
+              ];
+            };
+            shadow.alpha = 0.0;
+          };
+          system.monitor.enabled = false;
+          theme = {
+            custom_palette = "akhlus";
+            mode = "dark";
+            source = "custom";
+          };
+          wallpaper = {
+            directory = bgDirFull;
+            enabled = true;
+            fill_mode = "stretch";
+            transition_on_startup = false;
+            default.path = bgPath;
+          };
+          weather = {
+            enabled = false;
+            effects = false;
+          };
+          widget = {
+            battery = {
+              type = "battery";
+              display_mode = "glyph";
+            };
+            bluetooth = {
+              type = "bluetooth";
+              show_label = false;
+            };
+            clock = {
+              type = "clock";
+              format = "{:%d %b | %H:%M}";
+              vertical_format = "{:%H\n%M\n-\n%d\n%m}";
+            };
+            control-center = {
+              type = "control-center";
+              glyph = "settings-2";
+            };
+            launcher = {
+              type = "launcher";
+              glyph = "menu-2";
+            };
+            network = {
+              type = "network";
+              show_label = false;
+            };
+            session = {
+              type = "session";
+              glyph = "shutdown";
+              color = "error";
+            };
+            tray = {
+              type = "tray";
+              drawer = true;
+            };
+            volume = {
+              show_label = false;
+              type = "volume";
+            };
+            workspaces = {
+              display = "id";
+              empty_color = "primary";
+              focused_color = "primary";
+              hide_when_empty = false;
+              occupied_color = "secondary";
+              minimal = true;
+              pill_scale = 0.6;
+              type = "workspaces";
+            };
+          };
         };
       };
     };

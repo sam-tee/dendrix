@@ -59,6 +59,7 @@
           };
 
           animations.enable = false;
+          gestures.hot-corners.enable = false;
 
           binds =
             {
@@ -96,7 +97,8 @@
               "Mod+Shift+Ctrl+Right" = action "move-column-to-monitor-right";
               "Mod+Shift+Ctrl+Up" = action "move-window-to-monitor-up";
               "Mod+Shift+Ctrl+Down" = action "move-window-to-monitor-down";
-              "Mod+Shift+S" = spawn ["hyprshot" "-m" "region"];
+              "Mod+Shift+S" = spawn ["noctalia" "msg" "screenshot-region"];
+              "Mod+Shift+V" = spawn ["noctalia" "msg" "panel-toggle" "clipboard"];
               "Mod+Return" = spawn "ghostty";
               "Mod+B" = spawn ["brave" "--new-window" "--ozone-platform=wayland"];
               "Mod+E" = spawn ["ghostty" "-e" "yazi"];
