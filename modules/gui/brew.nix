@@ -1,12 +1,26 @@
 {inputs, ...}: {
-  flake-file.inputs.nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+  flake-file.inputs = {
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+  };
   flake.modules.darwin.brew = {username, ...}: {
     imports = [inputs.nix-homebrew.darwinModules.default];
     nix-homebrew = {
       enable = true;
-      enableRosetta = true;
       user = username;
       autoMigrate = true;
+      mutableTaps = false;
+      taps = {
+        "homebrew/homebrew-core" = inputs.homebrew-core;
+        "homebrew/homebrew-cask" = inputs.homebrew-cask;
+      };
     };
     homebrew = {
       enable = true;
@@ -15,11 +29,9 @@
         "helium-browser"
         "iina"
         "keepassxc"
-        "mullvad-vpn"
         "protonvpn"
         "raycast"
         "skim"
-        "slicer"
         "spotify"
         "whatsapp"
         "zotero"

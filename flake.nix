@@ -18,6 +18,14 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
     import-tree.url = "github:vic/import-tree";
     jovian = {
       url = "github:jovian-experiments/jovian-nixos";
