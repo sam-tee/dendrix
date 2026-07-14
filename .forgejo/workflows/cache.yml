@@ -25,6 +25,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Print Nix config
+        run: |
+            nix config show
+
       - name: Configure SSH for private flake inputs
         run: |
           mkdir -p "$HOME/.ssh"
