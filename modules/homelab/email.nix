@@ -1,12 +1,11 @@
 {
-  flake.modules.nixos.email = {
-    config,
-    pkgs,
-    ...
-  }: let
+  flake.modules.nixos.email = {config, ...}: let
     inherit (config.homelab.email) from host user pwdPath;
   in {
-    sops.secrets.smtpPwd = {};
+    sops.secrets.smtpPwd = {
+      group = "media";
+      mode = "0440";
+    };
     homelab.email = {
       from = "noreply@akhlus.uk";
       host = "smtp-relay.brevo.com";
@@ -19,7 +18,7 @@
         auth = true;
         inherit from host user;
         tls = true;
-        passwordeval = "${pkgs.coreutils}/bin/cat ${pwdPath}";
+        passwordeval = "cat ${pwdPath}";
       };
     };
   };

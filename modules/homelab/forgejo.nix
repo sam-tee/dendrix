@@ -6,6 +6,7 @@
   }: let
     cfg = config.services.forgejo;
     hl = config.homelab;
+    inherit (hl) email;
     sshPort = lib.head config.services.openssh.ports;
     inherit (self.services.forgejo) port subdomain;
     domain = "${subdomain}.${hl.domain}";
@@ -22,12 +23,15 @@
       stateDir = "${hl.dataDir}/git";
       lfs.enable = true;
       database.type = "postgres";
+      secrets.mailer.PASSWD = config.sops.secrets.smtpPwd.path;
       settings = {
         mailer = {
           ENABLED = true;
-          FROM = hl.email.from;
-          PROTOCOL = "sendmail";
-          SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
+          FROM = "Forgejo <${email.from}>";
+          PROTOCOL = "smtps";
+          SMTP_ADDR = email.host;
+          SMTP_PORT = 465;
+          USER = email.user;
         };
         repository = {
           ENABLE_PUSH_CREATE_USER = true;
@@ -49,6 +53,7 @@
           DISABLE_REGISTRATION = true;
           ENABLE_NOTIFY_MAIL = true;
           REGISTER_EMAIL_CONFIRM = true;
+          DEFAULT_KEEP_EMAIL_PRIVATE = true;
         };
         log.LEVEL = "Trace";
       };
