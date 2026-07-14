@@ -41,7 +41,7 @@ in {
           extra-substituters = ["https://noctalia.cachix.org"];
           extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
           substituters = ["https://cache.akhlus.uk/dendrix?priority=30" "https://cache.nixos.org?priority=40"];
-          trusted-public-keys = ["dendrix:gw3GtUeu7QiYchM+GKrwanxDeUqa/Ddl45l8x05rD+o=" "cache.nixos.org:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
+          trusted-public-keys = ["dendrix:gw3GtUeu7QiYchM+GKrwanxDeUqa/Ddl45l8x05rD+o=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
           flake-registry = "";
           experimental-features = [
             "flakes"

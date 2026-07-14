@@ -55,7 +55,7 @@ in {
     });
 
     homeManager.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
-      imports = with self.modules.generic; [cli nix];
+      imports = [self.modules.generic.cli];
       home.sessionVariables.BAT_THEME = "base16";
       programs =
         {
