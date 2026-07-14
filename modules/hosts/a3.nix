@@ -34,10 +34,7 @@ in {
           {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,2"];}
         ];
         environment.systemPackages = with pkgs; [
-          ffmpeg-full
-          handbrake
           nautilus
-          codex
         ];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
         hardware.graphics.extraPackages = with pkgs; [
