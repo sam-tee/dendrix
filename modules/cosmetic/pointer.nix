@@ -3,6 +3,7 @@
 in {
   flake.modules.homeManager.pointer = {pkgs, ...}: {
     home.pointerCursor = {
+      enable = true;
       gtk.enable = true;
       x11.enable = true;
       package = cursor.pkgsName pkgs;
