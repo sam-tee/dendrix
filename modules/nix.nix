@@ -11,9 +11,9 @@
     "ssh/u410".mode = "0600";
   };
   remoteBuildMachines = config: currentHostname:
-    lib.optionals (currentHostname != "oracle") [
+    [
       {
-        hostName = "oracle.scylla-goblin.ts.net:2222";
+        hostName = "oracle:2222";
         systems = ["aarch64-linux"];
         protocol = "ssh-ng";
         sshUser = "sam";
@@ -28,7 +28,40 @@
           "nixos-test"
         ];
       }
-    ];
+      {
+        hostName = "u410:2222";
+        systems = ["x86_64-linux"];
+        protocol = "ssh-ng";
+        sshUser = "sam";
+        sshKey = config.sops.secrets."ssh/u410".path;
+        publicHostKey = "";
+        maxJobs = 4;
+        speedFactor = 1;
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+          "kvm"
+          "nixos-test"
+        ];
+      }
+      {
+        hostName = "mba:22";
+        systems = ["aarch64-darwin"];
+        protocol = "ssh-ng";
+        sshUser = "sam";
+        sshKey = config.sops.secrets."ssh/mba".path;
+        publicHostKey = "";
+        maxJobs = 4;
+        speedFactor = 1;
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+          "kvm"
+          "nixos-test"
+        ];
+      }
+    ]
+    |> lib.filter (machine: (machine.hostName |> lib.splitString ":" |> lib.head) != currentHostname);
 in {
   flake.modules = {
     generic.nix = _: {
@@ -81,18 +114,10 @@ in {
       imports = [self.modules.generic.nix];
       sops.secrets = sshKeys;
       nix = {
+        distributedBuilds = true;
         buildMachines = remoteBuildMachines config hostname;
         optimise.automatic = true;
         channel.enable = false;
-      };
-    };
-
-    homeManager.cli = _: {
-      imports = [self.modules.generic.nix];
-      programs.nh = {
-        enable = true;
-        flake = "$HOME/dendrix";
-        clean.enable = true;
       };
     };
 
@@ -106,6 +131,7 @@ in {
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
       sops.secrets = sshKeys;
       nix = {
+        distributedBuilds = true;
         buildMachines = remoteBuildMachines config hostname;
         optimise.automatic = true;
         channel.enable = false;

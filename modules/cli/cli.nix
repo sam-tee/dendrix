@@ -64,6 +64,11 @@ in {
             defaultOptions = ["--preview 'bat --style=numbers --color=always {}'"];
             historyWidget.command = "";
           };
+          nh = {
+            enable = true;
+            flake = "$HOME/dendrix";
+            clean.enable = true;
+          };
           ripgrep.enable = true;
           yazi = {
             enable = true;
