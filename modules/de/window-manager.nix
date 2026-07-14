@@ -14,6 +14,7 @@
           QT_QPA_PLATFORMTHEME = "gtk3";
         };
         systemPackages = with pkgs; [
+          ddcutil
           ghostty
           pavucontrol
           wl-clipboard

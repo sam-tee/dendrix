@@ -55,7 +55,7 @@
             padding = 4;
             position = "left";
             radius = 0;
-            reserve_space = false;
+            reserve_space = true;
             scale = 1.0;
             shadow = false;
             start = [
@@ -115,7 +115,7 @@
               shadow = false;
               transparency_mode = "solid";
             };
-            screenshot.directory = "~/Puctures/Screenshots/";
+            screenshot.directory = "~/Pictures/Screenshots/";
             session = {
               grid = true;
               actions = [
@@ -160,6 +160,7 @@
             fill_mode = "stretch";
             transition_on_startup = false;
             default.path = bgPath;
+            last.path = bgPath;
           };
           weather = {
             enabled = false;
@@ -206,12 +207,12 @@
             };
             workspaces = {
               display = "id";
-              empty_color = "primary";
+              empty_color = "tertiary";
               focused_color = "primary";
               hide_when_empty = false;
               occupied_color = "secondary";
-              minimal = true;
               pill_scale = 0.6;
+              style = "minimal";
               type = "workspaces";
             };
           };
