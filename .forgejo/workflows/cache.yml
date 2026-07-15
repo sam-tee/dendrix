@@ -49,7 +49,7 @@ jobs:
           attic login --set-default dendrix "$ATTIC_ENDPOINT" "$token"
           attic cache configure --public --retention-period "3 days" "$ATTIC_CACHE"
 
-      - name: Build and push all flake packages
+      - name: Build linux flake packages
         run: |
           set -eu
 
@@ -72,17 +72,10 @@ jobs:
 
           while read -r system package; do
             echo "building package $package for $system"
-            out="$(
-              nix build \
-                --accept-flake-config \
-                --print-build-logs \
-                --no-link \
-                --print-out-paths \
-                ".#packages.${system}.${package}"
-            )"
+            nix build .#packages.${system}.${package}
           done < packages.txt
 
-      - name: Build and push all NixOS configurations
+      - name: Build NixOS configurations
         run: |
           set -eu
 
@@ -93,13 +86,7 @@ jobs:
 
           for host in $configs; do
             echo "building $host"
-            out="$(
-              nix build \
-                --print-build-logs \
-                --no-link \
-                --print-out-paths \
-                ".#nixosConfigurations.${host}.config.system.build.toplevel"
-            )"
+            nix build .#nixosConfigurations.${host}.config.system.build.toplevel
           done
 
       - name: Push paths to attic
