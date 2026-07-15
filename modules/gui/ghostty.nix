@@ -22,6 +22,7 @@ in {
         keybind = [
           "ctrl+shift+w=close_surface"
         ];
+        copy-on-select = "clipboard";
       };
       themes.${theme.attrs.name} = {
         background = "${theme.noHash.base00}";
