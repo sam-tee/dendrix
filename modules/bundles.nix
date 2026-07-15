@@ -76,6 +76,7 @@ in {
         homelab
         mkServer
         syncthing
+        {security.sudo.wheelNeedsPassword = false;}
       ];
     };
 

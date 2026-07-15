@@ -15,31 +15,26 @@ in {
     modules.nixos = {
       hpConfig = {pkgs, ...}: {
         imports = with self.modules.nixos; [
-          _default
-          hm
+          _serverMin
           hpHardware
           hpDisko
+          battery
         ];
-        home-manager.sharedModules = with self.modules.homeManager; [
-          _minimal
-          #hyprTouch
-          syncthing
-          {
-            wayland.windowManager.hyprland.settings = {
-              monitor = ["eDP-1,1920x1080@60,auto,1"];
-              device = [
-                {
-                  name = "elan2514:00-04f3:2cf1-stylus";
-                  output = "eDP-1";
-                }
-                {
-                  name = "elan2514:00-04f3:2cf1";
-                  output = "eDP-1";
-                }
-              ];
-            };
-          }
+        environment.systemPackages = with pkgs; [
+          (ffmpeg-full.override {withUnfree = true;})
+          uv
         ];
+        hardware.graphics = {
+          enable = true;
+          extraPackages = with pkgs; [
+            intel-media-driver
+            intel-ocl
+          ];
+        };
+        services.btrfs.autoScrub = {
+          enable = true;
+          interval = "monthly";
+        };
       };
 
       hpHardware = {
@@ -72,13 +67,6 @@ in {
                   format = "vfat";
                   mountpoint = "/boot";
                   mountOptions = ["umask=0077"];
-                };
-              };
-              swap = {
-                size = "8G";
-                content = {
-                  type = "swap";
-                  randomEncryption = true;
                 };
               };
               root = {

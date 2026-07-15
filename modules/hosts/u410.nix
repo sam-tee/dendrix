@@ -42,7 +42,6 @@ in {
           dataDir = driveMount;
         };
         programs.ssh.startAgent = true;
-        security.sudo.wheelNeedsPassword = false;
         services.btrfs.autoScrub = {
           enable = true;
           interval = "monthly";
