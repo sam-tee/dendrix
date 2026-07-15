@@ -1,7 +1,7 @@
 {self, ...}: let
   hostname = "u410";
   LIBVA_DRIVER_NAME = "i965";
-  driveMount = "/var/lib/drive";
+  driveMount = "/mnt/data";
 in {
   flake = {
     hosts.${hostname} = {
