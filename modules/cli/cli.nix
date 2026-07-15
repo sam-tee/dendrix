@@ -57,6 +57,15 @@ in {
     homeManager.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: {
       imports = [self.modules.generic.cli];
       home.sessionVariables.BAT_THEME = "base16";
+      nixpkgs = {
+        config = {
+          allowUnfree = true;
+          allowUnsupportedSystem = false;
+          allowAliases = false;
+          permittedInsecurePackages = ["electron-39.8.10"];
+        };
+        overlays = [];
+      };
       programs =
         {
           fzf = {
