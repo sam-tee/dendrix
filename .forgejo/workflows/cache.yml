@@ -108,3 +108,28 @@ jobs:
           git add flake.lock
           git commit -m "chore: update flake lock"
           git push
+
+      - name: Send ntfy notification
+        if: always()
+        run: |
+          status="${{ job.status }}"
+
+          if [ "$status" = "success" ]; then
+            title="✅ Dendrix Cache Success"
+            priority="default"
+            tags="package,white_check_mark"
+            body="Successfully built, cached, and updated lock files for dendrix"
+          else
+            title="❌ Dendrix Cache Failed"
+            priority="high"
+            tags="warning,x"
+            body="Dendrix build and cache failed"
+          fi
+
+          curl \
+            -H "Title: $title" \
+            -H "Priority: $priority" \
+            -H "Tags: $tags" \
+            -H "Click: $run_url" \
+            -d "$body" \
+            "{{secrets.NTFY_URL}}"
