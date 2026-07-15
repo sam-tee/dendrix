@@ -24,7 +24,10 @@
         database.url = "sqlite://${atticDir}/server.db?mode=rwc";
       };
     };
-    systemd.tmpfiles.rules = ["d ${atticDir} 0775 ${user} ${group} -"];
+    systemd = {
+      services.atticd.serviceConfig.ReadWritePaths = [dataDir];
+      tmpfiles.rules = ["d ${atticDir} 0775 ${user} ${group} -"];
+    };
     environment.systemPackages = [pkgs.attic-client];
   };
 }
