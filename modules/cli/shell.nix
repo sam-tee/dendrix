@@ -1,8 +1,9 @@
 let
   alias = {
-    "ls" = "eza --icons auto -la --group-directories-first";
-    "lt" = "ls --tree --level=2";
-    "ltt" = "ls --tree --git-ignore";
+    "l" = "eza --icons auto -l --group-directories-first";
+    "ls" = "l -a";
+    "lt" = "l -aT --level=2";
+    "ltt" = "l -T";
     "py" = "python3";
     ".." = "cd ..";
     "..." = "cd ../..";
