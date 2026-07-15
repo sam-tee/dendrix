@@ -25,7 +25,7 @@
         };
         decorations.workspace_popup_status = false;
         swipe = {
-          continuous = true;
+          continuous = false;
           gesture.fingers_count = 3;
         };
         padding = lib.genAttrs ["left" "right" "top" "bottom"] (_: 0);
