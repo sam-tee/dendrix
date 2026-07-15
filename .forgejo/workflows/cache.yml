@@ -80,9 +80,6 @@ jobs:
                 --print-out-paths \
                 ".#packages.${system}.${package}"
             )"
-
-            echo "pushing package $package: $out"
-            attic push "$ATTIC_CACHE" "$out"
           done < packages.txt
 
       - name: Build and push all NixOS configurations
@@ -103,10 +100,12 @@ jobs:
                 --print-out-paths \
                 ".#nixosConfigurations.${host}.config.system.build.toplevel"
             )"
-
-            echo "pushing $host: $out"
-            attic push "$ATTIC_CACHE" "$out"
           done
+
+      - name: Push paths to attic
+        run: |
+          find /nix/store -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec attic push $ATTIC_CACHE {} \;
+          echo "Cached all paths successfully!"
 
       - name: Commit updated lock file
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
