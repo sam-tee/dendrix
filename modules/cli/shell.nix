@@ -14,17 +14,18 @@ let
 in {
   flake.modules = {
     nixos.cli = _: {
-      programs = {
-        zsh = {
-          enable = true;
-          autosuggestions.enable = true;
-          shellAliases = alias;
-          syntaxHighlighting.enable = true;
-        };
-        bash = {
-          enable = true;
-          shellAliases = alias;
-        };
+      environment.variables.ZDOTDIR = "$HOME/.config/zsh";
+      programs.zsh = {
+        enable = true;
+        histFile = "$HOME/.config/zsh/history";
+        histSize = 10000;
+        interactiveShellInit = ''
+          eval "$(atuin init zsh)"
+          bindkey ' ' magic-space
+        '';
+        autosuggestions.enable = true;
+        shellAliases = alias;
+        syntaxHighlighting.enable = true;
       };
     };
     homeManager.cli = {

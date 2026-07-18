@@ -7,7 +7,7 @@ in {
       system = "x86_64-linux";
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADGGLpndCsctBNb2X8bpEHYHFpL3ew9RI5r18FhK8tc";
-      syncID = "DK3XF6A-JKNRNEY-XRRAKHZ-76S4OTX-F25HKP7-YWAA253-SPKMWHL-DNBOJAK";
+      syncID = "V5FOBLK-LGM5BYD-GC4C7TJ-Y5DGLSF-HWPCROU-W27V44I-ICJPM7Q-Y5IZ7A4";
     };
 
     nixosConfigurations = self.lib.mkNixos hostname;
@@ -31,6 +31,7 @@ in {
             intel-ocl
           ];
         };
+        services.logind.lidSwitchExternalPower = "ignore";
         services.btrfs.autoScrub = {
           enable = true;
           interval = "monthly";
