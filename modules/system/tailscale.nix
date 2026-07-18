@@ -11,7 +11,7 @@
       services.tailscale = {
         enable = true;
         authKeyFile = config.sops.secrets."tailscale/authKey".path;
-        permitCertUid = config.homelab.user;
+        permitCertUid = config.homelab.user or null;
       };
       systemd.services.tailscaled.serviceConfig.Environment = [
         "TS_DEBUG_FIREWALL_MODE=nftables"
