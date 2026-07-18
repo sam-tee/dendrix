@@ -60,18 +60,14 @@
             default = ./theme.toml;
             description = "Path to TOML theme file";
           };
+          defaultVariant = lib.mkOption {
+            type = lib.types.enum ["light" "dark"];
+            default = "dark";
+            description = "Variant of theme to use by default";
+          };
           attrs = lib.mkOption {
             default = self.cosmetic.theme.file |> builtins.readFile |> fromTOML;
-            description = "Theme to use for stylix. Must be either path to yaml or attrset";
-          };
-          noHash = lib.mkOption {
-            default = self.cosmetic.theme.attrs |> builtins.mapAttrs (_: value: lib.removePrefix "#" value);
-          };
-          colours = lib.mkOption {
-            default = removeAttrs self.cosmetic.theme.attrs ["name" "author" "variant"];
-          };
-          coloursNoHash = lib.mkOption {
-            default = removeAttrs self.cosmetic.theme.noHash ["name" "author" "variant"];
+            description = "Theme to use. Must be either path to toml or attrset";
           };
         };
         bgFile = lib.mkOption {

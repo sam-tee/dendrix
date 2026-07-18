@@ -1,12 +1,18 @@
 {self, ...}: let
   inherit (self.cosmetic) theme fonts;
-  userTheme = theme.attrs;
+  inherit (theme) attrs defaultVariant;
 in {
   flake.modules.homeManager.zed = _: {
     programs.zed-editor = {
       enable = true;
       installRemoteServer = true;
-      themes.${userTheme.name} = import ./_theme.nix userTheme;
+      themes =
+        ["light" "dark"]
+        |> map (variant: {
+          name = "${attrs.name}-${variant}";
+          value = import ./_theme.nix attrs variant;
+        })
+        |> builtins.listToAttrs;
       userSettings = {
         agent = {
           dock = "right";
@@ -65,7 +71,7 @@ in {
         session.trust_all_worktrees = true;
         show_edit_predictions = false;
         tabs.activate_on_close = "neighbour";
-        theme = "${userTheme.name}";
+        theme = "${attrs.name}-${defaultVariant}";
         use_smartcase_search = true;
         vim_mode = true;
         vim = {

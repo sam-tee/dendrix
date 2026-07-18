@@ -1,7 +1,12 @@
 {self, ...}: let
   inherit (self.cosmetic) fonts theme;
+  inherit (theme) attrs defaultVariant;
 in {
-  flake.modules.homeManager.ghostty = {pkgs, ...}: let
+  flake.modules.homeManager.ghostty = {
+    lib,
+    pkgs,
+    ...
+  }: let
     isLinux = pkgs.stdenv.hostPlatform.isLinux;
   in {
     programs.ghostty = {
@@ -16,7 +21,7 @@ in {
           if isLinux
           then fonts.size
           else fonts.size * 4 / 3;
-        theme = theme.attrs.name;
+        theme = "${attrs.name}-${defaultVariant}";
         scrollback-limit = 100 * 1024 * 1024;
         window-decoration = "auto";
         keybind = [
@@ -24,31 +29,39 @@ in {
         ];
         copy-on-select = "clipboard";
       };
-      themes.${theme.attrs.name} = {
-        background = "${theme.noHash.base00}";
-        background-opacity = 1.0;
-        foreground = "${theme.noHash.base05}";
-        cursor-color = "${theme.noHash.base05}";
-        selection-background = "${theme.noHash.base02}";
-        selection-foreground = "${theme.noHash.base05}";
-        palette = [
-          "0=${theme.attrs.base00}"
-          "1=${theme.attrs.base08}"
-          "2=${theme.attrs.base0B}"
-          "3=${theme.attrs.base0A}"
-          "4=${theme.attrs.base0D}"
-          "5=${theme.attrs.base0E}"
-          "6=${theme.attrs.base0C}"
-          "7=${theme.attrs.base05}"
-          "8=${theme.attrs.base03}"
-          "9=${theme.attrs.base08}"
-          "10=${theme.attrs.base0B}"
-          "11=${theme.attrs.base0A}"
-          "12=${theme.attrs.base0D}"
-          "13=${theme.attrs.base0E}"
-          "14=${theme.attrs.base0C}"
-          "15=#ffffff"
-        ];
+      themes = let
+        mkTheme = variant: let
+          rmHash = lib.removePrefix "#";
+        in
+          with attrs.${variant}; {
+            background = rmHash base00;
+            background-opacity = 1.0;
+            foreground = rmHash base05;
+            cursor-color = rmHash base05;
+            selection-background = rmHash base02;
+            selection-foreground = rmHash base05;
+            palette = [
+              "0=${base00}"
+              "1=${base08}"
+              "2=${base0B}"
+              "3=${base0A}"
+              "4=${base0D}"
+              "5=${base0E}"
+              "6=${base0C}"
+              "7=${base05}"
+              "8=${base03}"
+              "9=${base08}"
+              "10=${base0B}"
+              "11=${base0A}"
+              "12=${base0D}"
+              "13=${base0E}"
+              "14=${base0C}"
+              "15=${base07}"
+            ];
+          };
+      in {
+        "${attrs.name}-dark" = mkTheme "dark";
+        "${attrs.name}-light" = mkTheme "light";
       };
     };
   };

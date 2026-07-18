@@ -1,5 +1,5 @@
 {self, ...}: let
-  inherit (self.cosmetic) bgFile fonts;
+  inherit (self.cosmetic) bgFile fonts theme;
 in {
   flake.modules.homeManager.gnome = {lib, ...}: {
     dconf.settings = with lib.hm.gvariant; {
@@ -13,7 +13,7 @@ in {
       };
 
       "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
+        color-scheme = "prefer-${theme.defaultVariant}";
         enable-animations = false;
         enable-hot-corners = false;
         font-name = "${fonts.ui.name} ${toString fonts.size}";

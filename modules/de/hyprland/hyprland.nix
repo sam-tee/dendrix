@@ -1,5 +1,11 @@
-{self, ...}: let
-  inherit (self.cosmetic.theme.noHash) base03;
+{
+  lib,
+  self,
+  ...
+}: let
+  inherit (self.cosmetic.theme) attrs defaultVariant;
+  inherit (attrs.${defaultVariant}) base03;
+  noHashBase03 = lib.removePrefix "#" base03;
 in {
   flake.modules = {
     nixos.hyprland = {pkgs, ...}: {
@@ -43,8 +49,8 @@ in {
             border_size = 1;
             gaps_in = 0;
             gaps_out = 0;
-            "col.active_border" = "rgb(${base03})";
-            "col.inactive_border" = "rgb(${base03})";
+            "col.active_border" = "rgb(${noHashBase03})";
+            "col.inactive_border" = "rgb(${noHashBase03})";
           };
           windowrule = [
             {
