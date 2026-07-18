@@ -42,9 +42,6 @@
     services.caddy = {
       enable = true;
       inherit group user;
-      environmentFile = pkgs.writeText "caddyEnv" ''
-        TS_PERMIT_CERT_UID = "caddy";
-      '';
       globalConfig = ''
         auto_https disable_certs
       '';
