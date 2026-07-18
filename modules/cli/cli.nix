@@ -19,7 +19,6 @@
       alejandra
       atuin
       bat
-      browsh
       btop
       direnv
       eza
