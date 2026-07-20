@@ -47,7 +47,7 @@ jobs:
           test -n "$token"
 
           attic login --set-default dendrix "$ATTIC_ENDPOINT" "$token"
-          attic cache configure --public --retention-period "3 days" "$ATTIC_CACHE"
+          attic cache configure --retention-period "3 days" "$ATTIC_CACHE"
 
       - name: Build linux flake packages
         run: |
