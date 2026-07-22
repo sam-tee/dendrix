@@ -5,7 +5,7 @@
     pkgs,
     ...
   }: let
-    inherit (config.homelab) dataDir domain group user;
+    inherit (config.homelab) dataDir domain group;
     inherit (self.services.atticd) port subdomain;
     inherit (lib) singleton;
     atticDir = "${dataDir}/attic";
@@ -31,6 +31,7 @@
             avg-size = 64 * 1024; # 64 KiB
             max-size = 256 * 1024; # 256 KiB
           };
+          garbage-collection.default-retention-period = "3 days";
         };
       };
       postgresql = {

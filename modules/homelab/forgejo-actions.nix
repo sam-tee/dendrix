@@ -18,6 +18,7 @@
           attic-client
           bash
           coreutils
+          curl
           git
           jq
           nix

@@ -3,7 +3,7 @@ name: Cache flake outputs
 on:
   push:
   schedule:
-    - cron: "23 3 * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -17,7 +17,7 @@ jobs:
   build-and-cache:
     runs-on: native
     env:
-      ATTIC_ENDPOINT: https://cache.akhlus.uk
+      ATTIC_ENDPOINT: https://cache.akhlus.uk/
       ATTIC_CACHE: dendrix
       ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
       GIT_SSH_COMMAND: "ssh -i $HOME/.ssh/git -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
@@ -46,8 +46,7 @@ jobs:
           token="$(printf '%s' "$ATTIC_TOKEN" | tr -d '\r\n')"
           test -n "$token"
 
-          attic login --set-default dendrix "$ATTIC_ENDPOINT" "$token"
-          attic cache configure --retention-period "3 days" "$ATTIC_CACHE"
+          attic login --set-default "$ATTIC_CACHE" "$ATTIC_ENDPOINT" "$token"
 
       - name: Build linux flake packages
         run: |
