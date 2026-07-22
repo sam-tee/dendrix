@@ -3,10 +3,10 @@
     services.skhd = {
       enable = true;
       config = ''
-        ctrl + cmd - return : open -a Ghostty
-        ctrl + cmd - e      : open -a Finder
-        ctrl + cmd - b      : open -a Helium
-        ctrl + cmd - z      : open -a Zed
+        ctrl + alt + cmd - return : open -na Ghostty
+        ctrl + alt + cmd - e      : open -na Ghostty --args -e yazi
+        ctrl + alt + cmd - b      : open -a Helium
+        ctrl + alt + cmd - z      : open -a Zed
       '';
     };
   };

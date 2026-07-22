@@ -36,26 +36,25 @@
             |> builtins.listToAttrs;
         in
           {
-            window_focus_west = "ctrl - h";
-            window_focus_east = "ctrl - l";
-            window_focus_north = "ctrl - k";
-            window_focus_south = "ctrl - j";
-            window_swap_west = "ctrl + shift - h";
-            window_swap_east = "ctrl + shift - l";
-            window_swap_north = "ctrl + shift - k";
-            window_swap_south = "ctrl + shift - j";
-            window_center = "ctrl - m";
-            window_resize = "ctrl - r";
-            window_fullwidth = "ctrl - f";
-            window_manage = "ctrl - v";
-            window_stack = "ctrl - period";
-            window_unstack = "ctrl - comma";
-            window_nextdisplay = "ctrl - tab";
-            window_nextdisplaysend = "ctrl + shift - tab";
-            mouse_nextdisplay = "ctrl + alt - tab";
+            window_focus_west = "ctrl + alt - h";
+            window_focus_east = "ctrl + alt - l";
+            window_focus_north = "ctrl + alt - k";
+            window_focus_south = "ctrl + alt - j";
+            window_swap_west = "ctrl + alt + shift - h";
+            window_swap_east = "ctrl + alt + shift - l";
+            window_swap_north = "ctrl + alt + shift - k";
+            window_swap_south = "ctrl + alt + shift - j";
+            window_center = "ctrl + alt - m";
+            window_resize = "ctrl + alt - r";
+            window_fullwidth = "ctrl + alt - f";
+            window_manage = "ctrl + alt - v";
+            window_stack = "ctrl + alt - period";
+            window_unstack = "ctrl + alt - comma";
+            window_nextdisplay = "ctrl + alt - tab";
+            window_nextdisplaysend = "ctrl + alt + shift - tab";
           }
-          // (mkBindings "ctrl" "window_virtualnum")
-          // (mkBindings "ctrl + shift" "window_virtualmovenum");
+          // (mkBindings "ctrl + alt" "window_virtualnum")
+          // (mkBindings "ctrl + alt + shift" "window_virtualmovenum");
         windows.pip = {
           title = "Picture.*(in)?.*[Pp]icture";
           floating = true;

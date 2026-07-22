@@ -26,21 +26,21 @@
         persistent-workspaces = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
         mode.main.binding =
           {
-            ctrl-h = "focus left";
-            ctrl-j = "focus down";
-            ctrl-k = "focus up";
-            ctrl-l = "focus right";
-            ctrl-equal = "resize smart +50";
-            ctrl-minus = "resize smart -50";
-            ctrl-shift-h = "move left";
-            ctrl-shift-j = "move down";
-            ctrl-shift-k = "move up";
-            ctrl-shift-l = "move right";
-            ctrl-comma = "layout accordion horizontal vertical";
-            ctrl-slash = "layout tiles horizontal vertical";
+            ctrl-alt-h = "focus left";
+            ctrl-alt-j = "focus down";
+            ctrl-alt-k = "focus up";
+            ctrl-alt-l = "focus right";
+            ctrl-alt-equal = "resize smart +50";
+            ctrl-alt-minus = "resize smart -50";
+            ctrl-alt-shift-h = "move left";
+            ctrl-alt-shift-j = "move down";
+            ctrl-alt-shift-k = "move up";
+            ctrl-alt-shift-l = "move right";
+            ctrl-alt-comma = "layout accordion horizontal vertical";
+            ctrl-alt-slash = "layout tiles horizontal vertical";
           }
-          // (mkBindings "ctrl" "workspace")
-          // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
+          // (mkBindings "ctrl-alt" "workspace")
+          // (mkBindings "ctrl-alt-shift" "move-node-to-workspace --focus-follows-window");
         on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
         on-window-detected = [
           {
