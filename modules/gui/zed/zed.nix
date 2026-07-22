@@ -34,6 +34,7 @@ in {
         ui_font_size = fonts.size * 4 / 3;
         buffer_line_height.custom = 1.5;
         cli_default_open_behavior = "new_window";
+        diagnostics.inline.enabled = true;
         edit_predictions.mode = "subtle";
         file_types.Markdown = ["qmd"];
         hover_popover_delay = 200;
@@ -68,9 +69,17 @@ in {
           entry_spacing = "standard";
           hide_root = true;
         };
+        scrollbar.show = "system";
         session.trust_all_worktrees = true;
         show_edit_predictions = false;
+        tab_bar.show = false;
         tabs.activate_on_close = "neighbour";
+        toolbar = {
+          agent_review = false;
+          breadcrumbs = false;
+          quick_actions = false;
+          selections_menu = false;
+        };
         theme = "${attrs.name}-${defaultVariant}";
         use_smartcase_search = true;
         vim_mode = true;

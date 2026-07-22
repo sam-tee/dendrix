@@ -34,8 +34,9 @@ in {
           rmHash = lib.removePrefix "#";
         in
           with attrs.${variant}; {
+            background-blur = 20;
+            background-opacity = (lib.fromHexString attrs.opacity) * 100 / 255 / 100.0;
             background = rmHash base00;
-            background-opacity = 1.0;
             foreground = rmHash base05;
             cursor-color = rmHash base05;
             selection-background = rmHash base02;

@@ -1,5 +1,6 @@
 name = "akhlus"
 author = "akhlus"
+opacity = "FF" # hex code for opacity
 [dark]
 # backgrounds
 base00 = "#101010"       # default
@@ -33,10 +34,10 @@ base06 = "#161616"       # bright foreground
 base07 = "#101010"       # brightest foreground
 # colours
 base08 = "#FF5964"       # red
-base09 = "#F89777"       # orange
+base09 = "#FE640B"       # orange
 base0A = "#E8C343"       # yellow
-base0B = "#265B10"       # green
-base0C = "#06D6A0"       # cyan
+base0B = "#40A02B"       # green
+base0C = "#179299"       # cyan
 base0D = "#5EB0FC"       # blue
 base0E = "#9E72E9"       # magenta
-base0F = "#D0A5C0"       # violet
+base0F = "#EA76CB"       # violet
