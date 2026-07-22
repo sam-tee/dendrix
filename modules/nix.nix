@@ -64,23 +64,34 @@
     |> lib.filter (machine: (machine.hostName |> lib.splitString ":" |> lib.head) != currentHostname);
 in {
   flake.modules = {
-    generic.nix = _: {
+    generic.nix = {
+      config,
+      hostname,
+      ...
+    }: {
       nix = {
+        distributedBuilds = true;
+        buildMachines = remoteBuildMachines config hostname;
+        optimise.automatic = true;
+        channel.enable = false;
         settings = {
           use-xdg-base-directories = true;
           keep-going = true;
           warn-dirty = false;
           builders-use-substitutes = true;
-          extra-substituters = ["https://noctalia.cachix.org"];
-          extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
-          substituters = ["https://cache.akhlus.uk/dendrix?priority=30" "https://cache.nixos.org?priority=40"];
-          trusted-public-keys = ["dendrix:gw3GtUeu7QiYchM+GKrwanxDeUqa/Ddl45l8x05rD+o=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
+          extra-substituters = [
+            "https://cache.akhlus.uk/dendrix"
+            "https://noctalia.cachix.org"
+          ];
+          extra-trusted-public-keys = [
+            "dendrix:gw3GtUeu7QiYchM+GKrwanxDeUqa/Ddl45l8x05rD+o="
+            "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+          ];
           flake-registry = "";
           experimental-features = [
             "flakes"
             "nix-command"
             "pipe-operators"
-            "auto-allocate-uids"
           ];
           trusted-users = [
             "root"
@@ -106,35 +117,19 @@ in {
         overlays = [];
       };
     };
-    darwin.cli = {
-      config,
-      hostname ? config.networking.hostName,
-      ...
-    }: {
+    darwin.cli = _: {
       imports = [self.modules.generic.nix];
       sops.secrets = sshKeys;
-      nix = {
-        distributedBuilds = true;
-        buildMachines = remoteBuildMachines config hostname;
-        optimise.automatic = true;
-        channel.enable = false;
-      };
     };
 
-    nixos.cli = {
-      config,
-      hostname ? config.networking.hostName,
-      pkgs,
-      ...
-    }: {
+    nixos.cli = {pkgs, ...}: {
       imports = [self.modules.generic.nix];
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
       sops.secrets = sshKeys;
-      nix = {
-        distributedBuilds = true;
-        buildMachines = remoteBuildMachines config hostname;
-        optimise.automatic = true;
-        channel.enable = false;
+      nix.settings = {
+        use-cgroups = true;
+        auto-allocate-uids = true;
+        experimentalFeatures = ["cgroups" "auto-allocate-uids"];
       };
       programs = {
         nh = {
