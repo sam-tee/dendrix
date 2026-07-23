@@ -10,7 +10,7 @@
     audiobookshelf = mkService 8000 "" true "audio";
     bazarr = mkService 6767 "u410" true "bazarr";
     caddy = mkService 0 "oracle" true "";
-    calibre = mkService 8083 "" false "books";
+    calibre = mkService 8083 "u410" false "books";
     cockpit = mkService 9090 "u410" true "dash";
     code-server = mkService 4444 "oracle" true "code";
     copyparty = mkService 3210 "u410" true "files";

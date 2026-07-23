@@ -131,4 +131,4 @@ jobs:
             -H "Tags: $tags" \
             -H "Click: $run_url" \
             -d "$body" \
-            "{{secrets.NTFY_URL}}"
+            "${{secrets.NTFY_URL}}"
