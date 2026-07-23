@@ -129,7 +129,7 @@ in {
       nix.settings = {
         use-cgroups = true;
         auto-allocate-uids = true;
-        experimentalFeatures = ["cgroups" "auto-allocate-uids"];
+        experimental-features = ["cgroups" "auto-allocate-uids"];
       };
       programs = {
         nh = {
