@@ -25,10 +25,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Print Nix config
-        run: |
-            nix config show
-
       - name: Configure SSH for private flake inputs
         run: |
           mkdir -p "$HOME/.ssh"
@@ -50,48 +46,21 @@ jobs:
 
       - name: Build linux flake packages
         run: |
-          set -eu
-
-          nix flake show --json --all-systems \
-            | jq -r '
-              .packages // {}
-              | to_entries[]
-              | .key as $system
-              | select($system | endswith("-linux"))
-              | .value
-              | to_entries[]
-              | select(.value.type == "derivation")
-              | "\($system) \(.key)"
-            ' > packages.txt
-
-          if [ ! -s packages.txt ]; then
-            echo "no packages"
-            exit 0
-          fi
-
-          while read -r system package; do
-            echo "building package $package for $system"
-            nix build .#packages.${system}.${package}
-          done < packages.txt
+          nix run nixpkgs\#nix-fast-build -- \
+            --flake .#packages \
+            --systems "x86_64-linux aarch64-linux" \
+            --skip-cached \
+            --attic-cache "$ATTIC_CACHE" \
+            --no-link
 
       - name: Build NixOS configurations
         run: |
-          set -eu
-
-          configs="$(
-            nix eval --json .#nixosConfigurations --apply builtins.attrNames \
-              | jq -r '.[]'
-          )"
-
-          for host in $configs; do
-            echo "building $host"
-            nix build .#nixosConfigurations.${host}.config.system.build.toplevel
-          done
-
-      - name: Push paths to attic
-        run: |
-          find /nix/store -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec attic push $ATTIC_CACHE {} \;
-          echo "Cached all paths successfully!"
+          nix run nixpkgs\#nix-fast-build -- \
+            --flake .#nixosConfigurations \
+            --select 'configs: builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) configs' \
+            --skip-cached \
+            --attic-cache "$ATTIC_CACHE" \
+            --no-link
 
       - name: Commit updated lock file
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -114,12 +83,12 @@ jobs:
           status="${{ job.status }}"
 
           if [ "$status" = "success" ]; then
-            title="✅ Dendrix Cache Success"
+            title="Dendrix Cache Success"
             priority="default"
             tags="package,white_check_mark"
             body="Successfully built, cached, and updated lock files for dendrix"
           else
-            title="❌ Dendrix Cache Failed"
+            title="Dendrix Cache Failed"
             priority="high"
             tags="warning,x"
             body="Dendrix build and cache failed"
