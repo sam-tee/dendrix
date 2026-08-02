@@ -15,7 +15,6 @@
     nix-homebrew = {
       enable = true;
       user = username;
-      autoMigrate = true;
       mutableTaps = false;
       taps = {
         "homebrew/homebrew-core" = inputs.homebrew-core;

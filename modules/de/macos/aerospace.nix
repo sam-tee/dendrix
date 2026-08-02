@@ -12,7 +12,7 @@
       launchd.enable = true;
       settings = {
         config-version = 2;
-        accordion-padding = 30;
+        accordion-padding = 10;
         after-startup-command = [];
         default-root-container-layout = "tiles";
         default-root-container-orientation = "auto";
@@ -26,21 +26,21 @@
         persistent-workspaces = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
         mode.main.binding =
           {
-            ctrl-alt-h = "focus left";
-            ctrl-alt-j = "focus down";
-            ctrl-alt-k = "focus up";
-            ctrl-alt-l = "focus right";
-            ctrl-alt-equal = "resize smart +50";
-            ctrl-alt-minus = "resize smart -50";
-            ctrl-alt-shift-h = "move left";
-            ctrl-alt-shift-j = "move down";
-            ctrl-alt-shift-k = "move up";
-            ctrl-alt-shift-l = "move right";
-            ctrl-alt-comma = "layout accordion horizontal vertical";
-            ctrl-alt-slash = "layout tiles horizontal vertical";
+            ctrl-left = "focus left";
+            ctrl-down = "focus down";
+            ctrl-up = "focus up";
+            ctrl-right = "focus right";
+            ctrl-equal = "resize smart +50";
+            ctrl-minus = "resize smart -50";
+            ctrl-shift-left = "move left";
+            ctrl-shift-down = "move down";
+            ctrl-shift-up = "move up";
+            ctrl-shift-right = "move right";
+            ctrl-comma = "layout accordion horizontal vertical";
+            ctrl-slash = "layout tiles horizontal vertical";
           }
-          // (mkBindings "ctrl-alt" "workspace")
-          // (mkBindings "ctrl-alt-shift" "move-node-to-workspace --focus-follows-window");
+          // (mkBindings "ctrl" "workspace")
+          // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
         on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
         on-window-detected = [
           {

@@ -9,6 +9,7 @@
   };
   flake.modules = {
     nixos.noctalia = _: {
+      disabledModules = ["programs/wayland/noctalia.nix"];
       imports = [
         inputs.noctalia.nixosModules.default
         inputs.noctalia-greeter.nixosModules.default

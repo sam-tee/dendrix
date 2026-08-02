@@ -19,7 +19,7 @@ in {
       home-manager.sharedModules = with self.modules.homeManager; [
         _darwinMinimal
         extraPkgs
-        paneru
+        aerospace
         syncthing
         #vscode
       ];
