@@ -928,18 +928,14 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1784092837,
-        "narHash": "sha256-qkWhcK+jXp/w3K3TUNYJM23YGZsQCokxWWFdZIzogaY=",
-        "ref": "refs/heads/main",
-        "rev": "6bf5ae1c6c4ad330ecaf58f4b9ebdf24cee9a043",
-        "revCount": 78,
-        "type": "git",
-        "url": "ssh://forgejo@git-ssh.akhlus.uk:2222/sam-tee/nix-secrets.git"
+        "path": "./nix-secrets",
+        "type": "path"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://forgejo@git-ssh.akhlus.uk:2222/sam-tee/nix-secrets.git"
-      }
+        "path": "./nix-secrets",
+        "type": "path"
+      },
+      "parent": []
     },
     "sops-nix": {
       "inputs": {

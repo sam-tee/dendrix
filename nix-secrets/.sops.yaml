@@ -1,0 +1,25 @@
+keys:
+  - &default age1t599zsfuwumw4kupmemstwqhzemf2gsl2t65fz936uraqe90dfhsvf9kzv
+  - &a3 age136628hnz2xswyyv6fyhcpfx5udw6plllvku9wvhxwcnycr3c9fuqzpqjy6
+  - &duet3 age183gyvjkca5p3fa86psk6fk4m7mw8lzfh8e4gz0hg9ss4jvrwq4lssavvjf
+  - &deck age129qdu8ynvgdytqu7jpr9f57cwax92t2pzxs8e6kzrnh6hmuhhfeqdl3pj8
+  - &hp age1t3n5ucenhe6w337g590e6txacheustwct8lspkjq358h4u0dsvdsd257ft
+  - &mba age12d5dn0z06q7g9qv0w6ygkj30fz7uds9xd0dsjlr3svllyrm2343qmfekta
+  - &s340 age1x3e4ln87usy73ceafhmayhpwf96d989zxevw3xksur7euq623czsmrfvl5
+  - &u410 age15vldjpum583ah9hjc6uz97judmh4psvq4vuv50mr9z2xqhsz6ulqp9ywv3
+  - &oracle age1lsxdrztk2hpg5tt4wnt2w42ls09553pzn430xscv8w9r0jq5kutqkkdftv
+  - &prometheus age1cc99azucxsz7a0dnyz0ksahun23kw5v9x3z3ya5jxmyaghs033gsf4vxhu
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+      - age:
+          - *default
+          - *a3
+          - *duet3
+          - *deck
+          - *hp
+          - *mba
+          - *s340
+          - *u410
+          - *oracle
+          - *prometheus

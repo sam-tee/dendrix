@@ -66,7 +66,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "git+ssh://forgejo@git-ssh.akhlus.uk:2222/sam-tee/nix-secrets.git";
+      url = "path:./nix-secrets";
       flake = false;
     };
     sops-nix = {
