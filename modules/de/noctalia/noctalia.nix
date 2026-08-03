@@ -76,17 +76,20 @@
           idle.behavior = {
             lock = {
               enabled = true;
+              action = "lock";
               timeout = 300;
               command = "noctalia:session lock";
             };
             screen-off = {
               enabled = true;
+              action = "screen_off";
               timeout = 299;
               command = "noctalia:dpms-off";
               resume_command = "noctalia:dpms-on";
             };
             suspend = {
               enabled = true;
+              action = "lock_and_suspend";
               timeout = 600;
               command = "noctalia:session suspend";
             };
