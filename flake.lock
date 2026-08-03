@@ -91,11 +91,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1785707304,
-        "narHash": "sha256-IJi8okC7dkymnS46nUziLmIImhieE8XMdcgzluWpvrs=",
+        "lastModified": 1785710517,
+        "narHash": "sha256-7fEwiXlMyt2aRWx4Swqi1p6mvOUnO94FYNEJ8G0jELA=",
         "owner": "9001",
         "repo": "copyparty",
-        "rev": "63c61b67292a4e2bc72b7541aabaf6dc21f7186e",
+        "rev": "288011726595544d8de7826a1152643fd34094f7",
         "type": "github"
       },
       "original": {
@@ -345,11 +345,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1785709617,
-        "narHash": "sha256-h5W4+cIrT/JVNM4yVmGPKTaSY3ThWEOkSa01eRcw5jY=",
+        "lastModified": 1785723106,
+        "narHash": "sha256-Whs74kZhJFxIlf8MMSTNqyf8Ff4ulmjAK6wWvefrrZk=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "b631dd8a59034b7af5c1007a613bf780866b86b5",
+        "rev": "6b6ee1875d6e0e1e54ed7b9994fa09cc65195c3a",
         "type": "github"
       },
       "original": {
@@ -361,11 +361,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1785708942,
-        "narHash": "sha256-H3xc3dG8xxaxOrnX5Q5rELzTwD1U2DOnpcgbIq2eQCc=",
+        "lastModified": 1785720159,
+        "narHash": "sha256-jsNF/UJUHQhY5kZXvv4JzejdVSHl14mHR7qe6tk+XTA=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "dc6d7c658ce5eb9817b4c4423b58ab2bdaba208f",
+        "rev": "e930029fc70d21964d4185c7f511dc11e5d1ac83",
         "type": "github"
       },
       "original": {
@@ -920,22 +920,9 @@
         "paneru": "paneru",
         "plasma-manager": "plasma-manager",
         "pyScripts": "pyScripts",
-        "secrets": "secrets",
         "sops-nix": "sops-nix",
         "stylix": "stylix"
       }
-    },
-    "secrets": {
-      "flake": false,
-      "locked": {
-        "path": "./nix-secrets",
-        "type": "path"
-      },
-      "original": {
-        "path": "./nix-secrets",
-        "type": "path"
-      },
-      "parent": []
     },
     "sops-nix": {
       "inputs": {

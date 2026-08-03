@@ -1,8 +1,5 @@
 {
-  flake.modules.nixos.mullvad = {pkgs, ...}: {
-    services.mullvad-vpn = {
-      enable = true;
-      package = pkgs.mullvad-vpn;
-    };
+  flake.modules.nixos.mullvad = _: {
+    services.mullvad-vpn.enable = true;
   };
 }

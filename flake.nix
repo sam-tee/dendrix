@@ -65,10 +65,6 @@
       url = "git+https://git.akhlus.uk/sam-tee/python.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    secrets = {
-      url = "path:./nix-secrets";
-      flake = false;
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
