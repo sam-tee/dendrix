@@ -10,7 +10,11 @@
       flake = false;
     };
   };
-  flake.modules.darwin.brew = {username, ...}: {
+  flake.modules.darwin.brew = {
+    config,
+    username,
+    ...
+  }: {
     imports = [inputs.nix-homebrew.darwinModules.default];
     nix-homebrew = {
       enable = true;
@@ -23,6 +27,7 @@
     };
     homebrew = {
       enable = true;
+      taps = builtins.attrNames config.nix-homebrew.taps;
       casks = [
         "google-chrome"
         "helium-browser"

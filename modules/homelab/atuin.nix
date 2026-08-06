@@ -6,7 +6,7 @@
       host = "0.0.0.0";
       inherit (self.services.atuin) port;
       openRegistration = false;
-      maxHistoryLength = 1024 * 16;
+      maxHistoryLength = 1024 * 128;
     };
   };
 }

@@ -1,12 +1,12 @@
 {self, ...}: {
-  flake.modules.homeManager.aerospace = {lib, ...}: let
+  flake.modules.darwin.aerospace = {lib, ...}: let
     mkGaps = keys: lib.genAttrs keys (_: 0);
     mkBindings = prefix: command:
       lib.range 1 9
       |> map (i: lib.nameValuePair "${prefix}-${toString i}" "${command} ${toString i}")
       |> builtins.listToAttrs;
   in {
-    imports = [self.modules.homeManager.skhd];
+    imports = [self.modules.darwin.skhd];
     programs.aerospace = {
       enable = true;
       launchd.enable = true;

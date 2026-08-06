@@ -9,10 +9,10 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.paneru = _: {
+  flake.modules.darwin.paneru = _: {
     imports = [
-      inputs.paneru.homeModules.paneru
-      self.modules.homeManager.skhd
+      inputs.paneru.darwinModules.paneru
+      self.modules.darwin.skhd
     ];
     services.paneru = {
       enable = true;
