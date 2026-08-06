@@ -46,7 +46,7 @@ jobs:
 
       - name: Build linux flake packages
         run: |
-          nix run nixpkgs\#nix-fast-build -- \
+          nix run github:mic92/nix-fast-build -- \
             --flake .#packages \
             --systems "x86_64-linux aarch64-linux" \
             --skip-cached \
@@ -55,7 +55,7 @@ jobs:
 
       - name: Build NixOS configurations
         run: |
-          nix run nixpkgs\#nix-fast-build -- \
+          nix run github:mic92/nix-fast-build -- \
             --flake .#nixosConfigurations \
             --select 'configs: builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) configs' \
             --skip-cached \

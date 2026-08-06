@@ -7,9 +7,8 @@
       |> builtins.listToAttrs;
   in {
     imports = [self.modules.darwin.skhd];
-    programs.aerospace = {
+    services.aerospace = {
       enable = true;
-      launchd.enable = true;
       settings = {
         config-version = 2;
         accordion-padding = 10;
