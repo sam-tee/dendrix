@@ -30,7 +30,6 @@
     nixos.homelab = {config, ...}: let
       inherit (config.homelab) group user dataDir;
     in {
-      security.sudo.wheelNeedsPassword = false;
       users = {
         users.${user} = {
           isSystemUser = true;

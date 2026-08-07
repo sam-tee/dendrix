@@ -12,7 +12,7 @@ in {
       services.bazarr = {
         enable = true;
         inherit (config.homelab) group user;
-        listenPort = self.services.lidarr.port;
+        listenPort = self.services.bazarr.port;
       };
     };
     radarr = mkArrModule "radarr";

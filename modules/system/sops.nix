@@ -1,9 +1,14 @@
-{inputs, self, ...}: let sopsPath =  "${self}/nix-secrets/secrets.yaml";
+{
+  inputs,
+  self,
+  ...
+}: let
+  sopsPath = "${self}/nix-secrets/secrets.yaml";
 in {
   flake-file.inputs.sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    url = "github:Mic92/sops-nix";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
   flake.modules = {
     nixos.system = _: {
       imports = [inputs.sops-nix.nixosModules.sops];

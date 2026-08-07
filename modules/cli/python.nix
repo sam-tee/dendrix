@@ -1,10 +1,11 @@
 let
-  pyPkgs = pkgs: with pkgs; [
-    python3
-    ruff
-    ty
-    uv
-  ];
+  pyPkgs = pkgs:
+    with pkgs; [
+      python3
+      ruff
+      ty
+      uv
+    ];
 in {
   flake.modules = {
     homeManager.cli = {pkgs, ...}: {
