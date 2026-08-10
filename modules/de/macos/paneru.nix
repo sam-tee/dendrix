@@ -36,25 +36,25 @@
             |> builtins.listToAttrs;
         in
           {
-            window_focus_west = "ctrl + alt - h";
-            window_focus_east = "ctrl + alt - l";
-            window_focus_north = "ctrl + alt - k";
-            window_focus_south = "ctrl + alt - j";
-            window_swap_west = "ctrl + alt + shift - h";
-            window_swap_east = "ctrl + alt + shift - l";
-            window_swap_north = "ctrl + alt + shift - k";
-            window_swap_south = "ctrl + alt + shift - j";
-            window_center = "ctrl + alt - m";
-            window_resize = "ctrl + alt - r";
-            window_fullwidth = "ctrl + alt - f";
-            window_manage = "ctrl + alt - v";
-            window_stack = "ctrl + alt - period";
-            window_unstack = "ctrl + alt - comma";
-            window_nextdisplay = "ctrl + alt - tab";
-            window_nextdisplaysend = "ctrl + alt + shift - tab";
+            window_focus_west = "ctrl + cmd - h";
+            window_focus_east = "ctrl + cmd - l";
+            window_focus_north = "ctrl + cmd - j";
+            window_focus_south = "ctrl + cmd - k";
+            window_swap_west = "ctrl + cmd + shift - h";
+            window_swap_east = "ctrl + cmd + shift - l";
+            window_swap_north = "ctrl + cmd + shift - k";
+            window_swap_south = "ctrl + cmd + shift - j";
+            window_center = "ctrl + cmd - m";
+            window_resize = "ctrl + cmd - r";
+            window_fullwidth = "ctrl + cmd - f";
+            window_manage = "ctrl + cmd - v";
+            window_stack = "ctrl + cmd - period";
+            window_unstack = "ctrl + cmd - comma";
+            window_nextdisplay = "ctrl + cmd - tab";
+            window_nextdisplaysend = "ctrl + cmd + shift - tab";
           }
-          // (mkBindings "ctrl + alt" "window_virtualnum")
-          // (mkBindings "ctrl + alt + shift" "window_virtualmovenum");
+          // (mkBindings "ctrl" "window_virtualnum")
+          // (mkBindings "ctrl + shift" "window_virtualmovenum");
         windows.pip = {
           title = "Picture.*(in)?.*[Pp]icture";
           floating = true;

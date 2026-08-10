@@ -25,18 +25,18 @@
         persistent-workspaces = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
         mode.main.binding =
           {
-            ctrl-left = "focus left";
-            ctrl-down = "focus down";
-            ctrl-up = "focus up";
-            ctrl-right = "focus right";
-            ctrl-equal = "resize smart +50";
-            ctrl-minus = "resize smart -50";
-            ctrl-shift-left = "move left";
-            ctrl-shift-down = "move down";
-            ctrl-shift-up = "move up";
-            ctrl-shift-right = "move right";
-            ctrl-comma = "layout accordion horizontal vertical";
-            ctrl-slash = "layout tiles horizontal vertical";
+            ctrl-cmd-h = "focus left";
+            ctrl-cmd-j = "focus down";
+            ctrl-cmd-k = "focus up";
+            ctrl-cmd-l = "focus right";
+            ctrl-cmd-equal = "resize smart +50";
+            ctrl-cmd-minus = "resize smart -50";
+            ctrl-cmd-shift-h = "move left";
+            ctrl-cmd-shift-j = "move down";
+            ctrl-cmd-shift-k = "move up";
+            ctrl-cmd-shift-l = "move right";
+            ctrl-cmd-comma = "layout accordion horizontal vertical";
+            ctrl-cmd-slash = "layout tiles horizontal vertical";
           }
           // (mkBindings "ctrl" "workspace")
           // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
@@ -47,7 +47,6 @@
             run = ["layout tiling"];
           }
         ];
-        start-at-login = false;
       };
     };
   };
