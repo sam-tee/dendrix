@@ -27,10 +27,5 @@ in {
     darwin.fonts = {pkgs, ...}: {
       fonts.packages = mkFonts pkgs;
     };
-
-    homeManager.fonts = {pkgs, ...}: {
-      fonts = {inherit fontconfig;};
-      home.packages = mkFonts pkgs;
-    };
   };
 }
