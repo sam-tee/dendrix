@@ -14,6 +14,10 @@
         inputs.noctalia.nixosModules.default
         inputs.noctalia-greeter.nixosModules.default
       ];
+      hjem.extraModules = [
+        inputs.noctalia.hjemModules.default
+        self.modules.hjem.noctalia
+      ];
       programs = {
         noctalia = {
           enable = true;
@@ -25,13 +29,12 @@
         };
       };
     };
-    homeManager.noctalia = {config, ...}: let
-      bgDirFull = "${config.home.homeDirectory}/${bgDir}";
-      bgDir = ".cache/noctalia/wallpapers";
+    hjem.noctalia = {config, ...}: let
+      bgDir = "noctalia/wallpapers";
+      bgDirFull = "${config.xdg.cache.directory}/${bgDir}";
       bgPath = "${bgDir}/bg.png";
     in {
-      imports = [inputs.noctalia.homeModules.default];
-      home.file.${bgPath}.source = self.cosmetic.bgFile;
+      xdg.cache.files.${bgPath}.source = self.cosmetic.bgFile;
       programs.noctalia = {
         enable = true;
         settings = {
