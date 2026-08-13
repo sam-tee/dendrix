@@ -13,37 +13,23 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      s340Config = {pkgs, ...}: {
+      ${hostname} = {
+        lib,
+        pkgs,
+        ...
+      }: {
         imports = with self.modules.nixos; [
-          _default
-          hm
           s340Hardware
           s340Disko
           niri
         ];
-        home-manager = {
-          sharedModules = with self.modules.homeManager; [
-            _linuxMinimal
-            linuxExtraPkgs
-            syncthing
-            {
-              wayland.windowManager.hyprland.settings.monitor = ["eDP-1,1920x1080@60,auto,1"];
-              programs.niri.settings.outputs = {
-                "eDP-1" = {
-                  scale = 1.0;
-                  mode.height = 1080;
-                  mode.width = 1920;
-                };
-                "HDMI-A-1" = {
-                  scale = 1.0;
-                  mode = {
-                    height = 1080;
-                    width = 1920;
-                  };
-                };
-              };
+        hjem.extraModules = lib.singleton {
+          xdg.config.files."niri/config.kdl".text = lib.mkAfter ''
+            output "eDP-1" {
+              mode "1920x1080"
+              scale 1.0
             }
-          ];
+          '';
         };
         services.usbmuxd.enable = true;
         environment.systemPackages = with pkgs; [calibre];

@@ -13,25 +13,16 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      "${hostname}Config" = {pkgs, ...}: {
+      ${hostname} = {pkgs, ...}: {
         imports = with self.modules.nixos; [
-          _default
-          hm
           a3Hardware
           hyprland
           #jovian
           autologin
+          linuxAll
           ly
-          mullvad
           steam
           vms
-        ];
-        home-manager.sharedModules = with self.modules.homeManager; [
-          _linuxMinimal
-          linuxExtraPkgs
-          syncthing
-          vscode
-          {wayland.windowManager.hyprland.settings.monitor = ["HDMI-A-3,3840x2160@60,auto,2"];}
         ];
         environment.systemPackages = with pkgs; [
           nautilus

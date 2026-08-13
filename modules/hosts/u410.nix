@@ -15,9 +15,9 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      u410Config = {pkgs, ...}: {
+      ${hostname} = {pkgs, ...}: {
         imports = with self.modules.nixos; [
-          _serverMin
+          server
           u410Hardware
           battery
         ];

@@ -13,9 +13,9 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      oracleConfig = _: {
+      ${hostname} = _: {
         imports = with self.modules.nixos; [
-          _serverMin
+          server
           oracleHardware
           oracleDisko
           immich
