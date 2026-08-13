@@ -9,7 +9,6 @@
         ip = "0.0.0.0";
         inherit (self.services.calibre) port;
       };
-      openFirewall = true;
       options = {
         calibreLibrary = "${dataDir}/books";
         enableBookConversion = true;

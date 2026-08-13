@@ -1,7 +1,7 @@
 {self, ...}: let
   inherit (self.cosmetic.theme) attrs;
 in {
-  flake.modules.homeManager.noctalia = {
+  flake.modules.hjem.noctalia = {
     programs.noctalia.customPalettes.akhlus = let
       palette = variant:
         with attrs.${variant}; {

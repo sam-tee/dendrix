@@ -1,13 +1,7 @@
 {self, ...}: {
   flake.modules = {
     nixos.wm = {pkgs, ...}: {
-      imports = with self.modules.nixos; [
-        hm
-        noctalia
-      ];
-      home-manager.sharedModules = with self.modules.homeManager; [
-        noctalia
-      ];
+      imports = [self.modules.nixos.noctalia];
       environment = {
         sessionVariables = {
           NIXOS_OZONE_WL = "1";

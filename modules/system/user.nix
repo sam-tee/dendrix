@@ -1,7 +1,8 @@
-{
+{self, ...}: {
   flake.modules = let
     groupID = 991;
   in {
+    nixos.default = self.modules.nixos.user;
     nixos.user = {
       config,
       pkgs,
@@ -17,9 +18,9 @@
             description = username;
             name = username;
             shell = pkgs.zsh;
+            home = "/home/${username}";
             uid = 1000;
             hashedPasswordFile = config.sops.secrets.password.path;
-            ignoreShellProgramCheck = true;
             extraGroups = ["networkmanager" "samba" "wheel" "media" "dialout"];
             isNormalUser = true;
           };
@@ -27,7 +28,7 @@
         groups.media.gid = groupID;
       };
     };
-    nixos.homelab = {config, ...}: let
+    nixos.server = {config, ...}: let
       inherit (config.homelab) group user dataDir;
     in {
       users = {
@@ -40,16 +41,18 @@
         groups.${group}.gid = groupID;
       };
     };
+    darwin.default = self.modules.darwin.user;
     darwin.user = {
       pkgs,
       username,
       ...
     }: {
+      users.groups.media.gid = 991;
       users.users.${username} = {
+        home = "/Users/${username}";
         description = username;
         name = username;
         shell = pkgs.zsh;
-        ignoreShellProgramCheck = true;
       };
     };
   };

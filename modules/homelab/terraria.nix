@@ -3,7 +3,6 @@
     sops.secrets."terraria/serverPwd" = {};
     services.terraria = {
       enable = true;
-      openFirewall = true;
       port = 4197;
       dataDir = "${config.homelab.dataDir}/terraria";
       password = config.sops.secrets."terraria/serverPwd".path;

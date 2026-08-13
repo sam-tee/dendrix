@@ -4,8 +4,6 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
   perSystem = {inputs', ...}: {
-    packages = {
-      inherit (inputs'.pyScripts.packages) nhw deploy-py;
-    };
+    inherit (inputs'.pyScripts) packages;
   };
 }

@@ -12,16 +12,9 @@ in {
 
     darwinConfigurations = self.lib.mkDarwin hostname;
 
-    modules.darwin."${hostname}Config" = _: {
+    modules.darwin.${hostname} = _: {
       imports = with self.modules.darwin; [
-        _default
-        hm
-        aerospace
-      ];
-      home-manager.sharedModules = with self.modules.homeManager; [
-        _darwinMinimal
-        extraPkgs
-        syncthing
+        paneru
       ];
     };
   };

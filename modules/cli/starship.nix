@@ -1,6 +1,7 @@
-{
-  flake.modules = {
-    generic.cli = _: {
+{self, ...}: {
+  flake.modules.generic = {
+    default = self.modules.generic.starship;
+    starship = _: {
       programs.starship = {
         enable = true;
         settings = {
@@ -22,12 +23,10 @@
             truncation_symbol = "…/";
           };
           hostname = {
-            format = "[$ssh_symbol $hostname]($style) ";
-            ssh_only = true;
-            ssh_symbol = "";
+            format = "[ $hostname]($style) ";
+            ssh_only = false;
             style = "blue dimmed bold";
           };
-
           git_branch = {
             format = "[$symbol $branch(:$remote_branch)]($style) ";
             style = "italic cyan";

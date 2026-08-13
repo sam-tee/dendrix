@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake-file.inputs = {
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     homebrew-core = {
@@ -10,38 +14,28 @@
       flake = false;
     };
   };
-  flake.modules.darwin.brew = {
-    config,
-    username,
-    ...
-  }: {
-    imports = [inputs.nix-homebrew.darwinModules.default];
-    nix-homebrew = {
-      enable = true;
-      user = username;
-      mutableTaps = false;
-      taps = {
-        "homebrew/homebrew-core" = inputs.homebrew-core;
-        "homebrew/homebrew-cask" = inputs.homebrew-cask;
+  flake.modules.darwin = {
+    default = self.modules.darwin.brew;
+    brew = {
+      config,
+      username,
+      ...
+    }: {
+      imports = [inputs.nix-homebrew.darwinModules.default];
+      nix-homebrew = {
+        enable = true;
+        user = username;
+        mutableTaps = false;
+        taps = {
+          "homebrew/homebrew-core" = inputs.homebrew-core;
+          "homebrew/homebrew-cask" = inputs.homebrew-cask;
+        };
       };
-    };
-    homebrew = {
-      enable = true;
-      taps = builtins.attrNames config.nix-homebrew.taps;
-      casks = [
-        "google-chrome"
-        "helium-browser"
-        "iina"
-        "keepassxc"
-        "protonvpn"
-        "raycast"
-        "skim"
-        "spotify"
-        "whatsapp"
-        "zotero"
-      ];
-      masApps = {"Bitwarden" = 1352778147;};
-      onActivation.cleanup = "zap";
+      homebrew = {
+        enable = true;
+        taps = builtins.attrNames config.nix-homebrew.taps;
+        onActivation.cleanup = "zap";
+      };
     };
   };
 }

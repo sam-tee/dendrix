@@ -4,7 +4,6 @@
   in {
     services.jellyfin = {
       enable = true;
-      openFirewall = true;
       inherit group user;
     };
   };

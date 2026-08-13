@@ -57,7 +57,7 @@
         theme = {
           file = lib.mkOption {
             type = lib.types.path;
-            default = ./theme.toml;
+            default = "${self}/theme/theme.toml";
             description = "Path to TOML theme file";
           };
           defaultVariant = lib.mkOption {
@@ -72,7 +72,7 @@
         };
         bgFile = lib.mkOption {
           type = lib.types.path;
-          default = ./cassiopeia.png;
+          default = "${self}/theme/cassiopeia.png";
           description = "Path to wallpaper";
         };
       };

@@ -2,7 +2,6 @@
   flake.modules.nixos.caddy = {
     config,
     lib,
-    pkgs,
     ...
   }: let
     inherit (config.homelab) domain group user;

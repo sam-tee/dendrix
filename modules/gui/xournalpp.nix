@@ -1,7 +1,6 @@
 {
-  flake.modules.homeManager.xournal = {pkgs, ...}: {
-    home.packages = [pkgs.xournalpp];
-    xdg.configFile = {
+  flake.modules.hjem.xournal = _: {
+    files = {
       "xournalpp/palettes/palette.gpl".text = ''
         GIMP Palette
         Name: Sam's Palette

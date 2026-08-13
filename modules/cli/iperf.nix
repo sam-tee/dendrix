@@ -1,8 +1,6 @@
-{
-  flake.modules.nixos.cli = _: {
-    services.iperf3 = {
-      enable = true;
-      openFirewall = true;
-    };
+{self, ...}: {
+  flake.modules.nixos = {
+    server = self.modules.nixos.iperf;
+    iperf = _: {services.iperf3.enable = true;};
   };
 }
