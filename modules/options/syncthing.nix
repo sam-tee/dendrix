@@ -124,7 +124,7 @@
                           devicesWithSecrets = lib.pipe folder.devices [
                             (lib.filter (device: (builtins.isAttrs device) && device ? encryptionPasswordFile))
                             (map (device: {
-                              deviceId = device.deviceId;
+                              inherit (device) deviceId;
                               variableName = "secret_${builtins.hashString "sha256" device.encryptionPasswordFile}";
                               secretPath = device.encryptionPasswordFile;
                             }))
@@ -303,7 +303,7 @@
                   The options element contains all other global configuration options
                 '';
                 type = lib.types.submodule (
-                  {...}: {
+                  _: {
                     freeformType = settingsFormat.type;
                     options = {
                       localAnnounceEnabled = lib.mkOption {
@@ -493,7 +493,7 @@
                             lib.types.oneOf [
                               lib.types.str
                               (lib.types.submodule (
-                                {...}: {
+                                _: {
                                   freeformType = settingsFormat.type;
                                   options = {
                                     name = lib.mkOption {
@@ -874,7 +874,7 @@
             STNORESTART = "yes";
             STNOUPGRADE = "yes";
           }
-          // lib.optionalAttrs (cfg.all_proxy != null) {all_proxy = cfg.all_proxy;};
+          // lib.optionalAttrs (cfg.all_proxy != null) {inherit (cfg) all_proxy;};
 
         command = let
           args = lib.escapeShellArgs (

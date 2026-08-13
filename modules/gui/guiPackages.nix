@@ -7,7 +7,7 @@
           variables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
           systemPackages = with pkgs;
             [
-              bitwarden
+              bitwarden-desktop
               ghostty
               proton-vpn
               xournalpp

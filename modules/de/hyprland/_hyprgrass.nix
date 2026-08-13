@@ -7,7 +7,6 @@
   meson,
   wf-touch,
   nix-update-script,
-  hyprland,
   hyprlandPlugins,
 }:
 hyprlandPlugins.mkHyprlandPlugin {

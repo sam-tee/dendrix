@@ -37,8 +37,8 @@ in {
 
       "org/gnome/desktop/wm/keybindings" = {
         close = ["<Super>q"];
-        maximize = [];
-        unmaximize = [];
+        maximize = lib.mkEmptyArray;
+        unmaximize = lib.mkEmptyArray;
       };
 
       "org/gnome/desktop/wm/preferences" = {
@@ -54,8 +54,8 @@ in {
       };
 
       "org/gnome/mutter/keybindings" = {
-        toggle-tiled-left = [];
-        toggle-tiled-right = [];
+        toggle-tiled-left = lib.mkEmptyArray;
+        toggle-tiled-right = lib.mkEmptyArray;
       };
 
       "org/gnome/nautilus/list-view" = {
@@ -86,7 +86,7 @@ in {
       };
 
       "org/gnome/shell" = {
-        disabled-extensions = [];
+        disabled-extensions = lib.mkEmptyArray;
         enabled-extensions = ["clipboard-indicator@tudmotu.com" "blur-my-shell@aunetx" "dash-to-dock@micxgx.gmail.com" "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "dash-to-panel@jderose9.github.com" "tilingshell@ferrarodomenico.com"];
         favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "dev.zed.Zed.desktop" "com.github.xournalpp.xournalpp.desktop" "spotify.desktop"];
         last-selected-power-profile = "power-saver";

@@ -10,7 +10,7 @@
   flake.modules = {
     darwin.default = self.modules.generic.helium;
     nixos.gui = self.modules.generic.helium;
-    generic.helium = moduleWithSystem ({inputs', ...}: {...}: {
+    generic.helium = moduleWithSystem ({inputs', ...}: _: {
       environment.systemPackages = [inputs'.helium.packages.default];
     });
   };

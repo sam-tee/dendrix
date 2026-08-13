@@ -1,6 +1,6 @@
 {self, ...}: let
   linuxPort = 2222;
-  envVar = "LANG LC_* TERM EDITOR";
+  envVar = "LANG LC_* EDITOR";
 in {
   flake.modules = {
     nixos.default = self.modules.nixos.ssh;
@@ -87,7 +87,7 @@ in {
               (mkBlock "git-ssh.akhlus.uk" "forgejo" "2222" "git")
               ''
                 Host *
-                  SendEnv LANG LC_* TERM EDITOR
+                  SendEnv ${envVar}
               ''
             ];
         };
