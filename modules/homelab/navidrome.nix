@@ -4,7 +4,6 @@
   in {
     services.navidrome = {
       enable = true;
-      openFirewall = true;
       inherit group user;
       settings = {
         Port = self.services.navidrome.port;

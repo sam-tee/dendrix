@@ -8,7 +8,6 @@
     services = {
       samba = {
         enable = true;
-        openFirewall = true;
         settings = {
           global = {
             "workgroup" = "WORKGROUP";
@@ -30,10 +29,7 @@
         };
       };
       avahi.enable = true;
-      samba-wsdd = {
-        enable = true;
-        openFirewall = true;
-      };
+      samba-wsdd.enable = true;
     };
     systemd.services.samba-smbd.postStart = let
       users = [username];
