@@ -1,8 +1,8 @@
 {self, ...}: let
   inherit (self.cosmetic) bgFile fonts theme;
 in {
-  flake.modules.homeManager.gnome = {lib, ...}: {
-    dconf.settings = with lib.hm.gvariant; {
+  flake.modules.nixos.gnome = {lib, ...}: let
+    settings = with lib.gvariant; {
       "org/gnome/TextEditor" = {
         restore-session = false;
       };
@@ -151,6 +151,11 @@ in {
       "org/gnome/tweaks" = {
         show-extensions-notice = false;
       };
+    };
+  in {
+    programs.dconf = {
+      enable = true;
+      profiles.user.databases = [{inherit settings;}];
     };
   };
 }
