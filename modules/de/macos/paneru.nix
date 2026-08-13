@@ -22,6 +22,7 @@
           mouse_follows_focus = true;
           preset_column_widths = [0.5];
           menubar_height = 0;
+          auto_center = true;
         };
         decorations.workspace_popup_status = false;
         swipe = {

@@ -37,9 +37,9 @@
         };
       };
     };
-    darwin.system = {pkgs, ...}: {
+    darwin.default = self.modules.darwin.system;
+    darwin.system = _: {
       documentation = {
-        enable = false;
         man.enable = true;
         info.enable = false;
         doc.enable = false;
@@ -99,10 +99,10 @@
             showhidden = true;
             tilesize = 34;
             persistent-apps = [
-              {app = "/Applications/Helium.app";}
-              {app = "${pkgs.zed-editor}/Applications/Zed.app";}
-              {app = "${pkgs.ghostty-bin}/Applications/Ghostty.app";}
-              {app = "/Applications/Spotify.app";}
+              {app = "/Applications/Nix Apps/Helium.app";}
+              {app = "/Applications/Nix Apps/Zed.app";}
+              {app = "/Applications/Nix Apps/Ghostty.app";}
+              {app = "/Applications/Nix Apps/Spotify.app";}
             ];
           };
           finder = {
@@ -124,7 +124,7 @@
             "com.apple.Accessibility".ReduceMotionEnabled = 1;
             "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
             "com.apple.screencapture" = {
-              location = "~/Pictures/screenshots";
+              location = "~/Downloads";
               type = "png";
             };
             "com.apple.desktopservices" = {
