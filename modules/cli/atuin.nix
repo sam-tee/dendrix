@@ -1,23 +1,30 @@
-{
-  flake.modules.homeManager.cli = {config, ...}: {
-    sops.secrets = {
-      "atuin-key" = {};
-      "atuin-session" = {};
-    };
-    programs.atuin = {
-      enable = true;
-      settings = {
-        dialect = "uk";
-        show_preview = true;
-        inline_height = 30;
-        style = "compact";
-        update_check = false;
-        auto_sync = true;
-        search_mode = "fuzzy";
-        sync_frequency = "5m";
-        sync_address = "https://atuin.akhlus.uk";
-        key_path = config.sops.secrets."atuin-key".path;
-        session_path = config.sops.secrets."atuin-session".path;
+{self, ...}: {
+  flake.modules.generic = {
+    default = self.modules.generic.atuin;
+    atuin = {
+      config,
+      username,
+      ...
+    }: {
+      sops.secrets = {
+        "atuin-key".owner = username;
+        "atuin-session".owner = username;
+      };
+      programs.atuin = {
+        enable = true;
+        settings = {
+          auto_sync = true;
+          dialect = "uk";
+          inline_height = 30;
+          search_mode = "fuzzy";
+          show_preview = true;
+          style = "compact";
+          sync_address = "https://atuin.akhlus.uk";
+          sync_frequency = "5m";
+          update_check = false;
+          key_path = config.sops.secrets."atuin-key".path;
+          session_path = config.sops.secrets."atuin-session".path;
+        };
       };
     };
   };

@@ -1,33 +1,26 @@
 {self, ...}: {
-  flake.modules = {
-    nixos.cli = _: {
-      programs.git.enable = true;
-    };
-    homeManager.cli = _: {
-      programs.gh.enable = true;
-      programs.git = {
-        enable = true;
-        signing = {
-          format = "ssh";
-          key = self.hosts.git-sign.pubKey;
-          signByDefault = true;
-        };
-        settings = {
+  flake.modules.generic = {
+    default = self.modules.generic.git;
+    git = {
+      lib,
+      pkgs,
+      ...
+    }: {
+      environment.systemPackages = with pkgs; [gh git];
+      hjem.extraModules = lib.singleton {
+        xdg.config.files."git/config".text = lib.generators.toGitINI {
+          commit.gpgSign = true;
           gpg.format = "ssh";
           init.defaultBranch = "main";
-          pull.rebase = "true";
-          push.autoSetupRemote = "true";
+          pull.rebase = true;
+          push.autoSetupRemote = true;
           user = {
             name = "Sam Tee";
             email = "sam.tee4@proton.me";
+            signingKey = self.hosts.git-sign.pubKey;
           };
         };
       };
-    };
-    darwin.cli = {pkgs, ...}: {
-      environment.systemPackages = with pkgs; [
-        git
-      ];
     };
   };
 }
