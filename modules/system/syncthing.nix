@@ -20,7 +20,7 @@
     };
     calibre_config = {
       path = "~/.config/calibre";
-      devices = ["a3" "deck" "hp" "mba" "oracle" "s340" "u410"];
+      devices = ["a3" "hp" "mba" "oracle" "s340" "u410"];
     };
     Docs = {
       path = "~/Documents";
@@ -29,8 +29,20 @@
   };
 in {
   flake.modules = {
-    nixos.syncthing = {config, ...}: let
-      inherit (config.homelab) group user dataDir;
+    darwin.default = self.modules.generic.syncthing;
+    nixos.default = self.modules.generic.syncthing;
+    generic.syncthing = {
+      config,
+      username,
+      ...
+    }: let
+      attrs =
+        config.homelab or {
+          user = username;
+          group = "media";
+          dataDir = config.users.users.${username}.home;
+        };
+      inherit (attrs) group user dataDir;
       folders = allFolders |> lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices);
     in {
       sops.secrets."syncPwd".owner = user;
@@ -38,24 +50,11 @@ in {
         enable = true;
         inherit user group dataDir;
         guiAddress = "0.0.0.0:8384";
-        openDefaultPorts = true;
         guiPasswordFile = config.sops.secrets."syncPwd".path;
         settings = {
           gui.user = "sam";
           inherit devices folders;
         };
-      };
-    };
-    homeManager.syncthing = {
-      hostname,
-      lib,
-      ...
-    }: let
-      folders = lib.filterAttrs (_: v: lib.elem hostname v.devices) allFolders;
-    in {
-      services.syncthing = {
-        enable = true;
-        settings = {inherit devices folders;};
       };
     };
   };

@@ -6,25 +6,27 @@
     noto-fonts-color-emoji
     noto-fonts-cjk-sans
   ]);
-  fontconfig = {
-    enable = true;
-    defaultFonts = {
-      serif = [ui.name];
-      sansSerif = [ui.name];
-      monospace = [mono.name];
-      emoji = ["Noto Color Emoji"];
-    };
-  };
 in {
   flake.modules = {
-    nixos.fonts = {pkgs, ...}: {
-      fonts = {
-        packages = mkFonts pkgs;
-        inherit fontconfig;
+    nixos = {
+      default = self.modules.nixos.fonts;
+      fonts = {pkgs, ...}: {
+        fonts = {
+          packages = mkFonts pkgs;
+          fontconfig = {
+            enable = true;
+            defaultFonts = {
+              serif = [ui.name];
+              sansSerif = [ui.name];
+              monospace = [mono.name];
+              emoji = ["Noto Color Emoji"];
+            };
+          };
+        };
       };
     };
 
-    darwin.fonts = {pkgs, ...}: {
+    darwin.default = {pkgs, ...}: {
       fonts.packages = mkFonts pkgs;
     };
   };

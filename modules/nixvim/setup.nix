@@ -22,7 +22,6 @@ in {
   };
   flake.modules = {
     nixos.nixvim = mkNixvim "nixos";
-    homeManager.nixvim = mkNixvim "home";
     darwin.nixvim = mkNixvim "nixDarwin";
   };
   perSystem = {system, ...}: {
