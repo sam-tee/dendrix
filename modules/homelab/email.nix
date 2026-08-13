@@ -1,4 +1,5 @@
-{
+{self, ...}: {
+  flake.modules.nixos.server = self.modules.nixos.email;
   flake.modules.nixos.email = {config, ...}: let
     inherit (config.homelab.email) from host user pwdPath;
   in {

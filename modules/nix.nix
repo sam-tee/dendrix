@@ -35,7 +35,7 @@
         sshUser = "sam";
         sshKey = config.sops.secrets."ssh/u410".path;
         publicHostKey = "";
-        maxJobs = 4;
+        maxJobs = 2;
         speedFactor = 1;
         supportedFeatures = [
           "benchmark"
@@ -117,12 +117,15 @@ in {
         overlays = [];
       };
     };
-    darwin.cli = _: {
+
+    darwin.default = self.modules.darwin.nix;
+    darwin.nix = _: {
       imports = [self.modules.generic.nix];
       sops.secrets = sshKeys;
     };
 
-    nixos.cli = {pkgs, ...}: {
+    nixos.default = self.modules.nixos.nix;
+    nixos.nix = {pkgs, ...}: {
       imports = [self.modules.generic.nix];
       environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
       sops.secrets = sshKeys;

@@ -1,6 +1,7 @@
-{
+{self, ...}: {
   flake.modules = {
-    nixos.networking = {config, ...}: let
+    nixos.default = self.modules.nixos.tailscale;
+    nixos.tailscale = {config, ...}: let
       cfg = config.services.tailscale;
     in {
       sops.secrets."tailscale/authKey" = {};
@@ -10,15 +11,14 @@
       };
       services.tailscale = {
         enable = true;
-        authKeyFile = config.sops.secrets."tailscale/authKey".path;
         permitCertUid = config.homelab.user or null;
       };
       systemd.services.tailscaled.serviceConfig.Environment = [
         "TS_DEBUG_FIREWALL_MODE=nftables"
       ];
     };
-
-    darwin.networking = _: {
+    darwin.default = self.modules.darwin.tailscale;
+    darwin.tailscale = _: {
       services.tailscale.enable = true;
     };
   };
