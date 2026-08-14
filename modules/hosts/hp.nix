@@ -31,7 +31,6 @@ in {
             intel-ocl
           ];
         };
-        services.logind.lidSwitchExternalPower = "ignore";
         services.btrfs.autoScrub = {
           enable = true;
           interval = "monthly";

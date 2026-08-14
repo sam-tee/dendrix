@@ -2,7 +2,8 @@
   inherit (self.cosmetic) bgFile fonts theme;
 in {
   flake.modules.nixos.gnome = {lib, ...}: let
-    settings = with lib.gvariant; {
+    inherit (lib.gvariant) mkEmptyArray type mkInt32 mkUint32;
+    settings = {
       "org/gnome/TextEditor" = {
         restore-session = false;
       };
@@ -37,8 +38,8 @@ in {
 
       "org/gnome/desktop/wm/keybindings" = {
         close = ["<Super>q"];
-        maximize = lib.mkEmptyArray;
-        unmaximize = lib.mkEmptyArray;
+        maximize = mkEmptyArray type.string;
+        unmaximize = mkEmptyArray type.string;
       };
 
       "org/gnome/desktop/wm/preferences" = {
@@ -54,8 +55,8 @@ in {
       };
 
       "org/gnome/mutter/keybindings" = {
-        toggle-tiled-left = lib.mkEmptyArray;
-        toggle-tiled-right = lib.mkEmptyArray;
+        toggle-tiled-left = mkEmptyArray type.string;
+        toggle-tiled-right = mkEmptyArray type.string;
       };
 
       "org/gnome/nautilus/list-view" = {
@@ -86,7 +87,7 @@ in {
       };
 
       "org/gnome/shell" = {
-        disabled-extensions = lib.mkEmptyArray;
+        disabled-extensions = mkEmptyArray type.string;
         enabled-extensions = ["clipboard-indicator@tudmotu.com" "blur-my-shell@aunetx" "dash-to-dock@micxgx.gmail.com" "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "dash-to-panel@jderose9.github.com" "tilingshell@ferrarodomenico.com"];
         favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "dev.zed.Zed.desktop" "com.github.xournalpp.xournalpp.desktop" "spotify.desktop"];
         last-selected-power-profile = "power-saver";
@@ -94,8 +95,8 @@ in {
       };
 
       "org/gnome/shell/extensions/caffeine" = {
-        countdown-timer = 0;
-        indicator-position-max = 1;
+        countdown-timer = mkInt32 0;
+        indicator-position-max = mkInt32 1;
         show-notifications = false;
       };
 
@@ -103,13 +104,13 @@ in {
         autohide-in-fullscreen = true;
         background-opacity = 0.8;
         custom-theme-shrink = true;
-        dash-max-icon-size = 40;
+        dash-max-icon-size = mkInt32 40;
         dock-position = "BOTTOM";
         height-fraction = 0.9;
         hot-keys = false;
         intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
         multi-monitor = true;
-        preferred-monitor = -2;
+        preferred-monitor = mkInt32 (-2);
         running-indicator-style = "DOTS";
         show-icons-notifications-counter = false;
         show-mounts = false;
@@ -120,7 +121,7 @@ in {
       "org/gnome/shell/extensions/dash-to-panel" = {
         animate-app-switch = false;
         animate-window-launch = false;
-        appicon-margin = 4;
+        appicon-margin = mkInt32 4;
         dot-position = "BOTTOM";
         intellihide = true;
         intellihide-behaviour = "ALL_WINDOWS";

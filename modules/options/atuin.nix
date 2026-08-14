@@ -70,17 +70,17 @@
         etc = lib.mkIf (cfg.settings != {}) {
           "atuin/config.toml".source = settingsFile;
         };
-        programs.bash.interactiveShellInit = lib.mkIf cfg.enableBashIntegration ''
-          if [[ :$SHELLOPTS: =~ :(vi|emacs): ]]; then
-            eval "$(${lib.getExe cfg.package} init bash ${escapeShellArgs cfg.flags})"
-          fi
-        '';
-        programs.zsh.interactiveShellInit = lib.mkIf cfg.enableZshIntegration ''
-          if [[ $options[zle] = on ]]; then
-            eval "$(${lib.getExe cfg.package} init zsh ${escapeShellArgs cfg.flags})"
-          fi
-        '';
       };
+      programs.bash.interactiveShellInit = lib.mkIf cfg.enableBashIntegration ''
+        if [[ :$SHELLOPTS: =~ :(vi|emacs): ]]; then
+          eval "$(${lib.getExe cfg.package} init bash ${escapeShellArgs cfg.flags})"
+        fi
+      '';
+      programs.zsh.interactiveShellInit = lib.mkIf cfg.enableZshIntegration ''
+        if [[ $options[zle] = on ]]; then
+          eval "$(${lib.getExe cfg.package} init zsh ${escapeShellArgs cfg.flags})"
+        fi
+      '';
     };
   };
 }
