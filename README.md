@@ -1,83 +1,100 @@
 # Dendritic nix flake
 
-Uses flake-parts to make every file under modules/ a module
+Uses flake-parts to make every file under `modules/` a flake module.
 
 ## Services
 
-|   Service       | Machine | Port  | Subdomain | Private |
-| :-------------: | :-----: | :---: | :-------: | :-----: |
-|    anki         |  u410   | 27701 |    anki   |    n    |
-|    atticd       |  u410   | 27702 |   cache   |    n    |
-|    atuin        |  u410   | 8888  |   atuin   |    n    |
-| audiobookshelf  |  -      | -     |  -        |    -    |
-|   bazarr        |  u410   | 6767  |  bazarr   |    y    |
-|    caddy        |  oracle |  -    |     @     |    n    |
-| calibre-web     |  u410   | 8083  |   books   |    n    |
-| cockpit         |  u410   | 9090  |   dash    |    y    |
-| code-server     |  oracle | 4444  |   code    |    y    |
-| copyparty       |  u410   | 3210  |   files   |    y    |
-|   forgejo       |  u410   | 3000  |    git    |    n    |
-|   Immich        |  u410   | 2283  |  photos   |    n    |
-|  Jellyfin       |  u410   | 8096  |   media   |    n    |
-|   lidarr        |  u410   | 8686  |  lidarr   |    y    |
-| linkwarden      |  u410   | 9183  |   link    |    y    |
-|   mealie        |  u410   | 9876  |  cooking  |    n    |
-|  navidrome      |  u410   | 4533  |   music   |    n    |
-|    ntfy         |  u410   | 4198  |   ntfy    |    n    |
-|  prowlarr       |  u410   | 9696  | prowlarr  |    y    |
-| qbittorrent     |  u410   | 4095  |   qbit    |    y    |
-|   radarr        |  u410   | 7878  |  radarr   |    y    |
-|  seerr          |  u410   | 5055  |   seerr   |    y    |
-|    slskd        |  u410   | 5030  |   slskd   |    y    |
-|   sonarr        |  u410   | 8989  |  sonarr   |    y    |
-|  syncthing      |  u410   | 8384  |   sync    |    y    |
-| vaultwarden     |  s340   | 8222  |   vault   |    n    |
+Registry: `modules/homelab/hlServices.nix` — a host of `-` means the service
+module exists but is not enabled on any machine. `private` services are only
+reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 
-Modules that bundle other modules are prefixed with \_ to distinguish them
+<!-- services-table:start -->
+|     Service      |  Machine  |  Port   |  Subdomain  |  Private  |
+| :--------------: | :-------: | :-----: | :---------: | :-------: |
+|       anki       |     -     |  27701  |    anki     |     n     |
+|      atticd      |  oracle   |  27702  |    cache    |     n     |
+|      atuin       |   u410    |  8888   |    atuin    |     n     |
+|  audiobookshelf  |     -     |  8000   |    audio    |     y     |
+|      bazarr      |   u410    |  6767   |   bazarr    |     y     |
+|      caddy       |  oracle   |    -    |      -      |     y     |
+|     calibre      |  oracle   |  8083   |    books    |     n     |
+|     cockpit      |     -     |  9090   |    dash     |     y     |
+|   code-server    |     -     |  4444   |    code     |     y     |
+|    copyparty     |   u410    |  3210   |    files    |     y     |
+|     forgejo      |   u410    |  3000   |     git     |     n     |
+|      immich      |   u410    |  2283   |   photos    |     n     |
+|     jellyfin     |   u410    |  8096   |    media    |     n     |
+|      lidarr      |   u410    |  8686   |   lidarr    |     y     |
+|    linkwarden    |   u410    |  9183   |    link     |     n     |
+|      mealie      |   u410    |  9876   |   cooking   |     n     |
+|    navidrome     |   u410    |  4533   |    music    |     n     |
+|    nextcloud     |     -     |    -    |      -      |     y     |
+|       ntfy       |  oracle   |  4198   |    ntfy     |     n     |
+|     prowlarr     |   u410    |  9696   |  prowlarr   |     y     |
+|   qbittorrent    |   u410    |  7877   |   torrent   |     y     |
+|      radarr      |   u410    |  7878   |   radarr    |     y     |
+|      seerr       |   u410    |  5055   |    seerr    |     y     |
+|      slskd       |   u410    |  5030   |    slskd    |     y     |
+|      sonarr      |   u410    |  8989   |   sonarr    |     y     |
+|       site       |  oracle   |  8090   |    site     |     y     |
+|     stirling     |     -     |  8998   |     pdf     |     y     |
+|     terraria     |     -     |  4197   |  terraria   |     n     |
+|   vaultwarden    |  oracle   |  8222   |    vault    |     n     |
+<!-- services-table:end -->
 
-## Nixos
+Public `*.akhlus.uk` hosts and private `*.ts.akhlus.uk` hosts are reverse
+proxied by Caddy on `oracle` over the tailnet. Modules that bundle other
+modules are prefixed with `_`.
 
-- boot: systemd bootloader
-- calibre: calibre web and server installs for homelab
-- cli: collection of useful cli tools (see /parts/programs/cli)
-- gnome: Gnome desktop environment config
-- hm: sets up home-manager
-- nautilis: Gnome file manager setup
-- networking: networking config
-- plasma: KDE setup
-- services: sets up services for desktop Uses
-- ssh
-- steam
-- system: misc system config (i18n etc)
-- user: sets up user account and groups
-- vscode: enables vscode
+## Layout
 
-- \_minimal: minimal installs
-- \_server: collection of modules for home server
-- \_default: collection of modules for desktop uses (no DE)
-- \_mobile: collection of modules for use with mobile-nixos (no DE)
-- \_plasma: installs plasma with HM configuration
-- \_gnome: installs gnome with HM configuration
+- `modules/hosts/`: host definitions (`self.hosts` metadata) and per-host
+  hardware/config, plus `self.lib.mkNixos` / `mkDarwin` / `mkMobile`.
+- `modules/homelab/`: homelab service modules and the `server` bundle that
+  auto-imports services by their registered host.
+- `modules/system/`: shared system modules (ssh, sops, users, networking,
+  tailscale, syncthing, boot, fail2ban).
+- `modules/cli/`, `modules/gui/`, `modules/de/`: CLI tools, GUI apps and
+  desktop environments (incl. macOS).
+- `modules/nixvim/`: Neovim (nixvim) configuration.
+- `modules/flake-parts/`, `modules/types/`, `modules/options/`: flake
+  plumbing and option definitions.
+- `nix-secrets/`: sops-encrypted secrets (see below).
+
+## Secrets
+
+Secrets live in `nix-secrets/secrets.yaml`, sops-encrypted with per-machine
+age keys (see `nix-secrets/.sops.yaml`). The default sops file is wired up in
+`modules/system/sops.nix`.
 
 ## Binary cache
 
-`u410` runs Attic at `https://cache.akhlus.uk/`. Forgejo Actions updates `flake.lock` daily, builds every `nixosConfiguration` plus Linux packages exposed by the flake, and pushes the closures to the public `dendrix` cache. Pushes to the repository also rebuild and upload the current outputs. Newer pushes cancel older in-progress cache workflows.
+`u410` runs Attic at `https://cache.akhlus.uk/`. Forgejo Actions updates
+`flake.lock` daily, builds every `nixosConfiguration` plus Linux packages
+exposed by the flake, and pushes the closures to the public `dendrix` cache.
+Pushes to the repository also rebuild and upload the current outputs.
 
-The server needs a SOPS secret named `atticd/env` containing:
+The server needs a SOPS secret named `atticd-env` containing:
 
 ```sh
 ATTIC_SERVER_TOKEN_RS256_SECRET_BASE64=<openssl genrsa -traditional 4096 | base64 -w0>
 ```
 
-After deploying `u410`, create a Forgejo cache token and store it as the repository secret `ATTIC_TOKEN`:
+After deploying, create a Forgejo cache token and store it as the repository
+secret `ATTIC_TOKEN`:
 
 ```sh
 sudo atticd-atticadm make-token --sub forgejo-cache --validity 1y --pull dendrix --push dendrix --create-cache dendrix --configure-cache dendrix --configure-cache-retention dendrix
 ```
 
-Forgejo runs on `u410`, so `x86_64-linux` outputs build locally in the runner and `aarch64-linux` outputs use `u410`'s daemon-level Oracle builder configuration. The Nix daemon on `u410` must be able to SSH to Oracle non-interactively as `sam@oracle`, and the `sam` user on Oracle must be allowed to use Nix remotely.
+Forgejo runs on `u410`, so `x86_64-linux` outputs build locally in the runner
+and `aarch64-linux` outputs use `u410`'s daemon-level Oracle builder
+configuration. The Nix daemon on `u410` must be able to SSH to Oracle
+non-interactively as `sam@oracle`, and the `sam` user on Oracle must be
+allowed to use Nix remotely.
 
-To use the cache before switching a machine, create a pull token and configure the local Nix client once:
+To use the cache before switching a machine, create a pull token and configure
+the local Nix client once:
 
 ```sh
 sudo atticd-atticadm make-token --sub sam --validity 1y --pull dendrix
@@ -93,39 +110,8 @@ sudo nixos-rebuild switch --flake ~/dendrix#u410
 
 Cache entries are configured with a `3 days` retention period by the workflow.
 
-## Darwin
+## Remote builders
 
-- aerospace: tiling WM
-- brew: homebrew setup
-- cli: collection of cli tools
-- hm: home-manager setup
-- networking
-- ssh
-- system
-- user
-
-- \_default: enables all these modules
-
-## home
-
-- cli
-- cliLinux: extension of cli with linux specific tools
-- cosmetic: provides theme and background management
-- cursor: changes mouse cursor
-- fonts: sets up fonts
-- ghostty
-- gnome: configures dconf
-- plasma: uses plasma-manager to configure KDE
-- ssh
-- standalone: configures home-manager only install
-- vscode
-- xournal
-- zed
-
-- minPkgs: minimal packages sets
-- linuxMinPkgs: minimal packages for linux
-- extraPackages: additional packages including second browser etc
-- extraLinuxPkgs: adds wider range of linux packages including full office suit
-
-- \_minimal: min install for home-manager system
-- \_linuxMinimal: linux minimal install
+`modules/nix.nix` configures remote build machines (`oracle`, `u410`, `mba`).
+Each entry pins the SSH host key (`publicHostKey`) so builds are
+non-interactive and MITM-resistant.

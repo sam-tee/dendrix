@@ -16,10 +16,10 @@ rather than in the generated root flake.
   supported systems and the `alejandra` formatter.
 - `modules/flake-parts/lib.nix`: helper constructors for NixOS, Darwin, mobile,
   and Home Manager configurations.
-- `modules/bundles.nix`: shared module bundles such as `_minimal`, `_default`,
-  `_serverMin`, and Home Manager minimal bundles.
 - `modules/hosts/`: host-specific configuration and flake outputs.
 - `modules/homelab/`: homelab services and service metadata.
+- `modules/system/`: shared system modules (ssh, sops, users, networking,
+  tailscale, syncthing, fail2ban).
 - `.forgejo/workflows/cache.yml`: Forgejo cache/build workflow.
 
 ## Conventions
@@ -33,15 +33,16 @@ rather than in the generated root flake.
 - Keep hardware, disk, and host-specific service placement in `modules/hosts/`.
 - Keep reusable service logic in `modules/homelab/`, `modules/system/`,
   `modules/gui/`, `modules/cli/`, or the relevant shared module directory.
-- Secrets are managed through `sops-nix`; the default secrets source is the
-  private `nix-secrets` flake input declared from `modules/system/sops.nix`.
+- Secrets are managed through `sops-nix`; the secrets file is
+  `nix-secrets/secrets.yaml`, encrypted with age and committed to this repo
+  (see `nix-secrets/.sops.yaml` for recipients). Do not edit secrets directly, instead inform the user what to change. 
 
 ## Useful Commands
 
-Format Nix files:
+Format all Nix files:
 
 ```sh
-nix fmt
+nix fmt .
 ```
 
 Regenerate the generated root flake after changing flake-file inputs:
@@ -73,13 +74,11 @@ ssh <hostname>
 Known hostnames are:
 
 - `a3`
-- `deck`
 - `duet`
 - `duet3`
 - `hp`
 - `mba`
 - `oracle`
-- `prometheus`
 - `s340`
 - `u410`
 
