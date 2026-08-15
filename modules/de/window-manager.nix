@@ -15,7 +15,10 @@
           xwayland-satellite
         ];
       };
-      services.gnome.gnome-keyring.enable = true;
+      services.gnome = {
+        gnome-keyring.enable = true;
+        gcr-ssh-agent.enable = false;
+      };
       security.polkit.enable = true;
       xdg.portal = {
         enable = true;

@@ -51,9 +51,9 @@
     };
     nixos = {
       default = self.modules.nixos.zsh;
-      zsh = _: {
+      zsh = {lib, ...}: {
         imports = [self.modules.generic.zsh];
-        programs.ssh.startAgent = true;
+        programs.ssh.startAgent = lib.mkDefault true;
         programs.zsh = {
           autosuggestions.enable = true;
           syntaxHighlighting.enable = true;

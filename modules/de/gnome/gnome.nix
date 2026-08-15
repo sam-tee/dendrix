@@ -36,5 +36,6 @@
       };
       udev.packages = [pkgs.gnome-settings-daemon];
     };
+    programs.ssh.startAgent = false;
   };
 }

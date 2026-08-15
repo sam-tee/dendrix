@@ -133,7 +133,7 @@ in {
           hl.bind(Mod .. " + ALT + mouse:272", hl.dsp.window.resize(), { mouse = true })
 
           hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(noct .. " volume-up"), { non_consuming = true })
-          hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(noct .. " volume-doun"), { non_consuming = true })
+          hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(noct .. " volume-down"), { non_consuming = true })
           hl.bind("XF86AudioMute", hl.dsp.exec_cmd(noct .. " volume-mute"), { non_consuming = true })
           hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(noct .. " mic-mute"), { non_consuming = true })
           hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(noct .. " brightness-up"), { non_consuming = true })
