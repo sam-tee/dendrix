@@ -34,7 +34,7 @@
         protocol = "ssh-ng";
         sshUser = "sam";
         sshKey = config.sops.secrets."ssh/u410".path;
-        publicHostKey = "";
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEB1NDEwCg==";
         maxJobs = 2;
         speedFactor = 1;
         supportedFeatures = [
@@ -50,7 +50,7 @@
         protocol = "ssh-ng";
         sshUser = "sam";
         sshKey = config.sops.secrets."ssh/mba".path;
-        publicHostKey = "";
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU5IV3c1Y3dXekpmRytacVZXb1N0T2JpZGd1c2NPUCtMeFJhUVE5bnJTcnAgcm9vdEBtYmEK";
         maxJobs = 4;
         speedFactor = 1;
         supportedFeatures = [

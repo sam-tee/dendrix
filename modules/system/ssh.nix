@@ -21,7 +21,6 @@ in {
     };
     darwin.default = self.modules.darwin.ssh;
     darwin.ssh = _: {
-      #environment.variables.SSH_AUTH_SOCK = "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
       services.openssh = {
         enable = true;
         extraConfig = ''
@@ -56,7 +55,13 @@ in {
         })
         |> builtins.listToAttrs;
     };
-    hjem.ssh = {lib, ...}: {
+    hjem.ssh = {lib, ...}: let
+      sshHosts =
+        self.hosts
+        |> lib.filterAttrs (_: host: host.hostType == "nixos" || host.hostType == "darwin")
+        |> builtins.attrNames
+        |> builtins.sort lib.lessThan;
+    in {
       files =
         (self.hosts
           |> builtins.mapAttrs (name: value: {
@@ -73,23 +78,26 @@ in {
                 Port ${port}
                 User ${user}
             '';
-            mkHost = host: mkBlock host "sam" "2222" host;
+            mkHost = name: let
+              host = self.hosts.${name};
+              port =
+                if host.hostType == "darwin"
+                then "22"
+                else "2222";
+            in
+              mkBlock name host.username port name;
           in
-            lib.concatLines [
-              (mkHost "a3")
-              (mkHost "duet3")
-              (mkHost "hp")
-              (mkBlock "mba" "sam" "22" "mba")
-              (mkHost "oracle")
-              (mkHost "s340")
-              (mkHost "u410")
-              (mkBlock "github.com" "git" "22" "git")
-              (mkBlock "git-ssh.akhlus.uk" "forgejo" "2222" "git")
-              ''
-                Host *
-                  SendEnv ${envVar}
-              ''
-            ];
+            lib.concatLines (
+              (map mkHost sshHosts)
+              ++ [
+                (mkBlock "github.com" "git" "22" "git")
+                (mkBlock "git-ssh.akhlus.uk" "forgejo" "2222" "git")
+                ''
+                  Host *
+                    SendEnv ${envVar}
+                ''
+              ]
+            );
         };
     };
   };
