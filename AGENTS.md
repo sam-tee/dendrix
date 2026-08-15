@@ -63,6 +63,12 @@ Switch a NixOS host:
 sudo nixos-rebuild switch --flake ~/dendrix#<hostname>
 ```
 
+Deploy a host:
+
+```sh
+nhw -H <hostname> -R
+```
+
 ## Machine Access
 
 Each machine is accessible over SSH by running:

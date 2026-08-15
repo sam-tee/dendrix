@@ -13,7 +13,7 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 | :--------------: | :-------: | :-----: | :---------: | :-------: |
 |       anki       |     -     |  27701  |    anki     |     n     |
 |      atticd      |  oracle   |  27702  |    cache    |     n     |
-|      atuin       |   u410    |  8888   |    atuin    |     n     |
+|      atuin       |  oracle   |  8888   |    atuin    |     n     |
 |  audiobookshelf  |     -     |  8000   |    audio    |     y     |
 |      bazarr      |   u410    |  6767   |   bazarr    |     y     |
 |      caddy       |  oracle   |    -    |      -      |     y     |
@@ -21,12 +21,12 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 |     cockpit      |     -     |  9090   |    dash     |     y     |
 |   code-server    |     -     |  4444   |    code     |     y     |
 |    copyparty     |   u410    |  3210   |    files    |     y     |
-|     forgejo      |   u410    |  3000   |     git     |     n     |
+|     forgejo      |  oracle   |  3000   |     git     |     n     |
 |      immich      |   u410    |  2283   |   photos    |     n     |
 |     jellyfin     |   u410    |  8096   |    media    |     n     |
 |      lidarr      |   u410    |  8686   |   lidarr    |     y     |
 |    linkwarden    |   u410    |  9183   |    link     |     n     |
-|      mealie      |   u410    |  9876   |   cooking   |     n     |
+|      mealie      |  oracle   |  9876   |   cooking   |     n     |
 |    navidrome     |   u410    |  4533   |    music    |     n     |
 |    nextcloud     |     -     |    -    |      -      |     y     |
 |       ntfy       |  oracle   |  4198   |    ntfy     |     n     |
