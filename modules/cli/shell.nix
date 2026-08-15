@@ -24,6 +24,11 @@
           zsh
         ];
       };
+      programs.ssh.extraConfig = ''
+        AddKeysToAgent yes
+        IdentityFile ~/.ssh/keys/git
+        IdentityFile ~/.ssh/keys/git-sign
+      '';
       programs.zsh = {
         enable = true;
         histFile = "$HOME/.config/zsh/history";
@@ -48,6 +53,7 @@
       default = self.modules.nixos.zsh;
       zsh = _: {
         imports = [self.modules.generic.zsh];
+        programs.ssh.startAgent = true;
         programs.zsh = {
           autosuggestions.enable = true;
           syntaxHighlighting.enable = true;
