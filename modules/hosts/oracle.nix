@@ -21,10 +21,6 @@ in {
           immich
         ];
         homelab.domain = "akhlus.uk";
-        services.immich.database = {
-          user = "media";
-          name = "media";
-        };
       };
 
       oracleHardware = {

@@ -5,7 +5,7 @@
     pkgs,
     ...
   }: let
-    inherit (config.homelab) dataDir domain group;
+    inherit (config.homelab) dataDir domain;
     inherit (self.services.atticd) port subdomain;
     inherit (lib) singleton;
     atticDir = "${dataDir}/attic";
@@ -15,7 +15,6 @@
     services = {
       atticd = {
         enable = true;
-        inherit group;
         environmentFile = config.sops.secrets."atticd-env".path;
         settings = {
           listen = "0.0.0.0:${toString port}";
@@ -45,7 +44,7 @@
     };
     systemd = {
       services.atticd.serviceConfig.ReadWritePaths = singleton dataDir;
-      tmpfiles.rules = singleton "d ${atticDir} 0775 atticd ${group} -";
+      tmpfiles.rules = singleton "d ${atticDir} 0775 atticd atticd -";
     };
     environment.systemPackages = singleton pkgs.attic-client;
   };

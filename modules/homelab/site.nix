@@ -134,7 +134,5 @@
         '';
       };
     };
-
-    networking.firewall.allowedTCPPorts = [port];
   };
 }

@@ -30,7 +30,6 @@
 in {
   flake.modules = {
     darwin.default = self.modules.generic.syncthing;
-    nixos.default = self.modules.generic.syncthing;
     generic.syncthing = {
       config,
       username,
@@ -54,6 +53,29 @@ in {
         settings = {
           gui.user = "sam";
           inherit devices folders;
+        };
+      };
+    };
+    nixos = {
+      default = self.modules.generic.syncthing;
+      caddy = {
+        config,
+        lib,
+        ...
+      }: {
+        imports = [self.modules.generic.syncthing];
+        services.caddy = {
+          virtualHosts =
+            devices
+            |> lib.mapAttrs' (hostname: _: let
+              fqdn = "${hostname}.ts.${config.homelab.domain}";
+            in
+              lib.nameValuePair fqdn {
+                useACMEHost = config.homelab.domain;
+                extraConfig = ''
+                  reverse_proxy http://${hostname}.scylla-goblin.ts.net:8384
+                '';
+              });
         };
       };
     };
