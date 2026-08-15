@@ -23,11 +23,11 @@ in {
           bat
           btop
           direnv
+          dua
           eza
           fzf
           lazygit
           nano
-          ncdu
           nixd
           ripgrep
           speedtest-cli

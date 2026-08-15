@@ -6,7 +6,7 @@
   in {
     anki = mkService 27701 "" false "anki";
     atticd = mkService 27702 "oracle" false "cache";
-    atuin = mkService 8888 "u410" false "atuin";
+    atuin = mkService 8888 "oracle" false "atuin";
     audiobookshelf = mkService 8000 "" true "audio";
     bazarr = mkService 6767 "u410" true "bazarr";
     caddy = mkService 0 "oracle" true "";
@@ -14,12 +14,12 @@
     cockpit = mkService 9090 "" true "dash";
     code-server = mkService 4444 "" true "code";
     copyparty = mkService 3210 "u410" true "files";
-    forgejo = mkService 3000 "u410" false "git";
+    forgejo = mkService 3000 "oracle" false "git";
     immich = mkService 2283 "u410" false "photos";
     jellyfin = mkService 8096 "u410" false "media";
     lidarr = mkService 8686 "u410" true "lidarr";
     linkwarden = mkService 9183 "u410" false "link";
-    mealie = mkService 9876 "u410" false "cooking";
+    mealie = mkService 9876 "oracle" false "cooking";
     navidrome = mkService 4533 "u410" false "music";
     nextcloud = mkService 0 "" true "";
     ntfy = mkService 4198 "oracle" false "ntfy";

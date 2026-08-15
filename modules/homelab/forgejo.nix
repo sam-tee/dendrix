@@ -7,7 +7,6 @@
     cfg = config.services.forgejo;
     hl = config.homelab;
     inherit (hl) email;
-    sshPort = lib.head config.services.openssh.ports;
     inherit (self.services.forgejo) port subdomain;
     domain = "${subdomain}.${hl.domain}";
   in {
@@ -18,7 +17,7 @@
       "forgejo/databasePwd".owner = cfg.database.user;
       smtpPwd.owner = cfg.user;
     };
-    services.openssh.settings.AcceptEnv = ["GIT_PROTOCOL"];
+    networking.firewall.allowedTCPPorts = [22];
     services.forgejo = {
       enable = true;
       stateDir = "${hl.dataDir}/git";
@@ -46,8 +45,9 @@
           HTTP_ADDR = "0.0.0.0";
           HTTP_PORT = port;
           LANDING_PAGE = "/sam-tee";
-          SSH_PORT = sshPort;
-          SSH_DOMAIN = "git-ssh.${hl.domain}";
+          START_SSH_SERVER = true;
+          SSH_PORT = 22;
+          SSH_DOMAIN = domain;
           DISABLE_SSH = false;
         };
         service = {
@@ -62,5 +62,10 @@
     systemd.services.forgejo.preStart = ''
       ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
     '';
+    systemd.services.forgejo.serviceConfig = {
+      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+      CapabilityBoundingSet = lib.mkForce ["CAP_NET_BIND_SERVICE"];
+      PrivateUsers = lib.mkForce false;
+    };
   };
 }

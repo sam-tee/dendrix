@@ -91,7 +91,7 @@ in {
               (map mkHost sshHosts)
               ++ [
                 (mkBlock "github.com" "git" "22" "git")
-                (mkBlock "git-ssh.akhlus.uk" "forgejo" "2222" "git")
+                (mkBlock "git.akhlus.uk" "forgejo" "22" "git")
                 ''
                   Host *
                     SendEnv ${envVar}
