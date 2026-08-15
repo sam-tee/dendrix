@@ -16,6 +16,7 @@
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;
+      smtpPwd.owner = cfg.user;
     };
     services.openssh.settings.AcceptEnv = ["GIT_PROTOCOL"];
     services.forgejo = {
@@ -55,7 +56,7 @@
           REGISTER_EMAIL_CONFIRM = true;
           DEFAULT_KEEP_EMAIL_PRIVATE = true;
         };
-        log.LEVEL = "Trace";
+        log.LEVEL = "Info";
       };
     };
     systemd.services.forgejo.preStart = ''

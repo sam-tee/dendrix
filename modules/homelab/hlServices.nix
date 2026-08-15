@@ -32,6 +32,6 @@
     site = mkService 8090 "oracle" true "site";
     stirling = mkService 8998 "" true "pdf";
     terraria = mkService 4197 "" false "terraria";
-    vaultwarden = mkService 8222 "oracle" true "vault";
+    vaultwarden = mkService 8222 "oracle" false "vault";
   };
 }

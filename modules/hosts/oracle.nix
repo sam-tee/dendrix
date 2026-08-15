@@ -18,7 +18,6 @@ in {
           server
           oracleHardware
           oracleDisko
-          immich
         ];
         homelab.domain = "akhlus.uk";
       };

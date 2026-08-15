@@ -31,7 +31,7 @@
         i = "0.0.0.0";
         no-reload = true;
         p = [port];
-        xff-src = "100.64.0.0/10";
+        xff-src = "100.75.222.43/32"; # oracle's tailnet IP (the only reverse proxy)
         xff-hdr = "x-forwarded-for";
         rproxy = 1;
       };

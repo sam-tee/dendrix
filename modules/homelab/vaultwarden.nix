@@ -11,7 +11,8 @@
       environmentFile = config.sops.secrets."vaultwarden.env".path;
       config = {
         DOMAIN = "https://${subdomain}.${domain}";
-        SIGNUPS_ALLOWED = true;
+        SIGNUPS_ALLOWED = false;
+        INVITATIONS_ALLOWED = true;
         ROCKET_ADDRESS = "0.0.0.0";
         ROCKET_PORT = port;
         SMTP_HOST = host;

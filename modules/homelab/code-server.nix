@@ -3,7 +3,6 @@
     inherit (config.homelab) group user;
     inherit (self.services.code-server) port;
   in {
-    networking.firewall.allowedTCPPorts = [port];
     services.code-server = {
       enable = true;
       host = "0.0.0.0";

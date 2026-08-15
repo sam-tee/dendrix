@@ -11,9 +11,9 @@
       configureRedis = true;
       maxUploadSize = "16G";
       https = true;
-      settings.trusted_domains = ["*.akhlus.uk" "192.168.10.0/24" "*.scylla-goblin.ts.net"];
+      settings.trusted_domains = ["u410" "localhost" "192.168.10.0/24" "u410.scylla-goblin.ts.net"];
       config = {
-        dbtype = "sqlite";
+        dbtype = "pgsql";
         adminuser = "admin";
         adminpassFile = config.sops.secrets."nextcloud/adminPwd".path;
       };
