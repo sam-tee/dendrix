@@ -11,19 +11,25 @@
 }:
 hyprlandPlugins.mkHyprlandPlugin {
   pluginName = "hyprgrass";
-  version = "0.55.2";
+  version = "0.56.1";
 
   src = fetchFromGitHub {
     owner = "horriblename";
     repo = "hyprgrass";
-    tag = "hl-0.55.2";
-    hash = "sha256-5YU8CV5/tjgyO9V8MJQ0h5OlshpM+e39QZj8lBfTJRU=";
+    rev = "1a8e258f33d44959468f65087dd9f0c789fe99d0";
+    hash = "sha256-r0kKcEid5NcolUgfE7rI1TT3VAMxrnjqzGLIVs/lbI8=";
   };
 
   nativeBuildInputs = [cmake ninja meson doctest];
 
   buildInputs = [
     (wf-touch.overrideAttrs (oldAttrs: {
+      src = fetchFromGitHub {
+        owner = "WayfireWM";
+        repo = "wf-touch";
+        rev = "8974eb0f6a65464b63dd03b842795cb441fb6403";
+        hash = "sha256-MjsYeKWL16vMKETtKM5xWXszlYUOEk3ghwYI85Lv4SE=";
+      };
       mesonFlags = (oldAttrs.mesonFlags or []) ++ ["-Dtests=disabled"];
     }))
   ];
