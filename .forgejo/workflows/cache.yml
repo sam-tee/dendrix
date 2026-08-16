@@ -44,23 +44,13 @@ jobs:
 
           attic login --set-default "$ATTIC_CACHE" "$ATTIC_ENDPOINT" "$token"
 
-      - name: Build linux flake packages
+      - name: Build and Cache Linux packages and systems
         run: |
           nix run github:mic92/nix-fast-build -- \
             --flake .#packages \
             --systems "x86_64-linux aarch64-linux" \
             --skip-cached \
-            --attic-cache "$ATTIC_CACHE" \
-            --no-link
-
-      - name: Build NixOS configurations
-        run: |
-          nix run github:mic92/nix-fast-build -- \
-            --flake .#nixosConfigurations \
-            --select 'configs: builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) configs' \
-            --skip-cached \
-            --attic-cache "$ATTIC_CACHE" \
-            --no-link
+            --attic-cache "$ATTIC_CACHE"
 
       - name: Update README services table
         run: |

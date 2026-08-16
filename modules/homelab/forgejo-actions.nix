@@ -19,6 +19,7 @@
           bash
           coreutils
           curl
+          gawk
           git
           jq
           nix

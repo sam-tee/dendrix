@@ -84,7 +84,7 @@ in {
             "https://noctalia.cachix.org"
           ];
           extra-trusted-public-keys = [
-            "dendrix:MU7iD1cgxI5AAzaiuRCVRL3z7//2uRS+k5ZTKZX0HUk="
+            "dendrix:lYCtmFj4pkP8VyJq0LryToQfVAXpMcRou8wPFKOw2xI="
             "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
           ];
           flake-registry = "";

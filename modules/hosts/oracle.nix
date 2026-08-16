@@ -13,13 +13,14 @@ in {
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      ${hostname} = _: {
+      ${hostname} = {pkgs, ...}: {
         imports = with self.modules.nixos; [
           server
           oracleHardware
           oracleDisko
         ];
         homelab.domain = "akhlus.uk";
+        environment.systemPackages = [pkgs.ffmpeg-headless];
       };
 
       oracleHardware = {
