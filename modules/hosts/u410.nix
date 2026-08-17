@@ -25,7 +25,7 @@ in {
         environment = {
           sessionVariables = {inherit LIBVA_DRIVER_NAME;};
           systemPackages = with pkgs; [
-            (ffmpeg-full.override {withUnfree = true;})
+            ffmpeg-headless
             spotdl
             yt-dlp
           ];

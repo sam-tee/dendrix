@@ -21,7 +21,7 @@ in {
           battery
         ];
         environment.systemPackages = with pkgs; [
-          (ffmpeg-full.override {withUnfree = true;})
+          ffmpeg-headless
           uv
         ];
         hardware.graphics = {
