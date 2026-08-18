@@ -21,6 +21,7 @@ in {
           u410Hardware
           battery
         ];
+        services.tailscale.extraSetFlags = ["--advertise-routes=192.168.1.0/24"];
 
         environment = {
           sessionVariables = {inherit LIBVA_DRIVER_NAME;};
