@@ -5,6 +5,7 @@
     services.calibre-web = {
       enable = true;
       inherit group user;
+      dataDir = "${dataDir}/calibre-web";
       listen = {
         ip = "0.0.0.0";
         inherit (self.services.calibre) port;

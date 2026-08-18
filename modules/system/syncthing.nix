@@ -9,6 +9,10 @@
     |> builtins.mapAttrs (_: value: {
       id = value.syncID;
     });
+  allDevices =
+    self.hosts
+    |> lib.filterAttrs (_: value: (value.syncID or "") != "")
+    |> builtins.attrNames;
   allFolders = {
     project_data = {
       path = "~/data";
@@ -24,7 +28,11 @@
     };
     Docs = {
       path = "~/Documents";
-      devices = ["a3" "duet3" "hp" "mba" "oracle" "s340" "u410"];
+      devices = allDevices;
+    };
+    opencode = {
+      path = "~/.config/opencode";
+      devices = allDevices;
     };
   };
 in {

@@ -4,6 +4,7 @@
     services.anki-sync-server = {
       address = "0.0.0.0";
       enable = true;
+      baseDirectory = config.homelab.dataDir;
       users = [
         {
           username = "sam";

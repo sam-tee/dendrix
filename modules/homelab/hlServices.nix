@@ -7,7 +7,7 @@
     anki = mkService 27701 "" false "anki";
     atticd = mkService 27702 "oracle" false "cache";
     atuin = mkService 8888 "oracle" false "atuin";
-    audiobookshelf = mkService 8000 "" true "audio";
+    audiobookshelf = mkService 8000 "oracle" true "audio";
     bazarr = mkService 6767 "u410" true "bazarr";
     caddy = mkService 0 "oracle" true "";
     calibre = mkService 8083 "oracle" false "books";

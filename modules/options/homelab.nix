@@ -19,7 +19,7 @@
       };
       dataDir = lib.mkOption {
         type = lib.types.str;
-        default = "/var/lib";
+        default = "/mnt/data";
         description = "Base directory to save data to";
       };
       email = {
