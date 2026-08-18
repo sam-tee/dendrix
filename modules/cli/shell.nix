@@ -4,21 +4,28 @@
       lib,
       pkgs,
       ...
-    }: {
+    }: let
+      shellAliases = {
+        "l" = "eza --icons auto -l --group-directories-first";
+        "ls" = "l -a";
+        "lt" = "l -aT --level=2";
+        "ltt" = "l -T";
+        "lg" = "lazygit";
+        "py" = "python3";
+        ".." = "cd ..";
+        "..." = "cd ../..";
+        "...." = "cd ../../..";
+        "md" = "mkdir -p";
+      };
+      strShellAliases =
+        shellAliases
+        |> lib.filterAttrs (k: v: v != null)
+        |> lib.mapAttrsToList (k: v: "alias -- ${k}=${lib.escapeShellArg v}")
+        |> builtins.concatStringsSep "\n";
+    in {
       environment = {
         variables.ZDOTDIR = "$HOME/.config/zsh";
-        shellAliases = {
-          "l" = "eza --icons auto -l --group-directories-first";
-          "ls" = "l -a";
-          "lt" = "l -aT --level=2";
-          "ltt" = "l -T";
-          "lg" = "lazygit";
-          "py" = "python3";
-          ".." = "cd ..";
-          "..." = "cd ../..";
-          "...." = "cd ../../..";
-          "md" = "mkdir -p";
-        };
+        inherit shellAliases;
         systemPackages = with pkgs; [
           jq
           zsh
@@ -35,6 +42,8 @@
         histSize = 10000;
         enableCompletion = true;
         interactiveShellInit = lib.mkAfter ''
+          ${strShellAliases}
+
           jsonfmt() {
             if [ -z "$1" ]; then
               echo "Usage: formatjson <filename.json>"
