@@ -14,7 +14,7 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 |       anki       |     -     |  27701  |    anki     |     n     |
 |      atticd      |  oracle   |  27702  |    cache    |     n     |
 |      atuin       |  oracle   |  8888   |    atuin    |     n     |
-|  audiobookshelf  |     -     |  8000   |    audio    |     y     |
+|  audiobookshelf  |  oracle   |  8000   |    audio    |     y     |
 |      bazarr      |   u410    |  6767   |   bazarr    |     y     |
 |      caddy       |  oracle   |    -    |      -      |     y     |
 |     calibre      |  oracle   |  8083   |    books    |     n     |
