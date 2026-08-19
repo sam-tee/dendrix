@@ -39,31 +39,40 @@ rather than in the generated root flake.
 
 ## Useful Commands
 
-Format all Nix files:
+### Format all Nix files:
 
 ```sh
 nix fmt .
 ```
 
-Regenerate the generated root flake after changing flake-file inputs:
+### Regenerate the generated root flake after changing flake-file inputs:
 
 ```sh
 nix run .#write-flake
 ```
 
-Build/check a NixOS configuration:
+### Build/check a NixOS configuration:
 
 ```sh
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 ```
 
-Switch a NixOS host:
+### Build a package:
+
+```sh
+nix build .#packages.<hostPlatform>.<package>
+```
+always use the hostPlatform of the machine you are running on unless 
+the package is not available for that platform, where you should fall
+back to x86_64-linux
+
+### Switch a NixOS host:
 
 ```sh
 sudo nixos-rebuild switch --flake ~/dendrix#<hostname>
 ```
 
-Deploy a host:
+### Deploy a host:
 
 ```sh
 nhw -H <hostname> -R
@@ -80,7 +89,6 @@ ssh <hostname>
 Known hostnames are:
 
 - `a3`
-- `duet`
 - `duet3`
 - `hp`
 - `mba`
@@ -91,9 +99,8 @@ Known hostnames are:
 ## Homelab Notes
 
 - Main domain: `akhlus.uk`.
-- `u410` hosts most homelab services and runs the public Attic cache at
-  `https://cache.akhlus.uk/`.
+- `u410` hosts data-heavy services and serves as `x86_64-linux` builder
 - `oracle` handles Caddy and selected services, and is also used as an
   `aarch64-linux` builder by `u410`.
-- Forgejo runs on `u410`; workflows build flake outputs and push closures to the
+- Forgejo runs on `oracle`; workflows build flake outputs and push closures to the
   public `dendrix` Attic cache.
