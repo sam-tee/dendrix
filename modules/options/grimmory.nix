@@ -97,6 +97,10 @@
         after = ["mysql.service"];
         requires = ["mysql.service"];
         path = [pkgs.mariadb pkgs.coreutils pkgs.gnused];
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = 10;
+        };
         script = ''
           set -euo pipefail
           managed='${managedPasswordFile}'
@@ -133,15 +137,19 @@
             ''
           }
           pw="$(sed -n 's/^SPRING_DATASOURCE_PASSWORD=//p' "$managed" | head -n1)"
-          pw_sql="$(printf '%s' "$pw" | sed "s/'/'''/g")"
+          # Escape for a MySQL single-quoted string literal: backslashes
+          # first (the default SQL mode treats backslash as an escape
+          # character), then double each single quote (SQL quote escaping),
+          # which also prevents statement breakout via a crafted password.
+          pw_sql="$(printf '%s' "$pw" | sed -e 's/\\/\\\\/g' -e "s/'/'''/g")"
           mariadb --socket=/run/mysqld/mysqld.sock -u root <<SQL
           CREATE DATABASE IF NOT EXISTS grimmory CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
           CREATE USER IF NOT EXISTS 'grimmory'@'localhost' IDENTIFIED BY '$pw_sql';
-          CREATE USER IF NOT EXISTS 'grimmory'@'%' IDENTIFIED BY '$pw_sql';
+          CREATE USER IF NOT EXISTS 'grimmory'@'127.0.0.1' IDENTIFIED BY '$pw_sql';
           ALTER USER 'grimmory'@'localhost' IDENTIFIED BY '$pw_sql';
-          ALTER USER 'grimmory'@'%' IDENTIFIED BY '$pw_sql';
+          ALTER USER 'grimmory'@'127.0.0.1' IDENTIFIED BY '$pw_sql';
           GRANT ALL PRIVILEGES ON grimmory.* TO 'grimmory'@'localhost';
-          GRANT ALL PRIVILEGES ON grimmory.* TO 'grimmory'@'%';
+          GRANT ALL PRIVILEGES ON grimmory.* TO 'grimmory'@'127.0.0.1';
           FLUSH PRIVILEGES;
           SQL
         '';
@@ -160,6 +168,20 @@
           RestartSec = 10;
           ExecStart = "${lib.getExe cfg.package}";
           EnvironmentFile = managedPasswordFile;
+          NoNewPrivileges = true;
+          PrivateTmp = true;
+          PrivateDevices = true;
+          ProtectSystem = "strict";
+          ProtectHome = true;
+          ProtectKernelTunables = true;
+          ProtectKernelModules = true;
+          ProtectKernelLogs = true;
+          ProtectControlGroups = true;
+          RestrictSUIDSGID = true;
+          LockPersonality = true;
+          RestrictRealtime = true;
+          RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
+          ReadWritePaths = [cfg.dataDir];
         };
         environment = {
           APP_PATH_CONFIG = "${cfg.dataDir}/data";

@@ -78,6 +78,6 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/grimmory-tools/grimmory";
     license = lib.licenses.agpl3Only;
     mainProgram = "grimmory";
-    platforms = lib.platforms.linux;
+    platforms = ["x86_64-linux" "aarch64-linux"];
   };
 })

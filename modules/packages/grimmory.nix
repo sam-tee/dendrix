@@ -7,7 +7,7 @@
     updateDeps = pkgs.callPackage "${inputs.nixpkgs}/pkgs/development/tools/build-managers/gradle/update-deps.nix" {};
     grimmory = pkgs.callPackage ./_grimmory/package.nix {};
   in {
-    packages = {
+    packages = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       inherit grimmory;
       grimmory-gradle-update = updateDeps {
         pkg = grimmory.overrideAttrs (o: {sourceRoot = "${o.src.name}/backend";});
