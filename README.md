@@ -22,6 +22,7 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 |   code-server    |     -     |  4444   |    code     |     y     |
 |    copyparty     |   u410    |  3210   |    files    |     y     |
 |     forgejo      |  oracle   |  3000   |     git     |     n     |
+|     grimmory     |  oracle   |  6060   |  grimmory   |     n     |
 |      immich      |   u410    |  2283   |   photos    |     n     |
 |     jellyfin     |   u410    |  8096   |    media    |     n     |
 |      lidarr      |   u410    |  8686   |   lidarr    |     y     |
