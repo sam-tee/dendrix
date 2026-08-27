@@ -31,6 +31,7 @@
     slskd = mkService 5030 "u410" true "slskd";
     sonarr = mkService 8989 "u410" true "sonarr";
     site = mkService 8090 "oracle" true "site";
+    sports-ntfy = mkService 0 "oracle" false "";
     stirling = mkService 8998 "" true "pdf";
     terraria = mkService 4197 "" false "terraria";
     vaultwarden = mkService 8222 "oracle" false "vault";
