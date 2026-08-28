@@ -79,14 +79,8 @@ in {
           keep-going = true;
           warn-dirty = false;
           builders-use-substitutes = true;
-          extra-substituters = [
-            "https://cache.akhlus.uk/dendrix"
-            "https://noctalia.cachix.org"
-          ];
-          extra-trusted-public-keys = [
-            "dendrix:lYCtmFj4pkP8VyJq0LryToQfVAXpMcRou8wPFKOw2xI="
-            "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-          ];
+          extra-substituters = ["https://cache.akhlus.uk/dendrix"];
+          extra-trusted-public-keys = ["dendrix:lYCtmFj4pkP8VyJq0LryToQfVAXpMcRou8wPFKOw2xI="];
           flake-registry = "";
           experimental-features = [
             "flakes"
