@@ -1,12 +1,12 @@
 {self, ...}: {
-  flake.modules.nixos.sports-notify = {config, ...}: let
-    inherit (self.services.sports-notify) port;
+  flake.modules.nixos.sports-ntfy = {config, ...}: let
+    inherit (self.services.sports-ntfy) port;
   in {
-    sops.secrets."sportsNotifyConfig" = {};
-    services.sports-notify = {
+    sops.secrets."sportsNtfyEnv" = {};
+    services.sports-ntfy = {
       enable = true;
       inherit port;
-      environmentFile = config.sops.secrets."sportsNotifyConfig".path;
+      environmentFile = config.sops.secrets."sportsNtfyEnv".path;
       settings = {
         ntfy = {
           server = "https://ntfy.akhlus.uk";

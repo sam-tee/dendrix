@@ -1,15 +1,15 @@
 {self, ...}: {
-  flake.modules.nixos.sports-notify = {
+  flake.modules.nixos.sports-ntfy = {
     config,
     lib,
     pkgs,
     ...
   }: let
-    cfg = config.services.sports-notify;
+    cfg = config.services.sports-ntfy;
     settingsFormat = pkgs.formats.toml {};
     configFile = settingsFormat.generate "sports-notify-config.toml" cfg.settings;
   in {
-    options.services.sports-notify = {
+    options.services.sports-ntfy = {
       enable = lib.mkEnableOption "sports-notify, a daemon pushing PL / MLB / NFL / NHL scores to ntfy";
 
       package = lib.mkOption {
@@ -82,11 +82,11 @@
       users.users.${cfg.user} = {
         isSystemUser = true;
         group = cfg.group;
-        description = "sports-notify daemon user";
+        description = "sports-ntfy daemon user";
       };
       users.groups.${cfg.group} = {};
 
-      systemd.services.sports-notify = {
+      systemd.services.sports-ntfy = {
         description = "Sports notifications (PL / MLB / NFL -> ntfy)";
         after = ["network-online.target"];
         wants = ["network-online.target"];
