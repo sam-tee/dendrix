@@ -15,7 +15,8 @@
     code-server = mkService 4444 "" true "code";
     copyparty = mkService 3210 "u410" true "files";
     forgejo = mkService 3000 "oracle" false "git";
-    grimmory = mkService 6060 "oracle" false "grimmory";
+    grimmory = mkService 6060 "" false "grimmory";
+    home-assistant = mkService 8123 "u410" true "ha";
     immich = mkService 2283 "u410" false "photos";
     jellyfin = mkService 8096 "u410" false "media";
     lidarr = mkService 8686 "u410" true "lidarr";
