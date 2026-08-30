@@ -3,6 +3,7 @@
     nixos = {
       gui = self.modules.nixos.linuxBase;
       linuxBase = {pkgs, ...}: {
+        hjem.extraModules = with self.modules.hjem; [ghostty zed];
         environment.systemPackages = with pkgs;
           [
             bitwarden-desktop
@@ -18,7 +19,7 @@
         programs.localsend.enable = true;
       };
       linuxAll = {pkgs, ...}: {
-        imports = [self.modules.nixos.linuxBase];
+        imports = [self.modules.nixos.gui];
         environment.systemPackages = with pkgs; [
           anki
           baobab
