@@ -7,13 +7,17 @@ in {
       system = "x86_64-linux";
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPg6t5m8Ib8Fn+tR4lxJOsi/oKXp6uRSmaX0sfNBmLkU";
-      syncID = "GITF6T5-Q23HCQ6-SBMP3ZC-J77WSL4-BBNHO2U-6C2L2XA-GVJ2FWQ-RERKCQH";
+      syncID = "M7NGXTT-V47I3WQ-63BVVY3-I3TDBCF-T6YZNVP-KBT5JRC-2K6G7OZ-QBWEHAT";
     };
 
     nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
-      ${hostname} = {pkgs, ...}: {
+      ${hostname} = {
+        lib,
+        pkgs,
+        ...
+      }: {
         imports = with self.modules.nixos; [
           a3Hardware
           hyprland
@@ -35,6 +39,11 @@ in {
           vpl-gpu-rt
           level-zero
         ];
+        hjem.extraModules = lib.singleton {
+          xdg.config.files."hypr/hyprland.lua".text = ''
+            hl.monitor({output="HDMI-A-3", scale=2, mode="3840x2160@60.00Hz"})
+          '';
+        };
       };
 
       "${hostname}Hardware" = {

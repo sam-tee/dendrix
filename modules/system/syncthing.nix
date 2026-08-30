@@ -30,8 +30,8 @@
       path = "~/Documents";
       devices = allDevices;
     };
-    opencode = {
-      path = "~/.config/opencode";
+    ai = {
+      path = "~/.agents";
       devices = allDevices;
     };
   };
