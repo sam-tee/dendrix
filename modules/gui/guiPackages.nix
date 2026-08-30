@@ -3,6 +3,17 @@
     nixos = {
       gui = self.modules.nixos.linuxBase;
       linuxBase = {pkgs, ...}: {
+        xdg.mime = {
+          enable = true;
+          defaultApplications = {
+            "text/html" = "helium.desktop";
+            "application/xhtml+xml" = "helium.desktop";
+            "x-scheme-handler/http" = "helium.desktop";
+            "x-scheme-handler/https" = "helium.desktop";
+            "x-scheme-handler/about" = "helium.desktop";
+            "x-scheme-handler/unknown" = "helium.desktop";
+          };
+        };
         hjem.extraModules = with self.modules.hjem; [ghostty zed];
         environment.systemPackages = with pkgs;
           [
