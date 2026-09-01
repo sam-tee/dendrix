@@ -106,7 +106,6 @@ in {
           allowUnfree = true;
           allowUnsupportedSystem = false;
           allowAliases = false;
-          permittedInsecurePackages = ["electron-39.8.10"];
         };
         overlays = [];
       };
