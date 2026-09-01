@@ -7,7 +7,7 @@
       inherit group user;
       dataDir = "${dataDir}/calibre-web";
       listen = {
-        ip = "0.0.0.0";
+        ip = self.hosts.${config.networking.hostName}.tailscaleIP;
         inherit (self.services.calibre) port;
       };
       options = {

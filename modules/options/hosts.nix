@@ -7,11 +7,9 @@ in {
       options = {
         username = lib.mkOption {
           type = str;
-          default = "";
         };
         system = mkOption {
           type = str;
-          default = "";
         };
         pubKey = mkOption {
           type = str;
@@ -24,6 +22,11 @@ in {
         hostType = mkOption {
           type = enum ["nixos" "darwin" "home" "other"];
           default = "other";
+        };
+        tailscaleIP = mkOption {
+          type = str;
+          default = "0.0.0.0"; # hacky but works to bind to all interfaces if no host provided
+          description = "Tailscale IP of the host - used to bind services to";
         };
       };
     });

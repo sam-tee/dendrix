@@ -1,10 +1,12 @@
 {
   flake.modules.nixos.jellyfin = {config, ...}: let
-    inherit (config.homelab) group user;
+    inherit (config.homelab) group user dataDir;
   in {
     services.jellyfin = {
       enable = true;
       inherit group user;
+      dataDir = "${dataDir}/jellyfin";
+      cacheDir = "${dataDir}/jellyfin/cache";
     };
   };
 }

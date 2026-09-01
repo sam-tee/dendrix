@@ -8,6 +8,7 @@
       enable = true;
       inherit port;
       credentialsFile = config.sops.secrets.mealieEnv.path;
+      listenAddress = self.hosts.${config.networking.hostName}.tailscaleIP;
       settings = {
         BASE_URL = "https://${subdomain}.${config.homelab.domain}";
         SMTP_HOST = host;

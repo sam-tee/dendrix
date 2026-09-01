@@ -15,6 +15,7 @@
       lib.nameValuePair fqdn {
         useACMEHost = domain;
         extraConfig = ''
+          encode zstd gzip
           reverse_proxy http://${svc.host}.scylla-goblin.ts.net:${toString svc.port}
         '';
       };

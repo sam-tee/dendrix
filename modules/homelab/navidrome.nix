@@ -7,8 +7,9 @@
       inherit group user;
       settings = {
         Port = self.services.navidrome.port;
-        Address = "0.0.0.0";
+        Address = self.hosts.${config.networking.hostName}.tailscaleIP;
         MusicFolder = "${dataDir}/media/music";
+        DataFolder = "${dataDir}/navidrome";
       };
     };
   };

@@ -12,6 +12,7 @@ in {
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6mOpHficE7rnvg6pNw6SwSU39O2riglK511CGh5p+V";
       syncID = "LVSIHL6-LFUENR2-KX22SIV-TMVCDWF-3RSQAZJ-ACD5DHB-ATHYI2E-GW63LAQ";
+      tailscaleIP = "100.92.181.58";
     };
 
     nixosConfigurations = self.lib.mkMobile hostname;

@@ -5,7 +5,7 @@
   in {
     services.code-server = {
       enable = true;
-      host = "0.0.0.0";
+      host = self.hosts.${config.networking.hostName}.tailscaleIP;
       inherit group user port;
       hashedPassword = "$argon2i$v=19$m=4096,t=3,p=1$NFNaZnQyd0hpYzhPN3NYdlRGZHZlTzIwbjlNPQ$7RPhiHoXyvGq+FILur5+PYdEBjk3EHhkdrV/YPR6Q6Q";
     };

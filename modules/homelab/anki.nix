@@ -1,8 +1,8 @@
-{
+{self, ...}: {
   flake.modules.nixos.anki = {config, ...}: {
     sops.secrets."anki/samPwd" = {};
     services.anki-sync-server = {
-      address = "0.0.0.0";
+      address = self.hosts.${config.networking.hostName}.tailscaleIP;
       enable = true;
       baseDirectory = config.homelab.dataDir;
       users = [

@@ -51,12 +51,13 @@ in {
         };
       inherit (attrs) group user dataDir;
       folders = allFolders |> lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices);
+      bindAddr = self.hosts.${config.networking.hostName}.tailscaleIP;
     in {
       sops.secrets."syncPwd".owner = user;
       services.syncthing = {
         enable = true;
         inherit user group dataDir;
-        guiAddress = "0.0.0.0:8384";
+        guiAddress = "${bindAddr}:8384";
         guiPasswordFile = config.sops.secrets."syncPwd".path;
         settings = {
           gui.user = "sam";
@@ -75,10 +76,8 @@ in {
         services.caddy = {
           virtualHosts =
             devices
-            |> lib.mapAttrs' (hostname: _: let
-              fqdn = "${hostname}.ts.${config.homelab.domain}";
-            in
-              lib.nameValuePair fqdn {
+            |> lib.mapAttrs' (hostname: _:
+              lib.nameValuePair "${hostname}.ts.${config.homelab.domain}" {
                 useACMEHost = config.homelab.domain;
                 extraConfig = ''
                   reverse_proxy http://${hostname}.scylla-goblin.ts.net:8384

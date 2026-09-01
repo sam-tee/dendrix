@@ -12,6 +12,7 @@
     cpp = inputs.copyparty;
     inherit (config.homelab) group user dataDir;
     inherit (self.services.copyparty) port;
+    mkIP = host: self.hosts.${host}.tailscaleIP;
   in {
     sops.secrets = {
       "copy/samPwd".owner = user;
@@ -28,10 +29,10 @@
         media.passwordFile = config.sops.secrets."copy/mediaPwd".path;
       };
       settings = {
-        i = "0.0.0.0";
+        i = mkIP config.networking.hostName;
         no-reload = true;
         p = [port];
-        xff-src = "100.75.222.43/32"; # oracle's tailnet IP (the only reverse proxy)
+        xff-src = mkIP "oracle"; # oracle's tailnet IP (the only reverse proxy)
         xff-hdr = "x-forwarded-for";
         rproxy = 1;
       };

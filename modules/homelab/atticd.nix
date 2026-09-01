@@ -17,7 +17,7 @@
         enable = true;
         environmentFile = config.sops.secrets."atticd-env".path;
         settings = {
-          listen = "0.0.0.0:${toString port}";
+          listen = "${self.hosts.${config.networking.hostName}.tailscaleIP}:${toString port}";
           api-endpoint = "https://${subdomain}.${domain}/";
           storage = {
             type = "local";

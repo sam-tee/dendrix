@@ -7,7 +7,7 @@
       enable = true;
       settings = {
         base-url = "https://${subdomain}.${domain}";
-        listen-http = ":${toString port}";
+        listen-http = "${self.hosts.${config.networking.hostName}.tailscaleIP}:${toString port}";
         upstream-base-url = "https://ntfy.sh";
         behind-proxy = true;
       };

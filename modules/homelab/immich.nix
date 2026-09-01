@@ -7,7 +7,7 @@
     services.immich = {
       enable = true;
       accelerationDevices = null;
-      host = "0.0.0.0";
+      host = self.hosts.${config.networking.hostName}.tailscaleIP;
       inherit (self.services.immich) port;
       mediaLocation = "${dataDir}/immich";
     };

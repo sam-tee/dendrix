@@ -42,7 +42,7 @@
         server = {
           DOMAIN = domain;
           ROOT_URL = "https://${domain}/";
-          HTTP_ADDR = "0.0.0.0";
+          HTTP_ADDR = self.hosts.${config.networking.hostName}.tailscaleIP;
           HTTP_PORT = port;
           LANDING_PAGE = "/sam-tee";
           START_SSH_SERVER = true;

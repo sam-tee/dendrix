@@ -1,5 +1,7 @@
 {self, ...}: {
-  flake.modules.nixos.home-assistant = _: {
+  flake.modules.nixos.home-assistant = {config, ...}: let
+    mkIP = host: self.hosts.${host}.tailscaleIP;
+  in {
     services.home-assistant = {
       enable = true;
       extraComponents = [
@@ -9,10 +11,10 @@
       ];
       config = {
         http = {
-          server_host = "0.0.0.0";
+          server_host = mkIP config.networking.hostName;
           server_port = self.services.home-assistant.port;
           use_x_forwarded_for = true;
-          trusted_proxies = ["100.75.222.43"];
+          trusted_proxies = [(mkIP "oracle")];
         };
         homeassistant = {
           name = "Home";

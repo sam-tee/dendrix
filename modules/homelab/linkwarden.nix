@@ -7,8 +7,9 @@
       enable = true;
       inherit group;
       inherit (self.services.linkwarden) port;
-      host = "0.0.0.0";
+      host = self.hosts.${config.networking.hostName}.tailscaleIP;
       storageLocation = "${dataDir}/linkwarden";
+      cacheLocation = "${dataDir}/linkwarden/cache";
       environmentFile = config.sops.secrets.linkwardenEnv.path;
     };
   };

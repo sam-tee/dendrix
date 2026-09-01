@@ -13,7 +13,8 @@
         DOMAIN = "https://${subdomain}.${domain}";
         SIGNUPS_ALLOWED = false;
         INVITATIONS_ALLOWED = true;
-        ROCKET_ADDRESS = "0.0.0.0";
+        IP_HEADER = "X-Forwarded-For";
+        ROCKET_ADDRESS = self.hosts.${config.networking.hostName}.tailscaleIP;
         ROCKET_PORT = port;
         SMTP_HOST = host;
         SMTP_FROM = from;

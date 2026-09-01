@@ -8,6 +8,7 @@ in {
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIuHm83l7+Fu0CPrHWCL7tcG//mh4/626QImgUXxJekc";
       syncID = "66HL6IU-7E6U2VI-FRBIVMH-Y4SISPF-RT2WJLW-VQY63Q3-AFSXWSW-JWXSOA7";
+      tailscaleIP = "100.120.164.85";
     };
 
     nixosConfigurations = self.lib.mkNixos hostname;

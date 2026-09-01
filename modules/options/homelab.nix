@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.server = {lib, ...}: {
+  flake.modules.nixos.default = {lib, ...}: {
     options.homelab = {
       user = lib.mkOption {
         default = "media";
