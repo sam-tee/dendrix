@@ -4,7 +4,7 @@
   ...
 }: {
   flake-file.inputs.mobile-nixos = {
-    url = "github:mobile-nixos/mobile-nixos";
+    url = "git+https://git.akhlus.uk/sam-tee/mobile-nixos.git";
     flake = false;
   };
   flake.lib.mkMobile = hostname: let

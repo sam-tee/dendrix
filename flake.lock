@@ -383,17 +383,17 @@
     "mobile-nixos": {
       "flake": false,
       "locked": {
-        "lastModified": 1783912271,
-        "narHash": "sha256-CzwmiKxuh1u+H8hDnrVeUl/fL59PvsgLbr2l0FhqWK0=",
-        "owner": "mobile-nixos",
-        "repo": "mobile-nixos",
-        "rev": "2c132754323fc1915e8d21dcfc0ef68ab084c6fb",
-        "type": "github"
+        "lastModified": 1788094527,
+        "narHash": "sha256-LHuPxMYmZZbaE/tidZXwWFKOa2THX/8M1CkxBmPwiN4=",
+        "ref": "refs/heads/development",
+        "rev": "dfad594116790424bfed431a5484584003c53a85",
+        "revCount": 3193,
+        "type": "git",
+        "url": "https://git.akhlus.uk/sam-tee/mobile-nixos.git"
       },
       "original": {
-        "owner": "mobile-nixos",
-        "repo": "mobile-nixos",
-        "type": "github"
+        "type": "git",
+        "url": "https://git.akhlus.uk/sam-tee/mobile-nixos.git"
       }
     },
     "niri-flake": {

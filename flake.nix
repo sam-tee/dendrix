@@ -40,7 +40,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mobile-nixos = {
-      url = "github:mobile-nixos/mobile-nixos";
+      url = "git+https://git.akhlus.uk/sam-tee/mobile-nixos.git";
       flake = false;
     };
     niri-flake = {
