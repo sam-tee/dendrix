@@ -26,6 +26,7 @@
         noctalia = {
           enable = true;
           recommendedServices.enable = true;
+          systemd.enable = true;
         };
         noctalia-greeter = {
           enable = true;
@@ -61,11 +62,12 @@
             margin_ends = 0;
             margin_edge = 0;
             padding = 4;
-            position = "left";
+            position = "top";
             radius = 0;
-            reserve_space = true;
+            reserve_space = false;
             scale = 1.0;
             shadow = false;
+            smart_auto_hide = true;
             start = [
               "launcher"
               "clock"
@@ -84,13 +86,13 @@
             lock = {
               enabled = true;
               action = "lock";
-              timeout = 300;
+              timeout = 180;
               command = "noctalia:session lock";
             };
             screen-off = {
               enabled = true;
               action = "screen_off";
-              timeout = 299;
+              timeout = 300;
               command = "noctalia:dpms-off";
               resume_command = "noctalia:dpms-on";
             };
@@ -113,6 +115,7 @@
             clipboard_enabled = true;
             corner_radius_scale = 0.0;
             font_family = "Inter";
+            launch_apps_as_systemd_services = false;
             polkit_agent = true;
             screen_time_enabled = true;
             settings_show_advancded = true;
@@ -126,7 +129,7 @@
               shadow = false;
               transparency_mode = "solid";
             };
-            screenshot.directory = "~/Pictures/Screenshots/";
+            screenshot.directory = "~/Downloads";
             session = {
               grid = true;
               actions = [
