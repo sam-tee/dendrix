@@ -7,5 +7,7 @@
       openRegistration = false;
       maxHistoryLength = 1024 * 128;
     };
+    systemd.services.atuin.environment.ATUIN_TRUSTED_PROXIES =
+      self.hosts.oracle.tailscaleIP;
   };
 }

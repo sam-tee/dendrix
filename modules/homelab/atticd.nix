@@ -11,7 +11,6 @@
     atticDir = "${dataDir}/attic";
   in {
     sops.secrets."atticd-env" = {};
-
     services = {
       atticd = {
         enable = true;

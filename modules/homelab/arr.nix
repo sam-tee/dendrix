@@ -1,10 +1,22 @@
 {self, ...}: let
-  mkArrModule = name: {config, ...}: {
-    services.${name} = {
-      enable = true;
-      inherit (config.homelab) group user;
-      settings.server.port = self.services.${name}.port;
-    };
+  mkArrModule = name: {
+    config,
+    lib,
+    ...
+  }: let
+    mkIP = host: self.hosts.${host}.tailscaleIP;
+  in {
+    services.${name} =
+      {
+        enable = true;
+        settings.server = {
+          port = self.services.${name}.port;
+          bindAddress = mkIP config.networking.hostName;
+        };
+      }
+      // lib.optionalAttrs (name != "prowlarr") {
+        inherit (config.homelab) group user;
+      };
   };
 in {
   flake.modules.nixos = {
@@ -18,12 +30,7 @@ in {
     radarr = mkArrModule "radarr";
     sonarr = mkArrModule "sonarr";
     lidarr = mkArrModule "lidarr";
-    prowlarr = _: {
-      services.prowlarr = {
-        enable = true;
-        settings.server.port = self.services.prowlarr.port;
-      };
-    };
+    prowlarr = mkArrModule "prowlarr";
     seerr = _: {
       services.seerr = {
         enable = true;

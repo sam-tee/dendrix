@@ -1,6 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.stirling = {config, ...}: let
     inherit (config.homelab) dataDir email;
+    mkIP = host: self.hosts.${host}.tailscaleIP;
   in {
     sops.secrets.stirling = {};
     services.stirling-pdf = {
@@ -19,6 +20,7 @@
         MAIL_TLS_ENABLED = true;
         UI_LOGOSTYLE = "modern";
         INSTALL_BOOK_AND_ADVANCED_HTML_OPS = true;
+        SERVER_ADDRESS = mkIP config.networking.hostName;
         SERVER_PORT = self.services.stirling.port;
         STORAGE_ENABLED = true;
         STORAGE_PROVIDER = "local";
