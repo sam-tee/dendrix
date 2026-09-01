@@ -48,7 +48,7 @@
             background_opacity = 1.0;
             border_width = 0.0;
             capsule = false;
-            center = ["workspaces"];
+            center = ["clock"];
             end = [
               "tray"
               "volume"
@@ -70,7 +70,7 @@
             smart_auto_hide = true;
             start = [
               "launcher"
-              "clock"
+              "workspaces"
             ];
             thickness = 34;
             widget_spacing = 6;
@@ -191,8 +191,8 @@
             };
             clock = {
               type = "clock";
-              format = "{:%d %b | %H:%M}";
-              vertical_format = "{:%H\n%M\n-\n%d\n%m}";
+              format = "{:%H:%M | %d/%m/%y}";
+              vertical_format = "{:%H\n%M\n-\n%d\n%m\n%y}";
             };
             control-center = {
               type = "control-center";
