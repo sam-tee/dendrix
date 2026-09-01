@@ -7,9 +7,11 @@ in {
       options = {
         username = lib.mkOption {
           type = str;
+          default = "";
         };
         system = mkOption {
           type = str;
+          default = "";
         };
         pubKey = mkOption {
           type = str;
