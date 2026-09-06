@@ -51,7 +51,8 @@ in {
         };
       inherit (attrs) group user dataDir;
       folders = allFolders |> lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices);
-      bindAddr = self.hosts.${config.networking.hostName}.tailscaleIP;
+      tsIP = self.hosts.${config.networking.hostName}.tailscaleIP;
+      bindAddr = if tsIP == "" then "0.0.0.0" else tsIP;
     in {
       sops.secrets."syncPwd".owner = user;
       services.syncthing = {
