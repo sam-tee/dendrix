@@ -120,7 +120,6 @@ in {
     nixos.default = self.modules.nixos.nix;
     nixos.nix = {pkgs, ...}: {
       imports = [self.modules.generic.nix];
-      environment.variables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
       sops.secrets = sshKeys;
       nix.settings = {
         use-cgroups = true;
