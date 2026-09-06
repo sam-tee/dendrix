@@ -1,6 +1,7 @@
 keys:
   - &default age1t599zsfuwumw4kupmemstwqhzemf2gsl2t65fz936uraqe90dfhsvf9kzv
   - &a3 age136628hnz2xswyyv6fyhcpfx5udw6plllvku9wvhxwcnycr3c9fuqzpqjy6
+  - &corsola age1fnr7ygl8xj95qh5h6r8cx0v0nlmva5w7cjr0p9pe69n25dttq97stgha3h
   - &duet3 age183gyvjkca5p3fa86psk6fk4m7mw8lzfh8e4gz0hg9ss4jvrwq4lssavvjf
   - &deck age129qdu8ynvgdytqu7jpr9f57cwax92t2pzxs8e6kzrnh6hmuhhfeqdl3pj8
   - &hp age1t3n5ucenhe6w337g590e6txacheustwct8lspkjq358h4u0dsvdsd257ft
@@ -15,6 +16,7 @@ creation_rules:
       - age:
           - *default
           - *a3
+          - *corsola
           - *duet3
           - *deck
           - *hp
