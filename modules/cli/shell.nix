@@ -43,16 +43,16 @@
         enableCompletion = true;
         interactiveShellInit = lib.mkAfter ''
           ${strShellAliases}
-
+          if [ -n "$SSH_AUTH_SOCK" ]; then
+            ssh-add ~/.ssh/keys/{git,git-sign} 2>/dev/null
+          fi
           jsonfmt() {
             if [ -z "$1" ]; then
               echo "Usage: formatjson <filename.json>"
               return 1
             fi
-
             ${pkgs.jq}/bin/jq . "$1" > "$1.tmp" && mv "$1.tmp" "$1"
           }
-
           bindkey ' ' magic-space
           zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
         '';
