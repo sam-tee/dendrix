@@ -25,11 +25,15 @@ in {
           #jovian
           autologin
           linuxAll
-          ly
           steam
           vms
         ];
+        services.gvfs.enable = true;
+        services.udev.packages = with pkgs; [libmtp];
         environment.systemPackages = with pkgs; [
+          libmtp
+          simple-mtpfs
+          gvfs
           nautilus
         ];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;

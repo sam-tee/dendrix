@@ -7,7 +7,6 @@
   ];
   imports = [
     inputs.flake-file.flakeModules.dendritic
-    inputs.flake-parts.flakeModules.modules
   ];
   perSystem = {pkgs, ...}: {
     formatter = pkgs.alejandra;
