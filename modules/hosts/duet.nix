@@ -6,7 +6,7 @@ in {
       username = "sam";
       system = "lenovo-krane";
       hostType = "nixos";
-      pubKey = "";
+      pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDKLSs9wmp3rSRPnantmeWXdf8G0QNGmNL56Sq0x36FO";
       syncID = "";
     };
 
