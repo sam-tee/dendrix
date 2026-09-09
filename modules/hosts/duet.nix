@@ -6,7 +6,7 @@ in {
       username = "sam";
       system = "lenovo-krane";
       hostType = "nixos";
-      pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDKLSs9wmp3rSRPnantmeWXdf8G0QNGmNL56Sq0x36FO";
+      pubKey = "";
       syncID = "";
     };
 
@@ -15,6 +15,7 @@ in {
     modules.nixos.${hostname} = {lib, ...}: {
       imports = with self.modules.nixos; [
         autologin
+        gdm
         gnome
       ];
       swapDevices = lib.singleton {

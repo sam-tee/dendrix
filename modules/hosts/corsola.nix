@@ -9,7 +9,7 @@ in {
   flake = {
     hosts.${hostname} = {
       username = "sam";
-      system = "google-corsola";
+      system = "asus-tentacruel";
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILM24PrL2MDQryUHOHlYn1hU/F61eqCh1PuEgi34gzLn";
       syncID = "";
