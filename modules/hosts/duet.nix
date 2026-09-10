@@ -22,6 +22,7 @@ in {
       environment.systemPackages = with pkgs; [
         foliate
         gnomeExtensions.screen-rotate
+        gnomeExtensions.keyboard-toggle
       ];
     };
   };
