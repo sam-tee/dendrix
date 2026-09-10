@@ -94,9 +94,7 @@ in {
     inputs.nixpkgs.follows = "nixpkgs";
   };
   flake.modules = {
-    darwin.default = {
-      imports = [self.modules.generic.helium self.modules.darwin.helium];
-    };
+    darwin.default = self.modules.darwin.helium;
     nixos.gui = self.modules.nixos.helium;
     generic.helium = moduleWithSystem ({inputs', ...}: _: {
       environment.systemPackages = [inputs'.helium.packages.default];

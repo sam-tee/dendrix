@@ -16,11 +16,11 @@
   allFolders = {
     project_data = {
       path = "~/data";
-      devices = ["a3" "oracle" "u410"];
+      devices = ["a3" "duet" "oracle" "u410"];
     };
     books = {
       path = "~/books";
-      devices = ["a3" "hp" "mba" "oracle" "s340" "u410"];
+      devices = ["a3" "duet" "hp" "mba" "oracle" "s340" "u410"];
     };
     calibre_config = {
       path = "~/.config/calibre";
