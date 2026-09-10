@@ -20,18 +20,9 @@ jobs:
       ATTIC_ENDPOINT: https://cache.akhlus.uk/
       ATTIC_CACHE: dendrix
       ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-      GIT_SSH_COMMAND: "ssh -i $HOME/.ssh/git -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Configure SSH for private flake inputs
-        run: |
-          mkdir -p "$HOME/.ssh"
-          printf '%s\n' "${{ secrets.GIT_SSH_KEY }}" > "$HOME/.ssh/git"
-          chmod 600 "$HOME/.ssh/git"
-          ssh-keyscan -p 2222 git-ssh.akhlus.uk >> "$HOME/.ssh/known_hosts"
-          chmod 644 "$HOME/.ssh/known_hosts"
 
       - name: Update flake lock
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
