@@ -22,7 +22,8 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 |   code-server    |     -     |  4444   |    code     |     y     |
 |    copyparty     |   u410    |  3210   |    files    |     y     |
 |     forgejo      |  oracle   |  3000   |     git     |     n     |
-|     grimmory     |  oracle   |  6060   |  grimmory   |     n     |
+|     grimmory     |     -     |  6060   |  grimmory   |     n     |
+|  home-assistant  |   u410    |  8123   |     ha      |     y     |
 |      immich      |   u410    |  2283   |   photos    |     n     |
 |     jellyfin     |   u410    |  8096   |    media    |     n     |
 |      lidarr      |   u410    |  8686   |   lidarr    |     y     |
@@ -38,6 +39,7 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 |      slskd       |   u410    |  5030   |    slskd    |     y     |
 |      sonarr      |   u410    |  8989   |   sonarr    |     y     |
 |       site       |  oracle   |  8090   |    site     |     y     |
+|   sports-ntfy    |  oracle   |    -    |      -      |     n     |
 |     stirling     |     -     |  8998   |     pdf     |     y     |
 |     terraria     |     -     |  4197   |  terraria   |     n     |
 |   vaultwarden    |  oracle   |  8222   |    vault    |     n     |
