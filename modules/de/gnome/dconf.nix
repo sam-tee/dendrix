@@ -2,7 +2,7 @@
   inherit (self.cosmetic) bgFile fonts theme;
 in {
   flake.modules.nixos.gnome = {lib, ...}: let
-    inherit (lib.gvariant) mkEmptyArray type mkInt32 mkUint32;
+    inherit (lib.gvariant) mkEmptyArray type mkInt32;
     settings = {
       "org/gnome/TextEditor" = {
         restore-session = false;
@@ -100,48 +100,22 @@ in {
         show-notifications = false;
       };
 
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        autohide-in-fullscreen = true;
-        background-opacity = 0.8;
-        custom-theme-shrink = true;
-        dash-max-icon-size = mkInt32 40;
-        dock-position = "BOTTOM";
-        height-fraction = 0.9;
-        hot-keys = false;
-        intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
-        multi-monitor = true;
-        preferred-monitor = mkInt32 (-2);
-        running-indicator-style = "DOTS";
-        show-icons-notifications-counter = false;
-        show-mounts = false;
-        show-show-apps-button = true;
-        show-trash = false;
-      };
-
       "org/gnome/shell/extensions/dash-to-panel" = {
         animate-app-switch = false;
         animate-window-launch = false;
         appicon-margin = mkInt32 4;
         dot-position = "BOTTOM";
-        intellihide = true;
-        intellihide-behaviour = "ALL_WINDOWS";
-        intellihide-hide-from-windows = true;
+        panel-anchors = ''
+          {"unknown-unknown":"MIDDLE"}
+        '';
+        panel-element-positions = ''
+          {"unknown-unknown":[{"element":"activitiesButton","visible":true,"position":"stackedTL"},{"element":"showAppsButton","visible":true,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":true,"position":"stackedTL"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":true,"position":"stackedBR"}]}
+        '';
+        panel-sizes = ''
+          {"unknown-unknown":32}
+        '';
         prefs-opened = false;
         stockgs-keep-dash = true;
-      };
-
-      "org/gnome/shell/extensions/tilingshell" = {
-        enable-window-border = false;
-        inner-gaps = mkUint32 2;
-        last-version-name-installed = "16.4";
-        layouts-json = "[{\"id\":\"Layout 2\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":0.24973958333333332,\"height\":0.24861111111111112,\"groups\":[1,4]},{\"x\":0.24973958333333332,\"y\":0,\"width\":0.5005208333333333,\"height\":0.5,\"groups\":[2,3,1]},{\"x\":0.7502604166666667,\"y\":0,\"width\":0.24973958333333335,\"height\":1,\"groups\":[2]},{\"x\":0.24973958333333332,\"y\":0.5,\"width\":0.5005208333333333,\"height\":0.5,\"groups\":[3,2,1]},{\"x\":0,\"y\":0.24861111111111112,\"width\":0.24973958333333332,\"height\":0.751388888888889,\"groups\":[4,1]}]},{\"id\":\"483365\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":0.5,\"height\":0.5,\"groups\":[1,2]},{\"x\":0.5,\"y\":0,\"width\":0.49999999999999994,\"height\":0.5,\"groups\":[3,1]},{\"x\":0,\"y\":0.5,\"width\":0.5,\"height\":0.5,\"groups\":[2,1]},{\"x\":0.5,\"y\":0.5,\"width\":0.49999999999999994,\"height\":0.49999999999999994,\"groups\":[3,1]}]},{\"id\":\"1186829\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":0.24973958333333332,\"height\":0.5,\"groups\":[1,5]},{\"x\":0.24973958333333332,\"y\":0,\"width\":0.5005208333333333,\"height\":0.5,\"groups\":[2,3,1]},{\"x\":0.7502604166666667,\"y\":0,\"width\":0.2497395833333329,\"height\":0.5,\"groups\":[4,2]},{\"x\":0.24973958333333332,\"y\":0.5,\"width\":0.5005208333333333,\"height\":0.5,\"groups\":[3,2,1]},{\"x\":0.7502604166666667,\"y\":0.5,\"width\":0.2497395833333329,\"height\":0.49999999999999994,\"groups\":[4,2]},{\"x\":0,\"y\":0.5,\"width\":0.24973958333333332,\"height\":0.5,\"groups\":[5,1]}]}]";
-        outer-gaps = mkUint32 2;
-        overridden-settings = "{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Super>Right']\",\"toggle-tiled-left\":\"['<Super>Left']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"['<Super>Up']\",\"unmaximize\":\"['<Super>Down', '<Alt>F5']\"},\"org.gnome.mutter\":{\"edge-tiling\":\"true\"}}";
-        selected-layouts = [["Layout 2"] ["Layout 2"]];
-        snap-assistant-animation-time = mkUint32 0;
-        tile-preview-animation-time = mkUint32 0;
-        top-edge-maximize = true;
-        window-border-color = "rgb(129,61,156)";
       };
 
       "org/gnome/shell/keybindings" = {

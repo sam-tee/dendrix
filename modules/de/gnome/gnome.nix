@@ -14,9 +14,7 @@
           blur-my-shell
           caffeine
           clipboard-indicator
-          dash-to-dock
           dash-to-panel
-          tiling-shell
         ]);
       gnome.excludePackages = with pkgs; [
         gnome-backgrounds
