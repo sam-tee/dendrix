@@ -127,8 +127,9 @@
     services.caddy = {
       enable = true;
       inherit group user;
-      virtualHosts."${self.hosts.${config.networking.hostName}.tailscaleIP}:${toString port}" = {
+      virtualHosts.":${toString port}" = {
         extraConfig = ''
+          bind ${self.hosts.${config.networking.hostName}.tailscaleIP}
           root * ${wwwRoot}
           file_server
         '';
