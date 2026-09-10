@@ -19,12 +19,10 @@ in {
         gnome
         helium
       ];
-      environment.systemPackages = [pkgs.gnomeExtensions.screen-rotate];
-      hardware.sensor.iio.enable = true;
-      zramSwap = {
-        enable = true;
-        memoryPercent = 100;
-      };
+      environment.systemPackages = with pkgs; [
+        foliate
+        gnomeExtensions.screen-rotate
+      ];
     };
   };
 }
