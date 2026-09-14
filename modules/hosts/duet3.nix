@@ -23,39 +23,6 @@ in {
         hyprland
         hyprTouch
       ];
-      hjem.extraModules = lib.singleton {
-        xdg.config.files."hypr/hyprland.lua".text = lib.mkAfter ''
-          hl.config({
-              monitor = {
-                  {
-                      name = "DSI-1",
-                      resolution = "1200x2000@60",
-                      position = { 0, 0 },
-                      scale = 1,
-                      transform = 1,
-                  },
-              },
-          })
-
-          hl.device({
-              name = "hid-over-i2c-0603:604a",
-              output = "DSI-1",
-              transform = 1,
-          })
-
-          hl.device({
-              name = "hid-over-i2c-0603:604a-stylus",
-              output = "DSI-1",
-              transform = 1,
-          })
-
-          hl.device({
-              name = "google-inc.-hammer-1",
-              output = "DSI-1",
-              transform = 1,
-          })
-        '';
-      };
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
       hardware.sensor.iio.enable = true;
       swapDevices = lib.singleton {

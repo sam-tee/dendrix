@@ -21,6 +21,7 @@ in {
         helium
       ];
       environment.systemPackages = with pkgs; [
+        chromium
         foliate
         gnomeExtensions.screen-rotate
         gnomeExtensions.keyboard-toggle
