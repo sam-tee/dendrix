@@ -46,22 +46,44 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 <!-- services-table:end -->
 
 Public `*.akhlus.uk` hosts and private `*.ts.akhlus.uk` hosts are reverse
-proxied by Caddy on `oracle` over the tailnet. Modules that bundle other
-modules are prefixed with `_`.
+proxied by Caddy on `oracle` over the tailnet. The services table above is auto-generated
+from `modules/homelab/hlServices.nix` by `scripts/update-services-readme.sh`
+(run by `.forgejo/workflows/cache.yml` on every push).
+
+## Hosts
+
+| Host | System | Type | Role |
+| ---- | ------ | ---- | ---- |
+| `a3` | `x86_64-linux` | NixOS desktop | Hyprland, autologin, Steam, VMs |
+| `s340` | `x86_64-linux` | NixOS desktop | Niri |
+| `hp` | `x86_64-linux` | NixOS server | Spare server |
+| `u410` | `x86_64-linux` | NixOS server | Data-heavy/media services, `x86_64-linux` builder, `dataDir=/mnt/data` |
+| `oracle` | `aarch64-linux` | NixOS cloud server | Caddy reverse proxy, public services, Forgejo, Attic cache, `aarch64-linux` builder |
+| `mba` | `aarch64-darwin` | nix-darwin | macOS desktop (paneru) |
+| `duet` | `lenovo-krane` | mobile-nixos | Chromebook (GNOME) |
+| `duet3` | `lenovo-wormdingler` | mobile-nixos | Chromebook (Hyprland) |
+| `corsola` | `asus-tentacruel` | mobile-nixos | Hyprland + GUI |
+
+`u410` hosts data-heavy services; `oracle` handles Caddy and selected
+services. Each machine is reachable over SSH as its hostname (see `AGENTS.md`).
 
 ## Layout
 
-- `modules/hosts/`: host definitions (`self.hosts` metadata) and per-host
-  hardware/config, plus `self.lib.mkNixos` / `mkDarwin` / `mkMobile`.
-- `modules/homelab/`: homelab service modules and the `server` bundle that
-  auto-imports services by their registered host.
+- `modules/hosts/`: host definitions (`flake.hosts` metadata) and per-host
+  hardware/config, via `self.lib.mkNixos` / `mkDarwin` / `mkMobile`
+  (plus `git`/`git-sign` key-only entries in `other.nix`).
+- `modules/homelab/`: homelab service modules, the `hlServices.nix` service
+  registry, and the `server` bundle that auto-imports services by their
+  registered host.
 - `modules/system/`: shared system modules (ssh, sops, users, networking,
-  tailscale, syncthing, boot, fail2ban).
-- `modules/cli/`, `modules/gui/`, `modules/de/`: CLI tools, GUI apps and
-  desktop environments (incl. macOS).
+  tailscale, syncthing, boot, fail2ban, battery, disko, fonts, vms).
+- `modules/cli/`, `modules/gui/`, `modules/de/`: CLI tools, GUI apps, and
+  desktop environments.
 - `modules/nixvim/`: Neovim (nixvim) configuration.
-- `modules/flake-parts/`, `modules/types/`, `modules/options/`: flake
-  plumbing and option definitions.
+- `modules/nix.nix`, `modules/hjem.nix`, `modules/flake-parts.nix`,
+  `modules/options/`, `modules/types/`, `modules/packages/`: nix settings
+  and cache config, hjem, flake plumbing, option/type definitions, and
+  extra packages (`pyScripts`).
 - `nix-secrets/`: sops-encrypted secrets (see below).
 
 ## Secrets
@@ -72,10 +94,13 @@ age keys (see `nix-secrets/.sops.yaml`). The default sops file is wired up in
 
 ## Binary cache
 
-`u410` runs Attic at `https://cache.akhlus.uk/`. Forgejo Actions updates
-`flake.lock` daily, builds every `nixosConfiguration` plus Linux packages
-exposed by the flake, and pushes the closures to the public `dendrix` cache.
-Pushes to the repository also rebuild and upload the current outputs.
+`oracle` runs Attic at `https://cache.akhlus.uk/`.
+Forgejo Actions updates `flake.lock` on schedule/dispatch, builds all packages for
+`x86_64-linux` + `aarch64-linux` with `nix-fast-build --skip-cached
+--attic-cache dendrix`, syncs this README's services table, commits
+`flake.lock`, and sends a ntfy notification. Pushes
+also rebuild and upload the current outputs. All clients use
+`https://cache.akhlus.uk/dendrix` as substituter (see `modules/nix.nix`).
 
 The server needs a SOPS secret named `atticd-env` containing:
 
@@ -90,11 +115,7 @@ secret `ATTIC_TOKEN`:
 sudo atticd-atticadm make-token --sub forgejo-cache --validity 1y --pull dendrix --push dendrix --create-cache dendrix --configure-cache dendrix --configure-cache-retention dendrix
 ```
 
-Forgejo runs on `u410`, so `x86_64-linux` outputs build locally in the runner
-and `aarch64-linux` outputs use `u410`'s daemon-level Oracle builder
-configuration. The Nix daemon on `u410` must be able to SSH to Oracle
-non-interactively as `sam@oracle`, and the `sam` user on Oracle must be
-allowed to use Nix remotely.
+Forgejo runs on `oracle`, so builds happen on the Forgejo runner there.
 
 To use the cache before switching a machine, create a pull token and configure
 the local Nix client once:
@@ -115,6 +136,9 @@ Cache entries are configured with a `3 days` retention period by the workflow.
 
 ## Remote builders
 
-`modules/nix.nix` configures remote build machines (`oracle`, `u410`, `mba`).
-Each entry pins the SSH host key (`publicHostKey`) so builds are
-non-interactive and MITM-resistant.
+`modules/nix.nix` configures remote build machines, filtered per host so a
+machine never builds on itself:
+`oracle:2222` (`aarch64-linux`), `u410:2222` (`x86_64-linux`),
+`mba:22` (`aarch64-darwin`). Each entry pins the SSH host key
+(`publicHostKey`) and uses a sops-managed key (`sops.secrets."ssh/<host>"`)
+as `sam` over `ssh-ng`, so builds are non-interactive and MITM-resistant.
