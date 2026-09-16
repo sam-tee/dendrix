@@ -11,18 +11,22 @@
   };
 in {
   flake.modules.hjem.zed = _: {
-    files =
+    xdg.config.files =
       (["light" "dark"]
         |> map (variant: {
-          name = ".config/zed/themes/${attrs.name}-${variant}.json";
+          name = "zed/themes/${attrs.name}-${variant}.json";
           value = mkJson (import ./_theme.nix attrs variant);
         })
         |> builtins.listToAttrs)
       // {
-        ".config/zed/settings.json" = mkJson {
+        "zed/settings.json" = mkJson {
           agent = {
             dock = "right";
             sidebar_side = "right";
+          };
+          agent_servers = {
+            cursor.type = "registry";
+            opencode.type = "registry";
           };
           auto_install_extensions = {
             color-highlight = true;
@@ -78,8 +82,16 @@ in {
           scrollbar.show = "system";
           session.trust_all_worktrees = true;
           show_edit_predictions = false;
-          tab_bar.show = false;
-          tabs.activate_on_close = "neighbour";
+          tab_bar = {
+            show = true;
+            show_nav_history_buttons = false;
+            show_tab_bar_buttons = false;
+          };
+          tabs = {
+            activate_on_close = "neighbour";
+            git_status = true;
+            show_close_button = "always";
+          };
           toolbar = {
             agent_review = false;
             breadcrumbs = false;
