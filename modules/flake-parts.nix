@@ -5,9 +5,7 @@
     "aarch64-linux"
     "aarch64-darwin"
   ];
-  imports = [
-    inputs.flake-file.flakeModules.dendritic
-  ];
+  imports = [inputs.flake-file.flakeModules.dendritic];
   perSystem = {pkgs, ...}: {
     formatter = pkgs.alejandra;
   };
