@@ -50,12 +50,15 @@
         username,
         ...
       }: {
-        users.groups.media.gid = 991;
-        users.users.${username} = {
-          home = "/Users/${username}";
-          description = username;
-          name = username;
-          shell = pkgs.zsh;
+        users = {
+          knownGroups = ["media"];
+          groups.media.gid = groupID;
+          users.${username} = {
+            home = "/Users/${username}";
+            description = username;
+            name = username;
+            shell = pkgs.zsh;
+          };
         };
       };
     };
