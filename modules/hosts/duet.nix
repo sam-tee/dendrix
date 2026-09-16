@@ -15,7 +15,6 @@ in {
 
     modules.nixos.${hostname} = {pkgs, ...}: {
       imports = with self.modules.nixos; [
-        autologin
         gdm
         gnome
         helium
