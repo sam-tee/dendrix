@@ -1,13 +1,5 @@
 {self, ...}: {
   flake.modules = {
-    hjem.default = {config, ...}: {
-      environment.sessionVariables = {
-        XDG_CACHE_HOME = "${config.directory}/.cache";
-        XDG_CONFIG_HOME = "${config.directory}/.config";
-        XDG_DATA_HOME = "${config.directory}/.local/share";
-        XDG_STATE_HOME = "${config.directory}/.local/state";
-      };
-    };
     nixos.default = self.modules.nixos.system;
     nixos.system = _: {
       system.stateVersion = "24.05";

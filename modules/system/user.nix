@@ -14,7 +14,10 @@
         users = {
           mutableUsers = true;
           users = {
-            root.hashedPasswordFile = config.sops.secrets.password.path;
+            root = {
+              hashedPasswordFile = config.sops.secrets.password.path;
+              shell = pkgs.zsh;
+            };
             ${username} = {
               description = username;
               name = username;

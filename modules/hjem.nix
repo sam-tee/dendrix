@@ -17,7 +17,6 @@
           imports = [inputs.hjem."${type}Modules".default];
           hjem = {
             clobberByDefault = true;
-            extraModules = [self.modules.hjem.default];
             users.${username} = {};
           };
         };

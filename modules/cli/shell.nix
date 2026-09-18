@@ -24,7 +24,13 @@
         |> builtins.concatStringsSep "\n";
     in {
       environment = {
-        variables.ZDOTDIR = "$HOME/.config/zsh";
+        variables = {
+          XDG_CACHE_HOME = "$HOME/.cache";
+          XDG_CONFIG_HOME = "$HOME/.config";
+          XDG_DATA_HOME = "$HOME/.local/share";
+          XDG_STATE_HOME = "$HOME/.local/state";
+          ZDOTDIR = "$HOME/.config/zsh";
+        };
         inherit shellAliases;
         systemPackages = with pkgs; [
           jq
@@ -58,6 +64,14 @@
                 return 1
               fi
               ${pkgs.jq}/bin/jq . "$1" > "$1.tmp" && mv "$1.tmp" "$1"
+            }
+            function y() {
+              local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+              command yazi "$@" --cwd-file="$tmp"
+              if cwd="$(<"$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+                builtin cd -- "$cwd"
+              fi
+              rm -f -- "$tmp"
             }
             bindkey ' ' magic-space
             zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

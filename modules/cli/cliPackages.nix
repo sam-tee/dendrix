@@ -7,11 +7,12 @@
 in {
   flake.modules = {
     generic.default = self.modules.generic.cli;
-    generic.cli = moduleWithSystem ({self', ...}: {
-      lib,
-      pkgs,
-      ...
-    }: {
+    generic.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: let
+      terminfo =
+        if pkgs.stdenv.hostPlatform.isDarwin
+        then pkgs.ghostty-bin.terminfo
+        else pkgs.ghostty.terminfo;
+    in {
       environment = {
         variables = {
           BAT_THEME = "base16";
@@ -31,6 +32,7 @@ in {
           nixd
           ripgrep
           speedtest-cli
+          terminfo
           tldr
           wget
           yazi
@@ -48,16 +50,6 @@ in {
         };
         lazygit.enable = true;
         zoxide.enable = true;
-        zsh.interactiveShellInit = lib.mkAfter ''
-          function y() {
-            local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
-            command yazi "$@" --cwd-file="$tmp"
-            if cwd="$(<"$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-              builtin cd -- "$cwd"
-            fi
-            rm -f -- "$tmp"
-          }
-        '';
       };
     });
     nixos.default = self.modules.nixos.cli;
