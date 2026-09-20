@@ -47,8 +47,12 @@
           action = hl.dsp.exec_cmd("kill -34 $(ps -C wvkbd-mobintl)"),
         })
         hl.plugin.hyprgrass.bind({
-          pattern = {kind = "tap", fingers = 3},
-          action = hl.dsp.exec_cmd(noct .. "panel-toggle launcher"),
+          pattern = {kind = "edge", origin = "top", direction = "down"},
+          action = hl.dsp.exec_cmd(noct .. " panel-toggle launcher"),
+        })
+        hl.plugin.hyprgrass.gesture({
+          pattern = {kind = "swipe", fingers = 3, direction = "up"},
+          action = "fullscreen"
         })
         hl.plugin.hyprgrass.bind({
           pattern = {kind = "swipe", fingers = 4, direction = "down"},

@@ -11,7 +11,7 @@ in {
       system = "lenovo-wormdingler";
       hostType = "nixos";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6mOpHficE7rnvg6pNw6SwSU39O2riglK511CGh5p+V";
-      syncID = "LVSIHL6-LFUENR2-KX22SIV-TMVCDWF-3RSQAZJ-ACD5DHB-ATHYI2E-GW63LAQ";
+      syncID = "WEFNJAE-V6VFYEI-J4KAORY-IYHRJBR-MVUK7XV-C3UPGDY-BSL3ZJL-HIOROAD";
       tailscaleIP = "100.100.10.14";
     };
 
@@ -38,7 +38,7 @@ in {
           })
           hl.on("hyprland.start", function()
             hl.exec_cmd("iio-hyprland DSI-1 --transform 0,1,2,3")
-          )
+          end)
         '';
       };
       services.displayManager.noctalia-greeter.enable = false;
