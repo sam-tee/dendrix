@@ -14,7 +14,7 @@
             "x-scheme-handler/unknown" = "helium.desktop";
           };
         };
-        hjem.extraModules = with self.modules.hjem; [ghostty zed];
+        hjem.extraModules = with self.modules.hjem; [ghostty xournal zed];
         environment.systemPackages = with pkgs;
           [
             bitwarden-desktop
