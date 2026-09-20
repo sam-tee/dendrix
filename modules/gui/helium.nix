@@ -84,6 +84,7 @@
     );
 
   policy = {
+    NewTabPageLocation = "https://site.ts.akhlus.uk";
     ExtensionInstallForcelist = forcelist;
     ExtensionSettings = extensionSettings;
     "3rdparty".extensions = thirdParty;
@@ -106,6 +107,7 @@ in {
         enable = true;
         extensions = forcelist;
         extraOpts = {
+          NewTabPageLocation = "https://site.ts.akhlus.uk";
           ExtensionSettings = extensionSettings;
           "3rdparty".extensions = thirdParty;
         };
@@ -143,8 +145,7 @@ in {
           browser = {
             centered_location_bar = true;
             layout =
-              # massive hack but oh well
-              if osConfig.networking.hostName == "duet"
+              if (osConfig.mobile.enable or false)
               then 3
               else 2;
             minimal_location_bar = false;
