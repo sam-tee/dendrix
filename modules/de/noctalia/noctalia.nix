@@ -28,12 +28,14 @@ in {
     };
     hjem.noctalia = {
       config,
+      osConfig,
       pkgs,
       ...
     }: let
       bgDir = "noctalia/wallpapers";
       bgDirFull = "${config.xdg.cache.directory}/${bgDir}";
       bgPath = "${bgDir}/bg.png";
+      isMobile = osConfig.mobile.enable or false;
       settings = {
         audio.enable_sounds = false;
         bar.main = {
@@ -56,10 +58,10 @@ in {
           padding = 4;
           position = "top";
           radius = 0;
-          reserve_space = false;
+          reserve_space = isMobile;
           scale = 1.0;
           shadow = false;
-          smart_auto_hide = true;
+          smart_auto_hide = !isMobile;
           start = [
             "launcher"
             "workspaces"
