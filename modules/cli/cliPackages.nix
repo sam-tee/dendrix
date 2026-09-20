@@ -7,7 +7,11 @@
 in {
   flake.modules = {
     generic.default = self.modules.generic.cli;
-    generic.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: let
+    generic.cli = moduleWithSystem ({self', ...}: {
+      lib,
+      pkgs,
+      ...
+    }: let
       terminfo =
         if pkgs.stdenv.hostPlatform.isDarwin
         then pkgs.ghostty-bin.terminfo
@@ -50,6 +54,19 @@ in {
         };
         lazygit.enable = true;
         zoxide.enable = true;
+      };
+      hjem.extraModules = lib.singleton {
+        xdg.config.files = {
+          "btop/btop.conf".text = ''
+            color_theme = "TTY"
+            vim_keys = true
+          '';
+          "yazi/yazi.toml".text = ''
+            [mgr]
+            linemode = "size"
+            show_hidden = true
+          '';
+        };
       };
     });
     nixos.default = self.modules.nixos.cli;
