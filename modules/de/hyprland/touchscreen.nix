@@ -1,23 +1,31 @@
 {
   lib,
+  moduleWithSystem,
   self,
   ...
 }: {
+  flake-file.inputs.iio-hyprland = {
+    url = "github:ThorTuwy/lua-iio-hyprland";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
   flake.modules = let
     hyprgrass = pkgs: (pkgs.callPackage ./_hyprgrass.nix {});
   in {
-    nixos.hyprTouch = {pkgs, ...}: {
+    nixos.hyprTouch = moduleWithSystem ({inputs', ...}: {pkgs, ...}: {
+      hardware.sensor.iio.enable = true;
       environment.systemPackages = [
         pkgs.wvkbd
+        inputs'.iio-hyprland.packages.default
         (hyprgrass pkgs)
       ];
       hjem.extraModules = lib.singleton self.modules.hjem.hyprTouch;
-    };
+    });
     hjem.hyprTouch = {pkgs, ...}: {
       xdg.config.files."hypr/hyprland.lua".text = lib.mkAfter ''
         hl.on("hyprland.start", function()
           hl.exec_cmd("wvkbd-mobintl")
           hl.exec_cmd("hyprctl plugin load ${hyprgrass pkgs}/lib/libhyprgrass.so")
+          hl.exec_cmd("${pkgs.iio-hyprland}/bin/iio-hyprland DSI-1 --transform 1,2,3,0")
         end)
 
         hl.config({
@@ -40,7 +48,7 @@
         })
         hl.plugin.hyprgrass.bind({
           pattern = {kind = "tap", fingers = 3},
-          action = hl.dsp.exec_cmd(noct .. " launcher toggle"),
+          action = hl.dsp.exec_cmd(noct .. "panel-toggle launcher"),
         })
         hl.plugin.hyprgrass.bind({
           pattern = {kind = "swipe", fingers = 4, direction = "down"},
