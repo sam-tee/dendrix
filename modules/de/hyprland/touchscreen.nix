@@ -12,6 +12,12 @@
     hyprgrass = pkgs: (pkgs.callPackage ./_hyprgrass.nix {});
   in {
     nixos.hyprTouch = moduleWithSystem ({inputs', ...}: {pkgs, ...}: {
+      # noctalia greeter has no osk so use gdm for login instead
+      imports = with self.modules.nixos; [
+        gdm
+        hyprland
+      ];
+      services.displayManager.noctalia-greeter.enable = false;
       hardware.sensor.iio.enable = true;
       environment.systemPackages = [
         pkgs.wvkbd

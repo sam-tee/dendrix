@@ -19,9 +19,7 @@ in {
 
     modules.nixos.${hostname} = {pkgs, ...}: {
       imports = with self.modules.nixos; [
-        gdm
         gui
-        hyprland
         hyprTouch
       ];
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
@@ -41,7 +39,6 @@ in {
           end)
         '';
       };
-      services.displayManager.noctalia-greeter.enable = false;
     };
   };
 }
