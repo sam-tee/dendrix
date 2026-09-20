@@ -3,10 +3,8 @@
   self,
   ...
 }: {
-  flake-file.inputs.mobile-nixos = {
-    url = "git+https://git.akhlus.uk/sam-tee/mobile.git";
-    flake = false;
-  };
+  flake-file.inputs.mobile-nixos.url = "git+https://git.akhlus.uk/sam-tee/mobile.git";
+
   flake.lib.mkMobile = hostname: let
     inherit (self.hosts.${hostname}) username system pubKey;
   in {
@@ -17,7 +15,7 @@
         nixos.${hostname}
         nixos.mobile
         nixos.default
-        (import "${inputs.mobile-nixos}/lib/configuration.nix" {device = system;})
+        inputs.mobile-nixos.nixosModules.${system}
         {
           networking.hostName = hostname;
           users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
