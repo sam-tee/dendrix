@@ -1,7 +1,7 @@
 # DO-NOT-EDIT. This file was auto-generated using github:denful/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
 {
-  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
     ai = {
@@ -34,15 +34,16 @@
       url = "github:homebrew/homebrew-core";
       flake = false;
     };
+    iio-hyprland = {
+      url = "github:ThorTuwy/lua-iio-hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     import-tree.url = "github:denful/import-tree";
     jovian = {
       url = "github:jovian-experiments/jovian-nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mobile-nixos = {
-      url = "git+https://git.akhlus.uk/sam-tee/mobile.git";
-      flake = false;
-    };
+    mobile-nixos.url = "git+https://git.akhlus.uk/sam-tee/mobile.git";
     niri-flake = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
