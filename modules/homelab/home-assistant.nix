@@ -21,6 +21,12 @@
           name = "Home";
           external_url = "https://ha.ts.akhlus.uk";
         };
+        sensor = [
+          {
+            platform = "google_wifi";
+            host = "192.168.86.1";
+          }
+        ];
       };
     };
   };
