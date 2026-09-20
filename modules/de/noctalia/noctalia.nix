@@ -4,13 +4,13 @@
   ...
 }: let
   inherit (self.cosmetic.cursor) name pkgsName size;
-  inherit (lib) singleton;
+  inherit (lib) mkDefault singleton;
 in {
   flake.modules = {
     nixos.noctalia = {pkgs, ...}: {
       hjem.extraModules = singleton self.modules.hjem.noctalia;
       services.displayManager.noctalia-greeter = {
-        enable = true;
+        enable = mkDefault true;
         settings = {
           cursor.size = size;
           keyboard.layout = "gb";
@@ -110,7 +110,6 @@ in {
           launch_apps_as_systemd_services = false;
           polkit_agent = true;
           screen_time_enabled = true;
-          settings_show_advancded = true;
           setup_wizard_enabled = false;
           animation.enabled = false;
           greeter_sync.auto_sync = true;
@@ -212,7 +211,7 @@ in {
             type = "volume";
           };
           workspaces = {
-            display = "id";
+            label_source = "id";
             empty_color = "tertiary";
             focused_color = "primary";
             hide_when_empty = false;
