@@ -32,7 +32,6 @@ in {
         services.udev.packages = with pkgs; [libmtp];
         environment.systemPackages = with pkgs; [
           libmtp
-          simple-mtpfs
           gvfs
           nautilus
         ];
