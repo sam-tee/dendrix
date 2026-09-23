@@ -27,8 +27,6 @@
         |> builtins.concatStringsSep "\n";
     in {
       xdg.config.files."niri/config.kdl".text = ''
-        spawn-at-startup "noctalia"
-        spawn-at-startup "bitwarden"
         spawn-at-startup "xwayland-satellite"
 
         input {

@@ -42,11 +42,6 @@ in {
           local files = "ghostty -e yazi"
           local browser = "helium --new-window --ozone-platform=wayland"
 
-          hl.on("hyprland.start", function()
-            hl.exec_cmd("noctalia")
-            hl.exec_cmd("bitwarden")
-          end)
-
           hl.config({
             cursor = {no_hardware_cursors = true,},
             general = {
