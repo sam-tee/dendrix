@@ -1,7 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.home-assistant = {config, ...}: let
-    mkIP = host: self.hosts.${host}.tailscaleIP;
-    hostIP = mkIP config.networking.hostName;
+    inherit (config.homelab) caddyIP machineIP;
+    inherit (self.services.home-assistant) domain port subdomain;
   in {
     services.home-assistant = {
       enable = true;
@@ -12,14 +12,14 @@
       ];
       config = {
         http = {
-          server_host = hostIP;
-          server_port = self.services.home-assistant.port;
+          server_host = machineIP;
+          inherit port;
           use_x_forwarded_for = true;
-          trusted_proxies = [hostIP (mkIP "oracle")];
+          trusted_proxies = [machineIP caddyIP];
         };
         homeassistant = {
           name = "Home";
-          external_url = "https://ha.ts.akhlus.uk";
+          external_url = "https://${subdomain}.${domain}";
         };
         sensor = [
           {

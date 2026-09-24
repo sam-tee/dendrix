@@ -1,17 +1,18 @@
 {
   flake.modules.nixos.nextcloud = {config, ...}: let
-    inherit (config.homelab) dataDir;
+    inherit (config.homelab) dataDir domain;
+    hostname = config.networking.hostName;
   in {
     sops.secrets."nextcloud/adminPwd" = {};
     services.nextcloud = {
       enable = true;
       home = "${dataDir}/docs";
-      hostName = "u410";
+      inherit hostname;
       database.createLocally = true;
       configureRedis = true;
       maxUploadSize = "16G";
       https = true;
-      settings.trusted_domains = ["u410" "localhost" "192.168.10.0/24" "u410.scylla-goblin.ts.net"];
+      settings.trusted_domains = [hostname "localhost" domain];
       config = {
         dbtype = "pgsql";
         adminuser = "admin";

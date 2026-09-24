@@ -37,24 +37,14 @@
         description = "Working directory where seen-game state is persisted";
       };
 
-      host = lib.mkOption {
-        type = lib.types.str;
-        default = "127.0.0.1";
-        description = "Host the service binds to";
-      };
-
-      port = lib.mkOption {
-        type = lib.types.port;
-        default = 8423;
-        description = "Port the service listens on";
-      };
-
       settings = lib.mkOption {
         inherit (settingsFormat) type;
         default = {};
         description = ''
           Sports Notify configuration, written as TOML and passed via
-          `--config`. See <https://github.com/> for available keys.
+          `--config`. See the sports-notify configuration reference at
+          <https://git.akhlus.uk/sam-tee/python/-/tree/main/sports-ntfy>
+          for available keys.
           Note the Nix store is world-readable, so keep secrets out.
         '';
         example = {

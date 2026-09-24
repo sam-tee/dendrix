@@ -40,7 +40,7 @@ in {
           ];
         };
         homelab = {
-          domain = "akhlus.uk";
+          domain = self.domain;
           dataDir = driveMount;
         };
         programs.ssh.startAgent = true;

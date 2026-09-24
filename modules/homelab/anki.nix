@@ -1,10 +1,12 @@
-{self, ...}: {
-  flake.modules.nixos.anki = {config, ...}: {
+{
+  flake.modules.nixos.anki = {config, ...}: let
+    inherit (config.homelab) dataDir machineIP;
+  in {
     sops.secrets."anki/samPwd" = {};
     services.anki-sync-server = {
-      address = self.hosts.${config.networking.hostName}.tailscaleIP;
+      address = machineIP;
       enable = true;
-      baseDirectory = config.homelab.dataDir;
+      baseDirectory = dataDir;
       users = [
         {
           username = "sam";

@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.modules.nixos.site = {config, ...}: let
-    inherit (config.homelab) dataDir group user;
+    inherit (config.homelab) dataDir group machineIP user;
     inherit (self.services.site) port;
     wwwRoot = "${dataDir}/www";
   in {
@@ -13,7 +13,7 @@
       inherit group user;
       virtualHosts.":${toString port}" = {
         extraConfig = ''
-          bind ${self.hosts.${config.networking.hostName}.tailscaleIP}
+          bind ${machineIP}
           root * ${wwwRoot}
           file_server
         '';

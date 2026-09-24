@@ -4,19 +4,15 @@
     lib,
     ...
   }: let
-    inherit (config.homelab) domain group user;
+    inherit (config.homelab) domain group user tailnetDomain;
     mkCaddyHost = _name: svc: let
-      prefix =
-        if svc.private
-        then "ts."
-        else "";
-      fqdn = "${svc.subdomain}.${prefix}${domain}";
+      fqdn = "${svc.subdomain}.${svc.domain}";
     in
       lib.nameValuePair fqdn {
-        useACMEHost = domain;
+        useACMEHost = svc.domain;
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy http://${svc.host}.scylla-goblin.ts.net:${toString svc.port}
+          reverse_proxy http://${svc.host}.${tailnetDomain}:${toString svc.port}
         '';
       };
     caddyHosts =
@@ -28,10 +24,10 @@
     sops.secrets."cloudflareAPI" = {};
     security.acme = {
       acceptTerms = true;
-      defaults.email = "sam@akhlus.uk";
+      defaults.email = "sam@${self.domain}";
       certs.${domain} = {
         reloadServices = ["caddy.service"];
-        extraDomainNames = ["*.${domain}" "*.ts.${domain}"];
+        extraDomainNames = ["*.${domain}"];
         dnsProvider = "cloudflare";
         dnsResolver = "1.1.1.1:53";
         dnsPropagationCheck = true;
@@ -49,12 +45,6 @@
         caddyHosts
         // {
           "*.${domain}" = {
-            useACMEHost = domain;
-            extraConfig = ''
-              respond "Not Found" 404
-            '';
-          };
-          "*.ts.${domain}" = {
             useACMEHost = domain;
             extraConfig = ''
               respond "Not Found" 404

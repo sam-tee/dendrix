@@ -1,5 +1,9 @@
-{
-  flake.modules.nixos.server = {lib, ...}: {
+{self, ...}: {
+  flake.modules.nixos.server = {
+    config,
+    lib,
+    ...
+  }: {
     options.homelab = {
       user = lib.mkOption {
         default = "media";
@@ -13,9 +17,20 @@
       };
       domain = lib.mkOption {
         type = lib.types.str;
-        default = "";
+        default = self.domain;
         description = "Domain name to use";
         example = "zed.dev";
+      };
+      caddyIP = lib.mkOption {
+        default = self.hosts.${self.services.caddy.host}.tailscaleIP;
+      };
+      machineIP = lib.mkOption {
+        default = self.hosts.${config.networking.hostName}.tailscaleIP;
+      };
+      tailnetDomain = lib.mkOption {
+        type = lib.types.str;
+        default = "scylla-goblin.ts.net";
+        description = "Tailnet DNS suffix used for service backends";
       };
       dataDir = lib.mkOption {
         type = lib.types.str;

@@ -1,16 +1,15 @@
 {self, ...}: {
   flake.modules.nixos.qbittorrent = {config, ...}: let
-    inherit (config.homelab) group user;
-    mkIP = host: self.hosts.${host}.tailscaleIP;
+    inherit (config.homelab) caddyIP group machineIP user;
   in {
     services.qbittorrent = {
       enable = true;
       inherit group user;
       webuiPort = self.services.qbittorrent.port;
       serverConfig.Preferences.WebUI = {
-        Address = mkIP config.networking.hostName;
+        Address = machineIP;
         ReverseProxySupportEnabled = true;
-        TrustedReverseProxiesList = mkIP "oracle";
+        TrustedReverseProxiesList = caddyIP;
       };
     };
   };

@@ -3,15 +3,13 @@
     config,
     lib,
     ...
-  }: let
-    mkIP = host: self.hosts.${host}.tailscaleIP;
-  in {
+  }: {
     services.${name} =
       {
         enable = true;
         settings.server = {
           port = self.services.${name}.port;
-          bindAddress = mkIP config.networking.hostName;
+          bindAddress = config.homelab.machineIP;
         };
       }
       // lib.optionalAttrs (name != "prowlarr") {

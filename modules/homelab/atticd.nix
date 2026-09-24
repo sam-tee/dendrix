@@ -5,9 +5,9 @@
     pkgs,
     ...
   }: let
-    inherit (config.homelab) dataDir domain;
-    inherit (self.services.atticd) port subdomain;
+    inherit (self.services.atticd) domain port subdomain;
     inherit (lib) singleton;
+    inherit (config.homelab) dataDir machineIP;
     atticDir = "${dataDir}/attic";
   in {
     sops.secrets."atticd-env" = {};
@@ -16,7 +16,7 @@
         enable = true;
         environmentFile = config.sops.secrets."atticd-env".path;
         settings = {
-          listen = "${self.hosts.${config.networking.hostName}.tailscaleIP}:${toString port}";
+          listen = "${machineIP}:${toString port}";
           api-endpoint = "https://${subdomain}.${domain}/";
           storage = {
             type = "local";
@@ -42,7 +42,7 @@
       };
     };
     systemd = {
-      services.atticd.serviceConfig.ReadWritePaths = singleton dataDir;
+      services.atticd.serviceConfig.ReadWritePaths = singleton atticDir;
       tmpfiles.rules = singleton "d ${atticDir} 0775 atticd atticd -";
     };
     environment.systemPackages = singleton pkgs.attic-client;

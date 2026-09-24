@@ -20,7 +20,7 @@ in {
           oracleHardware
           oracleDisko
         ];
-        homelab.domain = "akhlus.uk";
+        homelab.domain = self.domain;
         environment.systemPackages = [pkgs.ffmpeg-headless];
       };
 

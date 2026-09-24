@@ -8,7 +8,7 @@
       mode = "0440";
     };
     homelab.email = {
-      from = "noreply@akhlus.uk";
+      from = "noreply@${self.domain}";
       host = "smtp-relay.brevo.com";
       user = "9fb25b001@smtp-brevo.com";
       pwdPath = config.sops.secrets.smtpPwd.path;

@@ -83,8 +83,9 @@
       _: extension: optionalAttrs (extension ? policy) {${extension.id} = extension.policy;}
     );
 
+  siteURL = "https://${self.services.site.subdomain}.ts.${self.domain}";
   policy = {
-    NewTabPageLocation = "https://site.ts.akhlus.uk";
+    NewTabPageLocation = siteURL;
     ExtensionInstallForcelist = forcelist;
     ExtensionSettings = extensionSettings;
     "3rdparty".extensions = thirdParty;
@@ -107,7 +108,7 @@ in {
         enable = true;
         extensions = forcelist;
         extraOpts = {
-          NewTabPageLocation = "https://site.ts.akhlus.uk";
+          NewTabPageLocation = siteURL;
           ExtensionSettings = extensionSettings;
           "3rdparty".extensions = thirdParty;
         };

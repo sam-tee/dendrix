@@ -1,23 +1,33 @@
-{lib, ...}: let
+{
+  lib,
+  self,
+  ...
+}: let
   inherit (lib) mkOption types;
-  inherit (types) str bool submodule int attrsOf;
+  inherit (types) attrsOf int str submodule;
 in {
   options.flake.services = mkOption {
     type = attrsOf (submodule {
       options = {
-        port = mkOption {type = int;};
+        port = mkOption {
+          type = int;
+          default = 0;
+          description = "TCP port exposed by the service, or null when it has no listener";
+        };
         host = mkOption {
           type = str;
-          description = "Name of tailscale host service runs on";
-        };
-        private = mkOption {
-          type = bool;
-          default = true;
-          description = "Whether to only expose over tailscale";
+          default = "";
+          description = "Name of the NixOS host the service runs on, or null when dormant";
         };
         subdomain = mkOption {
           type = str;
-          description = "Subdomain to asign service to";
+          default = "";
+          description = "Subdomain to assign service to";
+        };
+        domain = mkOption {
+          type = str;
+          default = self.domain;
+          description = "Domain to run service on";
         };
       };
     });

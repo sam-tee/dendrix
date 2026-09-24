@@ -1,40 +1,36 @@
 {
+  flake.domain = "samtee.party";
   flake.services = let
-    mkService = port: host: private: subdomain: {
-      inherit port host private subdomain;
+    mkService = host: port: subdomain: {
+      inherit port host subdomain;
     };
   in {
-    anki = mkService 27701 "" false "anki";
-    atticd = mkService 27702 "oracle" false "cache";
-    atuin = mkService 8888 "oracle" false "atuin";
-    audiobookshelf = mkService 8000 "oracle" true "audio";
-    bazarr = mkService 6767 "u410" true "bazarr";
-    caddy = mkService 0 "oracle" true "";
-    calibre = mkService 8083 "oracle" false "books";
-    cockpit = mkService 9090 "" true "dash";
-    code-server = mkService 4444 "" true "code";
-    copyparty = mkService 3210 "u410" true "files";
-    forgejo = mkService 3000 "oracle" false "git";
-    grimmory = mkService 6060 "" false "grimmory";
-    home-assistant = mkService 8123 "u410" true "ha";
-    immich = mkService 2283 "u410" false "photos";
-    jellyfin = mkService 8096 "u410" false "media";
-    lidarr = mkService 8686 "u410" true "lidarr";
-    linkwarden = mkService 9183 "u410" false "link";
-    mealie = mkService 9876 "oracle" false "cooking";
-    navidrome = mkService 4533 "u410" false "music";
-    nextcloud = mkService 0 "" true "";
-    ntfy = mkService 4198 "oracle" false "ntfy";
-    prowlarr = mkService 9696 "u410" true "prowlarr";
-    qbittorrent = mkService 7877 "u410" true "torrent";
-    radarr = mkService 7878 "u410" true "radarr";
-    seerr = mkService 5055 "u410" true "seerr";
-    slskd = mkService 5030 "u410" true "slskd";
-    sonarr = mkService 8989 "u410" true "sonarr";
-    site = mkService 8090 "oracle" true "site";
-    sports-ntfy = mkService 0 "oracle" false "";
-    stirling = mkService 8998 "" true "pdf";
-    terraria = mkService 4197 "" false "terraria";
-    vaultwarden = mkService 8222 "oracle" false "vault";
+    anki = mkService "oracle" 27701 "anki";
+    atticd = mkService "oracle" 27702 "cache";
+    atuin = mkService "oracle" 8888 "atuin";
+    audiobookshelf = mkService "" 8000 "audio";
+    bazarr = mkService "u410" 6767 "bazarr";
+    caddy = mkService "oracle" 0 "";
+    calibre = mkService "oracle" 8083 "books";
+    copyparty = mkService "u410" 3210 "files";
+    forgejo = mkService "oracle" 3000 "git";
+    home-assistant = mkService "u410" 8123 "ha";
+    immich = mkService "u410" 2283 "photos";
+    jellyfin = mkService "u410" 8096 "media";
+    lidarr = mkService "u410" 8686 "lidarr";
+    linkwarden = mkService "u410" 9183 "link";
+    mealie = mkService "oracle" 9876 "cooking";
+    navidrome = mkService "u410" 4533 "music";
+    nextcloud = mkService "" 0 "";
+    ntfy = mkService "oracle" 4198 "ntfy";
+    prowlarr = mkService "" 9696 "prowlarr";
+    qbittorrent = mkService "" 7877 "torrent";
+    radarr = mkService "u410" 7878 "radarr";
+    seerr = mkService "" 5055 "seerr";
+    slskd = mkService "u410" 5030 "slskd";
+    sonarr = mkService "u410" 8989 "sonarr";
+    site = mkService "oracle" 8090 "site";
+    sports-ntfy = mkService "oracle" 0 "";
+    vaultwarden = mkService "oracle" 8222 "vault";
   };
 }

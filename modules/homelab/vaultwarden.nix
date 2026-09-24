@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.modules.nixos.vaultwarden = {config, ...}: let
-    inherit (config.homelab) domain email dataDir;
+    inherit (config.homelab) domain email dataDir machineIP;
     inherit (email) from host user;
     inherit (self.services.vaultwarden) port subdomain;
   in {
@@ -14,7 +14,7 @@
         SIGNUPS_ALLOWED = false;
         INVITATIONS_ALLOWED = true;
         IP_HEADER = "X-Forwarded-For";
-        ROCKET_ADDRESS = self.hosts.${config.networking.hostName}.tailscaleIP;
+        ROCKET_ADDRESS = machineIP;
         ROCKET_PORT = port;
         SMTP_HOST = host;
         SMTP_FROM = from;

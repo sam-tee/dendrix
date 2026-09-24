@@ -48,14 +48,14 @@ in {
           user = username;
           group = "media";
           dataDir = config.users.users.${username}.home;
+          machineIP = self.hosts.${config.networking.hostName}.tailscaleIP;
         };
-      inherit (attrs) group user dataDir;
+      inherit (attrs) group user dataDir machineIP;
       folders = allFolders |> lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices);
-      tsIP = self.hosts.${config.networking.hostName}.tailscaleIP;
       bindAddr =
-        if tsIP == ""
+        if machineIP == ""
         then "0.0.0.0"
-        else tsIP;
+        else machineIP;
     in {
       sops.secrets."syncPwd".owner = user;
       services.syncthing = {
@@ -84,7 +84,7 @@ in {
               lib.nameValuePair "${hostname}.ts.${config.homelab.domain}" {
                 useACMEHost = config.homelab.domain;
                 extraConfig = ''
-                  reverse_proxy http://${hostname}.scylla-goblin.ts.net:8384
+                  reverse_proxy http://${hostname}.${config.homelab.tailnetDomain}:8384
                 '';
               });
         };

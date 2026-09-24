@@ -10,9 +10,8 @@
     ...
   }: let
     cpp = inputs.copyparty;
-    inherit (config.homelab) group user dataDir;
+    inherit (config.homelab) caddyIP group machineIP user dataDir;
     inherit (self.services.copyparty) port;
-    mkIP = host: self.hosts.${host}.tailscaleIP;
   in {
     sops.secrets = {
       "copy/samPwd".owner = user;
@@ -29,10 +28,10 @@
         media.passwordFile = config.sops.secrets."copy/mediaPwd".path;
       };
       settings = {
-        i = mkIP config.networking.hostName;
+        i = machineIP;
         no-reload = true;
         p = [port];
-        xff-src = mkIP "oracle"; # oracle's tailnet IP (the only reverse proxy)
+        xff-src = caddyIP;
         xff-hdr = "x-forwarded-for";
         rproxy = 1;
       };

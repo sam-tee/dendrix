@@ -6,10 +6,9 @@
   }: let
     cfg = config.services.forgejo;
     hl = config.homelab;
-    inherit (hl) email;
+    inherit (hl) caddyIP email machineIP;
     inherit (self.services.forgejo) port subdomain;
     domain = "${subdomain}.${hl.domain}";
-    mkIP = host: self.hosts.${host}.tailscaleIP;
   in {
     imports = [self.modules.nixos.forgejo-actions];
 
@@ -43,7 +42,7 @@
         server = {
           DOMAIN = domain;
           ROOT_URL = "https://${domain}/";
-          HTTP_ADDR = self.hosts.${config.networking.hostName}.tailscaleIP;
+          HTTP_ADDR = machineIP;
           HTTP_PORT = port;
           LANDING_PAGE = "/sam-tee";
           START_SSH_SERVER = true;
@@ -57,7 +56,7 @@
           REGISTER_EMAIL_CONFIRM = true;
           DEFAULT_KEEP_EMAIL_PRIVATE = true;
         };
-        security.REVERSE_PROXY_TRUSTED_PROXIES = "${mkIP "oracle"}/32,127.0.0.1/32,::1/128";
+        security.REVERSE_PROXY_TRUSTED_PROXIES = "${caddyIP}/32,127.0.0.1/32,::1/128";
         log.LEVEL = "Info";
       };
     };

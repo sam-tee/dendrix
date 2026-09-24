@@ -1,7 +1,6 @@
 {self, ...}: {
   flake.modules.nixos.slskd = {config, ...}: let
-    inherit (config.homelab) group user dataDir;
-    mkIP = host: self.hosts.${host}.tailscaleIP;
+    inherit (config.homelab) group user dataDir machineIP;
   in {
     sops.secrets.slskd = {};
     services.slskd = {
@@ -11,7 +10,7 @@
       settings = {
         web = {
           port = self.services.slskd.port;
-          ip_address = mkIP config.networking.hostName;
+          ip_address = machineIP;
         };
         directories = {
           downloads = "${dataDir}/slskd/downloads";

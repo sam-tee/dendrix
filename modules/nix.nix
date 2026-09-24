@@ -16,7 +16,7 @@
         hostName = "oracle:2222";
         systems = ["aarch64-linux"];
         protocol = "ssh-ng";
-        sshUser = "sam";
+        sshUser = self.hosts.oracle.username;
         sshKey = config.sops.secrets."ssh/oracle".path;
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
         maxJobs = 4;
@@ -32,7 +32,7 @@
         hostName = "u410:2222";
         systems = ["x86_64-linux"];
         protocol = "ssh-ng";
-        sshUser = "sam";
+        sshUser = self.hosts.u410.username;
         sshKey = config.sops.secrets."ssh/u410".path;
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEB1NDEwCg==";
         maxJobs = 2;
@@ -48,7 +48,7 @@
         hostName = "mba:22";
         systems = ["aarch64-darwin"];
         protocol = "ssh-ng";
-        sshUser = "sam";
+        sshUser = self.hosts.mba.username;
         sshKey = config.sops.secrets."ssh/mba".path;
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU5IV3c1Y3dXekpmRytacVZXb1N0T2JpZGd1c2NPUCtMeFJhUVE5bnJTcnAgcm9vdEBtYmEK";
         maxJobs = 4;
@@ -79,7 +79,7 @@ in {
           keep-going = true;
           warn-dirty = false;
           builders-use-substitutes = true;
-          extra-substituters = ["https://cache.akhlus.uk/dendrix"];
+          extra-substituters = ["https://cache.${self.domain}/dendrix"];
           extra-trusted-public-keys = ["dendrix:lYCtmFj4pkP8VyJq0LryToQfVAXpMcRou8wPFKOw2xI="];
           flake-registry = "";
           experimental-features = [

@@ -1,6 +1,6 @@
-{self, ...}: {
+{
   flake.modules.nixos.jellyfin = {config, ...}: let
-    inherit (config.homelab) group user dataDir;
+    inherit (config.homelab) caddyIP group user dataDir;
   in {
     services.jellyfin = {
       enable = true;
@@ -8,7 +8,6 @@
       dataDir = "${dataDir}/jellyfin";
       cacheDir = "${dataDir}/jellyfin/cache";
     };
-    systemd.services.jellyfin.environment.KNOWN_PROXIES =
-      self.hosts.oracle.tailscaleIP;
+    systemd.services.jellyfin.environment.KNOWN_PROXIES = caddyIP;
   };
 }
