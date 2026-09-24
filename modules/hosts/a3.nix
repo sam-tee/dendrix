@@ -31,6 +31,8 @@ in {
         services.gvfs.enable = true;
         services.udev.packages = with pkgs; [libmtp];
         environment.systemPackages = with pkgs; [
+          ncspot
+          spotify-player
           libmtp
           gvfs
           nautilus
@@ -45,7 +47,7 @@ in {
         ];
         hjem.extraModules = lib.singleton {
           xdg.config.files."hypr/hyprland.lua".text = ''
-            hl.monitor({output="HDMI-A-3", scale=2, mode="3840x2160@60.00Hz"})
+            hl.monitor({output="HDMI-A-3", scale=1.5, mode="3840x2160@60.00Hz"})
           '';
         };
       };

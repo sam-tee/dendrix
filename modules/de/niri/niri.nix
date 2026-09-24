@@ -83,7 +83,7 @@
             Mod+Shift+S { action spawn "noctalia" "msg" "screenshot-region" }
             Mod+Shift+V { action spawn "noctalia" "msg" "panel-toggle" "clipboard" }
             Mod+Return { action spawn "ghostty" }
-            Mod+B { action spawn "brave" "--new-window" "--ozone-platform=wayland" }
+            Mod+B { action spawn "helium" "--new-window" "--ozone-platform=wayland" }
             Mod+E { action spawn "ghostty" "-e" "yazi" }
             Mod+Z { action spawn "zeditor" }
             Mod+Shift+Escape { action quit }

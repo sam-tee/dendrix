@@ -80,7 +80,6 @@ in {
             hide_root = true;
           };
           scrollbar.show = "system";
-          session.trust_all_worktrees = true;
           show_edit_predictions = false;
           tab_bar = {
             show = true;
