@@ -82,8 +82,6 @@ Known hostnames are:
 - `a3`
 - `duet`
 - `duet3`
-- `corsola`
-- `hp`
 - `mba`
 - `oracle`
 - `s340`
