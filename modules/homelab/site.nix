@@ -1,7 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.site = {config, ...}: let
-    inherit (config.homelab) dataDir group machineIP user;
-    inherit (self.services.site) port;
+    inherit (config.homelab) dataDir domain group machineIP user;
+    inherit (self.services.site) fqdn;
     wwwRoot = "${dataDir}/www";
   in {
     systemd.tmpfiles.rules = [
@@ -11,7 +11,8 @@
     services.caddy = {
       enable = true;
       inherit group user;
-      virtualHosts.":${toString port}" = {
+      virtualHosts."${fqdn}" = {
+        useACMEHost = domain;
         extraConfig = ''
           bind ${machineIP}
           root * ${wwwRoot}

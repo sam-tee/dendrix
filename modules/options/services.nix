@@ -1,8 +1,4 @@
-{
-  lib,
-  self,
-  ...
-}: let
+{lib, ...}: let
   inherit (lib) mkOption types;
   inherit (types) attrsOf int str submodule;
 in {
@@ -19,15 +15,11 @@ in {
           default = "";
           description = "Name of the NixOS host the service runs on, or null when dormant";
         };
-        subdomain = mkOption {
+        fqdn = mkOption {
           type = str;
           default = "";
-          description = "Subdomain to assign service to";
-        };
-        domain = mkOption {
-          type = str;
-          default = self.domain;
-          description = "Domain to run service on";
+          description = "Fully qualified domain name service runs on";
+          example = "git.domain.com";
         };
       };
     });

@@ -1,8 +1,12 @@
-{
+{self, ...}: {
   flake.domain = "samtee.party";
   flake.services = let
     mkService = host: port: subdomain: {
-      inherit port host subdomain;
+      inherit port host;
+      fqdn =
+        if subdomain == ""
+        then self.domain
+        else "${subdomain}.${self.domain}";
     };
   in {
     anki = mkService "oracle" 27701 "anki";
@@ -27,9 +31,9 @@
     qbittorrent = mkService "" 7877 "torrent";
     radarr = mkService "u410" 7878 "radarr";
     seerr = mkService "" 5055 "seerr";
+    site = mkService "oracle" 0 "";
     slskd = mkService "u410" 5030 "slskd";
     sonarr = mkService "u410" 8989 "sonarr";
-    site = mkService "oracle" 8090 "site";
     sports-ntfy = mkService "oracle" 0 "";
     vaultwarden = mkService "oracle" 8222 "vault";
   };

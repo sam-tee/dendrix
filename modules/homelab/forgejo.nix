@@ -7,8 +7,7 @@
     cfg = config.services.forgejo;
     hl = config.homelab;
     inherit (hl) caddyIP email machineIP;
-    inherit (self.services.forgejo) port subdomain;
-    domain = "${subdomain}.${hl.domain}";
+    inherit (self.services.forgejo) fqdn port;
   in {
     imports = [self.modules.nixos.forgejo-actions];
 
@@ -40,14 +39,14 @@
         actions.ENABLED = true;
         cron.ENABLED = true;
         server = {
-          DOMAIN = domain;
-          ROOT_URL = "https://${domain}/";
+          DOMAIN = fqdn;
+          ROOT_URL = "https://${fqdn}/";
           HTTP_ADDR = machineIP;
           HTTP_PORT = port;
           LANDING_PAGE = "/sam-tee";
           START_SSH_SERVER = true;
           SSH_PORT = 22;
-          SSH_DOMAIN = domain;
+          SSH_DOMAIN = fqdn;
           DISABLE_SSH = false;
         };
         service = {

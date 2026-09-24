@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.modules.nixos.sports-ntfy = {config, ...}: let
-    inherit (self.services.ntfy) domain subdomain;
+    inherit (self.services.ntfy) fqdn;
   in {
     sops.secrets."sportsNtfyEnv" = {};
     services.sports-ntfy = {
@@ -8,7 +8,7 @@
       environmentFile = config.sops.secrets."sportsNtfyEnv".path;
       settings = {
         ntfy = {
-          server = "https://${subdomain}.${domain}";
+          server = "https://${fqdn}";
           topic = "gameday";
           priority = "default";
         };

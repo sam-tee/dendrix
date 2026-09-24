@@ -1,7 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.home-assistant = {config, ...}: let
     inherit (config.homelab) caddyIP machineIP;
-    inherit (self.services.home-assistant) domain port subdomain;
+    inherit (self.services.home-assistant) fqdn port;
   in {
     services.home-assistant = {
       enable = true;
@@ -19,7 +19,7 @@
         };
         homeassistant = {
           name = "Home";
-          external_url = "https://${subdomain}.${domain}";
+          external_url = "https://${fqdn}";
         };
         sensor = [
           {

@@ -19,7 +19,7 @@
           search_mode = "fuzzy";
           show_preview = true;
           style = "compact";
-          sync_address = "https://${self.services.atuin.subdomain}.${self.domain}";
+          sync_address = "https://${self.services.atuin.fqdn}";
           sync_frequency = "5m";
           update_check = false;
           key_path = config.sops.secrets."atuin-key".path;

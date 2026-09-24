@@ -5,7 +5,7 @@
     pkgs,
     ...
   }: let
-    inherit (self.services.atticd) domain port subdomain;
+    inherit (self.services.atticd) fqdn port;
     inherit (lib) singleton;
     inherit (config.homelab) dataDir machineIP;
     atticDir = "${dataDir}/attic";
@@ -17,7 +17,7 @@
         environmentFile = config.sops.secrets."atticd-env".path;
         settings = {
           listen = "${machineIP}:${toString port}";
-          api-endpoint = "https://${subdomain}.${domain}/";
+          api-endpoint = "https://${fqdn}/";
           storage = {
             type = "local";
             path = "${atticDir}/storage";

@@ -83,7 +83,7 @@
       _: extension: optionalAttrs (extension ? policy) {${extension.id} = extension.policy;}
     );
 
-  siteURL = "https://${self.services.site.subdomain}.ts.${self.domain}";
+  siteURL = "https://${self.services.site.fqdn}";
   policy = {
     NewTabPageLocation = siteURL;
     ExtensionInstallForcelist = forcelist;

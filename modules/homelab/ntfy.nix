@@ -1,12 +1,11 @@
 {self, ...}: {
   flake.modules.nixos.ntfy = {config, ...}: let
-    inherit (config.homelab) domain;
-    inherit (self.services.ntfy) port subdomain;
+    inherit (self.services.ntfy) fqdn port;
   in {
     services.ntfy-sh = {
       enable = true;
       settings = {
-        base-url = "https://${subdomain}.${domain}";
+        base-url = "https://${fqdn}";
         listen-http = "${self.hosts.${config.networking.hostName}.tailscaleIP}:${toString port}";
         upstream-base-url = "https://ntfy.sh";
         behind-proxy = true;

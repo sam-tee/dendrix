@@ -1,8 +1,8 @@
 {self, ...}: {
   flake.modules.nixos.vaultwarden = {config, ...}: let
-    inherit (config.homelab) domain email dataDir machineIP;
+    inherit (config.homelab) email dataDir machineIP;
     inherit (email) from host user;
-    inherit (self.services.vaultwarden) port subdomain;
+    inherit (self.services.vaultwarden) fqdn port;
   in {
     sops.secrets."vaultwarden.env".owner = "vaultwarden";
     services.vaultwarden = {
@@ -10,7 +10,7 @@
       backupDir = "${dataDir}/vaultwarden/backup";
       environmentFile = config.sops.secrets."vaultwarden.env".path;
       config = {
-        DOMAIN = "https://${subdomain}.${domain}";
+        DOMAIN = "https://${fqdn}";
         SIGNUPS_ALLOWED = false;
         INVITATIONS_ALLOWED = true;
         IP_HEADER = "X-Forwarded-For";

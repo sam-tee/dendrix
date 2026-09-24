@@ -3,7 +3,7 @@
   self,
   ...
 }: {
-  flake-file.inputs.mobile-nixos.url = "git+https://git.akhlus.uk/sam-tee/mobile.git";
+  flake-file.inputs.mobile-nixos.url = "git+https://${self.services.forgejo.fqdn}/sam-tee/mobile.git";
 
   flake.lib.mkMobile = hostname: let
     inherit (self.hosts.${hostname}) username system pubKey;

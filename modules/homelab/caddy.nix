@@ -5,11 +5,9 @@
     ...
   }: let
     inherit (config.homelab) domain group user tailnetDomain;
-    mkCaddyHost = _name: svc: let
-      fqdn = "${svc.subdomain}.${svc.domain}";
-    in
-      lib.nameValuePair fqdn {
-        useACMEHost = svc.domain;
+    mkCaddyHost = _name: svc:
+      lib.nameValuePair svc.fqdn {
+        useACMEHost = domain;
         extraConfig = ''
           encode zstd gzip
           reverse_proxy http://${svc.host}.${tailnetDomain}:${toString svc.port}
@@ -17,8 +15,8 @@
       };
     caddyHosts =
       self.services
-      |> lib.filterAttrs (_name: svc: svc.subdomain or "" != "")
-      |> lib.filterAttrs (_name: svc: svc.host or "" != "")
+      |> lib.filterAttrs (_name: svc: svc.port != 0)
+      |> lib.filterAttrs (_name: svc: svc.host != "")
       |> (lib.mapAttrs' mkCaddyHost);
   in {
     sops.secrets."cloudflareAPI" = {};
