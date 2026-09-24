@@ -17,7 +17,7 @@ jobs:
   build-and-cache:
     runs-on: native
     env:
-      ATTIC_ENDPOINT: https://cache.akhlus.uk/
+      ATTIC_ENDPOINT: https://cache.samtee.party/
       ATTIC_CACHE: dendrix
       ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
     steps:
@@ -48,7 +48,7 @@ jobs:
           bash scripts/update-services-readme.sh
           if ! git diff --quiet -- README.md; then
             git config user.name "forgejo-actions"
-            git config user.email "forgejo-actions@akhlus.uk"
+            git config user.email "forgejo-actions@samtee.party"
             git add README.md
             git commit -m "chore: sync README services table"
             git push
@@ -64,7 +64,7 @@ jobs:
           fi
 
           git config user.name "forgejo-actions"
-          git config user.email "forgejo-actions@akhlus.uk"
+          git config user.email "forgejo-actions@samtee.party"
           git add flake.lock
           git commit -m "chore: update flake lock"
           git push

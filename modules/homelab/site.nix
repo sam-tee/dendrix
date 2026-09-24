@@ -15,6 +15,7 @@
         useACMEHost = domain;
         extraConfig = ''
           bind ${machineIP}
+          encode zstd gzip
           root * ${wwwRoot}
           file_server
         '';

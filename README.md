@@ -5,8 +5,7 @@ Uses flake-parts to make every file under `modules/` a flake module.
 ## Services
 
 Registry: `modules/homelab/hlServices.nix` — a host of `-` means the service
-module exists but is not enabled on any machine. `private` services are only
-reachable on the tailnet (`<sub>.ts.akhlus.uk`).
+module exists but is not enabled on any machine. 
 
 <!-- services-table:start -->
 |     Service      |  Machine  |  Port   |  Subdomain  |  Private  |
@@ -45,9 +44,8 @@ reachable on the tailnet (`<sub>.ts.akhlus.uk`).
 |   vaultwarden    |  oracle   |  8222   |    vault    |     n     |
 <!-- services-table:end -->
 
-Public `*.akhlus.uk` hosts and private `*.ts.akhlus.uk` hosts are reverse
-proxied by Caddy on `oracle` over the tailnet. The services table above is auto-generated
-from `modules/homelab/hlServices.nix` by `scripts/update-services-readme.sh`
+The services table above is auto-generated from `modules/homelab/hlServices.nix` 
+by `scripts/update-services-readme.sh`
 (run by `.forgejo/workflows/cache.yml` on every push).
 
 ## Hosts
@@ -94,13 +92,13 @@ age keys (see `nix-secrets/.sops.yaml`). The default sops file is wired up in
 
 ## Binary cache
 
-`oracle` runs Attic at `https://cache.akhlus.uk/`.
+`oracle` runs Attic at `https://cache.samtee.party/`.
 Forgejo Actions updates `flake.lock` on schedule/dispatch, builds all packages for
 `x86_64-linux` + `aarch64-linux` with `nix-fast-build --skip-cached
 --attic-cache dendrix`, syncs this README's services table, commits
 `flake.lock`, and sends a ntfy notification. Pushes
 also rebuild and upload the current outputs. All clients use
-`https://cache.akhlus.uk/dendrix` as substituter (see `modules/nix.nix`).
+`https://cache.samtee.party/dendrix` as substituter (see `modules/nix.nix`).
 
 The server needs a SOPS secret named `atticd-env` containing:
 
@@ -122,7 +120,7 @@ the local Nix client once:
 
 ```sh
 sudo atticd-atticadm make-token --sub sam --validity 1y --pull dendrix
-attic login --set-default dendrix https://cache.akhlus.uk "$TOKEN"
+attic login --set-default dendrix https://cache.samtee.party "$TOKEN"
 attic use dendrix
 ```
 

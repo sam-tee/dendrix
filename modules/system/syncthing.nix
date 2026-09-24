@@ -81,7 +81,7 @@ in {
           virtualHosts =
             devices
             |> lib.mapAttrs' (hostname: _:
-              lib.nameValuePair "${hostname}.ts.${config.homelab.domain}" {
+              lib.nameValuePair "${hostname}.${config.homelab.domain}" {
                 useACMEHost = config.homelab.domain;
                 extraConfig = ''
                   reverse_proxy http://${hostname}.${config.homelab.tailnetDomain}:8384

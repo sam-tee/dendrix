@@ -43,7 +43,7 @@
       url = "github:jovian-experiments/jovian-nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mobile-nixos.url = "git+https://git.akhlus.uk/sam-tee/mobile.git";
+    mobile-nixos.url = "git+https://git.samtee.party/sam-tee/mobile.git";
     niri-flake = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,7 +60,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pyScripts = {
-      url = "git+https://git.akhlus.uk/sam-tee/python.git";
+      url = "git+https://git.samtee.party/sam-tee/python.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {

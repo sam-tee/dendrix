@@ -89,8 +89,8 @@ Known hostnames are:
 
 ## Homelab Notes
 
-- Main domain: `akhlus.uk`. Caddy on `oracle` reverse-proxies public
-  `*.akhlus.uk` and private `*.ts.akhlus.uk` (tailnet) hosts.
+- Main domain: `samtee.party`. Caddy on `oracle` reverse-proxies services 
+  to this domain with DNS for public/private split.
 - Service placement/ports/visibility are registered in
   `modules/homelab/hlServices.nix`; do not duplicate that data here, see
   README services table.

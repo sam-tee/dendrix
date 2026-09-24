@@ -43,7 +43,7 @@
         description = ''
           Sports Notify configuration, written as TOML and passed via
           `--config`. See the sports-notify configuration reference at
-          <https://git.akhlus.uk/sam-tee/python/-/tree/main/sports-ntfy>
+          <https://git.samtee.party/sam-tee/python/-/tree/main/sports-ntfy>
           for available keys.
           Note the Nix store is world-readable, so keep secrets out.
         '';

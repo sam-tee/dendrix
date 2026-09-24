@@ -11,11 +11,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1790202176,
-        "narHash": "sha256-TTEnjen0U5eaaH8UnP3a/u1qCk03e1eGXXjH1L2w7VQ=",
+        "lastModified": 1790255433,
+        "narHash": "sha256-a/tZWRpZsIIh6mY16bR57/8hbkCFDASasOxrQjMTekY=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "43492740b91b385e9ec64d6f2fbbeaaed647e6a5",
+        "rev": "c2d669b6ed4001f1f7c2a45cf14724467387cbe0",
         "type": "github"
       },
       "original": {
@@ -81,11 +81,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1789909976,
-        "narHash": "sha256-HvLJQLp6vXQhOn8nGqD3oJadfrmXIACot85I03kOBc0=",
+        "lastModified": 1790278281,
+        "narHash": "sha256-gha91N21xD3kp+KqEG3Bq5YdA3OliNPvBrZInN/XB+E=",
         "owner": "9001",
         "repo": "copyparty",
-        "rev": "f445bfa862f086839fe6cfb2cdc2409e788d936a",
+        "rev": "107dec9ed1c93b8d02ebb14ff9a135fe7c4013ef",
         "type": "github"
       },
       "original": {
@@ -264,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790071354,
-        "narHash": "sha256-iW1XhiEqsDLj/UCjf/EC2lMISjVLEeGYzzPFnEDBkVc=",
+        "lastModified": 1790262736,
+        "narHash": "sha256-2mkmw6gwssQTXpDHStOE/xa9iDBOroH8reHGv+B2QRk=",
         "owner": "amaanq",
         "repo": "helium-flake",
-        "rev": "47bb1d93a78eb46ae8b5f044e1acf074173324a6",
+        "rev": "1ef59c8e91ee66d0468c32fdeec290391c42a829",
         "type": "github"
       },
       "original": {
@@ -301,11 +301,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1790205078,
-        "narHash": "sha256-G5fYhL0ru8lRIOMOYZ8SCR+tsd8gVds7wN7J+/Eucgs=",
+        "lastModified": 1790274630,
+        "narHash": "sha256-VZliWfHt6PNUWBk2t4OaU929x7AufhDGnFEI7y9n1AU=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "5e8d0ddc260cc4e4d1248d2b9cea5503f9be2daa",
+        "rev": "39dcc50bc03ee1ccf3d79132ddb610402ae3d577",
         "type": "github"
       },
       "original": {
@@ -317,11 +317,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1790204910,
-        "narHash": "sha256-2JXaRqFcBSayOBqZXWScVvNhafz5qkqAWSIdc9YI6HI=",
+        "lastModified": 1790278274,
+        "narHash": "sha256-tCJOOVbIKrwe2+lUFz3CDnp6H+Vrle8KQzzJqPq6KeM=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "be9680697159fa928f4dc44b62adf03e4a754cd7",
+        "rev": "49b802f2817cfb98f061fa01f02c8325fab0042c",
         "type": "github"
       },
       "original": {
@@ -413,11 +413,11 @@
         "rev": "15621876177d2c95da5f549dd2380be54606140f",
         "revCount": 3222,
         "type": "git",
-        "url": "https://git.akhlus.uk/sam-tee/mobile.git"
+        "url": "https://git.samtee.party/sam-tee/mobile.git"
       },
       "original": {
         "type": "git",
-        "url": "https://git.akhlus.uk/sam-tee/mobile.git"
+        "url": "https://git.samtee.party/sam-tee/mobile.git"
       }
     },
     "niri-flake": {
@@ -640,11 +640,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1790149054,
-        "narHash": "sha256-fcRceL4EcNlsCY2GWwzfIVrJyjbA2lpQSuljkc8UXOw=",
-        "rev": "8825bebf6324e0579d012936eff73379af284b6d",
+        "lastModified": 1790238896,
+        "narHash": "sha256-nuO5fxDxKTeYxSEfD4mVB+XwzOy5qj9T2LxVc5vk4Bc=",
+        "rev": "34ca302a9572963c02e385c056be37c85ff51b77",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1078395.8825bebf6324/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1078969.34ca302a9572/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -698,11 +698,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789729701,
-        "narHash": "sha256-WKW+uxD7RCluEMzWTNWH6q36yePxPNyMZ44sKN0eHKI=",
+        "lastModified": 1789731283,
+        "narHash": "sha256-IgTBMewbhGKyWF9RoABIC/oxfqUTMRUqVtWcAQnncAg=",
         "owner": "karinushka",
         "repo": "paneru",
-        "rev": "04f1663b7c08142dadd909fe6451f9888f85a663",
+        "rev": "f79b66ca34c217af1dbf779c9e2fd7a475277c99",
         "type": "github"
       },
       "original": {
@@ -719,17 +719,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1787885194,
-        "narHash": "sha256-+0iI6nqPkIvDVyY+BATn/X2G9yr1TPZ02mXeluP2GPI=",
+        "lastModified": 1790277375,
+        "narHash": "sha256-Y4+7ZMugUWyJaEhIJ+DqG+O0mSI54bU/4uTRY7UhFXU=",
         "ref": "refs/heads/main",
-        "rev": "3ced495dfc2dcfacf58124db66c8a0ab8b9c3b61",
-        "revCount": 10,
+        "rev": "112da0ce5d080ba8884607a14963b85e2504056f",
+        "revCount": 12,
         "type": "git",
-        "url": "https://git.akhlus.uk/sam-tee/python.git"
+        "url": "https://git.samtee.party/sam-tee/python.git"
       },
       "original": {
         "type": "git",
-        "url": "https://git.akhlus.uk/sam-tee/python.git"
+        "url": "https://git.samtee.party/sam-tee/python.git"
       }
     },
     "root": {
@@ -764,11 +764,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789890976,
-        "narHash": "sha256-GKwH3zpy7tartuJMG0Rv/xUsdetG1QLmTVv8UKgJLmA=",
+        "lastModified": 1790247521,
+        "narHash": "sha256-TNfgoHsqsYYvaJImlWctfRkh4PseTagzegU1Dgdbehw=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "7214124c20c1542c90deb54af50e2f53ae02711f",
+        "rev": "2bd00bd9bb35fe6d114888c8f1c2e946c541dd8f",
         "type": "github"
       },
       "original": {
