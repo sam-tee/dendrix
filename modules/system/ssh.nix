@@ -18,6 +18,13 @@ in {
           AcceptEnv ${envVar}
         '';
       };
+      services.fail2ban.jails.sshd.settings = {
+        enabled = true;
+        port = "${toString linuxPort}";
+        maxretry = 5;
+        findtime = "10m";
+        bantime = "1h";
+      };
     };
     darwin.default = self.modules.darwin.ssh;
     darwin.ssh = _: {
