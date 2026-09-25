@@ -8,7 +8,8 @@
     hl = config.homelab;
     inherit (hl) caddyIP email machineIP;
     inherit (self.services.forgejo) fqdn port;
-    forgejoSshLog = "${cfg.settings.log.ROOT_PATH}/forgejo-ssh.log";
+    forgejoSshLogDir = "/var/log/forgejo";
+    forgejoSshLog = "${forgejoSshLogDir}/forgejo-ssh.log";
   in {
     imports = [self.modules.nixos.forgejo-actions];
 
@@ -58,6 +59,7 @@
         };
         security.REVERSE_PROXY_TRUSTED_PROXIES = "${caddyIP}/32,127.0.0.1/32,::1/128";
         log = {
+          ROOT_PATH = forgejoSshLogDir;
           LEVEL = "Info";
           LOGGER_SSH_MODE = "file";
           FILE_NAME = "forgejo-ssh.log";
@@ -82,8 +84,10 @@
       };
     };
     systemd.tmpfiles.rules = [
+      "d ${forgejoSshLogDir} 0750 ${cfg.user} ${cfg.group} -"
       "f ${forgejoSshLog} 0640 ${cfg.user} ${cfg.group} -"
     ];
+    systemd.services.forgejo.serviceConfig.ReadWritePaths = [forgejoSshLogDir];
     systemd.services.forgejo.preStart = ''
       ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
     '';
