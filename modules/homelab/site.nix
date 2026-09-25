@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.modules.nixos.site = {config, ...}: let
-    inherit (config.homelab) dataDir domain group machineIP user;
+    inherit (config.homelab) dataDir domain group user;
     inherit (self.services.site) fqdn;
     wwwRoot = "${dataDir}/www";
   in {
@@ -14,7 +14,6 @@
       virtualHosts."${fqdn}" = {
         useACMEHost = domain;
         extraConfig = ''
-          bind ${machineIP}
           encode zstd gzip
           root * ${wwwRoot}
           file_server
