@@ -34,6 +34,7 @@
         environment.systemPackages = with pkgs; [
           anki
           baobab
+          chromium
           google-chrome
           gnome-disk-utility
           haruna
