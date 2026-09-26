@@ -39,10 +39,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
-    jovian = {
-      url = "github:jovian-experiments/jovian-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     mobile-nixos.url = "git+https://git.samtee.party/sam-tee/mobile.git";
     niri-flake = {
       url = "github:sodiboo/niri-flake";
