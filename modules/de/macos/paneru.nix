@@ -4,11 +4,6 @@
   self,
   ...
 }: {
-  flake-file.inputs.paneru = {
-    url = "github:karinushka/paneru";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   flake.modules.darwin.paneru = _: {
     imports = [
       inputs.paneru.darwinModules.paneru

@@ -3,10 +3,6 @@
   self,
   ...
 }: {
-  flake-file.inputs.hjem = {
-    url = "github:feel-co/hjem?ref=pull/167/merge";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
   flake.modules =
     ["darwin" "nixos"]
     |> map (type: {

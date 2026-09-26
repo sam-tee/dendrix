@@ -91,10 +91,6 @@
     "3rdparty".extensions = thirdParty;
   };
 in {
-  flake-file.inputs.helium = {
-    url = "github:amaanq/helium-flake";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
   flake.modules = {
     darwin.default = self.modules.darwin.helium;
     nixos.gui = self.modules.nixos.helium;

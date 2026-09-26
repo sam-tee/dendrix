@@ -4,10 +4,6 @@
   self,
   ...
 }: {
-  flake-file.inputs.nix-darwin = {
-    url = "github:nix-darwin/nix-darwin/master";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
   flake.lib.mkDarwin = hostname: let
     inherit (inputs.self.hosts.${hostname}) username system pubKey;
   in {

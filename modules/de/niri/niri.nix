@@ -1,9 +1,4 @@
 {inputs, ...}: {
-  flake-file.inputs.niri-flake = {
-    url = "github:sodiboo/niri-flake";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   flake.modules = {
     nixos.niri = {pkgs, ...}: {
       imports = with inputs.self.modules.nixos; [

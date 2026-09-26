@@ -4,10 +4,6 @@
   self,
   ...
 }: {
-  flake-file.inputs.iio-hyprland = {
-    url = "github:ThorTuwy/lua-iio-hyprland";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
   flake.modules = let
     hyprgrass = pkgs: (pkgs.callPackage ./_hyprgrass.nix {});
   in {
