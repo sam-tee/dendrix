@@ -18,6 +18,7 @@ in {
         gdm
         gnome
         helium
+        moonlight
       ];
       environment.systemPackages = with pkgs; [
         chromium

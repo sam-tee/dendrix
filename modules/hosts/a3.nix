@@ -26,6 +26,7 @@ in {
           autologin
           linuxAll
           steam
+          sunshine
           vms
         ];
         services.gvfs.enable = true;
