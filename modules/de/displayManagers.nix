@@ -18,11 +18,15 @@
         enable = true;
         wayland.enable = true;
         theme = "sddm-astronaut-theme";
-        extraPackages = with pkgs.qt6; [
-          qtsvg
-          qtmultimedia
-          qtvirtualkeyboard
+        extraPackages = with pkgs; [
+          qt6.qtsvg
+          qt6.qtmultimedia
+          kdePackages.plasma-keyboard
         ];
+        settings = {
+          General.InputMethod = "plasma-keyboard";
+          Wayland.CompositorCommand = "kwin_wayland --drm --no-lockscreen --no-global-shortcuts --locale1 --inputmethod plasma-keyboard";
+        };
       };
     };
   };
