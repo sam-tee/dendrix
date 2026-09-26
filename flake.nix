@@ -4,7 +4,10 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    copyparty.url = "github:9001/copyparty";
+    copyparty = {
+      url = "github:9001/copyparty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,10 +37,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
-    mobile-nixos.url = "git+https://git.samtee.party/sam-tee/mobile.git";
+    mobile-nixos = {
+      url = "git+https://git.samtee.party/sam-tee/mobile.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     niri-flake = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+      inputs.niri-stable.follows = "niri-flake/niri-unstable";
+      inputs.xwayland-satellite-stable.follows = "niri-flake/xwayland-satellite-unstable";
     };
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
@@ -45,10 +54,14 @@
     };
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
-    nixvim.url = "github:nix-community/nixvim";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     paneru = {
       url = "github:karinushka/paneru";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nix-darwin.follows = "nix-darwin";
     };
     pyScripts = {
       url = "git+https://git.samtee.party/sam-tee/python.git";
