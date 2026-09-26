@@ -62,10 +62,12 @@
       url = "github:karinushka/paneru";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nix-darwin.follows = "nix-darwin";
+      inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     pyScripts = {
       url = "git+https://git.samtee.party/sam-tee/python.git";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
