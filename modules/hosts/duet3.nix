@@ -21,6 +21,7 @@ in {
       imports = with self.modules.nixos; [
         gui
         hyprTouch
+        moonlight
       ];
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
       hjem.extraModules = lib.singleton {
