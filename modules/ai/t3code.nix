@@ -13,7 +13,9 @@
     }: let
       port = 3773;
       tailscaleIP = self.hosts.${config.networking.hostName}.tailscaleIP;
-      t3 = inputs'.ai.packages.t3code;
+      t3 = inputs'.ai.packages.t3code.override {
+        providerPackages = [inputs'.ai.packages.opencode];
+      };
     in {
       environment.systemPackages = [t3];
       systemd.services.t3code = {
@@ -33,8 +35,15 @@
     });
 
     darwin.default = self.modules.darwin.t3code;
-    darwin.t3code = moduleWithSystem ({inputs', ...}: _: {
-      environment.systemPackages = with inputs'.ai.packages; [t3code t3code-desktop];
+    darwin.t3code = moduleWithSystem ({inputs', ...}: _: let
+      t3code-slim = inputs'.ai.packages.t3code.override {
+        providerPackages = [inputs'.ai.packages.opencode];
+      };
+      t3code-desktop-slim = inputs'.ai.packages.t3code-desktop.override {
+        t3code = t3code-slim;
+      };
+    in {
+      environment.systemPackages = [t3code-slim t3code-desktop-slim];
     });
   };
 }
