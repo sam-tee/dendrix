@@ -81,7 +81,7 @@ in {
         "modified.background" = base01;
         "modified.border" = base0A;
         "pane.focused_border" = base05;
-        "pane_group.border" = base00;
+        "pane_group.border" = base04;
         "panel.background" = baseBG;
         "panel.focused_border" = base04;
         "panel.indent_guide" = base03;
