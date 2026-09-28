@@ -275,16 +275,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1784298522,
-        "narHash": "sha256-H8jK/B3q+d2tKN5BCs3CfCsBPDSHdFIu91MWZdu2iOU=",
+        "lastModified": 1790081753,
+        "narHash": "sha256-tycoVCB2KSVdy9ERT1lJGHdP9Hf4FHanaEY25hUxylw=",
         "owner": "feel-co",
         "repo": "hjem",
-        "rev": "5d5d73c8b49f7b29549922484d3e024ecf91b64d",
+        "rev": "cef02450f2c18a7e2b9297ea8d366f9a597254f7",
         "type": "github"
       },
       "original": {
         "owner": "feel-co",
-        "ref": "pull/167/merge",
         "repo": "hjem",
         "type": "github"
       }
@@ -482,15 +481,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1790419373,
-        "narHash": "sha256-jeK2GCq4qI7IEHzPPjVKu/6A6A1KtrDCmRHubVOva3Y=",
-        "rev": "74435dcdae840e9770652a7bf7754c2ef7b257e1",
+        "lastModified": 1790510107,
+        "narHash": "sha256-KveNUoALIFda3G7m2VWk38jiTIky80vwY3h9gGOoF2g=",
+        "rev": "3181085bfd08663b6b9e60bc7a8395c2aaa741bd",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1080018.74435dcdae84/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1080404.3181085bfd08/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
-        "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"
+        "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst"
       }
     },
     "nixvim": {

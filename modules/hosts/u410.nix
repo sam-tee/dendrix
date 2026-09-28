@@ -43,7 +43,6 @@ in {
           domain = self.domain;
           dataDir = driveMount;
         };
-        programs.ssh.startAgent = true;
         services.btrfs.autoScrub = {
           enable = true;
           interval = "monthly";
