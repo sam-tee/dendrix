@@ -69,7 +69,7 @@
     services.fail2ban.jails.forgejo-ssh = {
       filter = {
         Definition = {
-          failregex = ''^.*Failed authentication attempt from \[?<HOST>\]?(?::[0-9]+)?\s*$'';
+          failregex = ''^.*publicKeyHandler\(\).*Failed authentication attempt from \[?<HOST>\]?(?::[0-9]+)?\s*$'';
           ignoreregex = "";
         };
       };
