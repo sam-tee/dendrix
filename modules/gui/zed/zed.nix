@@ -23,6 +23,12 @@ in {
           agent = {
             dock = "right";
             sidebar_side = "right";
+            tool_permissions.default = "allow";
+            sanbox_permissions = {
+              allow_unsandboxed = false;
+              allow_fs_write_all = true;
+              allow_all_hosts = true;
+            };
           };
           agent_servers = {
             cursor.type = "registry";
@@ -38,6 +44,7 @@ in {
             rainbow-csv = true;
             toml = true;
           };
+          auto_update = false;
           buffer_font_family = fonts.mono.name;
           buffer_font_size = fonts.size * 4 / 3;
           ui_font_family = fonts.ui.name;
@@ -46,8 +53,16 @@ in {
           cli_default_open_behavior = "new_window";
           diagnostics.inline.enabled = true;
           edit_predictions.mode = "subtle";
-          file_types.Markdown = ["qmd"];
-          hover_popover_delay = 200;
+          focus_follows_mouse = {
+            enabled = true;
+            debounce_ms = 150;
+          };
+          gutter = {
+            bookmarks = false;
+            breakpoints = false;
+            runnables = false;
+          };
+          hover_popover_delay = 150;
           indent_guides.active_line_width = 3;
           inlay_hints.enabled = true;
           languages = {
@@ -80,6 +95,7 @@ in {
             hide_root = true;
           };
           scrollbar.show = "system";
+          scroll_beyond_last_line = "vertical_scroll_margain";
           show_edit_predictions = false;
           tab_bar = {
             show = true;
@@ -91,19 +107,25 @@ in {
             git_status = true;
             show_close_button = "always";
           };
+          theme = "${attrs.name}-${defaultVariant}";
+          titlebar = {
+            show_onboarding_banner = false;
+            show_sign_in = false;
+          };
           toolbar = {
             agent_review = false;
             breadcrumbs = false;
             quick_actions = false;
             selections_menu = false;
           };
-          theme = "${attrs.name}-${defaultVariant}";
           use_smartcase_search = true;
-          vim_mode = true;
+          vertical_scroll_margain = 5.0;
           vim = {
+            cursor_shape.visual = "hollow";
             toggle_relative_line_numbers = true;
             use_smartcase_find = true;
           };
+          vim_mode = true;
           which_key.enabled = true;
         };
       };

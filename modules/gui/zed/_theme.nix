@@ -4,6 +4,7 @@ theme: variant: let
   base_ = "${theme.${variant}.base00}00"; #fully transparent for placeholders
   baseBG = "${theme.${variant}.base00}${opacity}";
   baseBG_alt = "${theme.${variant}.base01}${opacity}";
+  baseBorder = "${theme.${variant}.base01}";
 in {
   "$schema" = "https://zed.dev/schema/themes/v0.2.0.json";
   inherit author name;
@@ -17,12 +18,12 @@ in {
           if opacity == "FF"
           then "opaque"
           else "blurred";
-        border = base04;
-        "border.variant" = base04;
-        "border.focused" = base04;
-        "border.disabled" = base04;
-        "border.selected" = base04;
-        "border.transparent" = base04;
+        border = baseBorder;
+        "border.variant" = baseBorder;
+        "border.focused" = baseBorder;
+        "border.disabled" = baseBorder;
+        "border.selected" = baseBorder;
+        "border.transparent" = baseBorder;
         conflict = base0A;
         "conflict.background" = base01;
         "conflict.border" = base0A;
@@ -81,9 +82,9 @@ in {
         "modified.background" = base01;
         "modified.border" = base0A;
         "pane.focused_border" = base05;
-        "pane_group.border" = base04;
+        "pane_group.border" = baseBorder;
         "panel.background" = baseBG;
-        "panel.focused_border" = base04;
+        "panel.focused_border" = baseBorder;
         "panel.indent_guide" = base03;
         "panel.indent_guide_active" = base04;
         "panel.indent_guide_hover" = base04;
@@ -113,7 +114,7 @@ in {
         success = base0B;
         "success.background" = "${base0B}1f";
         "success.border" = base0B;
-        "surface.background" = base0F;
+        "surface.background" = baseBG_alt;
         syntax = {
           attribute.color = base09;
           boolean.color = base09;
