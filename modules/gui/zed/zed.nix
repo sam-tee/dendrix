@@ -95,7 +95,7 @@ in {
             hide_root = true;
           };
           scrollbar.show = "system";
-          scroll_beyond_last_line = "vertical_scroll_margain";
+          scroll_beyond_last_line = "vertical_scroll_margin";
           show_edit_predictions = false;
           tab_bar = {
             show = true;
@@ -119,7 +119,7 @@ in {
             selections_menu = false;
           };
           use_smartcase_search = true;
-          vertical_scroll_margain = 5.0;
+          vertical_scroll_margin = 5.0;
           vim = {
             cursor_shape.visual = "hollow";
             toggle_relative_line_numbers = true;
