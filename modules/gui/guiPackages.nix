@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  moduleWithSystem,
+  self,
+  ...
+}: {
   flake.modules = {
     nixos = {
       gui = self.modules.nixos.linuxBase;
@@ -29,19 +33,21 @@
           ]);
         programs.localsend.enable = true;
       };
-      linuxAll = {pkgs, ...}: {
+      linuxAll = moduleWithSystem ({self', ...}: {pkgs, ...}: {
         imports = [self.modules.nixos.gui];
-        environment.systemPackages = with pkgs; [
-          anki
-          baobab
-          chromium
-          google-chrome
-          gnome-disk-utility
-          haruna
-          libreoffice
-        ];
+        environment.systemPackages = with pkgs;
+          [
+            anki
+            baobab
+            chromium
+            google-chrome
+            gnome-disk-utility
+            haruna
+            libreoffice
+          ]
+          ++ [self'.packages.t3code-desktop-slim];
         programs.vscode.enable = true;
-      };
+      });
     };
     darwin = {
       default = self.modules.darwin.macosBase;
