@@ -23,7 +23,7 @@
         after = ["network-online.target" "tailscaled.service"];
         wants = ["network-online.target"];
         wantedBy = ["multi-user.target"];
-        environment.T3CODE_BASE_DIR = "$XDG_CONFIG_HOME/t3";
+        environment.T3CODE_HOME = "$HOME/.config/t3";
         serviceConfig = {
           User = username;
           WorkingDirectory = config.users.users.${username}.home;
@@ -35,7 +35,14 @@
     });
 
     darwin.default = self.modules.darwin.t3code;
-    darwin.t3code = moduleWithSystem ({inputs', ...}: _: let
+    darwin.t3code = moduleWithSystem ({inputs', ...}: {
+      config,
+      username,
+      ...
+    }: let
+      port = 3773;
+      tailscaleIP = self.hosts.${config.networking.hostName}.tailscaleIP;
+      home = config.users.users.${username}.home;
       t3code-slim = inputs'.ai.packages.t3code.override {
         providerPackages = [inputs'.ai.packages.opencode];
       };
@@ -43,7 +50,19 @@
         t3code = t3code-slim;
       };
     in {
-      environment.systemPackages = [t3code-slim t3code-desktop-slim];
+      environment = {
+        variables.T3CODE_HOME = "$HOME/.config/t3";
+        systemPackages = [t3code-slim t3code-desktop-slim];
+      };
+      launchd.user.agents.t3code = {
+        command = "${lib.getExe t3code-slim} serve --host ${tailscaleIP} --port ${toString port}";
+        environment.T3CODE_HOME = "${home}/.config/t3";
+        serviceConfig = {
+          KeepAlive = true;
+          RunAtLoad = true;
+          WorkingDirectory = home;
+        };
+      };
     });
   };
 }
