@@ -8,40 +8,36 @@ Registry: `modules/homelab/hlServices.nix` — a host of `-` means the service
 module exists but is not enabled on any machine. 
 
 <!-- services-table:start -->
-|     Service      |  Machine  |  Port   |  Subdomain  |  Private  |
-| :--------------: | :-------: | :-----: | :---------: | :-------: |
-|       anki       |     -     |  27701  |    anki     |     n     |
-|      atticd      |  oracle   |  27702  |    cache    |     n     |
-|      atuin       |  oracle   |  8888   |    atuin    |     n     |
-|  audiobookshelf  |  oracle   |  8000   |    audio    |     y     |
-|      bazarr      |   u410    |  6767   |   bazarr    |     y     |
-|      caddy       |  oracle   |    -    |      -      |     y     |
-|     calibre      |  oracle   |  8083   |    books    |     n     |
-|     cockpit      |     -     |  9090   |    dash     |     y     |
-|   code-server    |     -     |  4444   |    code     |     y     |
-|    copyparty     |   u410    |  3210   |    files    |     y     |
-|     forgejo      |  oracle   |  3000   |     git     |     n     |
-|     grimmory     |     -     |  6060   |  grimmory   |     n     |
-|  home-assistant  |   u410    |  8123   |     ha      |     y     |
-|      immich      |   u410    |  2283   |   photos    |     n     |
-|     jellyfin     |   u410    |  8096   |    media    |     n     |
-|      lidarr      |   u410    |  8686   |   lidarr    |     y     |
-|    linkwarden    |   u410    |  9183   |    link     |     n     |
-|      mealie      |  oracle   |  9876   |   cooking   |     n     |
-|    navidrome     |   u410    |  4533   |    music    |     n     |
-|    nextcloud     |     -     |    -    |      -      |     y     |
-|       ntfy       |  oracle   |  4198   |    ntfy     |     n     |
-|     prowlarr     |   u410    |  9696   |  prowlarr   |     y     |
-|   qbittorrent    |   u410    |  7877   |   torrent   |     y     |
-|      radarr      |   u410    |  7878   |   radarr    |     y     |
-|      seerr       |   u410    |  5055   |    seerr    |     y     |
-|      slskd       |   u410    |  5030   |    slskd    |     y     |
-|      sonarr      |   u410    |  8989   |   sonarr    |     y     |
-|       site       |  oracle   |  8090   |    site     |     y     |
-|   sports-ntfy    |  oracle   |    -    |      -      |     n     |
-|     stirling     |     -     |  8998   |     pdf     |     y     |
-|     terraria     |     -     |  4197   |  terraria   |     n     |
-|   vaultwarden    |  oracle   |  8222   |    vault    |     n     |
+|     Service      |  Machine  |    Port    |  Subdomain  |  Private  |
+| :--------------: | :-------: | :--------: | :---------: | :-------: |
+|       anki       |   27701   |  "oracle"  |      -      |     n     |
+|      atticd      |   27702   |  "oracle"  |      -      |     n     |
+|      atuin       |   8888    |  "oracle"  |      -      |     n     |
+|  audiobookshelf  |   8000    |     ""     |      -      |     n     |
+|      bazarr      |   6767    |   "u410"   |      -      |     n     |
+|      caddy       |     0     |  "oracle"  |      -      |     n     |
+|     calibre      |   8083    |  "oracle"  |      -      |     n     |
+|    copyparty     |   3210    |   "u410"   |      -      |     n     |
+|     forgejo      |   3000    |  "oracle"  |      -      |     n     |
+|  home-assistant  |   8123    |   "u410"   |      -      |     n     |
+|      immich      |   2283    |   "u410"   |      -      |     n     |
+|     jellyfin     |   8096    |   "u410"   |      -      |     n     |
+|      lidarr      |   8686    |   "u410"   |      -      |     n     |
+|    linkwarden    |   9183    |   "u410"   |      -      |     n     |
+|      mealie      |   9876    |  "oracle"  |      -      |     n     |
+|    navidrome     |   4533    |   "u410"   |      -      |     n     |
+|    nextcloud     |     0     |     ""     |      -      |     n     |
+|       ntfy       |   4198    |  "oracle"  |      -      |     n     |
+|     prowlarr     |   9696    |     ""     |      -      |     n     |
+|   qbittorrent    |   7877    |     ""     |      -      |     n     |
+|      radarr      |   7878    |   "u410"   |      -      |     n     |
+|      seerr       |   5055    |     ""     |      -      |     n     |
+|       site       |     0     |  "oracle"  |      -      |     n     |
+|      slskd       |   5030    |   "u410"   |      -      |     n     |
+|      sonarr      |   8989    |   "u410"   |      -      |     n     |
+|   sports-ntfy    |     0     |  "oracle"  |      -      |     n     |
+|        t3        |   3773    |  "oracle"  |      -      |     n     |
+|   vaultwarden    |   8222    |  "oracle"  |      -      |     n     |
 <!-- services-table:end -->
 
 The services table above is auto-generated from `modules/homelab/hlServices.nix` 
