@@ -26,7 +26,10 @@ in {
   perSystem = {system, ...}: {
     nixvimConfigurations.default = inputs.nixvim.lib.evalNixvim {
       inherit system;
-      modules = [self.modules.nixvim.default];
+      modules = [
+        self.modules.nixvim.default
+        {nixpkgs.source = inputs.nixpkgs;}
+      ];
     };
   };
 }
