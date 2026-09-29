@@ -35,6 +35,7 @@
     slskd = mkService "u410" 5030 "slskd";
     sonarr = mkService "u410" 8989 "sonarr";
     sports-ntfy = mkService "oracle" 0 "";
+    t3 = mkService "oracle" 3773 "t3";
     vaultwarden = mkService "oracle" 8222 "vault";
   };
 }

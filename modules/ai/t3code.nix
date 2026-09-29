@@ -4,19 +4,18 @@
   self,
   ...
 }: let
-  port = 3773;
-  serveCommand = t3: tailscaleIP: "${lib.getExe t3} serve --host ${tailscaleIP} --port ${toString port}";
-  tailscaleIPFor = config: self.hosts.${config.networking.hostName}.tailscaleIP;
+  inherit (self.services.t3) port;
 in {
   flake.modules = {
-    nixos.default = self.modules.nixos.t3code;
-    nixos.t3code = moduleWithSystem ({self', ...}: {
+    nixos.default = self.modules.nixos.t3;
+    nixos.t3 = moduleWithSystem ({self', ...}: {
       config,
       username,
       ...
     }: let
       t3 = self'.packages.t3code-slim;
-      home = config.users.users.${username}.home;
+      inherit (config.users.users.${username}) home;
+      inherit (self.hosts.${config.networking.hostName}) tailscaleIP;
     in {
       environment = {
         sessionVariables.T3CODE_HOME = "${home}/.config/t3";
@@ -31,36 +30,28 @@ in {
         serviceConfig = {
           User = username;
           WorkingDirectory = home;
-          ExecStart = serveCommand t3 (tailscaleIPFor config);
+          ExecStart = "${lib.getExe t3} serve --host ${tailscaleIP} --port ${toString port}";
           Restart = "always";
           RestartSec = 10;
         };
       };
     });
 
-    darwin.default = self.modules.darwin.t3code;
-    darwin.t3code = moduleWithSystem ({self', ...}: {
+    darwin.default = self.modules.darwin.t3;
+    darwin.t3 = {
       config,
       username,
       ...
     }: let
-      t3 = self'.packages.t3code-slim;
-      home = config.users.users.${username}.home;
+      inherit (config.users.users.${username}) home;
+      t3Home = "${home}/.config/t3";
     in {
       homebrew.casks = ["t3-code"];
-      environment = {
-        variables.T3CODE_HOME = "${home}/.config/t3";
-        systemPackages = [t3];
+      environment.variables.T3CODE_HOME = t3Home;
+      launchd.user.agents.t3code-env = {
+        command = "/bin/launchctl setenv T3CODE_HOME ${t3Home}";
+        serviceConfig.RunAtLoad = true;
       };
-      launchd.user.agents.t3code = {
-        command = serveCommand t3 (tailscaleIPFor config);
-        environment.T3CODE_HOME = "${home}/.config/t3";
-        serviceConfig = {
-          KeepAlive = true;
-          RunAtLoad = true;
-          WorkingDirectory = home;
-        };
-      };
-    });
+    };
   };
 }
