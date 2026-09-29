@@ -12,10 +12,6 @@
         if pkgs.stdenv.hostPlatform.isDarwin
         then "${home}/Library/Application Support/forgejo-cli.forgejo-cli/keys.json"
         else "${home}/.local/share/forgejo-cli/keys.json";
-      # Upstream `fj completion <shell>` prints "Could not find keys file..."
-      # to stdout at build time, so nixpkgs ships completion files with that
-      # line prepended. zsh's compinit requires `#compdef` on line 1 and
-      # silently ignores _fj; bash/fish are polluted too. Strip it here.
       fjPkg = pkgs.forgejo-cli.overrideAttrs (old: {
         postFixup =
           (old.postFixup or "")
