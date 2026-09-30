@@ -11,7 +11,7 @@
     forgejoSshLogDir = "/var/log/forgejo";
     forgejoSshLog = "${forgejoSshLogDir}/forgejo-ssh.log";
   in {
-    imports = [self.modules.nixos.forgejo-actions];
+    imports = with self.modules.nixos; [forgejo-actions forgejo-theme];
 
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
