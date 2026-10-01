@@ -16,18 +16,17 @@ in {
       };
       value = values;
     };
-    rmHash = lib.removePrefix "#";
     mkTheme = variant:
       with attrs.${variant}; {
         background-blur = 20;
         background-opacity = (lib.fromHexString attrs.opacity) * 100 / 255 / 100.0;
-        background = rmHash base00;
-        foreground = rmHash base05;
-        cursor-color = rmHash base05;
-        selection-background = rmHash base02;
-        selection-foreground = rmHash base05;
+        background = base00;
+        foreground = base05;
+        cursor-color = base05;
+        selection-background = base02;
+        selection-foreground = base05;
         palette = [
-          "0=${base00}"
+          "0=${base01}"
           "1=${base08}"
           "2=${base0B}"
           "3=${base0A}"
