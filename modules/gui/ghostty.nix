@@ -23,10 +23,11 @@ in {
         background = base00;
         foreground = base05;
         cursor-color = base05;
+        minimum-contrast = 1.1;
         selection-background = base02;
         selection-foreground = base05;
         palette = [
-          "0=${base01}"
+          "0=${base00}"
           "1=${base08}"
           "2=${base0B}"
           "3=${base0A}"
