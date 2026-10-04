@@ -27,6 +27,7 @@ in {
           atuin
           bat
           btop
+          chafa
           direnv
           dua
           eza
@@ -40,7 +41,6 @@ in {
           tldr
           wget
           yazi
-          zellij
           zoxide
           self'.packages.nhw
         ];
