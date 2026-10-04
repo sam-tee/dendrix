@@ -109,8 +109,8 @@ in {
         "scrollbar.thumb.border" = base02;
         "scrollbar.track.background" = base_;
         "scrollbar.track.border" = base_;
-        "search.match_background" = "${base02}80";
-        "search.active_match_background" = "${base03}B3";
+        "search.match_background" = base02;
+        "search.active_match_background" = base03;
         "status_bar.background" = baseBG;
         success = base0B;
         "success.background" = "${base0B}1f";
