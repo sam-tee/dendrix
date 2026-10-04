@@ -2,7 +2,7 @@
   flake.modules = let
     inherit (self.cosmetic.cursor) name pkgsName size;
   in {
-    nixos.default = self.modules.nixos.cursor;
+    nixos.gui = self.modules.nixos.cursor;
     nixos.cursor = {
       pkgs,
       lib,

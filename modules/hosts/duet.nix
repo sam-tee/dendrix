@@ -15,6 +15,7 @@ in {
 
     modules.nixos.${hostname} = {pkgs, ...}: {
       imports = with self.modules.nixos; [
+        cursor
         gdm
         gnome
         helium
