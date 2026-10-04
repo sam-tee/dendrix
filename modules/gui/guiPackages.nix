@@ -35,17 +35,17 @@
       };
       linuxAll = moduleWithSystem ({self', ...}: {pkgs, ...}: {
         imports = [self.modules.nixos.gui];
-        environment.systemPackages = with pkgs;
-          [
-            anki
-            baobab
-            chromium
-            google-chrome
-            gnome-disk-utility
-            haruna
-            libreoffice
-          ]
-          ++ [self'.packages.t3code-desktop-slim];
+        environment.systemPackages = with pkgs; [
+          anki
+          baobab
+          chromium
+          google-chrome
+          gnome-disk-utility
+          haruna
+          libreoffice
+          nautilus
+          self'.packages.t3code-desktop-slim
+        ];
         programs.vscode.enable = true;
       });
     };
