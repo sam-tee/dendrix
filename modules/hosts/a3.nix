@@ -32,11 +32,10 @@ in {
         services.gvfs.enable = true;
         services.udev.packages = with pkgs; [libmtp];
         environment.systemPackages = with pkgs; [
-          ncspot
-          spotify-player
           libmtp
           gvfs
-          nautilus
+          kicad
+          calibre
         ];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
         hardware.graphics.extraPackages = with pkgs; [
