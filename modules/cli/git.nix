@@ -26,6 +26,7 @@
           "git/config".text = lib.generators.toGitINI {
             commit.gpgSign = true;
             core.pager = "delta";
+            url."ssh://forgejo@${self.services.forgejo.fqdn}/".insteadOf = "https://${self.services.forgejo.fqdn}/";
             delta = {
               navigate = true;
               line-numbers = true;

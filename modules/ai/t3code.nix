@@ -26,7 +26,10 @@ in {
         after = ["network-online.target" "tailscaled.service"];
         wants = ["network-online.target"];
         wantedBy = ["multi-user.target"];
-        environment.T3CODE_HOME = "${home}/.config/t3";
+        environment = {
+          T3CODE_HOME = "${home}/.config/t3";
+          FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
+        };
         serviceConfig = {
           User = username;
           WorkingDirectory = home;

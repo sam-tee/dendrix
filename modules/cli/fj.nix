@@ -8,6 +8,7 @@
       ...
     }: let
       home = config.users.users.${username}.home;
+      forgejoFqdn = self.services.forgejo.fqdn;
       keysPath =
         if pkgs.stdenv.hostPlatform.isDarwin
         then "${home}/Library/Application Support/forgejo-cli.forgejo-cli/keys.json"
@@ -26,14 +27,17 @@
           '';
       });
     in {
-      environment.systemPackages = [fjPkg];
+      environment = {
+        systemPackages = [fjPkg];
+        variables.FJ_FALLBACK_HOST = "https://${forgejoFqdn}";
+      };
       sops.secrets."fj-token".owner = username;
       sops.templates."fj-keys.json" = {
         owner = username;
         mode = "0600";
         path = keysPath;
         content = ''
-          {"hosts":{"${self.services.forgejo.fqdn}":{"type":"Application","token":"${config.sops.placeholder."fj-token"}"}},"aliases":{},"default_ssh":[]}
+          {"hosts":{"${forgejoFqdn}":{"type":"Application","token":"${config.sops.placeholder."fj-token"}"}},"aliases":{},"default_ssh":["${forgejoFqdn}"]}
         '';
       };
     };
