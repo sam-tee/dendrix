@@ -3,7 +3,7 @@ author = "akhlus"
 opacity = "FF" # hex code for opacity
 [dark]
 # backgrounds
-base00 = "#101010"       # default
+base00 = "#000000"       # default
 base01 = "#202020"       # lighter
 base02 = "#323232"       # selection
 base03 = "#454545"       # comments
@@ -17,14 +17,14 @@ base08 = "#FF5964"       # red
 base09 = "#F89777"       # orange
 base0A = "#F8D353"       # yellow
 base0B = "#06D6A0"       # green
-base0C = "#72E9C5"       # cyan
+base0C = "#05b2b2"       # cyan
 base0D = "#5EB0FC"       # blue
 base0E = "#9E72E9"       # magenta
-base0F = "#D0A5C0"       # violet
+base0F = "#EA76CB"       # violet
 
 [light]
-base00 = "#f0f0f0"       # default
-base01 = "#eaeaea"       # lighter
+base00 = "#ffffff"       # default
+base01 = "#f0f0f0"       # lighter
 base02 = "#dddddd"       # selection
 base03 = "#cacaca"       # comments
 # foreground
