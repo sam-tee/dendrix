@@ -22,25 +22,38 @@
         '';
       };
       hjem.extraModules = lib.singleton {
-        xdg.config.files."git/config".text = lib.generators.toGitINI {
-          commit.gpgSign = true;
-          core.pager = "delta";
-          delta = {
-            navigate = true;
-            line-numbers = true;
+        xdg.config.files = {
+          "git/config".text = lib.generators.toGitINI {
+            commit.gpgSign = true;
+            core.pager = "delta";
+            delta = {
+              navigate = true;
+              line-numbers = true;
+            };
+            diff.colorMoved = "default";
+            gpg.format = "ssh";
+            init.defaultBranch = "main";
+            interactive.diffFilter = "delta --color-only";
+            merge.conflictStyle = "diff3";
+            pull.rebase = true;
+            push.autoSetupRemote = true;
+            user = {
+              name = "Sam Tee";
+              email = "sam.tee4@proton.me";
+              signingKey = self.hosts.git-sign.pubKey;
+            };
           };
-          diff.colorMoved = "default";
-          gpg.format = "ssh";
-          init.defaultBranch = "main";
-          interactive.diffFilter = "delta --color-only";
-          merge.conflictStyle = "diff3";
-          pull.rebase = true;
-          push.autoSetupRemote = true;
-          user = {
-            name = "Sam Tee";
-            email = "sam.tee4@proton.me";
-            signingKey = self.hosts.git-sign.pubKey;
-          };
+          "git/ignore".text = ''
+            .direnv/
+            .devenv/
+            result
+            result-*
+            .venv/
+            __pycache__/
+            *.py[cod]
+            node_modules/
+            .DS_Store
+          '';
         };
       };
     };
