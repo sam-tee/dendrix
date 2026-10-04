@@ -12,7 +12,7 @@
         "ltt" = "l -T";
         "lg" = "lazygit";
         "py" = "python3";
-        "cat" = "bat --paging=never";
+        "cat" = "bat --paging=never --style=plain";
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";
