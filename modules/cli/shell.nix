@@ -16,13 +16,13 @@
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";
-        "md" = "mkdir -p";
       };
       strShellAliases =
         shellAliases
         |> lib.filterAttrs (k: v: v != null)
         |> lib.mapAttrsToList (k: v: "alias -- ${k}=${lib.escapeShellArg v}")
         |> builtins.concatStringsSep "\n";
+      fzfTheme = "--color=base16";
     in {
       environment = {
         variables = {
@@ -38,9 +38,12 @@
           LESSHISTFILE = "$HOME/.local/state/less/history";
           MANPAGER = "delta -pman";
           DELTA_PAGER = "less --raw-control-chars";
+          FZF_DEFAULT_OPTS = fzfTheme;
+          FZF_CTRL_R_COMMAND = "";
         };
         inherit shellAliases;
         systemPackages = with pkgs; [
+          fzf
           jq
           zsh
         ];
@@ -109,6 +112,21 @@
             }
             bindkey ' ' magic-space
             zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+            export FZF_DEFAULT_OPTS="${fzfTheme}"
+            export FZF_CTRL_R_COMMAND=""
+            if [[ -f "${pkgs.fzf}/share/fzf/key-bindings.zsh" ]]; then
+              builtin source "${pkgs.fzf}/share/fzf/key-bindings.zsh"
+            fi
+            md() {
+              if [ "$#" -eq 0 ]; then
+                echo "Usage: md <dir>..." >&2
+                return 1
+              fi
+              mkdir -p "$@" || return
+              local dir
+              for dir in "$@"; do :; done
+              builtin cd -- "$dir"
+            }
           '')
         ];
       };
