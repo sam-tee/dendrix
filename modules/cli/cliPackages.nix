@@ -53,7 +53,10 @@ in {
           nix-direnv.enable = true;
         };
         lazygit.enable = true;
-        zoxide.enable = true;
+        zoxide = {
+          enable = true;
+          flags = ["--cmd cd"];
+        };
       };
       hjem.extraModules = lib.singleton {
         xdg.config.files = {
