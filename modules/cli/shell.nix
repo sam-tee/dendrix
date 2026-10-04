@@ -12,6 +12,7 @@
         "ltt" = "l -T";
         "lg" = "lazygit";
         "py" = "python3";
+        "cat" = "bat --paging=never";
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";
@@ -30,6 +31,13 @@
           XDG_DATA_HOME = "$HOME/.local/share";
           XDG_STATE_HOME = "$HOME/.local/state";
           ZDOTDIR = "$HOME/.config/zsh";
+          EDITOR = "nvim";
+          VISUAL = "nvim";
+          PAGER = "less";
+          LESS = "-FRX --quit-if-one-screen";
+          LESSHISTFILE = "$HOME/.local/state/less/history";
+          MANPAGER = "delta -pman";
+          DELTA_PAGER = "less --raw-control-chars";
         };
         inherit shellAliases;
         systemPackages = with pkgs; [
@@ -55,6 +63,7 @@
           '')
           (lib.mkAfter ''
             ${strShellAliases}
+            mkdir -p "$HOME/.local/state/less"
             if [ -n "$SSH_AUTH_SOCK" ]; then
               ssh-add ~/.ssh/keys/{git,git-sign} 2>/dev/null
             fi
@@ -72,6 +81,31 @@
                 builtin cd -- "$cwd"
               fi
               rm -f -- "$tmp"
+            }
+            ns() {
+              local args=() prev=""
+              for a in "$@"; do
+                case "$a" in
+                  -*|*#*|*:*|/*|.*) args+=("$a") ;;
+                  *)
+                    if [ "$prev" = "--command" ] || [ "$prev" = "-c" ]; then
+                      args+=("$a")
+                    else
+                      args+=("nixpkgs#$a")
+                    fi
+                    ;;
+                esac
+                prev="$a"
+              done
+              nix shell "''${args[@]}"
+            }
+            nr() {
+              if [ "$#" -eq 0 ]; then
+                echo "Usage: nr <package> [-- args]" >&2
+                return 1
+              fi
+              local pkg="$1"; shift
+              nix run "nixpkgs#$pkg" "$@"
             }
             bindkey ' ' magic-space
             zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

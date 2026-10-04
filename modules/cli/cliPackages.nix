@@ -32,7 +32,7 @@ in {
           eza
           fzf
           lazygit
-          nano
+          neovim
           nixd
           ripgrep
           speedtest-cli
@@ -85,6 +85,7 @@ in {
         usbutils
         wakeonlan
       ];
+      programs.nano.enable = false;
     };
   };
 }

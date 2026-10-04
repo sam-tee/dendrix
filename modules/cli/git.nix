@@ -8,7 +8,7 @@
       pkgs,
       ...
     }: {
-      environment.systemPackages = with pkgs; [gh git];
+      environment.systemPackages = with pkgs; [delta gh git];
       sops.secrets."gh-token".owner = username;
       sops.templates."gh-hosts.yml" = {
         owner = username;
@@ -24,8 +24,16 @@
       hjem.extraModules = lib.singleton {
         xdg.config.files."git/config".text = lib.generators.toGitINI {
           commit.gpgSign = true;
+          core.pager = "delta";
+          delta = {
+            navigate = true;
+            line-numbers = true;
+          };
+          diff.colorMoved = "default";
           gpg.format = "ssh";
           init.defaultBranch = "main";
+          interactive.diffFilter = "delta --color-only";
+          merge.conflictStyle = "diff3";
           pull.rebase = true;
           push.autoSetupRemote = true;
           user = {
