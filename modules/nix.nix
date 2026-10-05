@@ -4,66 +4,30 @@
   self,
   ...
 }: let
+  inherit (self.lib) mkRemoteBuilder;
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
-  sshKeys = {
-    "ssh/oracle".mode = "0600";
-    "ssh/mba".mode = "0600";
-    "ssh/u410".mode = "0600";
-  };
   remoteBuildMachines = config: currentHostname:
     [
-      {
-        hostName = "oracle:2222";
-        systems = ["aarch64-linux"];
-        protocol = "ssh-ng";
-        sshUser = self.hosts.oracle.username;
-        sshKey = config.sops.secrets."ssh/oracle".path;
+      (mkRemoteBuilder config {
+        hostname = "oracle";
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
-        maxJobs = 4;
-        speedFactor = 1;
-        supportedFeatures = [
-          "benchmark"
-          "big-parallel"
-          "kvm"
-          "nixos-test"
-        ];
-      }
-      {
-        hostName = "u410:2222";
-        systems = ["x86_64-linux"];
-        protocol = "ssh-ng";
-        sshUser = self.hosts.u410.username;
-        sshKey = config.sops.secrets."ssh/u410".path;
+      })
+      (mkRemoteBuilder config {
+        hostname = "u410";
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEB1NDEwCg==";
         maxJobs = 2;
-        speedFactor = 1;
-        supportedFeatures = [
-          "benchmark"
-          "big-parallel"
-          "kvm"
-          "nixos-test"
-        ];
-      }
-      {
-        hostName = "mba:22";
-        systems = ["aarch64-darwin"];
-        protocol = "ssh-ng";
-        sshUser = self.hosts.mba.username;
-        sshKey = config.sops.secrets."ssh/mba".path;
-        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU5IV3c1Y3dXekpmRytacVZXb1N0T2JpZGd1c2NPUCtMeFJhUVE5bnJTcnAgcm9vdEBtYmEK";
-        maxJobs = 4;
-        speedFactor = 1;
-        supportedFeatures = [
-          "benchmark"
-          "big-parallel"
-          "kvm"
-          "nixos-test"
-        ];
-      }
+      })
+      (mkRemoteBuilder config {
+        hostname = "a3";
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUs1L0NqMzdBTDZZRW5PUnpsYXRQODZHWnJINHNLS2d3R3ZIMUJ1Mzl3OHEgcm9vdEBhMwo=";
+        maxJobs = 8;
+        speedFactor = 2;
+      })
     ]
     |> lib.filter (machine: (machine.hostName |> lib.splitString ":" |> lib.head) != currentHostname);
 in {
   flake.modules = {
+    generic.default = self.modules.generic.nix;
     generic.nix = {
       config,
       hostname,
@@ -96,31 +60,20 @@ in {
         };
         registry =
           (flakeInputs |> builtins.mapAttrs (_: flake: {inherit flake;}))
-          // rec {
+          // {
             nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};
-            n = nixpkgs;
+            den.flake = self;
           };
       };
-      nixpkgs = {
-        config = {
-          allowUnfree = true;
-          allowUnsupportedSystem = false;
-          allowAliases = false;
-        };
-        overlays = [];
+      nixpkgs.config = {
+        allowUnfree = true;
+        allowUnsupportedSystem = false;
+        allowAliases = false;
       };
-    };
-
-    darwin.default = self.modules.darwin.nix;
-    darwin.nix = _: {
-      imports = [self.modules.generic.nix];
-      sops.secrets = sshKeys;
     };
 
     nixos.default = self.modules.nixos.nix;
     nixos.nix = {pkgs, ...}: {
-      imports = [self.modules.generic.nix];
-      sops.secrets = sshKeys;
       nix.settings = {
         use-cgroups = true;
         auto-allocate-uids = true;
