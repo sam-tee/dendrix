@@ -35,6 +35,7 @@
             };
             diff.colorMoved = "default";
             gpg.format = "ssh";
+            gpg.ssh.allowedSignersFile = "${home}/.config/git/allowed_signers";
             init.defaultBranch = "main";
             interactive.diffFilter = "delta --color-only";
             merge.conflictStyle = "diff3";
@@ -46,6 +47,7 @@
               signingKey = "${home}/.ssh/keys/git-sign.pub";
             };
           };
+          "git/allowed_signers".text = "sam.tee4@proton.me ${self.hosts.git-sign.pubKey}\n";
           "git/ignore".text = ''
             .direnv/
             .devenv/
