@@ -7,13 +7,15 @@
       lib,
       pkgs,
       ...
-    }: {
+    }: let
+      inherit (config.users.users.${username}) home;
+    in {
       environment.systemPackages = with pkgs; [delta gh git];
       sops.secrets."gh-token".owner = username;
       sops.templates."gh-hosts.yml" = {
         owner = username;
         mode = "0600";
-        path = "${config.users.users.${username}.home}/.config/gh/hosts.yml";
+        path = "${home}/.config/gh/hosts.yml";
         content = ''
           github.com:
             user: sam-tee
@@ -41,7 +43,7 @@
             user = {
               name = "Sam Tee";
               email = "sam.tee4@proton.me";
-              signingKey = self.hosts.git-sign.pubKey;
+              signingKey = "${home}/.ssh/keys/git-sign.pub";
             };
           };
           "git/ignore".text = ''
