@@ -20,7 +20,6 @@ in {
           oracleHardware
           oracleDisko
         ];
-        homelab.domain = self.domain;
         environment.systemPackages = [pkgs.ffmpeg-headless];
       };
 

@@ -3,59 +3,52 @@
     config,
     lib,
     ...
-  }: {
+  }: let
+    inherit (lib) mkOption;
+    inherit (lib.types) path str;
+    inherit (self.lib) mkTsIp;
+  in {
     options.homelab = {
-      user = lib.mkOption {
+      user = mkOption {
         default = "media";
-        type = lib.types.str;
+        type = str;
         description = "User to run the homelab services as";
       };
-      group = lib.mkOption {
+      group = mkOption {
         default = "media";
-        type = lib.types.str;
+        type = str;
         description = "Group to run homelab as";
       };
-      domain = lib.mkOption {
-        type = lib.types.str;
-        default = self.domain;
-        description = "Domain name to use";
-        example = "zed.dev";
+      caddyIP = mkOption {
+        default = mkTsIp self.services.caddy.host;
       };
-      caddyIP = lib.mkOption {
-        default = self.hosts.${self.services.caddy.host}.tailscaleIP;
+      machineIP = mkOption {
+        default = mkTsIp config.networking.hostName;
       };
-      machineIP = lib.mkOption {
-        default = self.hosts.${config.networking.hostName}.tailscaleIP;
-      };
-      tailnetDomain = lib.mkOption {
-        type = lib.types.str;
-        default = "scylla-goblin.ts.net";
-        description = "Tailnet DNS suffix used for service backends";
-      };
-      dataDir = lib.mkOption {
-        type = lib.types.str;
+      dataDir = mkOption {
+        type = str;
         default = "/mnt/data";
         description = "Base directory to save data to";
       };
       email = {
-        from = lib.mkOption {
+        from = mkOption {
           description = "The 'from' address";
-          type = lib.types.str;
+          type = str;
           default = "john@example.com";
         };
-        host = lib.mkOption {
+        host = mkOption {
           description = "The SMTP server address";
-          type = lib.types.str;
+          type = str;
           default = "smtp.example.com";
         };
-        user = lib.mkOption {
+        user = mkOption {
           description = "The SMTP username";
-          type = lib.types.str;
+          type = str;
           default = "john@example.com";
         };
-        pwdPath = lib.mkOption {
+        pwdPath = mkOption {
           description = "Path to the secret containing SMTP password";
-          type = lib.types.path;
+          type = path;
         };
       };
     };

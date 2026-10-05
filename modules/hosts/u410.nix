@@ -39,10 +39,7 @@ in {
             intel-vaapi-driver
           ];
         };
-        homelab = {
-          domain = self.domain;
-          dataDir = driveMount;
-        };
+        homelab.dataDir = driveMount;
         services.btrfs.autoScrub = {
           enable = true;
           interval = "monthly";

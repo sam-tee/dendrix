@@ -3,6 +3,8 @@
   lib,
   ...
 }: let
+  inherit (self) domain tailnet;
+  inherit (self.lib) mkTsIp;
   devices =
     self.hosts
     |> lib.filterAttrs (_: value: (value.syncID or "") != "")
@@ -48,20 +50,17 @@ in {
           user = username;
           group = "media";
           dataDir = config.users.users.${username}.home;
-          machineIP = self.hosts.${config.networking.hostName}.tailscaleIP;
+          machineIP = mkTsIp hostName;
         };
       inherit (attrs) group user dataDir machineIP;
-      folders = allFolders |> lib.filterAttrs (_: v: lib.elem config.networking.hostName v.devices);
-      bindAddr =
-        if machineIP == ""
-        then "0.0.0.0"
-        else machineIP;
+      inherit (config.networking) hostName;
+      folders = allFolders |> lib.filterAttrs (_: v: lib.elem hostName v.devices);
     in {
       sops.secrets."syncPwd".owner = user;
       services.syncthing = {
         enable = true;
         inherit user group dataDir;
-        guiAddress = "${bindAddr}:8384";
+        guiAddress = "${machineIP}:8384";
         guiPasswordFile = config.sops.secrets."syncPwd".path;
         settings = {
           gui.user = "sam";
@@ -71,23 +70,16 @@ in {
     };
     nixos = {
       default = self.modules.generic.syncthing;
-      caddy = {
-        config,
-        lib,
-        ...
-      }: {
-        imports = [self.modules.generic.syncthing];
-        services.caddy = {
-          virtualHosts =
-            devices
-            |> lib.mapAttrs' (hostname: _:
-              lib.nameValuePair "${hostname}.${config.homelab.domain}" {
-                useACMEHost = config.homelab.domain;
-                extraConfig = ''
-                  reverse_proxy http://${hostname}.${config.homelab.tailnetDomain}:8384
-                '';
-              });
-        };
+      caddy = {lib, ...}: {
+        services.caddy.virtualHosts =
+          devices
+          |> lib.mapAttrs' (hostname: _:
+            lib.nameValuePair "${hostname}.${domain}" {
+              useACMEHost = domain;
+              extraConfig = ''
+                reverse_proxy http://${hostname}.${tailnet}:8384
+              '';
+            });
       };
     };
   };

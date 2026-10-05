@@ -4,13 +4,14 @@
     lib,
     ...
   }: let
-    inherit (config.homelab) domain group user tailnetDomain;
+    inherit (self) domain tailnet;
+    inherit (config.homelab) group user;
     mkCaddyHost = _name: svc:
       lib.nameValuePair svc.fqdn {
         useACMEHost = domain;
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy http://${svc.host}.${tailnetDomain}:${toString svc.port}
+          reverse_proxy http://${svc.host}.${tailnet}:${toString svc.port}
         '';
       };
     caddyHosts =

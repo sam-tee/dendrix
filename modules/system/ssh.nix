@@ -63,49 +63,53 @@ in {
         |> builtins.listToAttrs;
     };
     hjem.ssh = {lib, ...}: let
+      inherit (lib) concatLines singleton;
       sshHosts =
         self.hosts
         |> lib.filterAttrs (_: host: host.hostType == "nixos" || host.hostType == "darwin")
         |> builtins.attrNames
         |> builtins.sort lib.lessThan;
+      keysAttrs =
+        self.hosts
+        |> builtins.mapAttrs (name: value: {
+          target = ".ssh/keys/${name}.pub";
+          text = "${value.pubKey}";
+        });
+      mkSshConfigTailnet = host: ''
+        Host ${host} ${host}.${self.tailnet}
+          HostName ${host}.${self.tailnet}
+          User ${self.hosts.${host}.username}
+          Port ${
+          if self.hosts.${host}.hostType == "darwin"
+          then "22"
+          else toString linuxPort
+        }
+          IdentitiesOnly yes
+          IdentityFile ~/.ssh/keys/${host}
+      '';
+      sshConfig.".ssh/config".text = concatLines (
+        (map mkSshConfigTailnet sshHosts)
+        ++ singleton ''
+          Host github.com
+            HostName github.com
+            IdentitiesOnly yes
+            IdentityFile ~/.ssh/keys/git
+            Port 22
+            User git
+
+          Host ${self.services.forgejo.fqdn}
+            HostName ${self.services.forgejo.fqdn}
+            IdentitiesOnly yes
+            IdentityFile ~/.ssh/keys/git
+            Port 22
+            User forgejo
+
+          Host *
+            SendEnv ${envVar}
+        ''
+      );
     in {
-      files =
-        (self.hosts
-          |> builtins.mapAttrs (name: value: {
-            target = ".ssh/keys/${name}.pub";
-            text = "${value.pubKey}";
-          }))
-        // {
-          ".ssh/config".text = let
-            mkBlock = hostname: user: port: keyname: ''
-              Host ${hostname}
-                HostName ${hostname}
-                IdentitiesOnly yes
-                IdentityFile ~/.ssh/keys/${keyname}
-                Port ${port}
-                User ${user}
-            '';
-            mkHost = name: let
-              host = self.hosts.${name};
-              port =
-                if host.hostType == "darwin"
-                then "22"
-                else "2222";
-            in
-              mkBlock name host.username port name;
-          in
-            lib.concatLines (
-              (map mkHost sshHosts)
-              ++ [
-                (mkBlock "github.com" "git" "22" "git")
-                (mkBlock "git.${self.domain}" "forgejo" "22" "git")
-                ''
-                  Host *
-                    SendEnv ${envVar}
-                ''
-              ]
-            );
-        };
+      files = keysAttrs // sshConfig;
     };
   };
 }
