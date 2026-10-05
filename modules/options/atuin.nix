@@ -1,3 +1,4 @@
+# mirror nixpkgs nixos module for darwin
 {
   flake.modules.darwin.options = {
     config,
