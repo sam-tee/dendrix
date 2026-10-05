@@ -72,7 +72,7 @@
         };
         bgFile = lib.mkOption {
           type = lib.types.path;
-          default = "${self}/theme/cassiopeia.png";
+          default = "${self}/theme/cassiopeia.jpg";
           description = "Path to wallpaper";
         };
       };
