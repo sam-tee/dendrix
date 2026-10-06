@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-services="$repo/modules/homelab/hlServices.nix"
+services="$repo/modules/vars/homelab.nix"
 readme="$repo/README.md"
 
 awk '
