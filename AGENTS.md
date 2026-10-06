@@ -14,17 +14,20 @@ rather than in the generated root flake.
   expose host-specific modules such as `<hostname>Config`.
 - Use structured Nix modules and existing options instead of hard-coded service
   snippets when a local module already exists.
-- Keep hardware, disk, and host-specific service placement in `modules/hosts/`.
+- Keep hardware, disk, and host-specific config in `modules/hosts/`.
 - Keep reusable service logic in `modules/homelab/`, `modules/system/`,
   `modules/gui/`, `modules/cli/`, or the relevant shared module directory.
 - Secrets are managed through `sops-nix`; the secrets file is
   `nix-secrets/secrets.yaml`, encrypted with age and committed to this repo
   (see `nix-secrets/.sops.yaml` for recipients). Do not edit secrets directly, instead inform the user what to change. 
-- For new services,: define a reusable
-  `options.services.<name>` module in `modules/options/<name>.nix`
-  (enable, package, user/group, bind host/port, settings, environmentFile),
-  and keep host-specific wiring in `modules/homelab/<name>.nix`
-  (enable + port from `self.services.<name>`, sops secrets, domain settings).
+- For new services: register the placement with `mkService <host> <port>
+  <subdomain>` in `modules/vars/homelab.nix` (`flake.services.<name>`), and
+  implement `flake.modules.nixos.<name>` in `modules/homelab/<name>.nix`
+  using `self.services.<name>` plus `config.homelab` (user/group, `dataDir`,
+  bind IPs); it is auto-imported on the registered host (see
+  `modules/homelab/mkServer.nix`). Only custom daemons needing new NixOS
+  options define `options.services.<name>` (e.g. `sports-ntfy` in
+  `modules/options/`).
 
 ## Useful Commands
 
@@ -74,6 +77,7 @@ Known hostnames are:
 - `a3`
 - `duet`
 - `duet3`
+- `hp`
 - `mba`
 - `oracle`
 - `s340`
@@ -81,10 +85,11 @@ Known hostnames are:
 
 ## Homelab Notes
 
-- Main domain: `samtee.party`. Caddy on `oracle` reverse-proxies services 
-  to this domain with DNS for public/private split.
+- Main domain: `samtee.party` (tailnet `scylla-goblin.ts.net`). Caddy on
+  `oracle` reverse-proxies services to `<host>.<tailnet>:<port>` with DNS
+  for public/private split.
 - Service placement/ports/visibility are registered in
-  `modules/homelab/hlServices.nix`; do not duplicate that data here, see
+  `modules/vars/homelab.nix`; do not duplicate that data here, see
   README services table.
 - `u410` hosts data-heavy services and serves as `x86_64-linux` builder
 - `oracle` handles Caddy and selected services, and serves as `aarch64-linux` builder.
