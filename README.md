@@ -4,7 +4,7 @@ Uses flake-parts to make every file under `modules/` a flake module.
 
 ## Services
 
-Registry: `modules/homelab/hlServices.nix` — a host of `-` means the service
+Registry: `modules/vars/homelab.nix` — a host of `-` means the service
 module exists but is not enabled on any machine. 
 
 <!-- services-table:start -->
@@ -40,7 +40,7 @@ module exists but is not enabled on any machine.
 |   vaultwarden    |  oracle   |  8222   |    vault    |
 <!-- services-table:end -->
 
-The services table above is auto-generated from `modules/homelab/hlServices.nix` 
+The services table above is auto-generated from `modules/vars/homelab.nix` 
 by `scripts/update-services-readme.sh`
 (run by `.forgejo/workflows/cache.yml` on every push).
 
@@ -48,7 +48,7 @@ by `scripts/update-services-readme.sh`
 
 | Host | System | Type | Role |
 | ---- | ------ | ---- | ---- |
-| `a3` | `x86_64-linux` | NixOS desktop | Hyprland, autologin, Steam, VMs |
+| `a3` | `x86_64-linux` | NixOS desktop | Hyprland, autologin, Steam, Sunshine, VMs |
 | `s340` | `x86_64-linux` | NixOS desktop | Niri |
 | `hp` | `x86_64-linux` | NixOS server | Spare server |
 | `u410` | `x86_64-linux` | NixOS server | Data-heavy/media services, `x86_64-linux` builder, `dataDir=/mnt/data` |
@@ -56,7 +56,6 @@ by `scripts/update-services-readme.sh`
 | `mba` | `aarch64-darwin` | nix-darwin | macOS desktop (paneru) |
 | `duet` | `lenovo-krane` | mobile-nixos | Chromebook (GNOME) |
 | `duet3` | `lenovo-wormdingler` | mobile-nixos | Chromebook (Hyprland) |
-| `corsola` | `asus-tentacruel` | mobile-nixos | Hyprland + GUI |
 
 `u410` hosts data-heavy services; `oracle` handles Caddy and selected
 services. Each machine is reachable over SSH as its hostname (see `AGENTS.md`).
@@ -66,18 +65,24 @@ services. Each machine is reachable over SSH as its hostname (see `AGENTS.md`).
 - `modules/hosts/`: host definitions (`flake.hosts` metadata) and per-host
   hardware/config, via `self.lib.mkNixos` / `mkDarwin` / `mkMobile`
   (plus `git`/`git-sign` key-only entries in `other.nix`).
-- `modules/homelab/`: homelab service modules, the `hlServices.nix` service
-  registry, and the `server` bundle that auto-imports services by their
-  registered host.
-- `modules/system/`: shared system modules (ssh, sops, users, networking,
-  tailscale, syncthing, boot, fail2ban, battery, disko, fonts, vms).
-- `modules/cli/`, `modules/gui/`, `modules/de/`: CLI tools, GUI apps, and
-  desktop environments.
+- `modules/homelab/`: homelab service modules (`flake.modules.nixos.<name>`),
+  auto-imported for the matching host by the `default` module in `mkServer.nix`;
+  `server` is the shared headless-server bundle (passwordless wheel sudo).
+- `modules/vars/`: flake-wide registries — `homelab.nix` (`flake.services`
+  placements via `mkService`, plus `domain`/`tailnet`) and `cosmetic.nix`
+  (theme, fonts, cursor).
+- `modules/lib/`: helpers (`mkNixos`, `mkDarwin`, `mkMobile`, `mkService`,
+  `mkRemoteBuilder`, `mkTsIp`).
+- `modules/system/`: shared system modules (ssh, sops, user, networking,
+  tailscale, syncthing, boot, fail2ban, battery, disko, fonts, vms, ...).
+- `modules/cli/`, `modules/gui/`, `modules/de/`, `modules/ai/`: CLI tools,
+  GUI apps, desktop environments, and AI tooling (ollama, t3code).
 - `modules/nixvim/`: Neovim (nixvim) configuration.
 - `modules/nix.nix`, `modules/hjem.nix`, `modules/flake-parts.nix`,
-  `modules/options/`, `modules/types/`, `modules/packages/`: nix settings
-  and cache config, hjem, flake plumbing, option/type definitions, and
-  extra packages (`pyScripts`).
+  `modules/options/`, `modules/packages/`: nix settings (substituters,
+  remote builders) and cache config, hjem, flake plumbing, shared option
+  definitions, and extra packages (per-system configs, `pyScripts`
+  passthrough, `t3code` slim builds).
 - `nix-secrets/`: sops-encrypted secrets (see below).
 
 ## Secrets
@@ -126,13 +131,15 @@ Then switch as usual:
 sudo nixos-rebuild switch --flake ~/dendrix#u410
 ```
 
-Cache entries are configured with a `3 days` retention period by the workflow.
+Cache entries are garbage-collected after `3 days` by the server
+(`garbage-collection.default-retention-period` in `modules/homelab/atticd.nix`).
 
 ## Remote builders
 
-`modules/nix.nix` configures remote build machines, filtered per host so a
-machine never builds on itself:
-`oracle:2222` (`aarch64-linux`), `u410:2222` (`x86_64-linux`),
-`mba:22` (`aarch64-darwin`). Each entry pins the SSH host key
-(`publicHostKey`) and uses a sops-managed key (`sops.secrets."ssh/<host>"`)
-as `sam` over `ssh-ng`, so builds are non-interactive and MITM-resistant.
+`modules/nix.nix` configures remote build machines (via `mkRemoteBuilder`),
+filtered per host so a machine never builds on itself: `oracle`
+(`aarch64-linux`), `u410` (`x86_64-linux`, 2 jobs), `a3` (`x86_64-linux`,
+8 jobs, 2x speed factor), all on port `2222`. Each entry pins the SSH host
+key (`publicHostKey`) and authenticates over `ssh-ng` as the host's user
+with a sops-managed key (`sops.secrets."ssh/<host>"`), so builds are
+non-interactive and MITM-resistant.
