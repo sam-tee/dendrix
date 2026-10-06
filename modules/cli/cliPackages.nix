@@ -12,6 +12,7 @@ in {
       pkgs,
       ...
     }: let
+      inherit (lib) singleton;
       terminfo =
         if pkgs.stdenv.hostPlatform.isDarwin
         then pkgs.ghostty-bin.terminfo
@@ -52,13 +53,20 @@ in {
           silent = true;
           nix-direnv.enable = true;
         };
-        lazygit.enable = true;
+        lazygit = {
+          enable = true;
+          settings.git.diffRenderers = singleton {
+            type = "stdinFilter";
+            colorArg = "always";
+            command = ''delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"'';
+          };
+        };
         zoxide = {
           enable = true;
           flags = ["--cmd cd"];
         };
       };
-      hjem.extraModules = lib.singleton {
+      hjem.extraModules = singleton {
         xdg.config.files = {
           "btop/btop.conf".text = ''
             color_theme = "TTY"
