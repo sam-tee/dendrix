@@ -19,7 +19,7 @@
       };
       strShellAliases =
         shellAliases
-        |> lib.filterAttrs (k: v: v != null)
+        |> lib.filterAttrs (_: v: v != null)
         |> lib.mapAttrsToList (k: v: "alias -- ${k}=${lib.escapeShellArg v}")
         |> builtins.concatStringsSep "\n";
       fzfTheme = "--color=base16";

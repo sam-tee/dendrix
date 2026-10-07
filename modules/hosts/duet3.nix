@@ -1,8 +1,4 @@
-{
-  lib,
-  self,
-  ...
-}: let
+{lib, ...}: let
   hostname = "duet3";
 in {
   flake = {

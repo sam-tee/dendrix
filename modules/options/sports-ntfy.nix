@@ -71,7 +71,7 @@
     config = lib.mkIf cfg.enable {
       users.users.${cfg.user} = {
         isSystemUser = true;
-        group = cfg.group;
+        inherit (cfg) group;
         description = "sports-ntfy daemon user";
       };
       users.groups.${cfg.group} = {};

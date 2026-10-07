@@ -43,10 +43,12 @@
     };
     niri-flake = {
       url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-      inputs.niri-stable.follows = "niri-flake/niri-unstable";
-      inputs.xwayland-satellite-stable.follows = "niri-flake/xwayland-satellite-unstable";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs";
+        niri-stable.follows = "niri-flake/niri-unstable";
+        xwayland-satellite-stable.follows = "niri-flake/xwayland-satellite-unstable";
+      };
     };
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
@@ -60,14 +62,18 @@
     };
     paneru = {
       url = "github:karinushka/paneru";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nix-darwin.follows = "nix-darwin";
-      inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nix-darwin.follows = "nix-darwin";
+        flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+      };
     };
     pyScripts = {
       url = "git+https://git.samtee.party/sam-tee/python.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+      };
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";

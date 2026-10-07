@@ -1,4 +1,4 @@
-{self, ...}: let
+_: let
   hostname = "oracle";
 in {
   flake = {

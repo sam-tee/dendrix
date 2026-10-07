@@ -22,7 +22,7 @@
           enabled = true;
           from = "Immich <${email.from}>";
           transport = {
-            host = email.host;
+            inherit (email) host;
             port = 465;
             secure = true;
             username = email.user;

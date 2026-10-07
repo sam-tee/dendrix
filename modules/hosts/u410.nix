@@ -1,4 +1,4 @@
-{self, ...}: let
+_: let
   hostname = "u410";
   LIBVA_DRIVER_NAME = "i965";
   driveMount = "/mnt/data";

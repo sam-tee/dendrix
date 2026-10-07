@@ -1,4 +1,4 @@
-{...}: {
+_: {
   perSystem = {inputs', ...}: let
     t3code-slim = inputs'.ai.packages.t3code.override {
       providerPackages = [inputs'.ai.packages.opencode];

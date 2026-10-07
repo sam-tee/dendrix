@@ -83,18 +83,22 @@
         bantime = "1h";
       };
     };
-    systemd.tmpfiles.rules = [
-      "d ${forgejoSshLogDir} 0750 ${cfg.user} ${cfg.group} -"
-      "f ${forgejoSshLog} 0640 ${cfg.user} ${cfg.group} -"
-    ];
-    systemd.services.forgejo.serviceConfig.ReadWritePaths = [forgejoSshLogDir];
-    systemd.services.forgejo.preStart = ''
-      ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
-    '';
-    systemd.services.forgejo.serviceConfig = {
-      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
-      CapabilityBoundingSet = lib.mkForce ["CAP_NET_BIND_SERVICE"];
-      PrivateUsers = lib.mkForce false;
+    systemd = {
+      tmpfiles.rules = [
+        "d ${forgejoSshLogDir} 0750 ${cfg.user} ${cfg.group} -"
+        "f ${forgejoSshLog} 0640 ${cfg.user} ${cfg.group} -"
+      ];
+      services.forgejo = {
+        preStart = ''
+          ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
+        '';
+        serviceConfig = {
+          ReadWritePaths = [forgejoSshLogDir];
+          AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+          CapabilityBoundingSet = lib.mkForce ["CAP_NET_BIND_SERVICE"];
+          PrivateUsers = lib.mkForce false;
+        };
+      };
     };
   };
 }
