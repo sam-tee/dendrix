@@ -41,7 +41,7 @@ in {
         systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
       };
 
-      u410Hardware = {
+      "${hostname}Hardware" = {
         config,
         lib,
         modulesPath,

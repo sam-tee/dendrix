@@ -9,7 +9,7 @@ in {
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADGGLpndCsctBNb2X8bpEHYHFpL3ew9RI5r18FhK8tc";
       syncID = "V5FOBLK-LGM5BYD-GC4C7TJ-Y5DGLSF-HWPCROU-W27V44I-ICJPM7Q-Y5IZ7A4";
       tailscaleIP = "100.100.10.99";
-      modules = ["hpDisko" "battery"];
+      modules = ["${hostname}Disko" "battery"];
     };
 
     modules.nixos = {
@@ -31,7 +31,7 @@ in {
         };
       };
 
-      hpHardware = {
+      "${hostname}Hardware" = {
         config,
         lib,
         modulesPath,
@@ -46,7 +46,7 @@ in {
         hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       };
 
-      hpDisko = _: {
+      "${hostname}Disko" = _: {
         disko.devices.disk.main = {
           type = "disk";
           device = "/dev/nvme0n1";

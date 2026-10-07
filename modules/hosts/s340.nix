@@ -9,7 +9,7 @@ in {
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIuHm83l7+Fu0CPrHWCL7tcG//mh4/626QImgUXxJekc";
       syncID = "66HL6IU-7E6U2VI-FRBIVMH-Y4SISPF-RT2WJLW-VQY63Q3-AFSXWSW-JWXSOA7";
       tailscaleIP = "100.100.10.13";
-      modules = ["s340Disko" "niri"];
+      modules = ["${hostname}Disko" "niri"];
     };
 
     modules.nixos = {
@@ -30,7 +30,7 @@ in {
         environment.systemPackages = with pkgs; [calibre];
       };
 
-      s340Hardware = {
+      "${hostname}Hardware" = {
         config,
         lib,
         modulesPath,
@@ -45,7 +45,7 @@ in {
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
         hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       };
-      s340Disko = _: {
+      "${hostname}Disko" = _: {
         disko.devices.disk.main = {
           type = "disk";
           device = "/dev/nvme0n1";
