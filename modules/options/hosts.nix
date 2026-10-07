@@ -33,7 +33,7 @@ in {
         modules = mkOption {
           type = listOf str;
           default = [];
-          description = "Extra flake modules to import for this host, resolved in the mk* helper's namespace (e.g. self.modules.nixos). Desktop/server hosts also auto-import `<hostname>Hardware`, which must exist.";
+          description = "Extra flake modules to import for this host, resolved in the mk* helper's namespace (e.g. self.modules.nixos). Desktop/server hosts also auto-import `<hostname>Hardware` (required) and `<hostname>Disko` when defined.";
         };
       };
     });

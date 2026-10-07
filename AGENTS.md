@@ -15,7 +15,8 @@ rather than in the generated root flake.
   `mkNixos`, `mkDarwin`, or `mkMobile`); host-specific bits (hardware,
   disk, `<hostname>` tweaks) live in further `flake.modules` entries.
   Desktop/server hosts must define `<hostname>Hardware` (asserted and
-  auto-imported by `mkNixosModules`); the current table is in `docs/hosts.md`.
+  auto-imported by `mkNixosModules`); a `<hostname>Disko` module is
+  auto-imported when present. The current table is in `docs/hosts.md`.
 - Use structured Nix modules and existing options instead of hard-coded service
   snippets when a local module already exists.
 - Keep hardware, disk, and host-specific config in `modules/hosts/`.

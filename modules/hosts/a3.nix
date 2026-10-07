@@ -12,7 +12,6 @@ in {
       modules = [
         "hyprland"
         # "jovian"
-        "autologin"
         "linuxAll"
         "steam"
         "sunshine"

@@ -9,6 +9,7 @@ in {
   flake.lib.mkNixosModules = hostname: let
     inherit (inputs.self.hosts.${hostname}) username system pubKey modules hostType;
     hardwareName = "${hostname}Hardware";
+    diskoName = "${hostname}Disko";
   in
     if nixos ? ${hardwareName}
     then
@@ -29,6 +30,11 @@ in {
           if nixos ? ${hostname}
           then [nixos.${hostname}]
           else builtins.trace "warning: host '${hostname}' defines no 'nixos.${hostname}' module, skipping" []
+        )
+        ++ (
+          if nixos ? ${diskoName}
+          then [nixos.${diskoName}]
+          else []
         ))
     else throw "host '${hostname}' (hostType '${hostType}') needs a 'flake.modules.nixos.${hardwareName}' hardware module";
 

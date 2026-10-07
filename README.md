@@ -11,8 +11,9 @@ updated from `modules/vars/homelab.nix`.
 ## Hosts
 
 See [hosts.md](docs/hosts.md) for the full table generated from
-`modules/hosts/*.nix`. Hardware modules are auto-imported for
-desktop and server configs.
+`modules/hosts/*.nix`. Hardware modules are auto-imported (and required)
+for desktop and server configs; `<hostname>Disko` modules are auto-imported
+when defined.
 
 ## Layout
 

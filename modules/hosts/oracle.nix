@@ -9,7 +9,6 @@ in {
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyO7UE5sJmZcNOvsPW148NkH4tk5SefBU32Z66+KWqH";
       syncID = "D4AMT2I-LC25UJA-TONYLR3-I4NLPMP-GYBVM2O-TMTAKC6-I5FE3UE-QG7SSQ3";
       tailscaleIP = "100.100.10.20";
-      modules = ["${hostname}Disko"];
     };
 
     modules.nixos = {
