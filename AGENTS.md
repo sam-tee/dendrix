@@ -9,9 +9,13 @@ rather than in the generated root flake.
 
 ## Conventions
 
-- Host files usually define `flake.hosts.<hostname>`, instantiate the appropriate
-  configuration with `self.lib.mkNixos`, `mkDarwin`, or `mkMobile`, and
-  expose host-specific modules such as `<hostname>Config`.
+- Host files define `flake.hosts.<hostname>` metadata (including `hostType`
+  and a `modules` list of shared `flake.modules` names). `mkConfig`
+  auto-generates each configuration via the matching builder (`mkServer`,
+  `mkNixos`, `mkDarwin`, or `mkMobile`); host-specific bits (hardware,
+  disk, `<hostname>` tweaks) live in further `flake.modules` entries.
+  Desktop/server hosts must define `<hostname>Hardware` (asserted and
+  auto-imported by `mkNixosModules`); the current table is in `docs/hosts.md`.
 - Use structured Nix modules and existing options instead of hard-coded service
   snippets when a local module already exists.
 - Keep hardware, disk, and host-specific config in `modules/hosts/`.
@@ -25,7 +29,7 @@ rather than in the generated root flake.
   implement `flake.modules.nixos.<name>` in `modules/homelab/<name>.nix`
   using `self.services.<name>` plus `config.homelab` (user/group, `dataDir`,
   bind IPs); it is auto-imported on the registered host (see
-  `modules/homelab/mkServer.nix`). Only custom daemons needing new NixOS
+  `modules/homelab/mapServerModules.nix`). Only custom daemons needing new NixOS
   options define `options.services.<name>` (e.g. `sports-ntfy` in
   `modules/options/`).
 
@@ -89,8 +93,8 @@ Known hostnames are:
   `oracle` reverse-proxies services to `<host>.<tailnet>:<port>` with DNS
   for public/private split.
 - Service placement/ports/visibility are registered in
-  `modules/vars/homelab.nix`; do not duplicate that data here, see
-  README services table.
+  `modules/vars/homelab.nix`; the generated tables live in
+  `docs/services.md` and `docs/hosts.md`.
 - `u410` hosts data-heavy services and serves as `x86_64-linux` builder
 - `oracle` handles Caddy and selected services, and serves as `aarch64-linux` builder.
 - Forgejo runs on `oracle`; cache workflow builds `.#packages`
