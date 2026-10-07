@@ -53,14 +53,6 @@ in {
           silent = true;
           nix-direnv.enable = true;
         };
-        lazygit = {
-          enable = true;
-          settings.git.diffRenderers = singleton {
-            type = "stdinFilter";
-            colorArg = "always";
-            command = ''delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"'';
-          };
-        };
         zoxide = {
           enable = true;
           flags = ["--cmd cd"];
@@ -71,6 +63,14 @@ in {
           "btop/btop.conf".text = ''
             color_theme = "TTY"
             vim_keys = true
+          '';
+          "lazygit/config.yml".text = ''
+            git:
+              diffRenderers:
+              - colorArg: always
+                command: delta --dark --paging=never --line-numbers --hyperlinks
+                  --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+                type: stdinFilter
           '';
           "yazi/yazi.toml".text = ''
             [mgr]
