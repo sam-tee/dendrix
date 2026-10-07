@@ -5,13 +5,12 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "x86_64-linux";
-      hostType = "nixos";
+      hostType = "desktop";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIuHm83l7+Fu0CPrHWCL7tcG//mh4/626QImgUXxJekc";
       syncID = "66HL6IU-7E6U2VI-FRBIVMH-Y4SISPF-RT2WJLW-VQY63Q3-AFSXWSW-JWXSOA7";
       tailscaleIP = "100.100.10.13";
+      modules = ["s340Disko" "niri"];
     };
-
-    nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
       ${hostname} = {
@@ -19,11 +18,6 @@ in {
         pkgs,
         ...
       }: {
-        imports = with self.modules.nixos; [
-          s340Hardware
-          s340Disko
-          niri
-        ];
         hjem.extraModules = lib.singleton {
           xdg.config.files."niri/config.kdl".text = lib.mkAfter ''
             output "eDP-1" {

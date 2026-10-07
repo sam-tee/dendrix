@@ -5,21 +5,15 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "aarch64-linux";
-      hostType = "nixos";
+      hostType = "server";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyO7UE5sJmZcNOvsPW148NkH4tk5SefBU32Z66+KWqH";
       syncID = "D4AMT2I-LC25UJA-TONYLR3-I4NLPMP-GYBVM2O-TMTAKC6-I5FE3UE-QG7SSQ3";
       tailscaleIP = "100.100.10.20";
+      modules = ["oracleDisko"];
     };
-
-    nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
       ${hostname} = {pkgs, ...}: {
-        imports = with self.modules.nixos; [
-          server
-          oracleHardware
-          oracleDisko
-        ];
         environment.systemPackages = [pkgs.ffmpeg-headless];
       };
 

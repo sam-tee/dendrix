@@ -5,22 +5,15 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "x86_64-linux";
-      hostType = "nixos";
+      hostType = "server";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADGGLpndCsctBNb2X8bpEHYHFpL3ew9RI5r18FhK8tc";
       syncID = "V5FOBLK-LGM5BYD-GC4C7TJ-Y5DGLSF-HWPCROU-W27V44I-ICJPM7Q-Y5IZ7A4";
       tailscaleIP = "100.100.10.99";
+      modules = ["hpDisko" "battery"];
     };
-
-    nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
       ${hostname} = {pkgs, ...}: {
-        imports = with self.modules.nixos; [
-          server
-          hpHardware
-          hpDisko
-          battery
-        ];
         environment.systemPackages = with pkgs; [
           ffmpeg-headless
           uv

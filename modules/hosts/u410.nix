@@ -7,21 +7,15 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "x86_64-linux";
-      hostType = "nixos";
+      hostType = "server";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHfvY3X0prLp/RmlR9OpDN0vJbG0RTQHDT0ZePDKsZJ2";
       syncID = "IFMUCEZ-XPI7GGX-WYZJARU-PPOKXNI-5DOWGCF-3PAOELM-XNYBXX4-IXQWRAS";
       tailscaleIP = "100.100.10.10";
+      modules = ["battery"];
     };
-
-    nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
       ${hostname} = {pkgs, ...}: {
-        imports = with self.modules.nixos; [
-          server
-          u410Hardware
-          battery
-        ];
         services.tailscale.extraSetFlags = ["--advertise-routes=192.168.1.0/24"];
 
         environment = {

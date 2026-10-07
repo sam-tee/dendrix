@@ -66,7 +66,7 @@ in {
       inherit (lib) concatLines singleton;
       sshHosts =
         self.hosts
-        |> lib.filterAttrs (_: host: host.hostType == "nixos" || host.hostType == "darwin")
+        |> lib.filterAttrs (_: host: host.hostType != "other")
         |> builtins.attrNames
         |> builtins.sort lib.lessThan;
       keysAttrs =

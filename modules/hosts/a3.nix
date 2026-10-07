@@ -5,13 +5,20 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "x86_64-linux";
-      hostType = "nixos";
+      hostType = "desktop";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPg6t5m8Ib8Fn+tR4lxJOsi/oKXp6uRSmaX0sfNBmLkU";
       syncID = "M7NGXTT-V47I3WQ-63BVVY3-I3TDBCF-T6YZNVP-KBT5JRC-2K6G7OZ-QBWEHAT";
       tailscaleIP = "100.100.10.11";
+      modules = [
+        "hyprland"
+        # "jovian"
+        "autologin"
+        "linuxAll"
+        "steam"
+        "sunshine"
+        "vms"
+      ];
     };
-
-    nixosConfigurations = self.lib.mkNixos hostname;
 
     modules.nixos = {
       ${hostname} = {
@@ -19,16 +26,6 @@ in {
         pkgs,
         ...
       }: {
-        imports = with self.modules.nixos; [
-          a3Hardware
-          hyprland
-          #jovian
-          autologin
-          linuxAll
-          steam
-          sunshine
-          vms
-        ];
         services.gvfs.enable = true;
         services.udev.packages = with pkgs; [libmtp];
         environment.systemPackages = with pkgs; [

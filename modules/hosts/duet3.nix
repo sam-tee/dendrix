@@ -9,20 +9,14 @@ in {
     hosts.${hostname} = {
       username = "sam";
       system = "lenovo-wormdingler";
-      hostType = "nixos";
+      hostType = "mobile";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6mOpHficE7rnvg6pNw6SwSU39O2riglK511CGh5p+V";
       syncID = "WEFNJAE-V6VFYEI-J4KAORY-IYHRJBR-MVUK7XV-C3UPGDY-BSL3ZJL-HIOROAD";
       tailscaleIP = "100.100.10.14";
+      modules = ["gui" "hyprTouch" "moonlight"];
     };
 
-    nixosConfigurations = self.lib.mkMobile hostname;
-
     modules.nixos.${hostname} = {pkgs, ...}: {
-      imports = with self.modules.nixos; [
-        gui
-        hyprTouch
-        moonlight
-      ];
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
       hjem.extraModules = lib.singleton {
         xdg.config.files."hypr/hyprland.lua".text = lib.mkAfter ''

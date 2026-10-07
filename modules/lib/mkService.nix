@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.lib.mkService = host: port: subdomain: {
-    inherit port host;
+    inherit port host subdomain;
     fqdn =
       if subdomain == ""
       then self.domain
