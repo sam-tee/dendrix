@@ -1,6 +1,6 @@
 {lib, ...}: let
   inherit (lib) mkOption types;
-  inherit (types) str submodule enum attrsOf listOf;
+  inherit (types) str submodule enum attrsOf listOf nullOr int;
 in {
   options.flake.hosts = lib.mkOption {
     type = attrsOf (submodule {
@@ -16,6 +16,29 @@ in {
         pubKey = mkOption {
           type = str;
           default = "";
+        };
+        remoteBuilder = mkOption {
+          type = submodule {
+            options = {
+              publicHostKey = mkOption {
+                type = nullOr str;
+                default = null;
+                description = "Base64 SSH host key for nix remote builder. Set to opt this host in as a builder.";
+              };
+              maxJobs = mkOption {
+                type = int;
+                default = 4;
+                description = "maxJobs for this host when used as a nix remote builder.";
+              };
+              speedFactor = mkOption {
+                type = int;
+                default = 1;
+                description = "speedFactor for this host when used as a nix remote builder.";
+              };
+            };
+          };
+          default = {};
+          description = "Nix remote builder config. Hosts with remoteBuilder.publicHostKey set become buildMachines.";
         };
         syncID = mkOption {
           type = str;

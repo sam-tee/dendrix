@@ -9,6 +9,10 @@ in {
       system = "x86_64-linux";
       hostType = "server";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHfvY3X0prLp/RmlR9OpDN0vJbG0RTQHDT0ZePDKsZJ2";
+      remoteBuilder = {
+        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEB1NDEwCg==";
+        maxJobs = 2;
+      };
       syncID = "IFMUCEZ-XPI7GGX-WYZJARU-PPOKXNI-5DOWGCF-3PAOELM-XNYBXX4-IXQWRAS";
       tailscaleIP = "100.100.10.10";
       modules = ["battery"];

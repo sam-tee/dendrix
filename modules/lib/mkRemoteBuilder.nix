@@ -1,11 +1,15 @@
 {self, ...}: {
   flake.lib.mkRemoteBuilder = config: {
     hostname,
-    publicHostKey,
+    publicHostKey ? self.hosts.${hostname}.remoteBuilder.publicHostKey or null,
     systems ? [self.hosts.${hostname}.system],
-    port ? 2222,
-    maxJobs ? 4,
-    speedFactor ? 1,
+    port ? (
+      if self.hosts.${hostname}.hostType == "darwin"
+      then 22
+      else 2222
+    ),
+    maxJobs ? self.hosts.${hostname}.remoteBuilder.maxJobs or 4,
+    speedFactor ? self.hosts.${hostname}.remoteBuilder.speedFactor or 1,
   }: {
     hostName = "${hostname}:${toString port}";
     inherit systems publicHostKey maxJobs speedFactor;

@@ -7,6 +7,7 @@ in {
       system = "aarch64-linux";
       hostType = "server";
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyO7UE5sJmZcNOvsPW148NkH4tk5SefBU32Z66+KWqH";
+      remoteBuilder.publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
       syncID = "D4AMT2I-LC25UJA-TONYLR3-I4NLPMP-GYBVM2O-TMTAKC6-I5FE3UE-QG7SSQ3";
       tailscaleIP = "100.100.10.20";
     };

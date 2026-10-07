@@ -7,17 +7,9 @@
   inherit (self.lib) mkRemoteBuilder;
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
   remoteBuildMachines = config: currentHostname:
-    [
-      (mkRemoteBuilder config {
-        hostname = "oracle";
-        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNibHRXL0ZUai9VSTRnOHZ3VndTTFZtbmltdndkRDJzMEx0d0tRV0szTTYgcm9vdEBvcmFjbGUK";
-      })
-      (mkRemoteBuilder config {
-        hostname = "u410";
-        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEB1NDEwCg==";
-        maxJobs = 2;
-      })
-    ]
+    self.hosts
+    |> lib.filterAttrs (_: host: (host.remoteBuilder.publicHostKey or null) != null)
+    |> lib.mapAttrsToList (hostname: _: mkRemoteBuilder config {inherit hostname;})
     |> lib.filter (machine: (machine.hostName |> lib.splitString ":" |> lib.head) != currentHostname);
 in {
   flake.modules = {

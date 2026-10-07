@@ -57,10 +57,11 @@ and using it from a machine before switching that machine to this config.
 
 ## Remote builders
 
-`modules/nix.nix` configures remote build machines (via `mkRemoteBuilder`),
-filtered per host so a machine never builds on itself: `oracle`
-(`aarch64-linux`), `u410` (`x86_64-linux`, 2 jobs), `a3` (`x86_64-linux`,
-8 jobs, 2x speed factor), all on port `2222`. Each entry pins the SSH host
-key (`publicHostKey`) and authenticates over `ssh-ng` as the host's user
-with a sops-managed key (`sops.secrets."ssh/<host>"`), so builds are
-non-interactive and MITM-resistant.
+Any host with `flake.hosts.<name>.remoteBuilder.publicHostKey` set becomes a remote build machine (via `mkRemoteBuilder` in `modules/nix.nix`). Remote Builder config is set by 
+hosts.<hostname>.remoteBuilder, with options for speedFactor and maxJobs
+
+To find the publicHostKey:
+
+```sh
+ssh-keyscan -t ed25519 (-p 2222) <host>  | awk '/ed25519/ {print $2, $3}' | base64 -w0
+```
