@@ -17,12 +17,6 @@
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU00YTdrOFZXMDJDdlA1SUM3akx5S0h6MWpZSjI3QlpVRnBnYms4bDFvK0wgcm9vdEB1NDEwCg==";
         maxJobs = 2;
       })
-      (mkRemoteBuilder config {
-        hostname = "a3";
-        publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUs1L0NqMzdBTDZZRW5PUnpsYXRQODZHWnJINHNLS2d3R3ZIMUJ1Mzl3OHEgcm9vdEBhMwo=";
-        maxJobs = 8;
-        speedFactor = 2;
-      })
     ]
     |> lib.filter (machine: (machine.hostName |> lib.splitString ":" |> lib.head) != currentHostname);
 in {
