@@ -23,7 +23,7 @@ rather than in the generated root flake.
   `modules/gui/`, `modules/cli/`, or the relevant shared module directory.
 - Secrets are managed through `sops-nix`; the secrets file is
   `nix-secrets/secrets.yaml`, encrypted with age and committed to this repo
-  (see `nix-secrets/.sops.yaml` for recipients). Do not edit secrets directly, instead inform the user what to change. 
+  (see `nix-secrets/.sops.yaml` for recipients). Do not edit secrets directly, instead inform the user what to change.
 - For new services: register the placement with `mkService <host> <port>
   <subdomain>` in `modules/vars/homelab.nix` (`flake.services.<name>`), and
   implement `flake.modules.nixos.<name>` in `modules/homelab/<name>.nix`
@@ -35,67 +35,12 @@ rather than in the generated root flake.
 
 ## Useful Commands
 
-### Format all Nix files:
-
-```sh
-nix fmt .
-```
-
-### Build/check a NixOS configuration:
-
-```sh
-nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
-```
-
-### Build a package:
-
-```sh
-nix build .#packages.<hostPlatform>.<package>
-```
-always use the hostPlatform of the machine you are running on unless 
-the package is not available for that platform, where you should fall
-back to x86_64-linux
-
-### Switch a NixOS host:
-
-```sh
-sudo nixos-rebuild switch --flake ~/dendrix#<hostname>
-```
-
-### Deploy a host:
-
-```sh
-nhw -H <hostname> -R
-```
+Commands are defined in [commands.md](docs/commands.md), covering host deploys and flake checks.
 
 ## Machine Access
 
-Each machine is accessible over SSH by running:
+Hosts are defined in [hosts.md](docs/hosts.md) and accessible over SSH using their hostname.
 
-```sh
-ssh <hostname>
-```
+## Homelab Services
 
-Known hostnames are:
-
-- `a3`
-- `duet`
-- `duet3`
-- `hp`
-- `mba`
-- `oracle`
-- `s340`
-- `u410`
-
-## Homelab Notes
-
-- Main domain: `samtee.party` (tailnet `scylla-goblin.ts.net`). Caddy on
-  `oracle` reverse-proxies services to `<host>.<tailnet>:<port>` with DNS
-  for public/private split.
-- Service placement/ports/visibility are registered in
-  `modules/vars/homelab.nix`; the generated tables live in
-  `docs/services.md` and `docs/hosts.md`.
-- `u410` hosts data-heavy services and serves as `x86_64-linux` builder
-- `oracle` handles Caddy and selected services, and serves as `aarch64-linux` builder.
-- Forgejo runs on `oracle`; cache workflow builds `.#packages`
-  (x86_64/aarch64-linux) and pushes closures to the public `dendrix` Attic cache.
+Services are defined in [services.md](docs/services.md), which is programmatically generated from the flake.
