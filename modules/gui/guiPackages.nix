@@ -66,7 +66,6 @@
             "google-chrome"
             "localsend"
             "raycast"
-            "whatsapp"
           ];
           masApps = {"Bitwarden" = 1352778147;};
         };
