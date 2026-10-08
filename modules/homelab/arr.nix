@@ -18,13 +18,7 @@
   };
 in {
   flake.modules.nixos = {
-    bazarr = {config, ...}: {
-      services.bazarr = {
-        enable = true;
-        inherit (config.homelab) group user;
-        listenPort = self.services.bazarr.port;
-      };
-    };
+    bazarr = mkArrModule "bazarr";
     radarr = mkArrModule "radarr";
     sonarr = mkArrModule "sonarr";
     lidarr = mkArrModule "lidarr";
