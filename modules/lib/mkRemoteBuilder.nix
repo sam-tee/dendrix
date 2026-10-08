@@ -11,7 +11,7 @@
     maxJobs ? self.hosts.${hostname}.remoteBuilder.maxJobs or 4,
     speedFactor ? self.hosts.${hostname}.remoteBuilder.speedFactor or 1,
   }: {
-    hostName = "${hostname}:${toString port}";
+    hostName = "${hostname}.${self.tailnet}:${toString port}";
     inherit systems publicHostKey maxJobs speedFactor;
     protocol = "ssh-ng";
     sshUser = self.hosts.${hostname}.username;

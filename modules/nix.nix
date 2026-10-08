@@ -8,9 +8,9 @@
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
   remoteBuildMachines = config: currentHostname:
     self.hosts
+    |> lib.filterAttrs (hostname: _: hostname != currentHostname)
     |> lib.filterAttrs (_: host: (host.remoteBuilder.publicHostKey or null) != null)
-    |> lib.mapAttrsToList (hostname: _: mkRemoteBuilder config {inherit hostname;})
-    |> lib.filter (machine: (machine.hostName |> lib.splitString ":" |> lib.head) != currentHostname);
+    |> lib.mapAttrsToList (hostname: _: mkRemoteBuilder config {inherit hostname;});
 in {
   flake.modules = {
     generic.default = self.modules.generic.nix;
