@@ -60,6 +60,7 @@ in {
           "ctrl+shift+w=close_surface"
         ];
         copy-on-select = "clipboard";
+        clipboard-write = "allow";
       };
       ".config/ghostty/themes/${attrs.name}-dark" = mkConfig (mkTheme "dark");
       ".config/ghostty/themes/${attrs.name}-light" = mkConfig (mkTheme "light");
