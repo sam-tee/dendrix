@@ -34,7 +34,6 @@ in {
           eza
           fzf
           lazygit
-          neovim
           nixd
           ripgrep
           speedtest-cli

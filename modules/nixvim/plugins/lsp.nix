@@ -1,11 +1,15 @@
 {
-  flake.modules.nixvim.default = _: {
+  flake.modules.nixvim.default = {pkgs, ...}: {
+    withRuby = false;
+    withPython3 = false;
     dependencies = {
       bat.enable = true;
-      git.enable = true;
+      git = {
+        enable = true;
+        package = pkgs.gitMinimal;
+      };
       ripgrep.enable = true;
     };
-    version.enableNixpkgsReleaseCheck = false;
 
     plugins.lsp = {
       enable = true;

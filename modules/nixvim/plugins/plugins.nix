@@ -1,5 +1,5 @@
 {
-  flake.modules.nixvim.default = _: {
+  flake.modules.nixvim.default = {config, ...}: {
     plugins = {
       bufferline.enable = true;
       comment.enable = true;
@@ -77,6 +77,31 @@
       };
       treesitter = {
         enable = true;
+        grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
+          bash
+          c
+          css
+          csv
+          diff
+          dockerfile
+          go
+          html
+          ini
+          javascript
+          json
+          latex
+          lua
+          make
+          markdown
+          nix
+          python
+          regex
+          rust
+          toml
+          vimdoc
+          xml
+          yaml
+        ];
         settings = {
           highlight.enable = true;
           indent.enable = true;

@@ -21,7 +21,9 @@ in {
   };
   flake.modules = {
     nixos.nixvim = mkNixvim "nixos";
+    nixos.default = self.modules.nixos.nixvim;
     darwin.nixvim = mkNixvim "nixDarwin";
+    darwin.default = self.modules.darwin.nixvim;
   };
   perSystem = {system, ...}: {
     nixvimConfigurations.default = inputs.nixvim.lib.evalNixvim {
