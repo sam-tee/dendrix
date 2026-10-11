@@ -11,7 +11,7 @@ in {
       audiobookshelf = mkService "" 8000 "audio";
       bazarr = mkService "u410" 6767 "bazarr";
       caddy = mkService "oracle" 0 "";
-      calibre = mkService "oracle" 8083 "books";
+      calibre-web = mkService "oracle" 8083 "books";
       copyparty = mkService "u410" 3210 "files";
       forgejo = mkService "oracle" 3000 "git";
       home-assistant = mkService "u410" 8123 "ha";

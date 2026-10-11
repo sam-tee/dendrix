@@ -7,17 +7,7 @@
     nixos = {
       gui = self.modules.nixos.linuxBase;
       linuxBase = {pkgs, ...}: {
-        xdg.mime = {
-          enable = true;
-          defaultApplications = {
-            "text/html" = "helium.desktop";
-            "application/xhtml+xml" = "helium.desktop";
-            "x-scheme-handler/http" = "helium.desktop";
-            "x-scheme-handler/https" = "helium.desktop";
-            "x-scheme-handler/about" = "helium.desktop";
-            "x-scheme-handler/unknown" = "helium.desktop";
-          };
-        };
+        xdg.mime.enable = true;
         hjem.extraModules = with self.modules.hjem; [ghostty xournal zed];
         environment.systemPackages = with pkgs;
           [
@@ -46,7 +36,6 @@
           nautilus
           self'.packages.t3code-desktop-slim
         ];
-        programs.vscode.enable = true;
       });
     };
     darwin = {

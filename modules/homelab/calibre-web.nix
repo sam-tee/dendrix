@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.modules.nixos.calibre = {config, ...}: let
+  flake.modules.nixos.calibre-web = {config, ...}: let
     inherit (config.homelab) group machineIP user dataDir;
   in {
     services.calibre-web = {
@@ -8,7 +8,7 @@
       dataDir = "${dataDir}/calibre-web";
       listen = {
         ip = machineIP;
-        inherit (self.services.calibre) port;
+        inherit (self.services.calibre-web) port;
       };
       options = {
         calibreLibrary = "${dataDir}/books";

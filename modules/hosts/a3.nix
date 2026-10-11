@@ -10,6 +10,7 @@ in {
       syncID = "M7NGXTT-V47I3WQ-63BVVY3-I3TDBCF-T6YZNVP-KBT5JRC-2K6G7OZ-QBWEHAT";
       tailscaleIP = "100.100.10.11";
       modules = [
+        "calibre"
         "hyprland"
         # "jovian"
         "linuxAll"
@@ -26,12 +27,11 @@ in {
         ...
       }: {
         services.gvfs.enable = true;
-        services.udev.packages = with pkgs; [libmtp];
+        users.users.sam.extraGroups = ["input"];
         environment.systemPackages = with pkgs; [
           libmtp
           gvfs
           kicad
-          calibre
         ];
         networking.interfaces.enp4s0.wakeOnLan.enable = true;
         hardware.graphics.extraPackages = with pkgs; [
