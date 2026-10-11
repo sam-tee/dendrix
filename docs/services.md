@@ -10,7 +10,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.services`
 |  audiobookshelf  |     -     |  8000   |    audio    |
 |      bazarr      |   u410    |  6767   |   bazarr    |
 |      caddy       |  oracle   |    -    |      -      |
-|     calibre      |  oracle   |  8083   |    books    |
+|   calibre-web    |  oracle   |  8083   |    books    |
 |    copyparty     |   u410    |  3210   |    files    |
 |     forgejo      |  oracle   |  3000   |     git     |
 |  home-assistant  |   u410    |  8123   |     ha      |
