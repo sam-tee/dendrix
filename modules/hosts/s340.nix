@@ -41,9 +41,13 @@ in {
           initrd.availableKernelModules = ["nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
           binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
           kernelModules = ["kvm-amd"];
+          kernelParams = ["radeon.si_support=0" "amdgpu.si_support=1"];
         };
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-        hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        hardware = {
+          amdgpu.initrd.enable = true;
+          cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        };
       };
       "${hostname}Disko" = _: {
         disko.devices.disk.main = {
