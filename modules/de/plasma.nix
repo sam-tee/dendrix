@@ -8,7 +8,6 @@
       plasma6.excludePackages = with pkgs.kdePackages; [
         discover
         elisa
-        gwenview
         kate
         konsole
         plasma-browser-integration
