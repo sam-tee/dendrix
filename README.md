@@ -63,5 +63,5 @@ hosts.<hostname>.remoteBuilder, with options for speedFactor and maxJobs
 To find the publicHostKey:
 
 ```sh
-ssh-keyscan -t ed25519 (-p 2222) <host>  | awk '/ed25519/ {print $2, $3}' | base64 -w0
+ssh-keyscan -t ed25519 <host>  | awk '/ed25519/ {print $2, $3}' | base64 -w0
 ```

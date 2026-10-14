@@ -1,5 +1,5 @@
 {self, ...}: let
-  linuxPort = 2222;
+  linuxPort = 22;
   envVar = "LANG LC_* EDITOR";
 in {
   flake.modules = {
@@ -8,6 +8,7 @@ in {
       services.openssh = {
         enable = true;
         ports = [linuxPort];
+        openFirewall = false;
         settings = {
           KbdInteractiveAuthentication = false;
           PasswordAuthentication = false;

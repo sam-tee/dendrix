@@ -3,11 +3,7 @@
     hostname,
     publicHostKey ? self.hosts.${hostname}.remoteBuilder.publicHostKey or null,
     systems ? [self.hosts.${hostname}.system],
-    port ? (
-      if self.hosts.${hostname}.hostType == "darwin"
-      then 22
-      else 2222
-    ),
+    port ? 22,
     maxJobs ? self.hosts.${hostname}.remoteBuilder.maxJobs or 4,
     speedFactor ? self.hosts.${hostname}.remoteBuilder.speedFactor or 1,
   }: {

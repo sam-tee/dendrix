@@ -8,8 +8,6 @@
     hl = config.homelab;
     inherit (hl) caddyIP email machineIP;
     inherit (self.services.forgejo) fqdn port;
-    forgejoSshLogDir = "/var/log/forgejo";
-    forgejoSshLog = "${forgejoSshLogDir}/forgejo-ssh.log";
   in {
     imports = with self.modules.nixos; [forgejo-actions forgejo-theme];
 
@@ -18,7 +16,6 @@
       "forgejo/databasePwd".owner = cfg.database.user;
       smtpPwd.owner = cfg.user;
     };
-    networking.firewall.allowedTCPPorts = [22];
     services.forgejo = {
       enable = true;
       stateDir = "${hl.dataDir}/git";
@@ -46,7 +43,6 @@
           HTTP_ADDR = machineIP;
           HTTP_PORT = port;
           LANDING_PAGE = "/sam-tee";
-          START_SSH_SERVER = true;
           SSH_PORT = 22;
           SSH_DOMAIN = fqdn;
           DISABLE_SSH = false;
@@ -58,47 +54,10 @@
           DEFAULT_KEEP_EMAIL_PRIVATE = true;
         };
         security.REVERSE_PROXY_TRUSTED_PROXIES = "${caddyIP}/32,127.0.0.1/32,::1/128";
-        log = {
-          ROOT_PATH = forgejoSshLogDir;
-          LEVEL = "Info";
-          LOGGER_SSH_MODE = "file";
-          FILE_NAME = "forgejo-ssh.log";
-        };
       };
     };
-    services.fail2ban.jails.forgejo-ssh = {
-      filter = {
-        Definition = {
-          failregex = ''^.*publicKeyHandler\(\).*Failed authentication attempt from \[?<HOST>\]?(?::[0-9]+)?\s*$'';
-          ignoreregex = "";
-        };
-      };
-      settings = {
-        enabled = true;
-        backend = "auto";
-        logpath = forgejoSshLog;
-        port = "${toString cfg.settings.server.SSH_PORT}";
-        maxretry = 5;
-        findtime = "10m";
-        bantime = "1h";
-      };
-    };
-    systemd = {
-      tmpfiles.rules = [
-        "d ${forgejoSshLogDir} 0750 ${cfg.user} ${cfg.group} -"
-        "f ${forgejoSshLog} 0640 ${cfg.user} ${cfg.group} -"
-      ];
-      services.forgejo = {
-        preStart = ''
-          ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
-        '';
-        serviceConfig = {
-          ReadWritePaths = [forgejoSshLogDir];
-          AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
-          CapabilityBoundingSet = lib.mkForce ["CAP_NET_BIND_SERVICE"];
-          PrivateUsers = lib.mkForce false;
-        };
-      };
-    };
+    systemd.services.forgejo.preStart = ''
+      ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
+    '';
   };
 }
