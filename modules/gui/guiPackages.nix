@@ -1,8 +1,4 @@
-{
-  moduleWithSystem,
-  self,
-  ...
-}: {
+{self, ...}: {
   flake.modules = {
     nixos = {
       gui = self.modules.nixos.linuxBase;
@@ -23,8 +19,11 @@
           ]);
         programs.localsend.enable = true;
       };
-      linuxAll = moduleWithSystem ({self', ...}: {pkgs, ...}: {
-        imports = [self.modules.nixos.gui];
+      linuxAll = {pkgs, ...}: {
+        imports = with self.modules.nixos; [
+          gui
+          t3desktop
+        ];
         environment.systemPackages = with pkgs; [
           anki
           baobab
@@ -34,9 +33,8 @@
           haruna
           libreoffice
           nautilus
-          self'.packages.t3code-desktop-slim
         ];
-      });
+      };
     };
     darwin = {
       default = self.modules.darwin.macosBase;
@@ -56,7 +54,7 @@
             "localsend"
             "raycast"
           ];
-          masApps = {"Bitwarden" = 1352778147;};
+          masApps."Bitwarden" = 1352778147;
         };
       };
     };

@@ -28,6 +28,11 @@ jobs:
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: nix flake update
 
+      - name: Update T3 Code nightly
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: nix shell nixpkgs#jq --command bash scripts/update-t3code-nightly.sh --repo "${{ github.workspace }}"
+
       - name: Configure Attic
         run: |
           token="$(printf '%s' "$ATTIC_TOKEN" | tr -d '\r\n')"
@@ -55,19 +60,19 @@ jobs:
             git push
           fi
 
-      - name: Commit updated lock file
+      - name: Commit lock file and nightly bump
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           set -eu
 
-          if git diff --quiet -- flake.lock; then
+          if git diff --quiet -- flake.lock modules/packages/t3code-nightly.nix; then
             exit 0
           fi
 
           git config user.name "forgejo-actions"
           git config user.email "forgejo-actions@samtee.party"
-          git add flake.lock
-          git commit -m "chore: update flake lock"
+          git add flake.lock modules/packages/t3code-nightly.nix
+          git commit -m "chore: update flake lock and t3code nightly"
           git push
 
       - name: Send ntfy notification

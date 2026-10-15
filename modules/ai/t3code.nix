@@ -8,12 +8,24 @@
 in {
   flake.modules = {
     nixos.default = self.modules.nixos.t3;
+    nixos.t3desktop = moduleWithSystem ({self', ...}: {
+      config,
+      username,
+      ...
+    }: let
+      inherit (config.users.users.${username}) home;
+    in {
+      environment = {
+        sessionVariables.T3CODE_HOME = "${home}/.config/t3";
+        systemPackages = [self'.packages.t3code-desktop-nightly];
+      };
+    });
     nixos.t3 = moduleWithSystem ({self', ...}: {
       config,
       username,
       ...
     }: let
-      t3 = self'.packages.t3code-slim;
+      t3 = self'.packages.t3code-nightly;
       inherit (config.users.users.${username}) home;
       inherit (self.hosts.${config.networking.hostName}) tailscaleIP;
     in {
@@ -22,7 +34,7 @@ in {
         systemPackages = [t3];
       };
       systemd.services.t3code = {
-        description = "T3 Code server (tailscale-bound)";
+        description = "T3 Code server (tailscale-bound, nightly)";
         after = ["network-online.target" "tailscaled.service"];
         wants = ["network-online.target"];
         wantedBy = ["multi-user.target"];
@@ -49,7 +61,7 @@ in {
       inherit (config.users.users.${username}) home;
       t3Home = "${home}/.config/t3";
     in {
-      homebrew.casks = ["t3-code"];
+      homebrew.casks = ["t3-code@nightly"];
       environment.variables.T3CODE_HOME = t3Home;
       launchd.user.agents.t3code-env = {
         command = "/bin/launchctl setenv T3CODE_HOME ${t3Home}";
