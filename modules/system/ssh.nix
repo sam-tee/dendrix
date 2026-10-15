@@ -4,16 +4,26 @@
 in {
   flake.modules = {
     nixos.default = self.modules.nixos.ssh;
-    nixos.ssh = _: {
+    nixos.ssh = {username, ...}: {
       services.openssh = {
         enable = true;
         ports = [linuxPort];
-        openFirewall = false;
+        openFirewall = true;
         settings = {
           KbdInteractiveAuthentication = false;
           PasswordAuthentication = false;
+          AuthenticationMethods = "publickey";
+          PermitEmptyPasswords = false;
           PermitRootLogin = "no";
+          X11Forwarding = false;
+          AllowAgentForwarding = false;
+          AllowUsers = [username];
           MaxAuthTries = 5;
+          MaxSessions = 5;
+          MaxStartups = "10:30:60";
+          LoginGraceTime = 30;
+          ClientAliveInterval = 300;
+          ClientAliveCountMax = 2;
         };
         extraConfig = ''
           AcceptEnv ${envVar}
@@ -28,15 +38,25 @@ in {
       };
     };
     darwin.default = self.modules.darwin.ssh;
-    darwin.ssh = _: {
+    darwin.ssh = {username, ...}: {
       services.openssh = {
         enable = true;
         extraConfig = ''
           AddressFamily any
           KbdInteractiveAuthentication no
           PasswordAuthentication no
+          AuthenticationMethods publickey
+          PermitEmptyPasswords no
           PermitRootLogin no
+          X11Forwarding no
+          AllowAgentForwarding no
+          AllowUsers ${username}
           MaxAuthTries 5
+          MaxSessions 5
+          MaxStartups 10:30:60
+          LoginGraceTime 30
+          ClientAliveInterval 300
+          ClientAliveCountMax 2
           UsePAM yes
           AcceptEnv ${envVar}
           Include /etc/ssh/crypto.conf
