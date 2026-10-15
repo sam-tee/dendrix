@@ -7,12 +7,12 @@
       pkgs,
       ...
     }: let
-      home = config.users.users.${username}.home;
+      homeDir = config.xdg.dirs.homeDir;
       forgejoFqdn = self.services.forgejo.fqdn;
       keysPath =
         if pkgs.stdenv.hostPlatform.isDarwin
-        then "${home}/Library/Application Support/forgejo-cli.forgejo-cli/keys.json"
-        else "${home}/.local/share/forgejo-cli/keys.json";
+        then "${homeDir}/Library/Application Support/forgejo-cli.forgejo-cli/keys.json"
+        else "${config.xdg.dirs.dataDir}/forgejo-cli/keys.json";
       fjPkg = pkgs.forgejo-cli.overrideAttrs (old: {
         postFixup =
           (old.postFixup or "")

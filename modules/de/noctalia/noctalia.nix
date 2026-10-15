@@ -27,13 +27,12 @@ in {
       };
     };
     hjem.noctalia = {
-      config,
       osConfig,
       pkgs,
       ...
     }: let
       bgDir = "noctalia/wallpapers";
-      bgDirFull = "${config.xdg.cache.directory}/${bgDir}";
+      bgDirFull = "${osConfig.xdg.dirs.cacheDir}/${bgDir}";
       bgPath = "${bgDir}/bg.png";
       isMobile = osConfig.mobile.enable or false;
       settings = {

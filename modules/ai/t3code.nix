@@ -9,15 +9,9 @@ in {
   flake.modules = {
     nixos = {
       default = self.modules.nixos.t3;
-      t3desktop = moduleWithSystem ({self', ...}: {
-        config,
-        username,
-        ...
-      }: let
-        inherit (config.users.users.${username}) home;
-      in {
+      t3desktop = moduleWithSystem ({self', ...}: {config, ...}: {
         environment = {
-          sessionVariables.T3CODE_HOME = "${home}/.config/t3";
+          sessionVariables.T3CODE_HOME = "${config.xdg.dirs.configDir}/t3";
           systemPackages = [self'.packages.t3code-desktop-nightly];
         };
       });
@@ -31,7 +25,7 @@ in {
         inherit (self.hosts.${config.networking.hostName}) tailscaleIP;
       in {
         environment = {
-          sessionVariables.T3CODE_HOME = "${home}/.config/t3";
+          sessionVariables.T3CODE_HOME = "${config.xdg.dirs.configDir}/t3";
           systemPackages = [t3];
         };
         systemd.services.t3code = {
@@ -40,7 +34,7 @@ in {
           wants = ["network-online.target"];
           wantedBy = ["multi-user.target"];
           environment = {
-            T3CODE_HOME = "${home}/.config/t3";
+            T3CODE_HOME = "${config.xdg.dirs.configDir}/t3";
             FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
           };
           serviceConfig = {
@@ -56,13 +50,8 @@ in {
 
     darwin = {
       default = self.modules.darwin.t3;
-      t3 = {
-        config,
-        username,
-        ...
-      }: let
-        inherit (config.users.users.${username}) home;
-        t3Home = "${home}/.config/t3";
+      t3 = {config, ...}: let
+        t3Home = "${config.xdg.dirs.configDir}/t3";
       in {
         homebrew.casks = ["t3-code@nightly"];
         environment.variables.T3CODE_HOME = t3Home;

@@ -1,10 +1,13 @@
 {self, ...}: {
   flake.modules = {
     generic.zsh = {
+      config,
       lib,
       pkgs,
       ...
     }: let
+      inherit (config.xdg.dirs) cacheDir configDir dataDir stateDir;
+      zdotDir = "${configDir}/zsh";
       shellAliases = {
         "l" = "eza --icons auto -l --group-directories-first";
         "ls" = "l -a";
@@ -26,16 +29,16 @@
     in {
       environment = {
         variables = {
-          XDG_CACHE_HOME = "$HOME/.cache";
-          XDG_CONFIG_HOME = "$HOME/.config";
-          XDG_DATA_HOME = "$HOME/.local/share";
-          XDG_STATE_HOME = "$HOME/.local/state";
-          ZDOTDIR = "$HOME/.config/zsh";
+          XDG_CACHE_HOME = cacheDir;
+          XDG_CONFIG_HOME = configDir;
+          XDG_DATA_HOME = dataDir;
+          XDG_STATE_HOME = stateDir;
+          ZDOTDIR = zdotDir;
           EDITOR = "nvim";
           VISUAL = "nvim";
           PAGER = "less";
           LESS = "-FRX --quit-if-one-screen";
-          LESSHISTFILE = "$HOME/.local/state/less/history";
+          LESSHISTFILE = "${stateDir}/less/history";
           MANPAGER = "delta -pman";
           DELTA_PAGER = "less --raw-control-chars";
           FZF_DEFAULT_OPTS = fzfTheme;
@@ -55,7 +58,7 @@
       '';
       programs.zsh = {
         enable = true;
-        histFile = "$HOME/.config/zsh/history";
+        histFile = "${zdotDir}/history";
         histSize = 10000;
         enableCompletion = true;
         interactiveShellInit = lib.mkMerge [
@@ -66,7 +69,7 @@
           '')
           (lib.mkAfter ''
             ${strShellAliases}
-            mkdir -p "$HOME/.local/state/less"
+            mkdir -p "${stateDir}/less"
             if [ -n "$SSH_AUTH_SOCK" ]; then
               ssh-add ~/.ssh/keys/{git,git-sign} 2>/dev/null
             fi
