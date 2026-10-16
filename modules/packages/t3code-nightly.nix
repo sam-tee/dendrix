@@ -6,11 +6,11 @@ _: {
     ...
   }:
     lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux") (let
-      version = "0.0.46-nightly.20261014.3132";
-      desktop_hash_x86_64 = "sha256-xUGmiCZKtyGwyUXswUPKohOlxt/l79VSQIskkHhyVSA=";
-      desktop_hash_aarch64 = "sha256-mM3lBPtDUtTU0ZItOtZs5YxwOxA7KPRsSm3zCOsPrHs=";
-      cli_hash_x86_64 = "sha256-zK1m6cUlw3GG1r3M9SoDYttuSMfgWVffuwQphptsjys=";
-      cli_hash_aarch64 = "sha256-mbQ7CGL5Zs3yK0YOBWA5FXg8z6gPHuINjfupsfmw3D0=";
+      version = "0.0.46-nightly.20261015.3176";
+      desktop_hash_x86_64 = "sha256-FVtah+pPR5rSaUzaAUGjX+MYzaAEfhAaUBX/sOO4TI8=";
+      desktop_hash_aarch64 = "sha256-tknFjZShj/CCorbvpXeeAaCD5eFJOMSl5kIWSf5tPd0=";
+      cli_hash_x86_64 = "sha256-2IyzlQwtM46vfnXiLJvXwxoQqnSLJuJr76exwb0uEak=";
+      cli_hash_aarch64 = "sha256-Ont2WrGRr/99y/b+9efP4ph92EGKeUR+dqTJf0neFxs=";
       isX86 = system == "x86_64-linux";
     in {
       packages.t3code-nightly = pkgs.stdenv.mkDerivation {
