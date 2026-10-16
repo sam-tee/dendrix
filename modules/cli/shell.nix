@@ -39,6 +39,11 @@
           PAGER = "less";
           LESS = "-FRX --quit-if-one-screen";
           LESSHISTFILE = "${stateDir}/less/history";
+          TERMINFO_DIRS = ["${dataDir}/terminfo"];
+          NPM_CONFIG_USERCONFIG = "${configDir}/npm/npmrc";
+          NPM_CONFIG_CACHE = "${cacheDir}/npm";
+          NPM_CONFIG_PREFIX = "${dataDir}/npm";
+          NODE_REPL_HISTORY = "${stateDir}/node_repl_history";
           MANPAGER = "delta -pman";
           DELTA_PAGER = "less --raw-control-chars";
           FZF_DEFAULT_OPTS = fzfTheme;
@@ -70,6 +75,15 @@
           (lib.mkAfter ''
             ${strShellAliases}
             mkdir -p "${stateDir}/less"
+            # atuin hardcodes ~/.atuin/logs and ignores XDG; redirect it into state
+            mkdir -p "${stateDir}/atuin/logs"
+            if [ ! -L "$HOME/.atuin" ]; then
+              if [ -d "$HOME/.atuin/logs" ]; then
+                mv "$HOME/.atuin/logs"/* "${stateDir}/atuin/logs/" 2>/dev/null || true
+              fi
+              rm -rf "$HOME/.atuin"
+              ln -s "${stateDir}/atuin" "$HOME/.atuin"
+            fi
             if [ -n "$SSH_AUTH_SOCK" ]; then
               ssh-add ~/.ssh/keys/{git,git-sign} 2>/dev/null
             fi

@@ -25,6 +25,10 @@
         taps = builtins.attrNames config.nix-homebrew.taps;
         onActivation.cleanup = "zap";
       };
+      environment.variables = {
+        HOMEBREW_CACHE = "${config.xdg.dirs.cacheDir}/homebrew";
+        HOMEBREW_LOGS = "${config.xdg.dirs.stateDir}/homebrew";
+      };
     };
   };
 }
