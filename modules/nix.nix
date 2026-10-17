@@ -76,6 +76,26 @@ in {
           libraries = with pkgs; [
             stdenv.cc.cc.lib
             zlib
+            alsa-lib
+            at-spi2-core
+            cairo
+            cups
+            dbus
+            expat
+            glib
+            libdrm
+            libgbm
+            libx11
+            libxcb
+            libxcomposite
+            libxdamage
+            libxext
+            libxfixes
+            libxkbcommon
+            libxrandr
+            nspr
+            nss
+            pango
           ];
         };
       };

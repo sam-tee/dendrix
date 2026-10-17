@@ -36,6 +36,8 @@ in {
           environment = {
             T3CODE_HOME = "${config.xdg.dirs.configDir}/t3";
             FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
+            NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
+            NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
           };
           serviceConfig = {
             User = username;
