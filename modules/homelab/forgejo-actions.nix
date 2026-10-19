@@ -7,7 +7,7 @@
     cfg = config.services.forgejo;
   in {
     sops.secrets."forgejo/tokenFile".owner = cfg.user;
-    services.gitea-actions-runner = {
+    services.forgejo-runner = {
       package = pkgs.forgejo-runner;
       instances.default = {
         enable = true;
