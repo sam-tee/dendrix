@@ -27,6 +27,7 @@ in {
       qbittorrent = mkService "" 7877 "torrent";
       radarr = mkService "u410" 7878 "radarr";
       seerr = mkService "" 5055 "seerr";
+      share = mkService "oracle" 0 "share";
       site = mkService "oracle" 0 "";
       slskd = mkService "u410" 5030 "slskd";
       sonarr = mkService "u410" 8989 "sonarr";

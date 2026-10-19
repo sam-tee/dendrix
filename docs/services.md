@@ -26,6 +26,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.services`
 |   qbittorrent    |     -     |  7877   |   torrent   |
 |      radarr      |   u410    |  7878   |   radarr    |
 |      seerr       |     -     |  5055   |    seerr    |
+|      share       |  oracle   |    -    |    share    |
 |       site       |  oracle   |    -    |      -      |
 |      slskd       |   u410    |  5030   |    slskd    |
 |      sonarr      |   u410    |  8989   |   sonarr    |
