@@ -9,25 +9,20 @@ in {
       pubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIuHm83l7+Fu0CPrHWCL7tcG//mh4/626QImgUXxJekc";
       syncID = "66HL6IU-7E6U2VI-FRBIVMH-Y4SISPF-RT2WJLW-VQY63Q3-AFSXWSW-JWXSOA7";
       tailscaleIP = "100.100.10.13";
-      modules = ["niri"];
+      modules = [
+        "calibre"
+        "linuxAll"
+        "mangowc"
+      ];
     };
 
     modules.nixos = {
-      ${hostname} = {
-        lib,
-        pkgs,
-        ...
-      }: {
+      ${hostname} = {lib, ...}: {
         hjem.extraModules = lib.singleton {
-          xdg.config.files."niri/config.kdl".text = lib.mkAfter ''
-            output "eDP-1" {
-              mode "1920x1080"
-              scale 1.0
-            }
+          xdg.config.files."mango/config.conf".text = lib.mkAfter ''
+            monitor_rule=name:^eDP-1$,width:1920,height:1080,refresh:60,x:0,y:0,scale:1
           '';
         };
-        services.usbmuxd.enable = true;
-        environment.systemPackages = with pkgs; [calibre];
       };
 
       "${hostname}Hardware" = {
@@ -41,7 +36,6 @@ in {
           initrd.availableKernelModules = ["nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
           binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
           kernelModules = ["kvm-amd"];
-          kernelParams = ["radeon.si_support=0" "amdgpu.si_support=1"];
         };
         nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
         hardware = {
