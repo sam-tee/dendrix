@@ -95,8 +95,8 @@
         mousebind=SUPER,btn_right,moveresize,curresize
         mousebind=SUPER+ALT,btn_left,moveresize,curresize
 
-        window_rule=isfloating:1,title:Picture.*(in)?.*[Pp]icture
-        window_rule=isfloating:1,isfullscreen:1,appid:gamescope
+        window_rule=is_floating:1,title:Picture.*(in)?.*[Pp]icture
+        window_rule=is_floating:1,is_fullscreen:1,app_id:gamescope
 
         key_mode=resize
         bind=NONE,H,resizewin,-100,0
