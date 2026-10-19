@@ -11,9 +11,11 @@
       package = pkgs.forgejo-runner;
       instances.default = {
         enable = true;
-        url = cfg.settings.server.ROOT_URL;
-        name = config.networking.hostName;
-        tokenFile = config.sops.secrets."forgejo/tokenFile".path;
+        settings.server.connections.default = {
+          url = cfg.settings.server.ROOT_URL;
+          uuid = "684bbd79-0b82-4d37-b628-80ed3a4b2ee4";
+        };
+        secrets.server.connections.default.token_url = config.sops.secrets."forgejo/tokenFile".path;
         hostPackages = with pkgs; [
           attic-client
           bash
@@ -26,7 +28,7 @@
           nodejs
           openssh
         ];
-        labels = [
+        settings.runner.labels = [
           "native:host"
           "nix:host"
         ];
