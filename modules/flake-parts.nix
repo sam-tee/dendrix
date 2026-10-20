@@ -10,6 +10,13 @@
     "aarch64-darwin"
   ];
   perSystem = {pkgs, ...}: {
+    devShells.default = pkgs.mkShell {
+      packages = with pkgs; [
+        age
+        ssh-to-age
+        sops
+      ];
+    };
     formatter = pkgs.alejandra;
     checks = {
       alejandra =

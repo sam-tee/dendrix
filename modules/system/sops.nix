@@ -11,7 +11,7 @@
         default = self.modules.${type}.sops;
         sops = {
           imports = [inputs.sops-nix."${type}Modules".sops];
-          sops.defaultSopsFile = "${self}/nix-secrets/secrets.yaml";
+          sops.defaultSopsFile = "${self}/secrets.yaml";
         };
       };
     })
