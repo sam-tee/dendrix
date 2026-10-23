@@ -1,8 +1,13 @@
 {self, ...}: {
   flake.modules.nixos = {
     linuxAll = self.modules.nixos.calibre;
-    calibre = {pkgs, ...}: {
-      environment.systemPackages = [pkgs.calibre];
+    calibre = {pkgs, ...}: let
+      # piper-tts withTrain pulls torch/librosa/lightning (1h+ closure,
+      # broken on aarch64-linux). Calibre only needs inference.
+      piper-tts-no-train = pkgs.piper-tts.override {withTrain = false;};
+      calibre-fixed = pkgs.calibre.override {piper-tts = piper-tts-no-train;};
+    in {
+      environment.systemPackages = [calibre-fixed];
       xdg.mime = {
         removedAssociations = {
           "application/xhtml+xml" = ["calibre-ebook-viewer.desktop" "calibre-gui.desktop"];
