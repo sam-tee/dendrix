@@ -12,7 +12,7 @@ in {
       t3desktop = moduleWithSystem ({self', ...}: {config, ...}: {
         environment = {
           sessionVariables.T3CODE_HOME = "${config.xdg.dirs.configDir}/t3";
-          systemPackages = [self'.packages.t3code-desktop-nightly];
+          systemPackages = [self'.packages.t3code-desktop-slim];
         };
       });
       t3 = moduleWithSystem ({self', ...}: {
@@ -20,7 +20,7 @@ in {
         username,
         ...
       }: let
-        t3 = self'.packages.t3code-nightly;
+        t3 = self'.packages.t3code-slim;
         inherit (config.users.users.${username}) home;
         inherit (self.hosts.${config.networking.hostName}) tailscaleIP;
       in {
@@ -55,7 +55,7 @@ in {
       t3 = {config, ...}: let
         t3Home = "${config.xdg.dirs.configDir}/t3";
       in {
-        homebrew.casks = ["t3-code@nightly"];
+        homebrew.casks = ["t3-code"];
         environment.variables.T3CODE_HOME = t3Home;
         launchd.user.agents.t3code-env = {
           command = "/bin/launchctl setenv T3CODE_HOME ${t3Home}";
