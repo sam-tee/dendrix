@@ -22,13 +22,13 @@ in {
         "zed/settings.json" = mkJson {
           agent = {
             dock = "right";
-            sidebar_side = "right";
-            tool_permissions.default = "allow";
-            sanbox_permissions = {
+            sandbox_permissions = {
               allow_unsandboxed = false;
               allow_fs_write_all = true;
               allow_all_hosts = true;
             };
+            threads_sidebar.position = "right";
+            tool_permissions.default = "allow";
           };
           agent_servers = {
             cursor.type = "registry";
@@ -53,10 +53,6 @@ in {
           cli_default_open_behavior = "new_window";
           diagnostics.inline.enabled = true;
           edit_predictions.mode = "subtle";
-          focus_follows_mouse = {
-            enabled = true;
-            debounce_ms = 150;
-          };
           gutter = {
             bookmarks = false;
             breakpoints = false;
@@ -108,7 +104,7 @@ in {
             show_close_button = "always";
           };
           theme = "${attrs.name}-${defaultVariant}";
-          titlebar = {
+          title_bar = {
             show_onboarding_banner = false;
             show_sign_in = false;
           };
