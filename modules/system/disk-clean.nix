@@ -1,5 +1,5 @@
-self: {
-  flake.modules.nixos.server = {
+{moduleWithSystem, ...}: {
+  flake.modules.nixos.server = moduleWithSystem ({self', ...}: {
     lib,
     pkgs,
     ...
@@ -16,7 +16,7 @@ self: {
         fi
         if [ "$usage" -ge 90 ]; then
           echo "disk-clean: / at ''${usage}% (>= 90%), running 'nhw clean'"
-          exec ${getExe self.packages.${pkgs.stdenv.hostPlatform.system}.nhw} clean
+          exec ${getExe self'.packages.nhw} clean
         else
           echo "disk-clean: / at ''${usage}% (< 90%), skipping"
         fi
@@ -40,5 +40,5 @@ self: {
         Unit = "disk-clean.service";
       };
     };
-  };
+  });
 }
