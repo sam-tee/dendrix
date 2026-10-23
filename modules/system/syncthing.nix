@@ -22,11 +22,11 @@
     };
     books = {
       path = "~/books";
-      devices = ["a3" "duet" "hp" "mba" "oracle" "s340" "u410"];
+      devices = ["a3" "duet" "mba" "oracle" "s340" "u410"];
     };
     calibre_config = {
       path = "~/.config/calibre";
-      devices = ["a3" "hp" "mba" "oracle" "s340" "u410"];
+      devices = ["a3" "mba" "oracle" "s340" "u410"];
     };
     Docs = {
       path = "~/Documents";

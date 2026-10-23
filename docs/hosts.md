@@ -7,7 +7,6 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.hosts` in
 |    `a3`    |     `x86_64-linux`     |  desktop  |  calibre, hyprland, linuxAll, steam, sunshine, vms  |
 |   `duet`   |     `lenovo-krane`     |  mobile   |        cursor, gdm, gnome, helium, moonlight        |
 |  `duet3`   |  `lenovo-wormdingler`  |  mobile   |              gui, hyprTouch, moonlight              |
-|    `hp`    |     `x86_64-linux`     |  server   |                       battery                       |
 |   `mba`    |    `aarch64-darwin`    |  darwin   |                       paneru                        |
 |  `oracle`  |    `aarch64-linux`     |  server   |                          -                          |
 |   `s340`   |     `x86_64-linux`     |  desktop  |             calibre, linuxAll, mangowc              |
