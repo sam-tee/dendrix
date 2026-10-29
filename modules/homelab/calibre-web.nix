@@ -1,20 +1,10 @@
 {self, ...}: {
-  flake.modules.nixos.calibre-web = {
-    config,
-    pkgs,
-    ...
-  }: let
+  flake.modules.nixos.calibre-web = {config, ...}: let
     inherit (config.homelab) group machineIP user dataDir;
-    # Server only needs ebook-convert, not TTS. speechSupport pulls
-    # piper-tts (+ train closure: torch/librosa), broken on aarch64-linux.
-    # TODO(upstream): remove when vanilla piper-tts builds green on
-    # aarch64-linux again. Watcher: scripts/check-calibre-upstream.sh.
-    calibre-no-speech = pkgs.calibre.override {speechSupport = false;};
   in {
     services.calibre-web = {
       enable = true;
       inherit group user;
-      calibrePackage = calibre-no-speech;
       dataDir = "${dataDir}/calibre-web";
       listen = {
         ip = machineIP;
