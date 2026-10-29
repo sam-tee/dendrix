@@ -6,13 +6,7 @@
   }: {
     boot = {
       consoleLogLevel = lib.mkDefault 0;
-      initrd = {
-        systemd = {
-          enable = true;
-          network.wait-online.enable = false;
-        };
-        verbose = false;
-      };
+      initrd.systemd.network.wait-online.enable = false;
       kernelPackages = pkgs.linuxPackages_latest;
       kernelParams = [
         "splash"
