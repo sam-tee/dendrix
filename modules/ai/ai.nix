@@ -9,7 +9,6 @@
       environment.systemPackages = with inputs'.ai.packages; [
         claude-code
         opencode2
-        opencode2-desktop
       ];
     });
   };

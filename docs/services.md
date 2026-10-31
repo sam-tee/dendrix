@@ -11,6 +11,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.services`
 |      bazarr      |   u410    |  6767   |   bazarr    |
 |      caddy       |  oracle   |    -    |      -      |
 |   calibre-web    |  oracle   |  8083   |    books    |
+|   cliproxyapi    |   u410    |  8037   |     ai      |
 |    copyparty     |   u410    |  3210   |    files    |
 |     forgejo      |  oracle   |  3000   |     git     |
 |  home-assistant  |   u410    |  8123   |     ha      |
