@@ -2,6 +2,7 @@
   flake.modules.nixos.forgejo = {
     config,
     lib,
+    pkgs,
     ...
   }: let
     cfg = config.services.forgejo;
@@ -18,6 +19,7 @@
     };
     services.forgejo = {
       enable = true;
+      package = pkgs.forgejo;
       stateDir = "${hl.dataDir}/git";
       lfs.enable = true;
       database.type = "postgres";
