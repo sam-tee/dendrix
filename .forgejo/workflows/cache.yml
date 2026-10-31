@@ -10,9 +10,6 @@ concurrency:
   group: cache-flake-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
-
 jobs:
   build-and-cache:
     runs-on: native
