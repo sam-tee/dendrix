@@ -9,10 +9,15 @@
     mkCaddyHost = _name: svc:
       lib.nameValuePair svc.fqdn {
         useACMEHost = domain;
-        extraConfig = ''
-          encode zstd gzip
-          reverse_proxy http://${svc.host}.${tailnet}:${toString svc.port}
-        '';
+        extraConfig =
+          lib.optionalString (svc.tailnetOnly or false) ''
+            @outside not remote_ip 100.64.0.0/10 fd7a:115c:a1e0::/48
+            abort @outside
+          ''
+          + ''
+            encode zstd gzip
+            reverse_proxy http://${svc.host}.${tailnet}:${toString svc.port}
+          '';
       };
     caddyHosts =
       self.services
