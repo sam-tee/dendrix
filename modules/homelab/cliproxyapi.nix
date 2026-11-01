@@ -14,6 +14,14 @@
           inherit port;
         };
         access.api-keys = [{_secret = config.sops.secrets.cliproxyapi-key.path;}];
+        # t3code's usage-limit widget reads quotas through the management API
+        # (proxied from caddy, hence allow-remote); the client key doubles as
+        # the management key. Uses the v8 `management` spelling (legacy
+        # `remote-management` still works but prefer canonical).
+        management = {
+          allow-remote = true;
+          secret-key._secret = config.sops.secrets.cliproxyapi-key.path;
+        };
       };
     };
     systemd.services.cliproxyapi = {

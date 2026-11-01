@@ -5,11 +5,8 @@
 }: let
   baseURL = "https://${self.services.cliproxyapi.fqdn}";
   secret = "cliproxyapi-key";
-  # OpenCode Go is a plain API key (no OAuth), so it's synced via sops
-  # directly rather than proxied.
   goSecret = "opencode-go-key";
 
-  # Each client reads its key from the sops secret at runtime.
   clientFiles = {
     config,
     pkgs,
