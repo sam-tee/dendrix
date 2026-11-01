@@ -38,7 +38,10 @@
         info.enable = false;
         doc.enable = false;
       };
-      security.pam.services.sudo_local.touchIdAuth = true;
+      security.pam.services.sudo_local = {
+        touchIdAuth = true;
+        reattach = true;
+      };
       system = {
         stateVersion = 6;
         defaults = {
