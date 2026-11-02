@@ -60,6 +60,7 @@
             NSAutomaticWindowAnimationsEnabled = false;
             NSDocumentSaveNewDocumentsToCloud = false;
             NSWindowResizeTime = 0.001;
+            NSWindowShouldDragOnGesture = true;
             PMPrintingExpandedStateForPrint = true;
             _HIHideMenuBar = true;
             "com.apple.trackpad.forceClick" = false;
@@ -99,6 +100,7 @@
               {app = "/Applications/Nix Apps/Helium.app";}
               {app = "/Applications/Nix Apps/Zed.app";}
               {app = "/Applications/Nix Apps/Ghostty.app";}
+              {app = "/Applications/T3 Code (Beta).app";}
               {app = "/Applications/Nix Apps/Spotify.app";}
             ];
           };
@@ -116,6 +118,10 @@
             ShowPathbar = true;
             ShowRemovableMediaOnDesktop = false;
             ShowStatusBar = true;
+          };
+          trackpad = {
+            TrackpadThreeFingerHorizSwipeGesture = 0;
+            TrackpadThreeFingerVertSwipeGesture = 0;
           };
           CustomUserPreferences = {
             "com.apple.Accessibility".ReduceMotionEnabled = 1;
