@@ -49,6 +49,9 @@ _: {
           else "t3-${version}-linux-arm64";
         nativeBuildInputs = with pkgs; [autoPatchelfHook];
         buildInputs = with pkgs; [stdenv.cc.cc.lib];
+        # node_modules ships musl prebuilds next to the glibc ones; they are
+        # never loaded on NixOS, so their libc dependency can stay unresolved.
+        autoPatchelfIgnoreMissingDeps = ["libc.musl-*.so.1"];
         dontStrip = true;
         installPhase = ''
           runHook preInstall
