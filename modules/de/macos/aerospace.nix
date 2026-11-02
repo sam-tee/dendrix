@@ -1,11 +1,41 @@
-{self, ...}: {
-  flake.modules.darwin.aerospace = {lib, ...}: {
+{
+  moduleWithSystem,
+  self,
+  ...
+}: {
+  flake.modules.darwin.aerospace = moduleWithSystem ({inputs', ...}: {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    aerospace = lib.getExe config.services.aerospace.package;
+    gesturesConfig = (pkgs.formats.toml {}).generate "aerospace-gestures.toml" {
+      bindings =
+        lib.mapAttrsToList (direction: command: {
+          fingers = 3;
+          inherit direction command;
+        }) {
+          up = [aerospace "workspace" "--no-stdin" "next"];
+          down = [aerospace "workspace" "--no-stdin" "prev"];
+          left = [aerospace "scroll" "right"];
+          right = [aerospace "scroll" "left"];
+        };
+    };
+  in {
     imports = [self.modules.darwin.skhd];
+    launchd.user.agents.aerospace-gestures = {
+      command = "${lib.getExe inputs'.aerospace-gestures.packages.default} run ${gesturesConfig}";
+      serviceConfig = {
+        KeepAlive = true;
+        RunAtLoad = true;
+      };
+    };
     services.aerospace = {
       enable = true;
       settings = {
         config-version = 2;
-        accordion-padding = 1;
+        accordion-padding = 5;
         after-startup-command = [];
         default-root-container-layout = "tiles";
         default-root-container-orientation = "auto";
@@ -51,5 +81,5 @@
         ];
       };
     };
-  };
+  });
 }
