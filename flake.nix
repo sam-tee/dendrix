@@ -1,9 +1,5 @@
 {
   inputs = {
-    ai = {
-      url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     aerospace-gestures = {
       url = "github:cristianoliveira/aerospace-gestures";
       inputs.nixpkgs.follows = "nixpkgs";

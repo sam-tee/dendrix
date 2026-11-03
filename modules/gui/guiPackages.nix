@@ -20,10 +20,7 @@
         programs.localsend.enable = true;
       };
       linuxAll = {pkgs, ...}: {
-        imports = with self.modules.nixos; [
-          gui
-          t3desktop
-        ];
+        imports = [self.modules.nixos.gui];
         environment.systemPackages = with pkgs; [
           anki
           baobab

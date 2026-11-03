@@ -9,7 +9,19 @@
     "aarch64-linux"
     "aarch64-darwin"
   ];
-  perSystem = {pkgs, ...}: {
+  perSystem = {
+    system,
+    pkgs,
+    ...
+  }: {
+    _module.args.pkgs = import inputs.nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+        allowUnsupportedSystem = false;
+        allowAliases = false;
+      };
+    };
     devShells.default = pkgs.mkShell {
       packages = with pkgs; [
         age
