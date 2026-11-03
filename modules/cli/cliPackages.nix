@@ -25,7 +25,6 @@ in {
         };
         systemPackages = with pkgs; [
           alejandra
-          atuin
           bat
           btop
           chafa

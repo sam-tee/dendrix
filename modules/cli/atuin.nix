@@ -3,6 +3,7 @@
     default = self.modules.generic.atuin;
     atuin = {
       config,
+      pkgs,
       username,
       ...
     }: {
@@ -12,6 +13,19 @@
       };
       programs.atuin = {
         enable = true;
+        # timing-sensitive e2e tests that flake on darwin, like the ones nixpkgs already skips
+        package =
+          if pkgs.stdenv.hostPlatform.isDarwin
+          then
+            pkgs.atuin.overrideAttrs (old: {
+              checkFlags =
+                (old.checkFlags or [])
+                ++ [
+                  "--skip=a_diverged_copy_resumes_only_as_chosen"
+                  "--skip=a_session_gone_on_with_elsewhere_catches_up_where_it_came_from"
+                ];
+            })
+          else pkgs.atuin;
         settings = {
           auto_sync = true;
           dialect = "uk";
