@@ -66,6 +66,13 @@
         histFile = "${zdotDir}/history";
         histSize = 10000;
         enableCompletion = true;
+        # replaced by the cached compinit at the end of interactiveShellInit
+        enableGlobalCompInit = false;
+        # ZDOTDIR has no rc files, so nixpkgs' zsh (the `zsh` on PATH) would
+        # otherwise launch the new-user wizard on every start
+        shellInit = ''
+          zsh-newuser-install() { :; }
+        '';
         interactiveShellInit = lib.mkMerge [
           (lib.mkBefore ''
             if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
@@ -74,9 +81,9 @@
           '')
           (lib.mkAfter ''
             ${strShellAliases}
-            mkdir -p "${stateDir}/less"
+            [[ -d "${stateDir}/less" ]] || mkdir -p "${stateDir}/less"
             # atuin hardcodes ~/.atuin/logs and ignores XDG; redirect it into state
-            mkdir -p "${stateDir}/atuin/logs"
+            [[ -d "${stateDir}/atuin/logs" ]] || mkdir -p "${stateDir}/atuin/logs"
             if [ ! -L "$HOME/.atuin" ]; then
               if [ -d "$HOME/.atuin/logs" ]; then
                 mv "$HOME/.atuin/logs"/* "${stateDir}/atuin/logs/" 2>/dev/null || true
@@ -85,7 +92,7 @@
               ln -s "${stateDir}/atuin" "$HOME/.atuin"
             fi
             if [ -n "$SSH_AUTH_SOCK" ]; then
-              ssh-add ~/.ssh/keys/{git,git-sign} 2>/dev/null
+              ssh-add ~/.ssh/keys/{git,git-sign} >/dev/null 2>&1 &!
             fi
             jsonfmt() {
               if [ -z "$1" ]; then
@@ -143,6 +150,17 @@
               local dir
               for dir in "$@"; do :; done
               builtin cd -- "$dir"
+            }
+            autoload -U compinit
+            () {
+              local dump="''${ZDOTDIR:-$HOME}/.zcompdump"
+              local sys=/run/current-system
+              sys=''${sys:A}
+              if [[ -s $dump && -r $dump.sys && "$(<$dump.sys)" == "$sys" ]]; then
+                compinit -C -d "$dump"
+              else
+                compinit -d "$dump" && print -r -- "$sys" >| "$dump.sys"
+              fi
             }
           '')
         ];
