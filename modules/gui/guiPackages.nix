@@ -3,15 +3,12 @@
     nixos = {
       gui = self.modules.nixos.linuxBase;
       linuxBase = {pkgs, ...}: {
+        imports = with self.modules.generic; [ghostty xournal zed];
         xdg.mime.enable = true;
-        hjem.extraModules = with self.modules.hjem; [ghostty xournal zed];
         environment.systemPackages = with pkgs;
           [
             bitwarden-desktop
-            ghostty
             proton-vpn
-            xournalpp
-            zed-editor
           ]
           ++ lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") (with pkgs; [
             discord
@@ -36,14 +33,12 @@
     darwin = {
       default = self.modules.darwin.macosBase;
       macosBase = {pkgs, ...}: {
-        hjem.extraModules = with self.modules.hjem; [ghostty zed];
+        imports = with self.modules.generic; [ghostty zed];
         environment.systemPackages = with pkgs; [
           discord
-          ghostty-bin
           iina
           skimpdf
           spotify
-          zed-editor
         ];
         homebrew = {
           casks = [

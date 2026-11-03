@@ -2,13 +2,14 @@
   inherit (self.cosmetic) fonts theme;
   inherit (theme) attrs defaultVariant;
 in {
-  flake.modules.hjem.ghostty = {
+  flake.modules.generic.ghostty = {
     lib,
     pkgs,
     ...
   }: let
     isLinux = pkgs.stdenv.hostPlatform.isLinux;
-    inherit (lib.generators) mkKeyValueDefault toKeyValue;
+    inherit (lib) generators singleton;
+    inherit (generators) mkKeyValueDefault toKeyValue;
     mkConfig = values: {
       generator = toKeyValue {
         mkKeyValue = mkKeyValueDefault {} " = ";
@@ -46,24 +47,31 @@ in {
         ];
       };
   in {
-    files = {
-      ".config/ghostty/config" = mkConfig {
-        font-family = [fonts.mono.name];
-        font-size =
-          if isLinux
-          then fonts.size
-          else fonts.size * 4 / 3;
-        theme = "${attrs.name}-${defaultVariant}";
-        scrollback-limit = 100 * 1024 * 1024;
-        window-decoration = "auto";
-        keybind = [
-          "ctrl+shift+w=close_surface"
-        ];
-        copy-on-select = "clipboard";
-        clipboard-write = "allow";
+    environment.systemPackages = singleton (
+      if isLinux
+      then pkgs.ghostty
+      else pkgs.ghostty-bin
+    );
+    hjem.extraModules = singleton {
+      xdg.config.files = {
+        "ghostty/config" = mkConfig {
+          font-family = [fonts.mono.name];
+          font-size =
+            if isLinux
+            then fonts.size
+            else fonts.size * 4 / 3;
+          theme = "${attrs.name}-${defaultVariant}";
+          scrollback-limit = 100 * 1024 * 1024;
+          window-decoration = "auto";
+          keybind = [
+            "ctrl+shift+w=close_surface"
+          ];
+          copy-on-select = "clipboard";
+          clipboard-write = "allow";
+        };
+        "ghostty/themes/${attrs.name}-dark" = mkConfig (mkTheme "dark");
+        "ghostty/themes/${attrs.name}-light" = mkConfig (mkTheme "light");
       };
-      ".config/ghostty/themes/${attrs.name}-dark" = mkConfig (mkTheme "dark");
-      ".config/ghostty/themes/${attrs.name}-light" = mkConfig (mkTheme "light");
     };
   };
 }
