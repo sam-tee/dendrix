@@ -68,6 +68,8 @@
             ctrl-cmd-shift-l = "move right";
             ctrl-cmd-comma = "layout accordion horizontal vertical";
             ctrl-cmd-slash = "layout tiles horizontal vertical";
+            ctrl-cmd-f = "fullscreen";
+            ctrl-cmd-v = "layout floating tiling";
           }
           // (mkBindings "ctrl" "workspace")
           // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");

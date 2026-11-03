@@ -33,8 +33,8 @@
           {
             window_focus_west = "ctrl + cmd - h";
             window_focus_east = "ctrl + cmd - l";
-            window_focus_north = "ctrl + cmd - j";
-            window_focus_south = "ctrl + cmd - k";
+            window_focus_north = "ctrl + cmd - k";
+            window_focus_south = "ctrl + cmd - j";
             window_swap_west = "ctrl + cmd + shift - h";
             window_swap_east = "ctrl + cmd + shift - l";
             window_swap_north = "ctrl + cmd + shift - k";
