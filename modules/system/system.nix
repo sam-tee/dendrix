@@ -100,7 +100,7 @@
               {app = "/Applications/Nix Apps/Helium.app";}
               {app = "/Applications/Nix Apps/Zed.app";}
               {app = "/Applications/Nix Apps/Ghostty.app";}
-              {app = "/Applications/T3 Code (Beta).app";}
+              {app = "/Applications/Nix Apps/T3 Code (Alpha).app";}
               {app = "/Applications/Nix Apps/Spotify.app";}
             ];
           };

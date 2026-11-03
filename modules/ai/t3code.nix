@@ -89,7 +89,7 @@ in {
               }
               {
                 provider = "opencode";
-                model = "opencode-go/muse-spark-1.3-contributer";
+                model = "opencode-go/muse-spark-1.3-contributor";
               }
               {
                 provider = "opencode";
