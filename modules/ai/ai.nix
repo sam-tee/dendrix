@@ -3,7 +3,8 @@
   self,
   ...
 }: let
-  baseURL = "https://${self.services.cliproxyapi.fqdn}";
+  svc = self.services.cliproxyapi;
+  baseURL = "http://${svc.host}.${self.tailnet}:${toString svc.port}";
   secret = "cliproxyapi-key";
   goSecret = "opencode-go-key";
   claudeFile = "claude-code/managed-settings.d/dendrix.json";
@@ -35,6 +36,7 @@ in {
               ANTHROPIC_BASE_URL = baseURL;
               DISABLE_AUTOUPDATER = "1";
             };
+            promptCacheTtl = "1h";
             apiKeyHelper = "${cat} ${keyFile}";
             permissions.defaultMode = "auto";
             theme = "dark-ansi";
@@ -54,6 +56,8 @@ in {
               name = "CLIProxyAPI";
               base_url = "${baseURL}/v1";
               wire_api = "responses";
+              requires_openai_auth = false;
+              supports_websockets = true;
               auth = {
                 command = cat;
                 args = [keyFile];

@@ -2,6 +2,7 @@
   inherit (self.services) cliproxyapi;
   inherit (self.services.t3) port;
   inherit (self.cosmetic) fonts;
+  cliproxySource = "cliproxy-${cliproxyapi.fqdn}";
 in {
   flake.modules = {
     nixos = {
@@ -23,9 +24,10 @@ in {
 
     generic = {
       default = self.modules.generic.t3code;
-      t3code = {
+      t3code = {config, ...}: {
         programs.t3code = {
           enable = true;
+          usageLimitSecrets.${cliproxySource} = config.sops.secrets.cliproxyapi-key.path;
           extras = {
             enableClaude = true;
             enableCodex = false;
@@ -112,7 +114,7 @@ in {
               instanceId = "claudeAgent";
               model = "claude-haiku-5-5";
             };
-            usageLimitSources."cliproxy-${cliproxyapi.fqdn}" = {
+            usageLimitSources.${cliproxySource} = {
               kind = "cliproxy";
               label = cliproxyapi.host;
               url = "https://${cliproxyapi.fqdn}";
