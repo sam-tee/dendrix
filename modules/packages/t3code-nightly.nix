@@ -6,11 +6,11 @@ _: {
     ...
   }:
     lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux") (let
-      version = "0.1.7-nightly.20261102.4093";
-      desktop_hash_x86_64 = "sha256-nlKQ3Gk2aIgHnq5tLL8sH45QiGkRlCXwr2Kfo5f5D+s=";
-      desktop_hash_aarch64 = "sha256-mRpF9uUPLafitP3V64dL6/5DZl5OM8A/qHi+wIaOaYo=";
-      cli_hash_x86_64 = "sha256-87HDtuxlbB7wuag4/fv/02u0Urh4XE+XGXpwJKcdfYs=";
-      cli_hash_aarch64 = "sha256-vyEfOB5kLeX0FpNeNsHJtA0FSMxoPJslG/pPps8kHb0=";
+      version = "0.1.7-nightly.20261103.4138";
+      desktop_hash_x86_64 = "sha256-V1YrK9UD6nH3gQZaTf/ieEKiZRhzA7xxBbDts1u4w2c=";
+      desktop_hash_aarch64 = "sha256-zPKYPb1bHtwxaN8s+bPVWhYB1Es1dWghCCtw5iH6hBk=";
+      cli_hash_x86_64 = "sha256-FD0z2aX6UNYlRflVvmDXVYewk7RnyCN9KAOvONpJhyw=";
+      cli_hash_aarch64 = "sha256-q+iPKRFrW1ln4t2F7G2VSiLs5a8HrO78U+VKbRrOwl4=";
       isX86 = system == "x86_64-linux";
       desktopSrc = pkgs.fetchurl (
         if isX86
