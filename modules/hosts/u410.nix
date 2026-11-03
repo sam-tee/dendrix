@@ -15,7 +15,7 @@ in {
       };
       syncID = "IFMUCEZ-XPI7GGX-WYZJARU-PPOKXNI-5DOWGCF-3PAOELM-XNYBXX4-IXQWRAS";
       tailscaleIP = "100.100.10.10";
-      modules = ["battery"];
+      modules = ["battery" "laptop-server"];
     };
 
     modules.nixos = {
