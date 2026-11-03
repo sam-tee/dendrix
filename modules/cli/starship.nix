@@ -8,9 +8,9 @@
           "$schema" = "https://starship.rs/config-schema.json";
           add_newline = true;
           scan_timeout = 100;
-          command_timeout = 1000;
+          command_timeout = 300;
           format = "$hostname$directory$character";
-          right_format = "$git_branch$git_status$nix_shell$python";
+          right_format = "$git_branch$git_status$nix_shell$env_var";
           character = {
             error_symbol = "[❯](bold red)";
             success_symbol = "[❯](bold purple)";
@@ -52,10 +52,7 @@
             style = "bold blue";
             symbol = "";
           };
-          python = {
-            detect_extensions = [];
-            detect_files = [];
-            detect_folders = [];
+          env_var.VIRTUAL_ENV = {
             format = "[\${symbol} ]($style)";
             style = "bold yellow";
             symbol = "";
