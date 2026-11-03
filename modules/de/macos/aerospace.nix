@@ -19,8 +19,8 @@
       settings.commands = {
         up = [aerospace "workspace" "--no-stdin" "next"];
         down = [aerospace "workspace" "--no-stdin" "prev"];
-        left = [aerospace "focus" "right"];
-        right = [aerospace "focus" "left"];
+        left = [aerospace "focus" "left"];
+        right = [aerospace "focus" "right"];
       };
     };
     services.aerospace = {
