@@ -1,7 +1,7 @@
 {
   inputs = {
-    aerospace-gestures = {
-      url = "github:cristianoliveira/aerospace-gestures";
+    aeroswipe = {
+      url = "git+https://git.samtee.party/sam-tee/aeroswipe.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     copyparty = {

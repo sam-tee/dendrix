@@ -1,34 +1,26 @@
 {
-  moduleWithSystem,
+  inputs,
   self,
   ...
 }: {
-  flake.modules.darwin.aerospace = moduleWithSystem ({inputs', ...}: {
+  flake.modules.darwin.aerospace = {
     config,
     lib,
-    pkgs,
     ...
   }: let
     aerospace = lib.getExe config.services.aerospace.package;
-    gesturesConfig = (pkgs.formats.toml {}).generate "aerospace-gestures.toml" {
-      bindings =
-        lib.mapAttrsToList (direction: command: {
-          fingers = 3;
-          inherit direction command;
-        }) {
-          up = [aerospace "workspace" "--no-stdin" "next"];
-          down = [aerospace "workspace" "--no-stdin" "prev"];
-          left = [aerospace "scroll" "right"];
-          right = [aerospace "scroll" "left"];
-        };
-    };
   in {
-    imports = [self.modules.darwin.skhd];
-    launchd.user.agents.aerospace-gestures = {
-      command = "${lib.getExe inputs'.aerospace-gestures.packages.default} run ${gesturesConfig}";
-      serviceConfig = {
-        KeepAlive = true;
-        RunAtLoad = true;
+    imports = [
+      inputs.aeroswipe.darwinModules.default
+      self.modules.darwin.skhd
+    ];
+    services.aeroswipe = {
+      enable = true;
+      settings.commands = {
+        up = [aerospace "workspace" "--no-stdin" "next"];
+        down = [aerospace "workspace" "--no-stdin" "prev"];
+        left = [aerospace "focus" "right"];
+        right = [aerospace "focus" "left"];
       };
     };
     services.aerospace = {
@@ -83,5 +75,5 @@
         ];
       };
     };
-  });
+  };
 }
