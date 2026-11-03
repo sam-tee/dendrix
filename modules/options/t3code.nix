@@ -18,39 +18,10 @@ in {
     cfg = config.programs.t3code;
     svc = cfg.service;
     jsonFormat = pkgs.formats.json {};
-    applySettings = file: value:
-      lib.optionalString (value != {})
-      "apply ${cfg.home}/userdata/${file} ${jsonFormat.generate "t3code-${file}" value}";
-    # The app saves settings by replacing the file, so a read-only hjem
-    # symlink breaks; seed/merge into its own writable files on activation
-    settingsScript = pkgs.writeShellScript "t3code-settings" ''
+    # Runtime secrets can't go through the Nix store, so install them on activation
+    secretsScript = pkgs.writeShellScript "t3code-secrets" ''
       set -eu
-      PATH=${lib.makeBinPath [pkgs.coreutils pkgs.jq]}
-      mkdir -p ${cfg.home}/userdata
-      apply() {
-        # Materialise files left as store symlinks by the old hjem setup
-        if [ -L "$1" ]; then
-          src=$(readlink -f "$1")
-          rm "$1"
-          [ ! -e "$src" ] || install -m 644 "$src" "$1"
-        fi
-        if [ ! -s "$1" ]; then
-          install -m 644 "$2" "$1"
-        ${lib.optionalString (cfg.settingsMode == "merge") ''
-        else
-          tmp=$(mktemp "$1.XXXXXX")
-          if jq --slurpfile nix "$2" '. * $nix[0]' "$1" > "$tmp"; then
-            chmod 644 "$tmp"
-            mv "$tmp" "$1"
-          else
-            rm -f "$tmp"
-            echo "t3code: failed to merge settings into $1" >&2
-          fi
-      ''}
-        fi
-      }
-      ${applySettings "settings.json" cfg.settings}
-      ${applySettings "client-settings.json" cfg.uiSettings}
+      PATH=${lib.makeBinPath [pkgs.coreutils]}
 
       # T3's secret store names files after the base64url source id
       ${lib.concatMapAttrsStringSep "\n" (id: file: ''
@@ -218,16 +189,29 @@ in {
           }
         ];
         environment.systemPackages = lib.optional (cfg.package != null) cfg.package;
+        mutableJson = {
+          t3code-settings = mkIf (cfg.settings != {}) {
+            inherit (cfg) user settings;
+            path = "${cfg.home}/userdata/settings.json";
+            mode = cfg.settingsMode;
+          };
+          t3code-client-settings = mkIf (cfg.uiSettings != {}) {
+            inherit (cfg) user;
+            path = "${cfg.home}/userdata/client-settings.json";
+            settings = cfg.uiSettings;
+            mode = cfg.settingsMode;
+          };
+        };
       }
 
       (lib.optionalAttrs isLinux {
         environment.sessionVariables.T3CODE_HOME = cfg.home;
-        system.activationScripts.t3code-settings = {
+        system.activationScripts.t3code-secrets = mkIf (cfg.usageLimitSecrets != {}) {
           # setupSecrets: sops-nix secrets referenced by usageLimitSecrets
           deps = ["users"] ++ lib.optional (config.system.activationScripts ? setupSecrets) "setupSecrets";
           text = ''
-            ${pkgs.util-linux}/bin/runuser -u ${cfg.user} -- ${settingsScript} \
-              || echo "warning: failed to apply t3code settings" >&2
+            ${pkgs.util-linux}/bin/runuser -u ${cfg.user} -- ${secretsScript} \
+              || echo "warning: failed to install t3code secrets" >&2
           '';
         };
         networking.firewall.allowedTCPPorts = mkIf (svc.enable && svc.openFirewall) [svc.port];
@@ -237,7 +221,7 @@ in {
           wants = ["network-online.target"];
           wantedBy = ["multi-user.target"];
           # Activation runs before units restart, so this picks up merged settings
-          restartTriggers = [settingsScript];
+          restartTriggers = [secretsScript (builtins.hashString "sha256" (builtins.toJSON [cfg.settings cfg.uiSettings]))];
           environment = {T3CODE_HOME = cfg.home;} // svc.environment;
           serviceConfig = {
             User = cfg.user;
@@ -261,10 +245,10 @@ in {
       (lib.optionalAttrs isDarwin {
         environment.variables.T3CODE_HOME = cfg.home;
         # After sops-nix's mkAfter secret install
-        system.activationScripts.postActivation.text = lib.mkOrder 2000 ''
-          /usr/bin/sudo -u ${cfg.user} ${settingsScript} \
-            || echo "warning: failed to apply t3code settings" >&2
-        '';
+        system.activationScripts.postActivation.text = mkIf (cfg.usageLimitSecrets != {}) (lib.mkOrder 2000 ''
+          /usr/bin/sudo -u ${cfg.user} ${secretsScript} \
+            || echo "warning: failed to install t3code secrets" >&2
+        '');
         launchd.user.agents.t3code-env = {
           command = "/bin/launchctl setenv T3CODE_HOME ${cfg.home}";
           serviceConfig.RunAtLoad = true;
