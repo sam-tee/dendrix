@@ -1,8 +1,8 @@
 {self, ...}: let
   inherit (self.cosmetic.fonts) ui mono;
   mkFonts = pkgs: (with pkgs; [
-    (mono.pkgsName pkgs)
-    (ui.pkgsName pkgs)
+    (mono.mkPkg pkgs)
+    (ui.mkPkg pkgs)
     noto-fonts-color-emoji
     noto-fonts-cjk-sans
   ]);

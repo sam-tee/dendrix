@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  inherit (self.cosmetic.cursor) name pkgsName size;
+  inherit (self.cosmetic.cursor) name mkPkg size;
   inherit (lib) mkDefault singleton;
 in {
   flake.modules = {
@@ -16,7 +16,7 @@ in {
           keyboard.layout = "gb";
         };
         cursorTheme = {
-          package = pkgsName pkgs;
+          package = mkPkg pkgs;
           inherit name;
         };
       };

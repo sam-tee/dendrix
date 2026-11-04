@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.modules = let
-    inherit (self.cosmetic.cursor) name pkgsName size;
+    inherit (self.cosmetic.cursor) name mkPkg size;
   in {
     nixos.gui = self.modules.nixos.cursor;
     nixos.cursor = {
@@ -10,7 +10,7 @@
     }: {
       hjem.extraModules = [self.modules.hjem.cursor];
       environment = {
-        systemPackages = [(pkgsName pkgs)];
+        systemPackages = [(mkPkg pkgs)];
         sessionVariables = {
           XCURSOR_THEME = name;
           XCURSOR_SIZE = toString size;
