@@ -22,6 +22,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.services`
 |      mealie      |  oracle   |  9876   |   cooking   |
 |    navidrome     |   u410    |  4533   |    music    |
 |    nextcloud     |     -     |    -    |      -      |
+|      nix-pr      |  oracle   |  8733   |     prs     |
 |       ntfy       |  oracle   |  4198   |    ntfy     |
 |     prowlarr     |     -     |  9696   |  prowlarr   |
 |   qbittorrent    |     -     |  7877   |   torrent   |

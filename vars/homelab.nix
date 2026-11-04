@@ -23,6 +23,7 @@ in {
       mealie = mkPublicService "oracle" 9876 "cooking";
       navidrome = mkPublicService "u410" 4533 "music";
       nextcloud = mkService "" 0 "";
+      nix-pr = mkService "oracle" 8733 "prs";
       ntfy = mkPublicService "oracle" 4198 "ntfy";
       prowlarr = mkService "" 9696 "prowlarr";
       qbittorrent = mkService "" 7877 "torrent";

@@ -474,11 +474,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792202298,
-        "narHash": "sha256-6QFXGSikJoo/OUn73azeF1g2dZB5CsFy5EOsac7V+Dg=",
+        "lastModified": 1793833836,
+        "narHash": "sha256-QHmRkalnRcDKEWkaGX4X2nsI/8/lpZdelpDU3xhZgzs=",
         "ref": "refs/heads/main",
-        "rev": "45f09600205e1f19e1374cfccd92cc784bd606ec",
-        "revCount": 22,
+        "rev": "12b629ed1d782b2dd8477672410e4a030b78b3b4",
+        "revCount": 24,
         "type": "git",
         "url": "https://git.samtee.party/sam-tee/python.git"
       },
