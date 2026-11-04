@@ -4,9 +4,8 @@
     lib,
     ...
   }: let
-    inherit (lib) mkOption;
+    inherit (lib) mkOption mkTsIp;
     inherit (lib.types) path str;
-    inherit (self.lib) mkTsIp;
   in {
     options.homelab = {
       user = mkOption {

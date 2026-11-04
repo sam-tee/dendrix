@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (lib) types mkOption;
-  inherit (types) attrsOf lazyAttrsOf raw;
+  inherit (types) lazyAttrsOf raw;
 in {
   options.flake = flake-parts-lib.mkSubmoduleOptions {
     darwinConfigurations = mkOption {
@@ -12,6 +12,5 @@ in {
       default = {};
       description = "Instantiated Darwin configurations";
     };
-    lib = mkOption {type = attrsOf raw;};
   };
 }

@@ -1,10 +1,6 @@
 # App-writable JSON files whose declared keys are merged in on activation
 # (see lib.mkJsonMerge), for apps that break on read-only hjem symlinks
-{
-  self,
-  lib,
-  ...
-}: let
+{lib, ...}: let
   inherit (lib) mkIf mkMerge mkOption types;
 in {
   flake.modules.generic.default = {
@@ -21,7 +17,7 @@ in {
       |> lib.mapAttrs (user: files:
         pkgs.writeShellScript "mutable-json-${user}" ''
           status=0
-          ${lib.concatMapStringsSep "\n" (file: "${self.lib.mkJsonMerge pkgs file} || status=1")
+          ${lib.concatMapStringsSep "\n" (file: "${lib.mkJsonMerge pkgs file} || status=1")
             (map (file: removeAttrs file ["user"]) files)}
           exit $status
         '');

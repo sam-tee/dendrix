@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (self) domain tailnet;
-  inherit (self.lib) mkTsIp;
+  inherit (lib) mkTsIp;
   devices =
     self.hosts
     |> lib.filterAttrs (_: value: (value.syncID or "") != "")

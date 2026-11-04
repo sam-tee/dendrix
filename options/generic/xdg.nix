@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  inherit (lib) mkDefault mkIf mkOption types;
+  inherit (lib) mkOption types;
 in {
   flake.modules.generic = {
     default = self.modules.generic.xdg;
@@ -46,25 +46,8 @@ in {
           description = "XDG state directory (XDG_STATE_HOME).";
         };
       };
+      # Sets each hjem user's XDG directories from these (see options/hjem/xdg.nix)
       config.hjem.extraModules = [self.modules.hjem.xdg];
-    };
-  };
-  flake.modules.hjem.xdg = {
-    config,
-    osConfig,
-    ...
-  }: let
-    inherit (osConfig.xdg.dirs) cacheDir configDir dataDir homeDir stateDir;
-  in {
-    # Only sync the primary user; other hjem users (e.g. root) keep
-    # directories derived from their own home.
-    config = mkIf (config.directory == homeDir) {
-      xdg = {
-        config.directory = mkDefault configDir;
-        cache.directory = mkDefault cacheDir;
-        data.directory = mkDefault dataDir;
-        state.directory = mkDefault stateDir;
-      };
     };
   };
 }

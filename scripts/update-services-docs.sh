@@ -11,7 +11,7 @@ table="$(mktemp)"
 trap 'rm -f "$rows" "$table"' EXIT
 
 # Rows come from evaluated flake data, so any formatting of
-# modules/vars/homelab.nix works. Note nix only sees git-tracked files, so
+# vars/homelab.nix works. Note nix only sees git-tracked files, so
 # stage new files with `git add` before running this.
 nix eval --raw "$repo#services" --apply '
   s: builtins.concatStringsSep "\n" (builtins.concatMap (n: let
@@ -61,7 +61,7 @@ awk -F'|' -v hdr="Service|Machine|Port|Subdomain" '
 
 # Canonical copy under docs/; README.md and AGENTS.md link here.
 {
-  printf '# Services\n\nAuto-generated mirror — do not edit by hand. Source of truth: `flake.services` in `modules/vars/homelab.nix` (via `scripts/update-services-docs.sh`).\n\n'
+  printf '# Services\n\nAuto-generated mirror — do not edit by hand. Source of truth: `flake.services` in `vars/homelab.nix` (via `scripts/update-services-docs.sh`).\n\n'
   cat "$table"
 } > "$doc"
 

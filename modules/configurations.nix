@@ -4,16 +4,13 @@
   ...
 }: let
   inherit (self) hosts;
-  inherit (self.lib) mkServer mkNixos mkMobile mkDarwin;
-  inherit (lib) filterAttrs mapAttrs;
+  inherit (lib) filterAttrs mapAttrs mkServer mkNixos mkMobile mkDarwin;
   builders = {
     server = mkServer;
     desktop = mkNixos;
     mobile = mkMobile;
   };
 in {
-  # Generate nixosConfigurations/darwinConfigurations from flake.hosts so
-  # host files only declare metadata and host-specific modules.
   flake.nixosConfigurations =
     hosts
     |> filterAttrs (_: host: builders ? ${host.hostType})

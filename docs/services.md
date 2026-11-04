@@ -1,6 +1,6 @@
 # Services
 
-Auto-generated mirror — do not edit by hand. Source of truth: `flake.services` in `modules/vars/homelab.nix` (via `scripts/update-services-docs.sh`).
+Auto-generated mirror — do not edit by hand. Source of truth: `flake.services` in `vars/homelab.nix` (via `scripts/update-services-docs.sh`).
 
 |     Service      |  Machine  |  Port   |  Subdomain  |
 | :--------------: | :-------: | :-----: | :---------: |

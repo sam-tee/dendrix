@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.lib.mkRemoteBuilder = config: {
+  mkRemoteBuilder = config: {
     hostname,
     publicHostKey ? self.hosts.${hostname}.remoteBuilder.publicHostKey or null,
     systems ? [self.hosts.${hostname}.system],

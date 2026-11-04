@@ -1,5 +1,5 @@
-{self, ...}: let
-  inherit (self.lib) mkPublicService mkService;
+{lib, ...}: let
+  inherit (lib) mkPublicService mkService;
 in {
   flake = {
     domain = "samtee.party";

@@ -4,7 +4,7 @@
   self,
   ...
 }: let
-  inherit (self.lib) mkRemoteBuilder;
+  inherit (lib) mkRemoteBuilder;
   flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
   remoteBuildMachines = config: currentHostname:
     self.hosts

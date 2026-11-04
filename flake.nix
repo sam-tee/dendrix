@@ -36,7 +36,6 @@
       url = "github:ThorTuwy/lua-iio-hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    import-tree.url = "github:denful/import-tree";
     mobile-nixos = {
       url = "git+https://git.samtee.party/sam-tee/mobile.git";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -81,5 +80,22 @@
     };
   };
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
+  outputs = inputs: let
+    inherit (import ./lib/importTree.nix {}) importTree;
+    lib = inputs.nixpkgs.lib.extend (final: _:
+      importTree ./lib
+      |> map (file:
+        import file {
+          lib = final;
+          inherit inputs;
+          inherit (inputs) self;
+        })
+      |> builtins.foldl' (acc: helpers: acc // helpers) {});
+  in
+    inputs.flake-parts.lib.mkFlake {
+      inherit inputs;
+      specialArgs = {inherit lib;};
+    } {
+      imports = importTree [./hosts ./modules ./options ./vars];
+    };
 }

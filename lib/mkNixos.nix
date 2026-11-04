@@ -1,13 +1,11 @@
 {
-  inputs,
   lib,
   self,
   ...
-}: let
-  inherit (self.modules) generic nixos;
-in {
-  flake.lib.mkNixosModules = hostname: let
-    inherit (inputs.self.hosts.${hostname}) username system pubKey modules hostType;
+}: {
+  mkNixosModules = hostname: let
+    inherit (self.modules) generic nixos;
+    inherit (self.hosts.${hostname}) username system pubKey modules hostType;
     hardwareName = "${hostname}Hardware";
     diskoName = "${hostname}Disko";
   in
@@ -38,12 +36,14 @@ in {
         ))
     else throw "host '${hostname}' (hostType '${hostType}') needs a 'flake.modules.nixos.${hardwareName}' hardware module";
 
-  flake.lib.mkNixos = hostname: let
-    inherit (inputs.self.hosts.${hostname}) username;
-  in {
-    ${hostname} = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit hostname username;};
-      modules = self.lib.mkNixosModules hostname;
+  # `lib.nixosSystem` passes this (extended) lib on to NixOS modules.
+  mkNixos = hostname: {
+    ${hostname} = lib.nixosSystem {
+      specialArgs = {
+        inherit hostname;
+        inherit (self.hosts.${hostname}) username;
+      };
+      modules = lib.mkNixosModules hostname;
     };
   };
 }

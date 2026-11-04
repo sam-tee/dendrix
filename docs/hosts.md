@@ -1,6 +1,6 @@
 # Hosts
 
-Auto-generated mirror — do not edit by hand. Source of truth: `flake.hosts` in `modules/hosts/*.nix` (via `scripts/update-hosts-docs.sh`).
+Auto-generated mirror — do not edit by hand. Source of truth: `flake.hosts` in `hosts/*.nix` (via `scripts/update-hosts-docs.sh`).
 
 |    Host    |         System         |   Type    |                       Modules                       |
 | :--------: | :--------------------: | :-------: | :-------------------------------------------------: |

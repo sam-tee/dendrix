@@ -11,7 +11,7 @@ table="$(mktemp)"
 trap 'rm -f "$rows" "$table"' EXIT
 
 # Rows come from evaluated flake data, so any formatting of
-# modules/hosts/*.nix works. Note nix only sees git-tracked files, so
+# hosts/*.nix works. Note nix only sees git-tracked files, so
 # stage new files with `git add` before running this.
 nix eval --raw "$repo#hosts" --apply '
   hs: builtins.concatStringsSep "\n" (builtins.concatMap (n: let
@@ -62,7 +62,7 @@ awk -F'|' -v hdr="Host|System|Type|Modules" '
 
 # Canonical copy under docs/; README.md and AGENTS.md link here.
 {
-  printf '# Hosts\n\nAuto-generated mirror — do not edit by hand. Source of truth: `flake.hosts` in `modules/hosts/*.nix` (via `scripts/update-hosts-docs.sh`).\n\n'
+  printf '# Hosts\n\nAuto-generated mirror — do not edit by hand. Source of truth: `flake.hosts` in `hosts/*.nix` (via `scripts/update-hosts-docs.sh`).\n\n'
   cat "$table"
 } > "$doc"
 

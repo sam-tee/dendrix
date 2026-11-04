@@ -3,13 +3,14 @@
   lib,
   self,
   ...
-}: let
-  inherit (self.modules) generic darwin;
-in {
-  flake.lib.mkDarwin = hostname: let
-    inherit (inputs.self.hosts.${hostname}) username system pubKey modules;
+}: {
+  mkDarwin = hostname: let
+    inherit (self.modules) generic darwin;
+    inherit (self.hosts.${hostname}) username system pubKey modules;
   in {
     ${hostname} = inputs.nix-darwin.lib.darwinSystem {
+      # Hand our extended lib to darwin modules too (defaults to nixpkgs' lib)
+      inherit lib;
       specialArgs = {inherit hostname username;};
       modules =
         [
