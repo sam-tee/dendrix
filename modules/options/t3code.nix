@@ -104,6 +104,20 @@ in {
         '';
       };
 
+      desktopSettings = mkOption {
+        inherit (jsonFormat) type;
+        default = {};
+        example = {localEnvironmentEnabled = false;};
+        description = ''
+          Desktop app settings applied to
+          {file}`''${home}/userdata/desktop-settings.json`, like
+          {option}`programs.t3code.settings`. Use this to stop the
+          desktop app spawning its own backend (e.g.
+          `localEnvironmentEnabled = false`) so it uses the
+          background service instead.
+        '';
+      };
+
       usageLimitSecrets = mkOption {
         type = types.attrsOf types.str;
         default = {};
@@ -199,6 +213,12 @@ in {
             inherit (cfg) user;
             path = "${cfg.home}/userdata/client-settings.json";
             settings = cfg.uiSettings;
+            mode = cfg.settingsMode;
+          };
+          t3code-desktop-settings = mkIf (cfg.desktopSettings != {}) {
+            inherit (cfg) user;
+            path = "${cfg.home}/userdata/desktop-settings.json";
+            settings = cfg.desktopSettings;
             mode = cfg.settingsMode;
           };
         };

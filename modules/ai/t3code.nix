@@ -8,15 +8,18 @@ in {
     nixos = {
       default = self.modules.nixos.t3;
       t3 = {config, ...}: {
-        programs.t3code.service = {
-          enable = true;
-          host = self.hosts.${config.networking.hostName}.tailscaleIP;
-          inherit port;
-          environment = {
-            FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
-            NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
-            NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+        programs.t3code = {
+          service = {
+            enable = true;
+            host = self.hosts.${config.networking.hostName}.tailscaleIP;
+            inherit port;
+            environment = {
+              FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
+              NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
+              NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+            };
           };
+          desktopSettings.localEnvironmentEnabled = false;
         };
         systemd.services.t3code.after = ["tailscaled.service"];
       };
