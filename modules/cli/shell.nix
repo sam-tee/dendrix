@@ -1,8 +1,13 @@
-{self, ...}: {
+{
+  lib,
+  self,
+  ...
+}: let
+  inherit (lib) escapeShellArg filterAttrs mapAttrsToList mkAfter mkBefore mkDefault mkMerge;
+in {
   flake.modules = {
     generic.zsh = {
       config,
-      lib,
       pkgs,
       ...
     }: let
@@ -22,8 +27,8 @@
       };
       strShellAliases =
         shellAliases
-        |> lib.filterAttrs (_: v: v != null)
-        |> lib.mapAttrsToList (k: v: "alias -- ${k}=${lib.escapeShellArg v}")
+        |> filterAttrs (_: v: v != null)
+        |> mapAttrsToList (k: v: "alias -- ${k}=${escapeShellArg v}")
         |> builtins.concatStringsSep "\n";
       fzfTheme = "--color=base16";
     in {
@@ -73,13 +78,13 @@
         shellInit = ''
           zsh-newuser-install() { :; }
         '';
-        interactiveShellInit = lib.mkMerge [
-          (lib.mkBefore ''
+        interactiveShellInit = mkMerge [
+          (mkBefore ''
             if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
               builtin source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
             fi
           '')
-          (lib.mkAfter ''
+          (mkAfter ''
             ${strShellAliases}
             [[ -d "${stateDir}/less" ]] || mkdir -p "${stateDir}/less"
             # atuin hardcodes ~/.atuin/logs and ignores XDG; redirect it into state
@@ -168,9 +173,9 @@
     };
     nixos = {
       default = self.modules.nixos.zsh;
-      zsh = {lib, ...}: {
+      zsh = _: {
         imports = [self.modules.generic.zsh];
-        programs.ssh.startAgent = lib.mkDefault true;
+        programs.ssh.startAgent = mkDefault true;
         programs.zsh = {
           autosuggestions.enable = true;
           syntaxHighlighting.enable = true;

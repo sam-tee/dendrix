@@ -4,13 +4,13 @@
   self,
   ...
 }: let
-  inherit (lib) mkRemoteBuilder;
-  flakeInputs = lib.filterAttrs (name: value: (lib.isType "flake" value) && (name != "self")) inputs;
+  inherit (lib) filterAttrs isType mapAttrsToList mkForce mkRemoteBuilder;
+  flakeInputs = filterAttrs (name: value: (isType "flake" value) && (name != "self")) inputs;
   remoteBuildMachines = config: currentHostname:
     self.hosts
-    |> lib.filterAttrs (hostname: _: hostname != currentHostname)
-    |> lib.filterAttrs (_: host: (host.remoteBuilder.publicHostKey or null) != null)
-    |> lib.mapAttrsToList (hostname: _: mkRemoteBuilder config {inherit hostname;});
+    |> filterAttrs (hostname: _: hostname != currentHostname)
+    |> filterAttrs (_: host: (host.remoteBuilder.publicHostKey or null) != null)
+    |> mapAttrsToList (hostname: _: mkRemoteBuilder config {inherit hostname;});
 in {
   flake.modules = {
     generic.default = self.modules.generic.nix;
@@ -47,7 +47,7 @@ in {
         registry =
           (flakeInputs |> builtins.mapAttrs (_: flake: {inherit flake;}))
           // {
-            nixpkgs = lib.mkForce {flake = inputs.nixpkgs;};
+            nixpkgs = mkForce {flake = inputs.nixpkgs;};
             den.flake = self;
           };
       };

@@ -39,6 +39,9 @@ flake, NixOS and darwin modules call `lib.mkTsIp` etc. — never `self.lib.*`.
   options define `options.services.<name>` (e.g. `sports-ntfy` in
   `options/nixos/`). Option files live in `options/<class>/` matching the
   module class they define (`flake`, `nixos`, `darwin`, `generic`, `hjem`).
+- When a file inherits from `lib`, inherit everything it uses once at file
+  scope (`inherit (lib) …;` plus `inherit (lib.types) …;`) and use the bare
+  names, rather than mixing in `lib.foo` or taking `lib` as a module arg.
 
 ## Useful Commands
 

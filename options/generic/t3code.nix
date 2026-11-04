@@ -1,12 +1,13 @@
 # T3 Code: package (with optional extras), declarative settings and a server service
 {lib, ...}: let
-  inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
+  inherit (lib) concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs;
+  inherit (lib.types) attrsOf bool enum listOf nullOr package path port str;
 
   # Extras are the package's `enable*` override flags, e.g. extras.enableGitHub
   extraFlags = pkgs:
-    lib.functionArgs pkgs.t3code.override
+    functionArgs pkgs.t3code.override
     |> builtins.attrNames
-    |> builtins.filter (lib.hasPrefix "enable");
+    |> builtins.filter (hasPrefix "enable");
 in {
   flake.modules.generic.default = {
     config,
@@ -21,13 +22,13 @@ in {
     # Runtime secrets can't go through the Nix store, so install them on activation
     secretsScript = pkgs.writeShellScript "t3code-secrets" ''
       set -eu
-      PATH=${lib.makeBinPath [pkgs.coreutils]}
+      PATH=${makeBinPath [pkgs.coreutils]}
 
       # T3's secret store names files after the base64url source id
-      ${lib.concatMapAttrsStringSep "\n" (id: file: ''
+      ${concatMapAttrsStringSep "\n" (id: file: ''
           if [ -r ${file} ]; then
             (umask 077 && mkdir -p ${cfg.home}/userdata/secrets \
-              && tr -d '\n' < ${file} > ${cfg.home}/userdata/secrets/usage-limit-source-$(printf %s ${lib.escapeShellArg id} | basenc --base64url | tr -d =).bin)
+              && tr -d '\n' < ${file} > ${cfg.home}/userdata/secrets/usage-limit-source-$(printf %s ${escapeShellArg id} | basenc --base64url | tr -d =).bin)
           else
             echo "t3code: can't read usage limit secret ${file}" >&2
           fi
@@ -42,11 +43,11 @@ in {
       enable = mkEnableOption "T3 Code, a GUI and server for coding agents";
 
       package = mkOption {
-        type = types.nullOr types.package;
+        type = nullOr package;
         default = pkgs.t3code.override (
-          lib.filterAttrs (_: enable: enable != null) cfg.extras
+          filterAttrs (_: enable: enable != null) cfg.extras
         );
-        defaultText = lib.literalExpression "pkgs.t3code.override programs.t3code.extras";
+        defaultText = literalExpression "pkgs.t3code.override programs.t3code.extras";
         description = ''
           T3 Code package to install. Defaults to `pkgs.t3code` overridden with
           {option}`programs.t3code.extras`. Null installs nothing (e.g. when the
@@ -54,25 +55,25 @@ in {
         '';
       };
 
-      extras = lib.genAttrs (extraFlags pkgs) (flag:
+      extras = genAttrs (extraFlags pkgs) (flag:
         mkOption {
-          type = types.nullOr types.bool;
+          type = nullOr bool;
           default = null;
           example = true;
           description = "Package override `${flag}`. Null keeps the package default.";
         });
 
       user = mkOption {
-        type = types.str;
+        type = str;
         default = username;
-        defaultText = lib.literalExpression "username";
+        defaultText = literalExpression "username";
         description = "User whose T3 Code settings are managed and who runs the server.";
       };
 
       home = mkOption {
-        type = types.str;
+        type = str;
         default = "${config.xdg.dirs.configDir}/t3";
-        defaultText = lib.literalExpression ''"''${config.xdg.dirs.configDir}/t3"'';
+        defaultText = literalExpression ''"''${config.xdg.dirs.configDir}/t3"'';
         description = "T3 Code state directory, exported as `T3CODE_HOME`.";
       };
 
@@ -119,7 +120,7 @@ in {
       };
 
       usageLimitSecrets = mkOption {
-        type = types.attrsOf types.str;
+        type = attrsOf str;
         default = {};
         example = {"cliproxy-myhost" = "/run/secrets/cliproxyapi-key";};
         description = ''
@@ -131,7 +132,7 @@ in {
       };
 
       settingsMode = mkOption {
-        type = types.enum ["merge" "seed"];
+        type = enum ["merge" "seed"];
         default = "merge";
         description = ''
           How {option}`programs.t3code.settings` and
@@ -147,47 +148,47 @@ in {
         enable = mkEnableOption "the T3 Code server (`t3 serve`) as a systemd service (NixOS only)";
 
         host = mkOption {
-          type = types.str;
+          type = str;
           default = "127.0.0.1";
           example = "0.0.0.0";
           description = "Address the server binds to.";
         };
 
         port = mkOption {
-          type = types.port;
+          type = port;
           default = 3773;
           description = "Port the server listens on.";
         };
 
         openFirewall = mkOption {
-          type = types.bool;
+          type = bool;
           default = false;
           description = "Whether to open {option}`programs.t3code.service.port` in the firewall.";
         };
 
         workingDirectory = mkOption {
-          type = types.str;
+          type = str;
           default = config.users.users.${cfg.user}.home;
-          defaultText = lib.literalExpression "config.users.users.\${programs.t3code.user}.home";
+          defaultText = literalExpression "config.users.users.\${programs.t3code.user}.home";
           description = "Working directory of the server.";
         };
 
         environment = mkOption {
-          type = types.attrsOf types.str;
+          type = attrsOf str;
           default = {};
           example = {FJ_FALLBACK_HOST = "https://git.example.com";};
           description = "Extra environment variables for the server.";
         };
 
         environmentFile = mkOption {
-          type = types.nullOr types.path;
+          type = nullOr path;
           default = null;
           example = "/run/secrets/t3code.env";
           description = "EnvironmentFile for the server, e.g. a sops-nix secret with API keys.";
         };
 
         extraArgs = mkOption {
-          type = types.listOf types.str;
+          type = listOf str;
           default = [];
           description = "Extra arguments passed to `t3 serve`.";
         };
@@ -202,7 +203,7 @@ in {
             message = "programs.t3code.service.enable is NixOS-only and requires programs.t3code.package to be set.";
           }
         ];
-        environment.systemPackages = lib.optional (cfg.package != null) cfg.package;
+        environment.systemPackages = optional (cfg.package != null) cfg.package;
         mutableJson = {
           t3code-settings = mkIf (cfg.settings != {}) {
             inherit (cfg) user settings;
@@ -224,11 +225,11 @@ in {
         };
       }
 
-      (lib.optionalAttrs isLinux {
+      (optionalAttrs isLinux {
         environment.sessionVariables.T3CODE_HOME = cfg.home;
         system.activationScripts.t3code-secrets = mkIf (cfg.usageLimitSecrets != {}) {
           # setupSecrets: sops-nix secrets referenced by usageLimitSecrets
-          deps = ["users"] ++ lib.optional (config.system.activationScripts ? setupSecrets) "setupSecrets";
+          deps = ["users"] ++ optional (config.system.activationScripts ? setupSecrets) "setupSecrets";
           text = ''
             ${pkgs.util-linux}/bin/runuser -u ${cfg.user} -- ${secretsScript} \
               || echo "warning: failed to install t3code secrets" >&2
@@ -246,8 +247,8 @@ in {
           serviceConfig = {
             User = cfg.user;
             WorkingDirectory = svc.workingDirectory;
-            ExecStart = lib.escapeShellArgs ([
-                (lib.getExe' cfg.package "t3")
+            ExecStart = escapeShellArgs ([
+                (getExe' cfg.package "t3")
                 "serve"
                 "--host"
                 svc.host
@@ -262,10 +263,10 @@ in {
         };
       })
 
-      (lib.optionalAttrs isDarwin {
+      (optionalAttrs isDarwin {
         environment.variables.T3CODE_HOME = cfg.home;
         # After sops-nix's mkAfter secret install
-        system.activationScripts.postActivation.text = mkIf (cfg.usageLimitSecrets != {}) (lib.mkOrder 2000 ''
+        system.activationScripts.postActivation.text = mkIf (cfg.usageLimitSecrets != {}) (mkOrder 2000 ''
           /usr/bin/sudo -u ${cfg.user} ${secretsScript} \
             || echo "warning: failed to install t3code secrets" >&2
         '');

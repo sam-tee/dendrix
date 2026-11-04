@@ -1,18 +1,15 @@
 {
+  lib,
   moduleWithSystem,
   self,
   ...
 }: let
   inherit (self.cosmetic.theme) attrs defaultVariant;
+  inherit (lib) removePrefix singleton;
 in {
   flake.modules = {
     generic.default = self.modules.generic.cli;
-    generic.cli = moduleWithSystem ({self', ...}: {
-      lib,
-      pkgs,
-      ...
-    }: let
-      inherit (lib) singleton;
+    generic.cli = moduleWithSystem ({self', ...}: {pkgs, ...}: let
       terminfo =
         if pkgs.stdenv.hostPlatform.isDarwin
         then pkgs.ghostty-bin.terminfo
@@ -79,14 +76,10 @@ in {
       };
     });
     nixos.default = self.modules.nixos.cli;
-    nixos.cli = {
-      lib,
-      pkgs,
-      ...
-    }: {
+    nixos.cli = {pkgs, ...}: {
       console.colors = with attrs.${defaultVariant};
         [base00 base08 base0B base0A base0D base0E base0C base05 base03 base08 base0B base0A base0D base0E base0C base07]
-        |> map (i: lib.removePrefix "#" i);
+        |> map (i: removePrefix "#" i);
       environment.systemPackages = with pkgs; [
         lm_sensors
         lshw

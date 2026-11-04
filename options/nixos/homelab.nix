@@ -1,12 +1,12 @@
-{self, ...}: {
-  flake.modules.nixos.server = {
-    config,
-    lib,
-    ...
-  }: let
-    inherit (lib) mkOption mkTsIp;
-    inherit (lib.types) path str;
-  in {
+{
+  self,
+  lib,
+  ...
+}: let
+  inherit (lib) mkOption mkTsIp;
+  inherit (lib.types) path str;
+in {
+  flake.modules.nixos.server = {config, ...}: {
     options.homelab = {
       user = mkOption {
         default = "media";

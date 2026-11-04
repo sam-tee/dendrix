@@ -1,11 +1,11 @@
 {lib, ...}: let
-  inherit (lib) mkOption types;
-  inherit (types) str submodule enum attrsOf listOf nullOr int;
+  inherit (lib) mkOption;
+  inherit (lib.types) str submodule enum attrsOf listOf nullOr int;
 in {
-  options.flake.hosts = lib.mkOption {
+  options.flake.hosts = mkOption {
     type = attrsOf (submodule {
       options = {
-        username = lib.mkOption {
+        username = mkOption {
           type = str;
           default = "";
         };

@@ -1,7 +1,8 @@
 # App-writable JSON files whose declared keys are merged in on activation
 # (see lib.mkJsonMerge), for apps that break on read-only hjem symlinks
 {lib, ...}: let
-  inherit (lib) mkIf mkMerge mkOption types;
+  inherit (lib) attrValues concatMapAttrsStringSep concatMapStringsSep groupBy literalExpression mapAttrs mkIf mkJsonMerge mkMerge mkOption mkOrder optionalAttrs;
+  inherit (lib.types) attrsOf enum str strMatching submodule;
 in {
   flake.modules.generic.default = {
     config,
@@ -13,16 +14,16 @@ in {
     cfg = config.mutableJson;
     # Run each user's merges as that user; one failure doesn't stop the rest
     userScripts =
-      lib.groupBy (file: file.user) (lib.attrValues cfg)
-      |> lib.mapAttrs (user: files:
+      groupBy (file: file.user) (attrValues cfg)
+      |> mapAttrs (user: files:
         pkgs.writeShellScript "mutable-json-${user}" ''
           status=0
-          ${lib.concatMapStringsSep "\n" (file: "${lib.mkJsonMerge pkgs file} || status=1")
+          ${concatMapStringsSep "\n" (file: "${mkJsonMerge pkgs file} || status=1")
             (map (file: removeAttrs file ["user"]) files)}
           exit $status
         '');
     runAs = runner:
-      lib.concatMapAttrsStringSep "\n" (user: script: ''
+      concatMapAttrsStringSep "\n" (user: script: ''
         ${runner user} ${script} \
           || echo "warning: failed to apply mutableJson files for ${user}" >&2
       '')
@@ -37,16 +38,16 @@ in {
         JSON files the owning app can rewrite, with declared settings merged in
         on every activation (or written once, with `mode = "seed"`).
       '';
-      type = types.attrsOf (types.submodule ({name, ...}: {
+      type = attrsOf (submodule ({name, ...}: {
         options = {
           user = mkOption {
-            type = types.str;
+            type = str;
             default = username;
-            defaultText = lib.literalExpression "username";
+            defaultText = literalExpression "username";
             description = "User that owns the file and runs the merge.";
           };
           path = mkOption {
-            type = types.str;
+            type = str;
             description = "Absolute path of the JSON file.";
           };
           settings = mkOption {
@@ -54,7 +55,7 @@ in {
             description = "Value merged into the file.";
           };
           mode = mkOption {
-            type = types.enum ["merge" "seed"];
+            type = enum ["merge" "seed"];
             default = "merge";
             description = ''
               `merge` applies {option}`operation` on every activation, so
@@ -64,18 +65,18 @@ in {
             '';
           };
           operation = mkOption {
-            type = types.str;
+            type = str;
             default = "$current * $nix";
             example = "$current + $nix | unique_by(.key)";
             description = "jq expression combining `$current` (file) and `$nix` (settings).";
           };
           fileMode = mkOption {
-            type = types.strMatching "[0-7]{3,4}";
+            type = strMatching "[0-7]{3,4}";
             default = "600";
             description = "Permissions for a newly created file. Existing files keep theirs.";
           };
           name = mkOption {
-            type = types.str;
+            type = str;
             default = name;
             internal = true;
           };
@@ -84,14 +85,14 @@ in {
     };
 
     config = mkIf (cfg != {}) (mkMerge [
-      (lib.optionalAttrs isLinux {
+      (optionalAttrs isLinux {
         system.activationScripts.mutable-json = {
           deps = ["users"];
           text = runAs (user: "${pkgs.util-linux}/bin/runuser -u ${user} --");
         };
       })
-      (lib.optionalAttrs isDarwin {
-        system.activationScripts.postActivation.text = lib.mkOrder 2000 (runAs (user: "/usr/bin/sudo -u ${user}"));
+      (optionalAttrs isDarwin {
+        system.activationScripts.postActivation.text = mkOrder 2000 (runAs (user: "/usr/bin/sudo -u ${user}"));
       })
     ]);
   };

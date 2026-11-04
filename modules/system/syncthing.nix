@@ -4,16 +4,16 @@
   ...
 }: let
   inherit (self) domain tailnet;
-  inherit (lib) mkTsIp;
+  inherit (lib) elem filterAttrs mapAttrs' mkTsIp nameValuePair;
   devices =
     self.hosts
-    |> lib.filterAttrs (_: value: (value.syncID or "") != "")
+    |> filterAttrs (_: value: (value.syncID or "") != "")
     |> builtins.mapAttrs (_: value: {
       id = value.syncID;
     });
   allDevices =
     self.hosts
-    |> lib.filterAttrs (_: value: (value.syncID or "") != "")
+    |> filterAttrs (_: value: (value.syncID or "") != "")
     |> builtins.attrNames;
   allFolders = {
     project_data = {
@@ -54,7 +54,7 @@ in {
         };
       inherit (attrs) group user dataDir machineIP;
       inherit (config.networking) hostName;
-      folders = allFolders |> lib.filterAttrs (_: v: lib.elem hostName v.devices);
+      folders = allFolders |> filterAttrs (_: v: elem hostName v.devices);
     in {
       sops.secrets."syncPwd".owner = user;
       services.syncthing = {
@@ -70,11 +70,11 @@ in {
     };
     nixos = {
       default = self.modules.generic.syncthing;
-      caddy = {lib, ...}: {
+      caddy = _: {
         services.caddy.virtualHosts =
           devices
-          |> lib.mapAttrs' (hostname: _:
-            lib.nameValuePair "${hostname}.${domain}" {
+          |> mapAttrs' (hostname: _:
+            nameValuePair "${hostname}.${domain}" {
               useACMEHost = domain;
               extraConfig = ''
                 reverse_proxy http://${hostname}.${tailnet}:8384

@@ -1,13 +1,13 @@
 # mirror nixpkgs nixos module for darwin
-{
+{lib, ...}: let
+  inherit (lib) escapeShellArgs getExe literalExpression mkEnableOption mkIf mkOption mkPackageOption;
+  inherit (lib.types) listOf str;
+in {
   flake.modules.darwin.options = {
     config,
-    lib,
     pkgs,
     ...
   }: let
-    inherit (lib) escapeShellArgs;
-
     cfg = config.programs.atuin;
 
     tomlFormat = pkgs.formats.toml {};
@@ -15,26 +15,26 @@
     settingsFile = tomlFormat.generate "atuin-config" cfg.settings;
   in {
     options.programs.atuin = {
-      enable = lib.mkEnableOption "atuin";
+      enable = mkEnableOption "atuin";
 
-      package = lib.mkPackageOption pkgs "atuin" {};
+      package = mkPackageOption pkgs "atuin" {};
 
       enableBashIntegration =
-        lib.mkEnableOption "Bash integration"
+        mkEnableOption "Bash integration"
         // {
           default = config.programs.bash.enable;
-          defaultText = lib.literalExpression "config.programs.bash.enable";
+          defaultText = literalExpression "config.programs.bash.enable";
         };
 
       enableZshIntegration =
-        lib.mkEnableOption "Zsh integration"
+        mkEnableOption "Zsh integration"
         // {
           default = config.programs.zsh.enable;
-          defaultText = lib.literalExpression "config.programs.zsh.enable";
+          defaultText = literalExpression "config.programs.zsh.enable";
         };
 
-      flags = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
+      flags = mkOption {
+        type = listOf str;
         default = [];
         example = [
           "--disable-up-arrow"
@@ -45,10 +45,10 @@
         '';
       };
 
-      settings = lib.mkOption {
+      settings = mkOption {
         inherit (tomlFormat) type;
         default = {};
-        example = lib.literalExpression ''
+        example = literalExpression ''
           {
             auto_sync = true;
             sync_frequency = "5m";
@@ -64,22 +64,22 @@
         '';
       };
     };
-    config = lib.mkIf cfg.enable {
+    config = mkIf cfg.enable {
       environment = {
         systemPackages = [cfg.package];
         variables.ATUIN_CONFIG_DIR = "/etc/atuin";
-        etc = lib.mkIf (cfg.settings != {}) {
+        etc = mkIf (cfg.settings != {}) {
           "atuin/config.toml".source = settingsFile;
         };
       };
-      programs.bash.interactiveShellInit = lib.mkIf cfg.enableBashIntegration ''
+      programs.bash.interactiveShellInit = mkIf cfg.enableBashIntegration ''
         if [[ :$SHELLOPTS: =~ :(vi|emacs): ]]; then
-          eval "$(${lib.getExe cfg.package} init bash ${escapeShellArgs cfg.flags})"
+          eval "$(${getExe cfg.package} init bash ${escapeShellArgs cfg.flags})"
         fi
       '';
-      programs.zsh.interactiveShellInit = lib.mkIf cfg.enableZshIntegration ''
+      programs.zsh.interactiveShellInit = mkIf cfg.enableZshIntegration ''
         if [[ $options[zle] = on ]]; then
-          eval "$(${lib.getExe cfg.package} init zsh ${escapeShellArgs cfg.flags})"
+          eval "$(${getExe cfg.package} init zsh ${escapeShellArgs cfg.flags})"
         fi
       '';
     };
