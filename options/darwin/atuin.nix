@@ -1,13 +1,13 @@
 # mirror nixpkgs nixos module for darwin
-{lib, ...}: let
-  inherit (lib) escapeShellArgs getExe literalExpression mkEnableOption mkIf mkOption mkPackageOption;
-  inherit (lib.types) listOf str;
-in {
+{
   flake.modules.darwin.options = {
     config,
+    lib,
     pkgs,
     ...
   }: let
+    inherit (lib) escapeShellArgs getExe literalExpression mkEnableOption mkIf mkOption mkPackageOption;
+    inherit (lib.types) listOf str;
     cfg = config.programs.atuin;
 
     tomlFormat = pkgs.formats.toml {};

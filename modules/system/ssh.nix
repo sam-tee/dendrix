@@ -84,12 +84,12 @@ in {
         |> builtins.listToAttrs;
     };
     hjem.ssh = {lib, ...}: let
-      inherit (lib) concatLines singleton;
+      inherit (lib) concatLines filterAttrs lessThan singleton;
       sshHosts =
         self.hosts
-        |> lib.filterAttrs (_: host: host.hostType != "other")
+        |> filterAttrs (_: host: host.hostType != "other")
         |> builtins.attrNames
-        |> builtins.sort lib.lessThan;
+        |> builtins.sort lessThan;
       keysAttrs =
         self.hosts
         |> builtins.mapAttrs (name: value: {

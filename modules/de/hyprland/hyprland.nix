@@ -3,9 +3,10 @@
   self,
   ...
 }: let
+  inherit (lib) removePrefix;
   inherit (self.cosmetic.theme) attrs defaultVariant;
   inherit (attrs.${defaultVariant}) base03;
-  noHashBase03 = lib.removePrefix "#" base03;
+  noHashBase03 = removePrefix "#" base03;
 in {
   flake.modules = {
     nixos.hyprland = {pkgs, ...}: {

@@ -1,18 +1,14 @@
-{
-  self,
-  lib,
-  ...
-}: let
-  inherit (lib) mkOption;
-  inherit (lib.types) str;
-in {
+{self, ...}: {
   flake.modules.generic = {
     default = self.modules.generic.xdg;
     xdg = {
       config,
+      lib,
       username,
       ...
     }: let
+      inherit (lib) mkOption;
+      inherit (lib.types) str;
       cfg = config.xdg.dirs;
     in {
       options.xdg.dirs = {

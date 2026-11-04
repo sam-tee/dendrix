@@ -6,6 +6,8 @@
     pkgs,
     ...
   }: let
+    inherit (lib) boolToString concatMapStrings escapeShellArg isBool literalExpression mapAttrs' mkEnableOption mkIf mkOption mkPackageOption nameValuePair;
+    inherit (lib.types) listOf package;
     cfg = config.programs.bat;
 
     settingsFormat = pkgs.formats.keyValue {listsAsDuplicateKeys = true;};
@@ -14,16 +16,16 @@
     recursiveToString = value:
       if builtins.isList value
       then map recursiveToString value
-      else if lib.isBool value
-      then lib.boolToString value
-      else lib.escapeShellArg (toString value);
+      else if isBool value
+      then boolToString value
+      else escapeShellArg (toString value);
   in {
     options.programs.bat = {
-      enable = lib.mkEnableOption "`bat`, a {manpage}`cat(1)` clone with wings";
-      package = lib.mkPackageOption pkgs "bat" {};
-      extraPackages = lib.mkOption {
+      enable = mkEnableOption "`bat`, a {manpage}`cat(1)` clone with wings";
+      package = mkPackageOption pkgs "bat" {};
+      extraPackages = mkOption {
         default = [];
-        example = lib.literalExpression ''
+        example = literalExpression ''
           with pkgs.bat-extras; [
             batdiff
             batman
@@ -33,10 +35,10 @@
         description = ''
           Extra `bat` scripts to be added to the system configuration.
         '';
-        type = lib.types.listOf lib.types.package;
+        type = listOf package;
       };
 
-      settings = lib.mkOption {
+      settings = mkOption {
         default = {};
         example = {
           theme = "TwoDark";
@@ -55,24 +57,24 @@
       };
     };
 
-    config = lib.mkIf cfg.enable {
+    config = mkIf cfg.enable {
       environment = {
         systemPackages = [cfg.package] ++ cfg.extraPackages;
         etc."bat/config".source = generate "bat-config" (
-          lib.mapAttrs' (name: value: lib.nameValuePair ("--" + name) (recursiveToString value)) cfg.settings
+          mapAttrs' (name: value: nameValuePair ("--" + name) (recursiveToString value)) cfg.settings
         );
       };
 
       programs = let
-        shellInit = shell: lib.concatMapStrings (pkg: pkg.shellInit shell) cfg.extraPackages;
+        shellInit = shell: concatMapStrings (pkg: pkg.shellInit shell) cfg.extraPackages;
       in {
-        bash = lib.mkIf (!config.programs.fish.enable) {
+        bash = mkIf (!config.programs.fish.enable) {
           interactiveShellInit = shellInit "bash";
         };
-        fish = lib.mkIf config.programs.fish.enable {
+        fish = mkIf config.programs.fish.enable {
           interactiveShellInit = shellInit "fish";
         };
-        zsh = lib.mkIf (!config.programs.fish.enable && config.programs.zsh.enable) {
+        zsh = mkIf (!config.programs.fish.enable && config.programs.zsh.enable) {
           interactiveShellInit = shellInit "zsh";
         };
       };

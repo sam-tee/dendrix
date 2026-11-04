@@ -1,8 +1,4 @@
-{
-  lib,
-  self,
-  ...
-}: {
+{self, ...}: rec {
   mkGenericService = isPublic: host: port: subdomain: {
     inherit port host subdomain;
     tailnetOnly = !isPublic;
@@ -11,6 +7,6 @@
       then self.domain
       else "${subdomain}.${self.domain}";
   };
-  mkService = lib.mkGenericService false;
-  mkPublicService = lib.mkGenericService true;
+  mkService = mkGenericService false;
+  mkPublicService = mkGenericService true;
 }

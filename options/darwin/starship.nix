@@ -6,14 +6,15 @@
     pkgs,
     ...
   }: let
+    inherit (lib) mkEnableOption mkIf mkOption mkPackageOption;
     cfg = config.programs.starship;
     settingsFormat = pkgs.formats.toml {};
     settingsFile = settingsFormat.generate "starship.toml" cfg.settings;
   in {
     options.programs.starship = {
-      enable = lib.mkEnableOption "the Starship shell prompt";
-      package = lib.mkPackageOption pkgs "starship" {};
-      settings = lib.mkOption {
+      enable = mkEnableOption "the Starship shell prompt";
+      package = mkPackageOption pkgs "starship" {};
+      settings = mkOption {
         inherit (settingsFormat) type;
         default = {};
         description = ''
@@ -23,7 +24,7 @@
         '';
       };
     };
-    config = lib.mkIf cfg.enable {
+    config = mkIf cfg.enable {
       environment.systemPackages = [cfg.package];
       programs.zsh.promptInit = ''
         if [[ $TERM != "dumb" ]] then

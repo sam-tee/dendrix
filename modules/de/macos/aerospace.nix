@@ -8,7 +8,8 @@
     lib,
     ...
   }: let
-    aerospace = lib.getExe config.services.aerospace.package;
+    inherit (lib) genAttrs getExe nameValuePair range;
+    aerospace = getExe config.services.aerospace.package;
   in {
     imports = [
       inputs.aeroswipe.darwinModules.default
@@ -34,7 +35,7 @@
         enable-normalization-flatten-containers = true;
         enable-normalization-opposite-orientation-for-nested-containers = true;
         gaps = let
-          mkGaps = keys: lib.genAttrs keys (_: 0);
+          mkGaps = keys: genAttrs keys (_: 0);
         in {
           inner = mkGaps ["horizontal" "vertical"];
           outer = mkGaps ["left" "right" "top" "bottom"];
@@ -43,8 +44,8 @@
         persistent-workspaces = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
         mode.main.binding = let
           mkBindings = prefix: command:
-            lib.range 1 9
-            |> map (i: lib.nameValuePair "${prefix}-${toString i}" "${command} ${toString i}")
+            range 1 9
+            |> map (i: nameValuePair "${prefix}-${toString i}" "${command} ${toString i}")
             |> builtins.listToAttrs;
         in
           {

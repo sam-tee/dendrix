@@ -5,39 +5,41 @@
     pkgs,
     ...
   }: let
+    inherit (lib) getExe literalExpression mkEnableOption mkIf mkOption;
+    inherit (lib.types) nullOr package path str;
     cfg = config.services.sports-ntfy;
     settingsFormat = pkgs.formats.toml {};
     configFile = settingsFormat.generate "sports-notify-config.toml" cfg.settings;
   in {
     options.services.sports-ntfy = {
-      enable = lib.mkEnableOption "sports-notify, a daemon pushing PL / MLB / NFL / NHL scores to ntfy";
+      enable = mkEnableOption "sports-notify, a daemon pushing PL / MLB / NFL / NHL scores to ntfy";
 
-      package = lib.mkOption {
-        type = lib.types.package;
+      package = mkOption {
+        type = package;
         default = self.packages.${pkgs.stdenv.hostPlatform.system}.sports-ntfy;
-        defaultText = lib.literalExpression "self.packages.<system>.sports-notify";
+        defaultText = literalExpression "self.packages.<system>.sports-notify";
         description = "The sports-notify package to run";
       };
 
-      user = lib.mkOption {
-        type = lib.types.str;
+      user = mkOption {
+        type = str;
         default = "sports-notify";
         description = "User to run the sports-notify service as";
       };
 
-      group = lib.mkOption {
-        type = lib.types.str;
+      group = mkOption {
+        type = str;
         default = "sports-notify";
         description = "Group to run the sports-notify service as";
       };
 
-      dataDir = lib.mkOption {
-        type = lib.types.str;
+      dataDir = mkOption {
+        type = str;
         default = "/var/lib/sports-notify";
         description = "Working directory where seen-game state is persisted";
       };
 
-      settings = lib.mkOption {
+      settings = mkOption {
         inherit (settingsFormat) type;
         default = {};
         description = ''
@@ -57,8 +59,8 @@
         };
       };
 
-      environmentFile = lib.mkOption {
-        type = lib.types.nullOr lib.types.path;
+      environmentFile = mkOption {
+        type = nullOr path;
         default = null;
         example = "/run/secrets/sportsNotifyConfig";
         description = ''
@@ -68,7 +70,7 @@
       };
     };
 
-    config = lib.mkIf cfg.enable {
+    config = mkIf cfg.enable {
       users.users.${cfg.user} = {
         isSystemUser = true;
         inherit (cfg) group;
@@ -85,8 +87,8 @@
         serviceConfig = {
           User = cfg.user;
           Group = cfg.group;
-          ExecStart = "${lib.getExe cfg.package} --config ${configFile}";
-          EnvironmentFile = lib.mkIf (cfg.environmentFile != null) [cfg.environmentFile];
+          ExecStart = "${getExe cfg.package} --config ${configFile}";
+          EnvironmentFile = mkIf (cfg.environmentFile != null) [cfg.environmentFile];
           WorkingDirectory = cfg.dataDir;
           StateDirectory = baseNameOf cfg.dataDir;
           Restart = "always";

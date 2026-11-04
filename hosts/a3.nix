@@ -1,5 +1,6 @@
-_: let
+{lib, ...}: let
   hostname = "a3";
+  inherit (lib) mkDefault singleton;
 in {
   flake = {
     hosts.${hostname} = {
@@ -21,11 +22,7 @@ in {
     };
 
     modules.nixos = {
-      ${hostname} = {
-        lib,
-        pkgs,
-        ...
-      }: {
+      ${hostname} = {pkgs, ...}: {
         services.gvfs.enable = true;
         users.users.sam.extraGroups = ["input"];
         environment.systemPackages = with pkgs; [
@@ -41,7 +38,7 @@ in {
           vpl-gpu-rt
           level-zero
         ];
-        hjem.extraModules = lib.singleton {
+        hjem.extraModules = singleton {
           xdg.config.files."hypr/hyprland.lua".text = ''
             hl.monitor({output="HDMI-A-3", scale=1.5, mode="3840x2160@60.00Hz"})
           '';
@@ -50,7 +47,6 @@ in {
 
       "${hostname}Hardware" = {
         config,
-        lib,
         modulesPath,
         ...
       }: {
@@ -84,8 +80,8 @@ in {
           };
         };
         swapDevices = [{device = "/dev/mapper/luksSwap";}];
-        nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-        hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        nixpkgs.hostPlatform = mkDefault "x86_64-linux";
+        hardware.cpu.amd.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
         hardware.enableRedistributableFirmware = true;
       };
     };

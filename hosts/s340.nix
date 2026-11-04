@@ -1,5 +1,6 @@
-_: let
+{lib, ...}: let
   hostname = "s340";
+  inherit (lib) mkAfter mkDefault singleton;
 in {
   flake = {
     hosts.${hostname} = {
@@ -17,9 +18,9 @@ in {
     };
 
     modules.nixos = {
-      ${hostname} = {lib, ...}: {
-        hjem.extraModules = lib.singleton {
-          xdg.config.files."mango/config.conf".text = lib.mkAfter ''
+      ${hostname} = _: {
+        hjem.extraModules = singleton {
+          xdg.config.files."mango/config.conf".text = mkAfter ''
             monitor_rule=name:^eDP-1$,width:1920,height:1080,refresh:60,x:0,y:0,scale:1
           '';
         };
@@ -27,7 +28,6 @@ in {
 
       "${hostname}Hardware" = {
         config,
-        lib,
         modulesPath,
         ...
       }: {
@@ -37,10 +37,10 @@ in {
           binfmt.emulatedSystems = ["aarch64-linux" "x86_64-windows"];
           kernelModules = ["kvm-amd"];
         };
-        nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+        nixpkgs.hostPlatform = mkDefault "x86_64-linux";
         hardware = {
           amdgpu.initrd.enable = true;
-          cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+          cpu.amd.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
         };
       };
       "${hostname}Disko" = _: {

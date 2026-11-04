@@ -3,13 +3,13 @@
 ## Project Overview
 
 This repository is a dendritic Nix flake for NixOS, nix-darwin,
-and homelab service configuration. `flake-parts` and an in-tree `import-tree`
-(`lib/importTree.nix`) load every `.nix` file under `hosts/`, `modules/`,
+and homelab service configuration. `flake-parts` and 
+`lib/importTree.nix` load every `.nix` file under `hosts/`, `modules/`,
 `options/` and `vars/` as a flake module (paths starting with `_` are
 skipped), so most changes should happen there rather than in `flake.nix`.
 Files under `lib/` are not flake modules: each is a function of
 `{lib, inputs, self, ...}` returning helpers that are merged into `lib`, so
-flake, NixOS and darwin modules call `lib.mkTsIp` etc. — never `self.lib.*`.
+flake, NixOS and darwin modules call `lib.mkTsIp` etc.
 
 ## Conventions
 
@@ -28,8 +28,8 @@ flake, NixOS and darwin modules call `lib.mkTsIp` etc. — never `self.lib.*`.
 - Keep reusable service logic in `modules/homelab/`, `modules/system/`,
   `modules/gui/`, `modules/cli/`, or the relevant shared module directory.
 - Secrets are managed through `sops-nix`; the secrets file is
-  `nix-secrets/secrets.yaml`, encrypted with age and committed to this repo
-  (see `nix-secrets/.sops.yaml` for recipients). Do not edit secrets directly, instead inform the user what to change.
+  `secrets.yaml`, encrypted with age and committed to this repo
+  (see `.sops.yaml` for recipients). Do not edit secrets directly, instead inform the user what to change.
 - For new services: register the placement with `mkService <host> <port>
   <subdomain>` in `vars/homelab.nix` (`flake.services.<name>`), and
   implement `flake.modules.nixos.<name>` in `modules/homelab/<name>.nix`
@@ -39,9 +39,12 @@ flake, NixOS and darwin modules call `lib.mkTsIp` etc. — never `self.lib.*`.
   options define `options.services.<name>` (e.g. `sports-ntfy` in
   `options/nixos/`). Option files live in `options/<class>/` matching the
   module class they define (`flake`, `nixos`, `darwin`, `generic`, `hjem`).
-- When a file inherits from `lib`, inherit everything it uses once at file
-  scope (`inherit (lib) …;` plus `inherit (lib.types) …;`) and use the bare
-  names, rather than mixing in `lib.foo` or taking `lib` as a module arg.
+- Scope `lib` as narrowly as possible: take it as an arg of the innermost
+  module (or `perSystem`) that uses it, with a single `inherit (lib) …;`
+  (plus `inherit (lib.types) …;`) in that scope, and use the bare names.
+  Only hoist `lib` to file scope when multiple sibling scopes use it, so
+  the file still has just one import. A single `lib.foo` use needs no
+  `inherit`.
 
 ## Useful Commands
 

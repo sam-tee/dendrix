@@ -3,11 +3,11 @@
   self,
   ...
 }: let
-  inherit (lib) singleton;
+  inherit (lib) generators singleton;
   inherit (self.cosmetic) theme fonts;
   inherit (theme) attrs defaultVariant;
   mkJson = attrs: {
-    generator = lib.generators.toJSON {};
+    generator = generators.toJSON {};
     value = attrs;
   };
 in {

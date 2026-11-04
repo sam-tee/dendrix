@@ -1,16 +1,17 @@
-{
-  lib,
-  self,
-  ...
-}: {
-  perSystem = {system, ...}: let
+{self, ...}: {
+  perSystem = {
+    system,
+    lib,
+    ...
+  }: let
+    inherit (lib) filterAttrs mapAttrs;
     allConfigurations =
       self.nixosConfigurations
       // self.darwinConfigurations;
   in {
     packages =
       allConfigurations
-      |> lib.filterAttrs (_: config: config.pkgs.stdenv.hostPlatform.system == system)
-      |> lib.mapAttrs (_: config: config.config.system.build.toplevel);
+      |> filterAttrs (_: config: config.pkgs.stdenv.hostPlatform.system == system)
+      |> mapAttrs (_: config: config.config.system.build.toplevel);
   };
 }

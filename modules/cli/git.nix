@@ -8,6 +8,7 @@
       pkgs,
       ...
     }: let
+      inherit (lib) generators singleton;
       inherit (config.xdg.dirs) homeDir configDir;
     in {
       environment.systemPackages = with pkgs; [delta gh git];
@@ -23,9 +24,9 @@
             git_protocol: ssh
         '';
       };
-      hjem.extraModules = lib.singleton {
+      hjem.extraModules = singleton {
         xdg.config.files = {
-          "git/config".text = lib.generators.toGitINI {
+          "git/config".text = generators.toGitINI {
             commit.gpgSign = true;
             core.pager = "delta";
             url."ssh://forgejo@${self.services.forgejo.fqdn}/".insteadOf = "https://${self.services.forgejo.fqdn}/";

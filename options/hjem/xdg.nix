@@ -1,12 +1,12 @@
 # Applies the system-level `xdg.dirs` options (options/generic/xdg.nix) to hjem
-{lib, ...}: let
-  inherit (lib) mkDefault mkIf;
-in {
+{
   flake.modules.hjem.xdg = {
     config,
+    lib,
     osConfig,
     ...
   }: let
+    inherit (lib) mkDefault mkIf;
     inherit (osConfig.xdg.dirs) cacheDir configDir dataDir homeDir stateDir;
   in {
     # Only sync the primary user; other hjem users (e.g. root) keep

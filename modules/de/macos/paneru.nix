@@ -1,10 +1,11 @@
 {
   inputs,
-  lib,
   self,
   ...
 }: {
-  flake.modules.darwin.paneru = _: {
+  flake.modules.darwin.paneru = {lib, ...}: let
+    inherit (lib) genAttrs nameValuePair range;
+  in {
     imports = [
       inputs.paneru.darwinModules.paneru
       self.modules.darwin.skhd
@@ -23,11 +24,11 @@
           continuous = false;
           gesture.fingers_count = 3;
         };
-        padding = lib.genAttrs ["left" "right" "top" "bottom"] (_: 0);
+        padding = genAttrs ["left" "right" "top" "bottom"] (_: 0);
         bindings = let
           mkBindings = prefix: command:
-            lib.range 1 9
-            |> map (i: lib.nameValuePair "${command}_${toString i}" "${prefix} - ${toString i}")
+            range 1 9
+            |> map (i: nameValuePair "${command}_${toString i}" "${prefix} - ${toString i}")
             |> builtins.listToAttrs;
         in
           {

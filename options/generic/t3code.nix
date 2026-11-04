@@ -1,21 +1,16 @@
 # T3 Code: package (with optional extras), declarative settings and a server service
-{lib, ...}: let
-  inherit (lib) concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs;
-  inherit (lib.types) attrsOf bool enum listOf nullOr package path port str;
-
-  # Extras are the package's `enable*` override flags, e.g. extras.enableGitHub
-  extraFlags = pkgs:
-    functionArgs pkgs.t3code.override
-    |> builtins.attrNames
-    |> builtins.filter (hasPrefix "enable");
-in {
+{
   flake.modules.generic.default = {
     config,
+    lib,
     options,
     pkgs,
     username,
     ...
   }: let
+    inherit (lib) concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs;
+    inherit (lib.types) attrsOf bool enum listOf nullOr package path port str;
+
     cfg = config.programs.t3code;
     svc = cfg.service;
     jsonFormat = pkgs.formats.json {};
@@ -38,6 +33,12 @@ in {
     # pkgs.stdenv.hostPlatform.is<Platform> causes infinite recursion so bodge
     isLinux = options ? systemd;
     isDarwin = options ? launchd;
+
+    # Extras are the package's `enable*` override flags, e.g. extras.enableGitHub
+    extraFlags = pkgs:
+      functionArgs pkgs.t3code.override
+      |> builtins.attrNames
+      |> builtins.filter (hasPrefix "enable");
   in {
     options.programs.t3code = {
       enable = mkEnableOption "T3 Code, a GUI and server for coding agents";

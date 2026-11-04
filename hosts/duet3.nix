@@ -1,4 +1,4 @@
-{lib, ...}: let
+_: let
   hostname = "duet3";
 in {
   flake = {
@@ -12,10 +12,16 @@ in {
       modules = ["gui" "hyprTouch" "moonlight"];
     };
 
-    modules.nixos.${hostname} = {pkgs, ...}: {
+    modules.nixos.${hostname} = {
+      pkgs,
+      lib,
+      ...
+    }: let
+      inherit (lib) mkAfter singleton;
+    in {
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
-      hjem.extraModules = lib.singleton {
-        xdg.config.files."hypr/hyprland.lua".text = lib.mkAfter ''
+      hjem.extraModules = singleton {
+        xdg.config.files."hypr/hyprland.lua".text = mkAfter ''
           hl.monitor({output="DSI-1", mode="1200x2000@60", scale=1.5, transform=1})
           hl.device({name="hid-over-i2c-0603:604a",output="DSI-1"})
           hl.device({name="hid-over-i2c-0603:604a-stylus",output="DSI-1"})

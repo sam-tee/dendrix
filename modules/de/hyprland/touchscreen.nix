@@ -3,7 +3,9 @@
   moduleWithSystem,
   self,
   ...
-}: {
+}: let
+  inherit (lib) mkAfter singleton;
+in {
   flake.modules = let
     hyprgrass = pkgs: (pkgs.callPackage ./_hyprgrass.nix {});
   in {
@@ -20,10 +22,10 @@
         inputs'.iio-hyprland.packages.default
         (hyprgrass pkgs)
       ];
-      hjem.extraModules = lib.singleton self.modules.hjem.hyprTouch;
+      hjem.extraModules = singleton self.modules.hjem.hyprTouch;
     });
     hjem.hyprTouch = {pkgs, ...}: {
-      xdg.config.files."hypr/hyprland.lua".text = lib.mkAfter ''
+      xdg.config.files."hypr/hyprland.lua".text = mkAfter ''
         hl.on("hyprland.start", function()
           hl.exec_cmd("wvkbd-mobintl")
           hl.exec_cmd("hyprctl plugin load ${hyprgrass pkgs}/lib/libhyprgrass.so")

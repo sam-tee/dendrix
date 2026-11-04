@@ -6,31 +6,34 @@
     pkgs,
     ...
   }: let
+    inherit (lib) getExe mkEnableOption mkIf mkOption mkPackageOption;
+    inherit (lib.strings) concatStringsSep;
+    inherit (lib.types) listOf str;
     cfg = config.programs.zoxide;
 
-    cfgFlags = lib.strings.concatStringsSep " " cfg.flags;
+    cfgFlags = concatStringsSep " " cfg.flags;
   in {
     options.programs.zoxide = {
-      enable = lib.mkEnableOption "zoxide, a smarter cd command that learns your habits";
-      package = lib.mkPackageOption pkgs "zoxide" {};
+      enable = mkEnableOption "zoxide, a smarter cd command that learns your habits";
+      package = mkPackageOption pkgs "zoxide" {};
       enableBashIntegration =
-        lib.mkEnableOption "Bash integration"
+        mkEnableOption "Bash integration"
         // {
           default = config.programs.bash.enable;
         };
       enableZshIntegration =
-        lib.mkEnableOption "Zsh integration"
+        mkEnableOption "Zsh integration"
         // {
           default = config.programs.zsh.enable;
         };
       enableFishIntegration =
-        lib.mkEnableOption "Fish integration"
+        mkEnableOption "Fish integration"
         // {
           default = config.programs.fish.enable;
         };
 
-      flags = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
+      flags = mkOption {
+        type = listOf str;
         default = [];
         example = [
           "--no-cmd"
@@ -41,18 +44,18 @@
         '';
       };
     };
-    config = lib.mkIf cfg.enable {
+    config = mkIf cfg.enable {
       environment.systemPackages = [cfg.package];
 
       programs = {
-        zsh.interactiveShellInit = lib.mkIf cfg.enableZshIntegration ''
-          eval "$(${lib.getExe cfg.package} init zsh ${cfgFlags} )"
+        zsh.interactiveShellInit = mkIf cfg.enableZshIntegration ''
+          eval "$(${getExe cfg.package} init zsh ${cfgFlags} )"
         '';
-        bash.interactiveShellInit = lib.mkIf cfg.enableBashIntegration ''
-          eval "$(${lib.getExe cfg.package} init bash ${cfgFlags} )"
+        bash.interactiveShellInit = mkIf cfg.enableBashIntegration ''
+          eval "$(${getExe cfg.package} init bash ${cfgFlags} )"
         '';
-        fish.interactiveShellInit = lib.mkIf cfg.enableFishIntegration ''
-          ${lib.getExe cfg.package} init fish ${cfgFlags} | source
+        fish.interactiveShellInit = mkIf cfg.enableFishIntegration ''
+          ${getExe cfg.package} init fish ${cfgFlags} | source
         '';
       };
     };

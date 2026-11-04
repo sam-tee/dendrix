@@ -1,4 +1,5 @@
 {lib, ...}: let
+  inherit (lib) assertOneOf escapeShellArgs getExe;
   mergeScript = pkgs:
     pkgs.writeShellApplication {
       name = "json-merge";
@@ -78,9 +79,9 @@ in {
     fileMode ? "600",
     name ? "json-merge-settings",
   }:
-    assert lib.assertOneOf "mkJsonMerge mode" mode ["merge" "seed"];
-      lib.escapeShellArgs [
-        (lib.getExe (mergeScript pkgs))
+    assert assertOneOf "mkJsonMerge mode" mode ["merge" "seed"];
+      escapeShellArgs [
+        (getExe (mergeScript pkgs))
         path
         ((pkgs.formats.json {}).generate "${name}.json" settings)
         mode

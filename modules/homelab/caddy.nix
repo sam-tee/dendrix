@@ -4,13 +4,14 @@
     lib,
     ...
   }: let
+    inherit (lib) filterAttrs mapAttrs' nameValuePair optionalString;
     inherit (self) domain tailnet;
     inherit (config.homelab) group user;
     mkCaddyHost = _name: svc:
-      lib.nameValuePair svc.fqdn {
+      nameValuePair svc.fqdn {
         useACMEHost = domain;
         extraConfig =
-          lib.optionalString (svc.tailnetOnly or false) ''
+          optionalString (svc.tailnetOnly or false) ''
             @outside not remote_ip 100.64.0.0/10 fd7a:115c:a1e0::/48
             abort @outside
           ''
@@ -21,9 +22,9 @@
       };
     caddyHosts =
       self.services
-      |> lib.filterAttrs (_name: svc: svc.port != 0)
-      |> lib.filterAttrs (_name: svc: svc.host != "")
-      |> (lib.mapAttrs' mkCaddyHost);
+      |> filterAttrs (_name: svc: svc.port != 0)
+      |> filterAttrs (_name: svc: svc.host != "")
+      |> (mapAttrs' mkCaddyHost);
   in {
     sops.secrets."cloudflareAPI" = {};
     security.acme = {

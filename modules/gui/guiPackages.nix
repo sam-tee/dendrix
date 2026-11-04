@@ -2,7 +2,11 @@
   flake.modules = {
     nixos = {
       gui = self.modules.nixos.linuxBase;
-      linuxBase = {pkgs, ...}: {
+      linuxBase = {
+        pkgs,
+        lib,
+        ...
+      }: {
         imports = with self.modules.generic; [ghostty xournal zed];
         xdg.mime.enable = true;
         environment.systemPackages = with pkgs;

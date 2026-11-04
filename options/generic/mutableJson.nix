@@ -1,16 +1,16 @@
 # App-writable JSON files whose declared keys are merged in on activation
 # (see lib.mkJsonMerge), for apps that break on read-only hjem symlinks
-{lib, ...}: let
-  inherit (lib) attrValues concatMapAttrsStringSep concatMapStringsSep groupBy literalExpression mapAttrs mkIf mkJsonMerge mkMerge mkOption mkOrder optionalAttrs;
-  inherit (lib.types) attrsOf enum str strMatching submodule;
-in {
+{
   flake.modules.generic.default = {
     config,
+    lib,
     options,
     pkgs,
     username,
     ...
   }: let
+    inherit (lib) attrValues concatMapAttrsStringSep concatMapStringsSep groupBy literalExpression mapAttrs mkIf mkJsonMerge mkMerge mkOption mkOrder optionalAttrs;
+    inherit (lib.types) attrsOf enum str strMatching submodule;
     cfg = config.mutableJson;
     # Run each user's merges as that user; one failure doesn't stop the rest
     userScripts =

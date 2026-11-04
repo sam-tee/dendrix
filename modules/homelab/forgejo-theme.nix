@@ -8,6 +8,7 @@ in {
     pkgs,
     ...
   }: let
+    inherit (lib) escapeShellArg;
     cfg = config.services.forgejo;
     cssDir = "${cfg.customDir}/public/assets/css";
     # Full standalone theme CSS generated from the repo base16 palette
@@ -586,11 +587,11 @@ in {
       autoLink = "${cssDir}/theme-${themeName}-auto.css";
     in {
       text = ''
-        install -dm750 -o ${lib.escapeShellArg user} -g ${lib.escapeShellArg group} ${lib.escapeShellArg publicDir} ${lib.escapeShellArg assetsDir} ${lib.escapeShellArg cssDir}
-        ln -sfn ${darkFile} ${lib.escapeShellArg darkLink}
-        ln -sfn ${lightFile} ${lib.escapeShellArg lightLink}
-        ln -sfn ${autoFile} ${lib.escapeShellArg autoLink}
-        chown -h ${lib.escapeShellArg "${user}:${group}"} ${lib.escapeShellArg darkLink} ${lib.escapeShellArg lightLink} ${lib.escapeShellArg autoLink}
+        install -dm750 -o ${escapeShellArg user} -g ${escapeShellArg group} ${escapeShellArg publicDir} ${escapeShellArg assetsDir} ${escapeShellArg cssDir}
+        ln -sfn ${darkFile} ${escapeShellArg darkLink}
+        ln -sfn ${lightFile} ${escapeShellArg lightLink}
+        ln -sfn ${autoFile} ${escapeShellArg autoLink}
+        chown -h ${escapeShellArg "${user}:${group}"} ${escapeShellArg darkLink} ${escapeShellArg lightLink} ${escapeShellArg autoLink}
       '';
     };
   };

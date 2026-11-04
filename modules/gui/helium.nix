@@ -4,7 +4,9 @@
   lib,
   ...
 }: let
-  inherit (lib.attrsets) concatMapAttrs filterAttrs mapAttrsToList optionalAttrs getAttr;
+  inherit (lib) concatStringsSep mkIf;
+  inherit (lib.attrsets) concatMapAttrs filterAttrs mapAttrs' mapAttrsToList nameValuePair optionalAttrs getAttr;
+  inherit (lib.generators) toJSON toPlist;
   inherit (lib.trivial) const;
 
   vscKeyBindings = [
@@ -119,23 +121,18 @@ in {
         };
       };
     };
-    darwin.helium = {
-      lib,
-      pkgs,
-      ...
-    }: {
+    darwin.helium = {pkgs, ...}: {
       imports = [self.modules.generic.helium];
       system.activationScripts.helium-policy.text = let
-        heliumPlist = pkgs.writeText "net.imput.helium.plist" (lib.generators.toPlist {escape = true;} policy);
-        extensionPlists = lib.mapAttrs' (id: extensionPolicy: lib.nameValuePair id (pkgs.writeText "net.imput.helium.extensions.${id}.plist" (lib.generators.toPlist {escape = true;} extensionPolicy))) thirdParty;
+        heliumPlist = pkgs.writeText "net.imput.helium.plist" (toPlist {escape = true;} policy);
+        extensionPlists = mapAttrs' (id: extensionPolicy: nameValuePair id (pkgs.writeText "net.imput.helium.extensions.${id}.plist" (toPlist {escape = true;} extensionPolicy))) thirdParty;
       in ''
         mkdir -p "/Library/Managed Preferences"
         cp ${heliumPlist} "/Library/Managed Preferences/net.imput.helium.plist"
-        ${extensionPlists |> lib.mapAttrsToList (id: file: ''cp ${file} "/Library/Managed Preferences/net.imput.helium.extensions.${id}.plist"'') |> lib.concatStringsSep "\n"}
+        ${extensionPlists |> mapAttrsToList (id: file: ''cp ${file} "/Library/Managed Preferences/net.imput.helium.extensions.${id}.plist"'') |> concatStringsSep "\n"}
       '';
     };
     hjem.helium = {
-      lib,
       osConfig,
       pkgs,
       ...
@@ -172,13 +169,13 @@ in {
         privacy_sandbox.first_party_sets_enabled = false;
       };
       preferenceFile = {
-        generator = lib.generators.toJSON {};
+        generator = toJSON {};
         value = preferences;
         type = "copy";
       };
     in {
-      xdg.config.files."net.imput.helium/Default/Preferences" = lib.mkIf isLinux preferenceFile;
-      files."Library/Application Support/net.imput.helium/Default/Preferences" = lib.mkIf (!isLinux) preferenceFile;
+      xdg.config.files."net.imput.helium/Default/Preferences" = mkIf isLinux preferenceFile;
+      files."Library/Application Support/net.imput.helium/Default/Preferences" = mkIf (!isLinux) preferenceFile;
     };
   };
 }

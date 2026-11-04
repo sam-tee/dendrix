@@ -1,8 +1,4 @@
-{
-  lib,
-  self,
-  ...
-}: let
+{self, ...}: let
   svc = self.services.cliproxyapi;
   baseURL = "http://${svc.host}.${self.tailnet}:${toString svc.port}";
   secret = "cliproxyapi-key";
@@ -15,6 +11,7 @@ in {
       default = self.modules.generic.ai;
       ai = {
         config,
+        lib,
         pkgs,
         username,
         ...

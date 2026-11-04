@@ -4,8 +4,12 @@ _: {
     lib,
     system,
     ...
-  }:
-    lib.optionalAttrs (lib.hasSuffix "darwin" system) (let
+  }: let
+    inherit (lib) hasSuffix optionalAttrs;
+    inherit (lib.licenses) mit;
+    inherit (lib.platforms) darwin;
+  in
+    optionalAttrs (hasSuffix "darwin" system) (let
       # The PR needs Swift 6.4 and the macOS 27 SDK, newer than nixpkgs' swift, and there are no
       # release artifacts, so build impurely with the host's Command Line Tools (needs sandbox = false)
       clt = "/Library/Developer/CommandLineTools";
@@ -135,9 +139,9 @@ _: {
         meta = {
           description = "i3-like tiling window manager for macOS, with scrolling and tabs layouts";
           homepage = "https://github.com/nikitabobko/AeroSpace/pull/2057";
-          license = lib.licenses.mit;
+          license = mit;
           mainProgram = "aerospace";
-          platforms = lib.platforms.darwin;
+          platforms = darwin;
         };
       });
     });

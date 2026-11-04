@@ -3,9 +3,11 @@
     lib,
     pkgs,
     ...
-  }: {
+  }: let
+    inherit (lib) mkDefault mkForce;
+  in {
     boot = {
-      consoleLogLevel = lib.mkDefault 0;
+      consoleLogLevel = mkDefault 0;
       initrd.systemd.network.wait-online.enable = false;
       kernelPackages = pkgs.linuxPackages_latest;
       kernelParams = [
@@ -23,7 +25,7 @@
           configurationLimit = 5;
         };
         efi.canTouchEfiVariables = true;
-        timeout = lib.mkForce 0;
+        timeout = mkForce 0;
       };
       plymouth.enable = true;
       supportedFilesystems = ["btrfs" "nfs" "ntfs" "xfs" "exfat"];

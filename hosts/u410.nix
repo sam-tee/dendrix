@@ -50,7 +50,9 @@ in {
         lib,
         modulesPath,
         ...
-      }: {
+      }: let
+        inherit (lib) mkDefault;
+      in {
         imports = [(modulesPath + "/installer/scan/not-detected.nix")];
         boot = {
           initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "sd_mod"];
@@ -72,8 +74,8 @@ in {
             options = ["subvol=media" "compress=zstd"];
           };
         };
-        hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-        nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+        hardware.cpu.intel.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
+        nixpkgs.hostPlatform = mkDefault "x86_64-linux";
         swapDevices = [{device = "/dev/disk/by-uuid/b87f930d-667c-45c2-a45b-77e8d1971a12";}];
       };
     };

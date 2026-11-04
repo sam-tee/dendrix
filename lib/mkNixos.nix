@@ -2,7 +2,9 @@
   lib,
   self,
   ...
-}: {
+}: let
+  inherit (lib) mkDefault mkNixosModules nixosSystem;
+in {
   mkNixosModules = hostname: let
     inherit (self.modules) generic nixos;
     inherit (self.hosts.${hostname}) username system pubKey modules hostType;
@@ -14,7 +16,7 @@
       ([
           {
             networking.hostName = hostname;
-            nixpkgs.hostPlatform = lib.mkDefault system;
+            nixpkgs.hostPlatform = mkDefault system;
             users.users.${username}.openssh.authorizedKeys.keys = [pubKey];
             system.stateVersion = "24.05";
           }
@@ -38,12 +40,12 @@
 
   # `lib.nixosSystem` passes this (extended) lib on to NixOS modules.
   mkNixos = hostname: {
-    ${hostname} = lib.nixosSystem {
+    ${hostname} = nixosSystem {
       specialArgs = {
         inherit hostname;
         inherit (self.hosts.${hostname}) username;
       };
-      modules = lib.mkNixosModules hostname;
+      modules = mkNixosModules hostname;
     };
   };
 }
