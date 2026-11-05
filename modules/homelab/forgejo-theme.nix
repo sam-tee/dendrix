@@ -8,7 +8,7 @@ in {
     pkgs,
     ...
   }: let
-    inherit (lib) escapeShellArg;
+    inherit (lib) attrNames concatLines concatMapStringsSep escapeShellArg escapeShellArgs mapAttrsToList;
     cfg = config.services.forgejo;
     cssDir = "${cfg.customDir}/public/assets/css";
     # Full standalone theme CSS generated from the repo base16 palette
@@ -573,11 +573,32 @@ in {
       @import "theme-${themeName}-light.css";
       @import "theme-${themeName}-dark.css" (prefers-color-scheme: dark);
     '';
+    # Every upstream Forgejo logo asset recoloured: orange -> pink (base0F),
+    # red -> purple (base0E). PNGs are rendered from the recoloured logo at
+    # upstream sizes. Paths are relative to public/assets/img.
+    svgIcons = ["favicon.svg" "logo.svg" "forgejo.svg" "forgejo-loading.svg" "svg/gitea-forgejo.svg"];
+    pngIcons = {
+      "favicon.png" = 180;
+      "apple-touch-icon.png" = 180;
+      "logo.png" = 512;
+    };
+    iconFiles = svgIcons ++ attrNames pngIcons;
+    icons = pkgs.runCommand "forgejo-icons-${themeName}" {nativeBuildInputs = [pkgs.librsvg];} ''
+      mkdir -p $out/svg
+      for f in ${escapeShellArgs svgIcons}; do
+        substitute ${cfg.package.src}/public/assets/img/$f $out/$f \
+          --replace-fail '#f60' '${attrs.dark.base0F}' \
+          --replace-fail '#d40000' '${attrs.dark.base0E}'
+      done
+      ${concatLines (mapAttrsToList (f: size: "rsvg-convert -w ${toString size} -h ${toString size} $out/logo.svg -o $out/${f}") pngIcons)}
+    '';
   in {
     services.forgejo.settings.ui = {
       THEMES = "forgejo-auto,${themeName}-auto,${themeName}-dark,${themeName}-light";
       DEFAULT_THEME = "${themeName}-auto";
     };
+    # svg/ icons are read once at startup, so restart when they change.
+    systemd.services.forgejo.restartTriggers = [icons];
     system.activationScripts.forgejo-theme = let
       inherit (cfg) user group;
       publicDir = "${cfg.customDir}/public";
@@ -585,13 +606,21 @@ in {
       darkLink = "${cssDir}/theme-${themeName}-dark.css";
       lightLink = "${cssDir}/theme-${themeName}-light.css";
       autoLink = "${cssDir}/theme-${themeName}-auto.css";
+      imgDir = "${assetsDir}/img";
+      iconLinks =
+        concatMapStringsSep "\n" (f: ''
+          ln -sfn ${icons}/${f} ${escapeShellArg "${imgDir}/${f}"}
+          chown -h ${escapeShellArg "${user}:${group}"} ${escapeShellArg "${imgDir}/${f}"}
+        '')
+        iconFiles;
     in {
       text = ''
-        install -dm750 -o ${escapeShellArg user} -g ${escapeShellArg group} ${escapeShellArg publicDir} ${escapeShellArg assetsDir} ${escapeShellArg cssDir}
+        install -dm750 -o ${escapeShellArg user} -g ${escapeShellArg group} ${escapeShellArg publicDir} ${escapeShellArg assetsDir} ${escapeShellArg cssDir} ${escapeShellArg imgDir} ${escapeShellArg "${imgDir}/svg"}
         ln -sfn ${darkFile} ${escapeShellArg darkLink}
         ln -sfn ${lightFile} ${escapeShellArg lightLink}
         ln -sfn ${autoFile} ${escapeShellArg autoLink}
         chown -h ${escapeShellArg "${user}:${group}"} ${escapeShellArg darkLink} ${escapeShellArg lightLink} ${escapeShellArg autoLink}
+        ${iconLinks}
       '';
     };
   };
