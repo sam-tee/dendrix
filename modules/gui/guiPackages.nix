@@ -48,7 +48,6 @@
           casks = [
             "google-chrome"
             "localsend"
-            "raycast"
           ];
           masApps."Bitwarden" = 1352778147;
         };
