@@ -74,6 +74,10 @@
         flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
       };
     };
+    searchix = {
+      url = "git+https://git.samtee.party/sam-tee/searchix.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

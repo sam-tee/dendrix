@@ -27,6 +27,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.services`
 |     prowlarr     |     -     |  9696   |  prowlarr   |
 |   qbittorrent    |     -     |  7877   |   torrent   |
 |      radarr      |   u410    |  7878   |   radarr    |
+|     searchix     |  oracle   |  51313  |  searchix   |
 |      seerr       |     -     |  5055   |    seerr    |
 |      share       |  oracle   |    -    |    share    |
 |       site       |  oracle   |    -    |      -      |
