@@ -23,6 +23,7 @@
             max-retry-interval = 30;
           };
         };
+        requests.passthrough-headers = true;
       };
     };
     systemd.services.cliproxyapi = {
