@@ -274,11 +274,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793623677,
-        "narHash": "sha256-1uEypOIoirefc7eJt/M7VJRqSjHzRPcC3khUalQFZkE=",
+        "lastModified": 1793905744,
+        "narHash": "sha256-Mt7SC8lr9XisvIsPGSIqHWLeM2x5sVB+Qtx5SYcWxlI=",
         "owner": "amaanq",
         "repo": "helium-flake",
-        "rev": "a371b8d10579a66ae67d8b132c6bbb7c8b20126f",
+        "rev": "a7a4fc5016d1f33abfa534fa494dae540a7b7ef8",
         "type": "github"
       },
       "original": {
@@ -310,11 +310,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1793839457,
-        "narHash": "sha256-7dtLRKnO12EfO2/s9QDki32WqjRcZDBAT28wyjlGqzs=",
+        "lastModified": 1793920709,
+        "narHash": "sha256-KAGTMXDcYu4qzH+y9nzA7HG1nCH+uqtJO0zZlTBJwQ0=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "a32113ad399693272cda304aa64cc1cb69a21879",
+        "rev": "ac4d78aec142280106fb32cd4639c579e651fcf9",
         "type": "github"
       },
       "original": {
@@ -326,11 +326,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1793838477,
-        "narHash": "sha256-bhG9TM39LvdPGpRwtsPcJIA32ewf5UocFWs3yX6Cg0s=",
+        "lastModified": 1793919398,
+        "narHash": "sha256-DZOU3zNU9Ls309+/PxkivAyUIE8n60riQUkMk3NlcPs=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "ee8b2bc9784a3ee899498e516670e4b0f53538b3",
+        "rev": "ca2f7afb64b039d4803a5e27cdf29d87e654fd87",
         "type": "github"
       },
       "original": {
@@ -382,11 +382,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791656834,
-        "narHash": "sha256-kH0WDMXUqcME2JfI3abhnjRi2U/JX989A4OKdw2zZCM=",
+        "lastModified": 1793844634,
+        "narHash": "sha256-9XADhwzN76w6MFQyxL0t3+at1oyr6fk17kHlkkbjnPQ=",
         "ref": "refs/heads/development",
-        "rev": "00b3194de3cfe2bc9b41579e573780af0eafbf04",
-        "revCount": 3238,
+        "rev": "db0edf8b47468481a1ce85183caf7174efc9d9b4",
+        "revCount": 3239,
         "type": "git",
         "url": "https://git.samtee.party/sam-tee/mobile.git"
       },
@@ -485,11 +485,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1793735720,
-        "narHash": "sha256-WqewjvVjGQ1yhAvxeZW7IKoIT08vUNfyaeZewOwyYxg=",
-        "rev": "9d3b8db48266c17be0b5f9c6360c3ecfbac3d1f5",
+        "lastModified": 1793826729,
+        "narHash": "sha256-JiTUXdoNJNvdD+fjVlftWiLKJfHut3cIi8j2HXL9kT4=",
+        "rev": "6dadaf4375be35033e1c84395adbd53ff5fded96",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1107841.9d3b8db48266/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1108556.6dadaf4375be/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
