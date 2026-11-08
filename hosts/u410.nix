@@ -20,7 +20,19 @@ in {
 
     modules.nixos = {
       ${hostname} = {pkgs, ...}: {
-        services.tailscale.extraSetFlags = ["--advertise-routes=192.168.1.0/24"];
+        services = {
+          tailscale.extraSetFlags = ["--advertise-routes=192.168.1.0/24"];
+          btrfs.autoScrub = {
+            enable = true;
+            interval = "monthly";
+          };
+          nfs.server = {
+            enable = true;
+            exports = ''
+              /mnt/data 100.100.10.0/24(rw,sync,no_subtree_check)
+            '';
+          };
+        };
 
         environment = {
           sessionVariables = {inherit LIBVA_DRIVER_NAME;};
@@ -38,10 +50,8 @@ in {
           ];
         };
         homelab.dataDir = driveMount;
-        services.btrfs.autoScrub = {
-          enable = true;
-          interval = "monthly";
-        };
+        # i965 is the correct VA-API driver for this old iGPU; jellyfin is
+        # the only QSV/VA-API consumer here (immich: accelerationDevices = null).
         systemd.services.jellyfin.environment = {inherit LIBVA_DRIVER_NAME;};
       };
 
