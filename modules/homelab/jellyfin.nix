@@ -2,6 +2,7 @@
   flake.modules.nixos.jellyfin = {config, ...}: let
     inherit (config.homelab) caddyIP group user dataDir;
   in {
+    users.users.${user}.extraGroups = ["video" "render"];
     services.jellyfin = {
       enable = true;
       inherit group user;
