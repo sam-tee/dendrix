@@ -20,9 +20,13 @@ in {
       inherit (lib) mkAfter singleton;
     in {
       hardware.firmware = [pkgs.chromeos-sc7180-unredistributable-firmware];
+      services.logind.settings.Login = {
+        HandlePowerKey = "suspend";
+        HandlePowerKeyLongPress = "poweroff";
+      };
       hjem.extraModules = singleton {
         xdg.config.files."hypr/hyprland.lua".text = mkAfter ''
-          hl.monitor({output="DSI-1", mode="1200x2000@60", scale=1.5, transform=1})
+          hl.monitor({output="DSI-1", mode="1200x2000@60", scale=1.6, transform=1})
           hl.device({name="hid-over-i2c-0603:604a",output="DSI-1"})
           hl.device({name="hid-over-i2c-0603:604a-stylus",output="DSI-1"})
           hl.config({
