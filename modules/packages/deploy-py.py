@@ -200,7 +200,7 @@ def update_secrets(
     print("Committed updated secrets; run `git push` after deploying")
 
 
-def get_age_key(host_ip: str, host_port: int) -> str:
+def get_age_key(host_ip: str, host_port: int, auto_yes: bool = False) -> str:
     keyscan_cmd = [
         "ssh-keyscan",
         "-p",
@@ -249,6 +249,18 @@ def get_age_key(host_ip: str, host_port: int) -> str:
         "before proceeding, especially if you did not just reinstall "
         "this machine."
     )
+    # Gate on explicit confirmation: the key below is about to be
+    # granted secrets access via .sops.yaml.
+    if not auto_yes:
+        answer = input(
+            "Trust this host key and grant it secrets access? [y/N]: "
+        ).strip().lower()
+        if answer not in ("y", "yes"):
+            raise RuntimeError(
+                f"Refusing to trust unverified host key for {host_ip}"
+            )
+    else:
+        print("--yes given: trusting TOFU host key without confirmation")
 
     ssh_to_age = subprocess.run(
         ["ssh-to-age"],
@@ -421,7 +433,9 @@ if __name__ == "__main__":
         host_ip=target_host, host_port=args.port, auto_yes=args.yes
     )
 
-    age_key = get_age_key(host_ip=target_host, host_port=args.port)
+    age_key = get_age_key(
+        host_ip=target_host, host_port=args.port, auto_yes=args.yes
+    )
 
     update_secrets(
         host_age_key=age_key,
