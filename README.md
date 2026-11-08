@@ -54,12 +54,12 @@ when defined.
   `pyScripts` passthrough, `t3code` slim builds).
 - `docs/`: generated services/hosts tables (do not edit;
   see `scripts/update-*-docs.sh`), linked from the sections above.
-- `nix-secrets/`: sops-encrypted secrets (see below).
+- `secrets.yaml` / `.sops.yaml`: sops-encrypted secrets (see below).
 
 ## Secrets
 
-Secrets live in `nix-secrets/secrets.yaml`, sops-encrypted with per-machine
-age keys (see `nix-secrets/.sops.yaml`). The default sops file is wired up in
+Secrets live in `secrets.yaml`, sops-encrypted with per-machine
+age keys (see `.sops.yaml`). The default sops file is wired up in
 `modules/system/sops.nix`.
 
 ## Binary cache
