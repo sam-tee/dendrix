@@ -41,5 +41,9 @@
         };
       };
     };
+    systemd.services.searchix = {
+      after = ["tailscaled.service" "network-online.target"];
+      wants = ["network-online.target"];
+    };
   };
 }

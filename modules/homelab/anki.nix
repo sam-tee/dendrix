@@ -15,9 +15,13 @@
         }
       ];
     };
-    systemd.services.anki-sync-server.serviceConfig = {
-      ReadWritePaths = [ankiDir];
-      SupplementaryGroups = [group];
+    systemd.services.anki-sync-server = {
+      serviceConfig = {
+        ReadWritePaths = [ankiDir];
+        SupplementaryGroups = [group];
+      };
+      after = ["tailscaled.service" "network-online.target"];
+      wants = ["network-online.target"];
     };
     systemd.tmpfiles.rules = [
       "d ${ankiDir} 0770 ${user} ${group} -"

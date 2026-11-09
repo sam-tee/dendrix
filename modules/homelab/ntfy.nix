@@ -11,5 +11,9 @@
         behind-proxy = true;
       };
     };
+    systemd.services.ntfy-sh = {
+      after = ["tailscaled.service" "network-online.target"];
+      wants = ["network-online.target"];
+    };
   };
 }
