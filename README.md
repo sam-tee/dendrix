@@ -8,8 +8,7 @@ Files or directories starting with `_` are skipped.
 ## Services
 
 See [services.md](docs/services.md) for the full list of services and the
-ports, hosts and subdomains they run on. This file is programmatically
-updated from `vars/homelab.nix`.
+ports, hosts and subdomains they run on. 
 
 ## Hosts
 
@@ -51,7 +50,16 @@ when defined.
   `modules/configurations.nix`, `modules/packages/`: nix settings
   (substituters, remote builders) and cache config, hjem, flake plumbing,
   host-to-configuration wiring, and extra packages (per-system configs,
-  `pyScripts` passthrough, `t3code` slim builds).
+  script flake passthrough, `t3code` slim builds).
+- Script flakes: the Python tools (`nhw`, `deploy-py`,
+  `nixpkgs-pr-tracker`, `sports-ntfy`, `cliproxy-usage-ntfy`) each have their
+  own repo on git.samtee.party with a flake exporting the package, an overlay
+  and, for services, `nixosModules.default`. They are flake inputs here,
+  re-exported in `modules/packages/scripts.nix`, and their modules are
+  imported by the matching `modules/homelab/<name>.nix`. Push changes to the
+  script repo and run `nix flake update <name>` (the nightly CI update also
+  picks them up); test local edits with
+  `--override-input <name> ~/projects/<name>`.
 - `docs/`: generated services/hosts tables (do not edit;
   see `scripts/update-*-docs.sh`), linked from the sections above.
 - `secrets.yaml` / `.sops.yaml`: sops-encrypted secrets (see below).
