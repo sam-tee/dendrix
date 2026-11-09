@@ -43,5 +43,6 @@ The module will be auto-imported to the host. Option sets should be defined in
 
 ## Useful Commands
 
-Commands are defined in [commands.md](docs/commands.md), covering host deploys and flake checks.
+Commands are defined in [commands.md](docs/commands.md), covering host deploys, flake checks,
+and reading CI logs (`scripts/ci-logs.sh`; CI runs on Forgejo, not GitHub).
 

@@ -74,6 +74,9 @@ jobs:
 
       - name: Send ntfy notification
         if: always()
+        env:
+          EVENT: ${{ github.event_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
         run: |
           status="${{ job.status }}"
 
@@ -81,18 +84,22 @@ jobs:
             title="Dendrix Cache Success"
             priority="default"
             tags="package,white_check_mark"
-            body="Successfully built, cached, and updated lock files for dendrix"
+            if [ "$EVENT" = "schedule" ] || [ "$EVENT" = "workflow_dispatch" ]; then
+              body="Successfully built, cached, and updated lock files for dendrix"
+            else
+              body="Successfully built and cached dendrix"
+            fi
           else
             title="Dendrix Cache Failed"
             priority="high"
             tags="warning,x"
-            body="Dendrix build and cache failed"
+            body="Dendrix build and cache failed ($EVENT)"
           fi
 
           curl \
             -H "Title: $title" \
             -H "Priority: $priority" \
             -H "Tags: $tags" \
-            -H "Click: $run_url" \
+            -H "Click: $RUN_URL" \
             -d "$body" \
             "${{secrets.NTFY_URL}}"
