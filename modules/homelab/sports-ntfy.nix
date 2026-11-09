@@ -1,7 +1,12 @@
-{self, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake.modules.nixos.sports-ntfy = {config, ...}: let
     inherit (self.services.ntfy) fqdn;
   in {
+    imports = [inputs.sports-ntfy.nixosModules.default];
     sops.secrets."sportsNtfyEnv" = {};
     services.sports-ntfy = {
       enable = true;

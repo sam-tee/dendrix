@@ -73,6 +73,26 @@
         "type": "github"
       }
     },
+    "deploy-py": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794198789,
+        "narHash": "sha256-TyMVkXGCizbvUPMe2BwGzwS4T1GJOSFX2R70r9Nk8oU=",
+        "ref": "refs/heads/main",
+        "rev": "7dafd7971085e268c8687630bb4a0f6817e941fe",
+        "revCount": 10,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/deploy-py.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/deploy-py.git"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -162,26 +182,6 @@
         "owner": "hercules-ci",
         "repo": "flake-parts",
         "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_4": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
         "type": "github"
       },
       "original": {
@@ -395,6 +395,26 @@
         "url": "https://git.samtee.party/sam-tee/mobile.git"
       }
     },
+    "nhw": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794198579,
+        "narHash": "sha256-0fgZ6e/cIx6QkTj+6m0e9N2uV5VCtaMo4IpCo54Ly0o=",
+        "ref": "refs/heads/main",
+        "rev": "83ab5a34eeea42f12cb3d7cc1eac972b48a30ce8",
+        "revCount": 11,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/nhw.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/nhw.git"
+      }
+    },
     "niri-flake": {
       "inputs": {
         "niri-stable": [
@@ -496,6 +516,26 @@
         "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst"
       }
     },
+    "nixpkgs-pr-tracker": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794199738,
+        "narHash": "sha256-eovBIsWRF4ix0ol1pRuPPlTHkJH27VenXKUE12VXyrk=",
+        "ref": "refs/heads/main",
+        "rev": "3883383798d534da48bd5a9a59de517e6cdd7aab",
+        "revCount": 9,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/nixpkgs-pr-tracker.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/nixpkgs-pr-tracker.git"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -567,31 +607,11 @@
         "type": "github"
       }
     },
-    "pyScripts": {
-      "inputs": {
-        "flake-parts": "flake-parts_4",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793836208,
-        "narHash": "sha256-NmDYnmIJD3AlW2OElKmIpxur5W7MUfgB8J+s2Uw5i5I=",
-        "ref": "refs/heads/main",
-        "rev": "2d0e39264ce9582d26a529030c401f845474877b",
-        "revCount": 28,
-        "type": "git",
-        "url": "https://git.samtee.party/sam-tee/python.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.samtee.party/sam-tee/python.git"
-      }
-    },
     "root": {
       "inputs": {
         "aeroswipe": "aeroswipe",
         "copyparty": "copyparty",
+        "deploy-py": "deploy-py",
         "disko": "disko",
         "flake-parts": "flake-parts",
         "helium": "helium",
@@ -600,15 +620,17 @@
         "homebrew-core": "homebrew-core",
         "iio-hyprland": "iio-hyprland",
         "mobile-nixos": "mobile-nixos",
+        "nhw": "nhw",
         "niri-flake": "niri-flake",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-pr-tracker": "nixpkgs-pr-tracker",
         "nixvim": "nixvim",
         "paneru": "paneru",
-        "pyScripts": "pyScripts",
         "searchix": "searchix",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "sports-ntfy": "sports-ntfy"
       }
     },
     "searchix": {
@@ -669,6 +691,26 @@
         "owner": "Mic92",
         "repo": "sops-nix",
         "type": "github"
+      }
+    },
+    "sports-ntfy": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794199742,
+        "narHash": "sha256-6GpJXZgUVzDcXnhRKfR6Vo4U5XX9UouhvLymHCiAXlY=",
+        "ref": "refs/heads/main",
+        "rev": "5f61fbfb0cf0819452ecbc2f6d2d3cc14e4c1621",
+        "revCount": 7,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/sports-ntfy.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/sports-ntfy.git"
       }
     },
     "systems": {

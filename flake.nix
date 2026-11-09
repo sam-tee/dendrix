@@ -8,6 +8,10 @@
       url = "github:9001/copyparty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-py = {
+      url = "git+https://git.samtee.party/sam-tee/deploy-py.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,6 +44,10 @@
       url = "git+https://git.samtee.party/sam-tee/mobile.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nhw = {
+      url = "git+https://git.samtee.party/sam-tee/nhw.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     niri-flake = {
       url = "github:sodiboo/niri-flake";
       inputs = {
@@ -55,6 +63,10 @@
     };
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
+    nixpkgs-pr-tracker = {
+      url = "git+https://git.samtee.party/sam-tee/nixpkgs-pr-tracker.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -67,19 +79,16 @@
         flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
       };
     };
-    pyScripts = {
-      url = "git+https://git.samtee.party/sam-tee/python.git";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
-      };
-    };
     searchix = {
       url = "git+https://git.samtee.party/sam-tee/searchix.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sports-ntfy = {
+      url = "git+https://git.samtee.party/sam-tee/sports-ntfy.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
