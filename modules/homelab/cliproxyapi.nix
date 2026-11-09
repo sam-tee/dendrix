@@ -15,6 +15,7 @@
           secret-key._secret = config.sops.secrets.cliproxyapi-key.path;
         };
         routing = {
+          cooldown.disable-cooling = true;
           strategy = "round-robin";
           session-affinity = true;
           session-affinity-ttl = "1h";

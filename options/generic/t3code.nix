@@ -8,7 +8,7 @@
     username,
     ...
   }: let
-    inherit (lib) concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs;
+    inherit (lib) attrNames concatMap concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs;
     inherit (lib.types) attrsOf bool enum listOf nullOr package path port str;
 
     cfg = config.programs.t3code;
@@ -37,8 +37,24 @@
     # Extras are the package's `enable*` override flags, e.g. extras.enableGitHub
     extraFlags = pkgs:
       functionArgs pkgs.t3code.override
-      |> builtins.attrNames
+      |> attrNames
       |> builtins.filter (hasPrefix "enable");
+    # Upstream only puts extras on the wrapper's PATH; mirror its flag -> package
+    # mapping so enabled extras are also installed system-wide. Flags missing
+    # here (e.g. enableResourceMonitor, a sidecar) install nothing extra.
+    extraPackages = with pkgs; {
+      enableAzureDevOps = [(azure-cli.withExtensions [azure-cli-extensions.azure-devops])];
+      enableBitbucket = [bitbucket-cli];
+      enableClaude = [claude-code];
+      enableCodex = [codex];
+      enableCursor = [code-cursor];
+      enableCursorCli = [cursor-cli];
+      enableGitHub = [gh];
+      enableGit = [git];
+      enableGitLab = [glab];
+      enableJujutsu = [jujutsu];
+      enableOpencode = [opencode];
+    };
   in {
     options.programs.t3code = {
       enable = mkEnableOption "T3 Code, a GUI and server for coding agents";
@@ -61,7 +77,11 @@
           type = nullOr bool;
           default = null;
           example = true;
-          description = "Package override `${flag}`. Null keeps the package default.";
+          description = ''
+            Package override `${flag}`. When true, the extra's tool is also
+            added to `environment.systemPackages`. Null keeps the package
+            default (on the wrapper's PATH only).
+          '';
         });
 
       user = mkOption {
@@ -204,7 +224,12 @@
             message = "programs.t3code.service.enable is NixOS-only and requires programs.t3code.package to be set.";
           }
         ];
-        environment.systemPackages = optional (cfg.package != null) cfg.package;
+        environment.systemPackages =
+          optional (cfg.package != null) cfg.package
+          ++ (cfg.extras
+            |> filterAttrs (_: enable: enable == true)
+            |> attrNames
+            |> concatMap (flag: extraPackages.${flag} or []));
         mutableJson = {
           t3code-settings = mkIf (cfg.settings != {}) {
             inherit (cfg) user settings;

@@ -33,7 +33,7 @@ in {
           usageLimitSecrets.${cliproxySource} = config.sops.secrets.cliproxyapi-key.path;
           extras = {
             enableClaude = true;
-            enableCodex = false;
+            enableCodex = true;
             enableOpencode = true;
             enableGit = true;
             enableGitHub = true;
@@ -72,7 +72,7 @@ in {
               };
               codex = {
                 driver = "codex";
-                enabled = false;
+                enabled = true;
                 config.binaryPath = "codex";
               };
               opencode = {

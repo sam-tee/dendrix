@@ -37,10 +37,7 @@ in {
             });
           })
         ];
-        environment.systemPackages = with pkgs; [
-          claude-code
-          opencode
-        ];
+        # claude-code, codex and opencode come from programs.t3code.extras
         sops.secrets = lib.genAttrs [secret goSecret] (_: {owner = username;});
         environment.etc = {
           ${claudeFile}.source = json.generate "claude-managed-settings.json" {
