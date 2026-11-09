@@ -6,11 +6,11 @@ _: {
     ...
   }:
     lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux") (let
-      version = "0.1.8-nightly.20261105.4234";
-      desktop_hash_x86_64 = "sha256-xdjaqgqxfr5skwkPL2fIECjco+Ty8kLukvZyU0ln8r8=";
-      desktop_hash_aarch64 = "sha256-4Lo3VWqXUZ5naXUK+1hP+J223b/4Xkt6GVIhn+DpExc=";
-      cli_hash_x86_64 = "sha256-sNcHobsWTxUWQhNbRwJZRpTHUepvleUT98CHO/LQN5g=";
-      cli_hash_aarch64 = "sha256-3mt2GBoNHR8eLFWxywKA20qBIlSkkXwPXMV8xwpJg8I=";
+      version = "0.1.8-nightly.20261109.4399";
+      desktop_hash_x86_64 = "sha256-Ll7aho1O4rga9tCzAcUXCA2wPRKmxf+RCu7LXKBrDnc=";
+      desktop_hash_aarch64 = "sha256-p75502s1S0TvYl6qZ8lCm0/SwkjvU/d0urEZ51/DgQg=";
+      cli_hash_x86_64 = "sha256-kW4zMnfnndzrPShtLNci29jB6BLslJF7lwszr6AAilY=";
+      cli_hash_aarch64 = "sha256-Wuzf6+iivgWfc9NajseqloQ/ynC++Pq1dwKAZYAQDoQ=";
       isX86 = system == "x86_64-linux";
       desktopSrc = pkgs.fetchurl (
         if isX86
@@ -48,7 +48,9 @@ _: {
           then "t3-${version}-linux-x64"
           else "t3-${version}-linux-arm64";
         nativeBuildInputs = with pkgs; [autoPatchelfHook];
-        buildInputs = with pkgs; [stdenv.cc.cc.lib];
+        # vulkan-loader: @transcribe-cpp ships a Vulkan ggml backend
+        # (libggml-vulkan.so); drivers are found at runtime via /run/opengl-driver.
+        buildInputs = with pkgs; [stdenv.cc.cc.lib vulkan-loader];
         # node_modules ships musl prebuilds next to the glibc ones; they are
         # never loaded on NixOS, so their libc dependency can stay unresolved.
         autoPatchelfIgnoreMissingDeps = ["libc.musl-*.so.1"];
