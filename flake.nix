@@ -4,6 +4,10 @@
       url = "git+https://git.samtee.party/sam-tee/aeroswipe.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    cliproxy-usage-ntfy = {
+      url = "git+https://git.samtee.party/sam-tee/cliproxy-usage-ntfy.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     copyparty = {
       url = "github:9001/copyparty";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -6,6 +6,7 @@ _: {
     ...
   }: {
     packages = lib.genAttrs [
+      "cliproxy-usage-ntfy"
       "deploy-py"
       "nhw"
       "nixpkgs-pr-tracker"

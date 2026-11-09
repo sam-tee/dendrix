@@ -37,6 +37,26 @@
         "type": "github"
       }
     },
+    "cliproxy-usage-ntfy": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794199822,
+        "narHash": "sha256-Ig1PS/ZYH2/4idva25edUQ27hCEMCuhiqYNnGAORfCQ=",
+        "ref": "refs/heads/main",
+        "rev": "9387e3af94628efe531b3bcd42a5347884f34440",
+        "revCount": 1,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/cliproxy-usage-ntfy.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/cliproxy-usage-ntfy.git"
+      }
+    },
     "copyparty": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -610,6 +630,7 @@
     "root": {
       "inputs": {
         "aeroswipe": "aeroswipe",
+        "cliproxy-usage-ntfy": "cliproxy-usage-ntfy",
         "copyparty": "copyparty",
         "deploy-py": "deploy-py",
         "disko": "disko",

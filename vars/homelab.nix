@@ -13,6 +13,7 @@ in {
       caddy = mkService "oracle" 0 "";
       calibre-web = mkPublicService "oracle" 8083 "books";
       cliproxyapi = mkService "u410" 8037 "ai";
+      cliproxy-usage-ntfy = mkService "u410" 0 "";
       copyparty = mkService "u410" 3210 "files";
       forgejo = mkPublicService "oracle" 3000 "git";
       home-assistant = mkService "u410" 8123 "ha";
