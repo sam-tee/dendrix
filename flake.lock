@@ -402,11 +402,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793844634,
-        "narHash": "sha256-9XADhwzN76w6MFQyxL0t3+at1oyr6fk17kHlkkbjnPQ=",
+        "lastModified": 1794302204,
+        "narHash": "sha256-jWMjiicYef8EiDZlbiW+ejDaJhEuxwUV/y+XEaM8C9Q=",
         "ref": "refs/heads/development",
-        "rev": "db0edf8b47468481a1ce85183caf7174efc9d9b4",
-        "revCount": 3239,
+        "rev": "5fe452fc657af31e9b224f4207c18a80bf2a5d78",
+        "revCount": 3246,
         "type": "git",
         "url": "https://git.samtee.party/sam-tee/mobile.git"
       },
