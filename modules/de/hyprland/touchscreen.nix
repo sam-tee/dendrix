@@ -25,7 +25,22 @@ in {
       hjem.extraModules = singleton self.modules.hjem.hyprTouch;
     });
     hjem.hyprTouch = {pkgs, ...}: {
+      # noctalia's lockscreen has no osk: show wvkbd while locked (merged with config.toml)
+      xdg.config.files."noctalia/hyprtouch.toml" = {
+        generator = (pkgs.formats.toml {}).generate "hyprtouch.toml";
+        value.hooks = {
+          session_locked = ["${pkgs.procps}/bin/pkill -USR2 -x wvkbd-mobintl"];
+          session_unlocked = ["${pkgs.procps}/bin/pkill -USR1 -x wvkbd-mobintl"];
+        };
+      };
       xdg.config.files."hypr/hyprland.lua".text = mkAfter ''
+        -- render wvkbd above the session lock and let it take touch input
+        hl.layer_rule({
+          name = "wvkbd-above-lock",
+          match = {namespace = "^wvkbd$"},
+          above_lock = 2,
+        })
+
         hl.on("hyprland.start", function()
           hl.exec_cmd("wvkbd-mobintl")
           hl.exec_cmd("hyprctl plugin load ${hyprgrass pkgs}/lib/libhyprgrass.so")

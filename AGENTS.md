@@ -11,6 +11,8 @@ Files under `lib/` are not flake modules: each is a function of
 `{lib, inputs, self, ...}` returning helpers that are merged into `lib`, so
 flake, NixOS and darwin modules call `lib.mkTsIp` etc.
 
+Run `nix flake check` before reporting task done and fix any errors it produces.
+
 ## Hosts
 
 See [hosts.md](docs/hosts.md) for the full table generated from
@@ -45,4 +47,3 @@ The module will be auto-imported to the host. Option sets should be defined in
 
 Commands are defined in [commands.md](docs/commands.md), covering host deploys, flake checks,
 and reading CI logs (`scripts/ci-logs.sh`; CI runs on Forgejo, not GitHub).
-
