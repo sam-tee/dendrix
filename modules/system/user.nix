@@ -53,10 +53,13 @@
         username,
         ...
       }: {
+        environment.shells = [pkgs.zsh];
         users = {
           knownGroups = ["media"];
+          knownUsers = [username];
           groups.media.gid = groupID;
           users.${username} = {
+            uid = 501;
             home = "/Users/${username}";
             description = username;
             name = username;
