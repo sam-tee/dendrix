@@ -24,6 +24,17 @@ in {
       in {
         # claude-code, codex and opencode come from programs.t3code.extras
         sops.secrets = lib.genAttrs [secret goSecret] (_: {owner = username;});
+        sops.templates."opencode-auth.json" = {
+          owner = username;
+          mode = "0600";
+          path = "${config.xdg.dirs.dataDir}/opencode/auth.json";
+          content = builtins.toJSON {
+            opencode-go = {
+              type = "api";
+              key = config.sops.placeholder.${goSecret};
+            };
+          };
+        };
         environment.etc = {
           ${claudeFile}.source = json.generate "claude-managed-settings.json" {
             env = {
@@ -41,7 +52,6 @@ in {
           ${opencodeFile}.source = json.generate "opencode.json" {
             "$schema" = "https://opencode.ai/config.json";
             autoupdate = false;
-            provider.opencode-go.options.apiKey = "{file:${goKeyFile}}";
           };
           "codex/config.toml".source = toml.generate "codex-config.toml" {
             check_for_update_on_startup = false;
