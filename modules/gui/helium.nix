@@ -1,14 +1,4 @@
-{
-  moduleWithSystem,
-  self,
-  lib,
-  ...
-}: let
-  inherit (lib) concatStringsSep mkIf;
-  inherit (lib.attrsets) concatMapAttrs filterAttrs mapAttrs' mapAttrsToList nameValuePair optionalAttrs getAttr;
-  inherit (lib.generators) toJSON toPlist;
-  inherit (lib.trivial) const;
-
+{self, ...}: let
   vscKeyBindings = [
     {
       action = "slower";
@@ -38,144 +28,72 @@
       predefined = true;
     }
   ];
-
-  extensions = {
-    ublock-origin = {
-      id = "blockjmkbacgjkknlgpkjjiijinjdanf";
-      preinstalled = true;
-      settings.toolbar_pin = "force_pinned";
-    };
-    dark-reader = {
-      id = "eimadpbcbfnmbkopoojfekhnkhdbieeh";
-      settings.toolbar_pin = "force_pinned";
-    };
-    bitwarden = {
-      id = "nngceckbapebfimnlniiiahkandclblb";
-      settings.toolbar_pin = "force_pinned";
-    };
-    zotero-connector.id = "ekhagklcjbdpajgpjgmbionohlpdbjgc";
-    proton-vpn.id = "jplgfhpmjnbigmhklmmbgecoobifkmpa";
-    trakt-scrobbler.id = "mbhadeogepkjdjeikcckdkjdjhhkhlid";
-    sponsorblock.id = "mnjggcdmjocbbbhaepdhchncahnbgone";
-    video-speed-controller = {
-      id = "nffaoalbilbmmfgbnbgppjihopabppdk";
-      policy = {
-        startHidden = true;
-        keyBindings = vscKeyBindings;
-      };
-    };
-    privacy-badger.id = "pkehgijcmpdhfbdbbnkijodmdjhbjlgp";
-    linkwarden.id = "pnidmkljnhbjfffciajlcpeldoljnidn";
-  };
-
-  forcelist =
-    extensions
-    |> filterAttrs (_: extension: !(extension.preinstalled or false))
-    |> mapAttrsToList (const <| getAttr "id");
-
-  extensionSettings =
-    extensions
-    |> concatMapAttrs (
-      _: extension: optionalAttrs (extension ? settings) {${extension.id} = extension.settings;}
-    );
-
-  thirdParty =
-    extensions
-    |> concatMapAttrs (
-      _: extension: optionalAttrs (extension ? policy) {${extension.id} = extension.policy;}
-    );
-
-  siteURL = "https://${self.services.site.fqdn}";
-  policy = {
-    NewTabPageLocation = siteURL;
-    ExtensionInstallForcelist = forcelist;
-    ExtensionSettings = extensionSettings;
-    "3rdparty".extensions = thirdParty;
-  };
 in {
   flake.modules = {
-    darwin.default = self.modules.darwin.helium;
-    nixos.gui = self.modules.nixos.helium;
-    generic.helium = moduleWithSystem ({inputs', ...}: _: {
-      environment.systemPackages = [inputs'.helium.packages.default];
-      hjem.extraModules = [self.modules.hjem.helium];
-    });
-    nixos.helium = {
-      imports = [self.modules.generic.helium];
-      xdg.mime.defaultApplications = {
-        "text/html" = "helium.desktop";
-        "application/xhtml+xml" = "helium.desktop";
-        "x-scheme-handler/http" = "helium.desktop";
-        "x-scheme-handler/https" = "helium.desktop";
-        "x-scheme-handler/about" = "helium.desktop";
-        "x-scheme-handler/unknown" = "helium.desktop";
-        "application/pdf" = "helium.desktop";
-      };
-      programs.chromium = {
+    darwin.default = self.modules.generic.helium;
+    nixos = {
+      gui = self.modules.nixos.helium;
+      helium = self.modules.generic.helium;
+    };
+    generic.helium = {config, ...}: {
+      programs.helium = {
         enable = true;
-        extensions = forcelist;
-        extraOpts = {
-          NewTabPageLocation = siteURL;
-          ExtensionSettings = extensionSettings;
-          "3rdparty".extensions = thirdParty;
-        };
-      };
-    };
-    darwin.helium = {pkgs, ...}: {
-      imports = [self.modules.generic.helium];
-      system.activationScripts.helium-policy.text = let
-        heliumPlist = pkgs.writeText "net.imput.helium.plist" (toPlist {escape = true;} policy);
-        extensionPlists = mapAttrs' (id: extensionPolicy: nameValuePair id (pkgs.writeText "net.imput.helium.extensions.${id}.plist" (toPlist {escape = true;} extensionPolicy))) thirdParty;
-      in ''
-        mkdir -p "/Library/Managed Preferences"
-        cp ${heliumPlist} "/Library/Managed Preferences/net.imput.helium.plist"
-        ${extensionPlists |> mapAttrsToList (id: file: ''cp ${file} "/Library/Managed Preferences/net.imput.helium.extensions.${id}.plist"'') |> concatStringsSep "\n"}
-      '';
-    };
-    hjem.helium = {
-      osConfig,
-      pkgs,
-      ...
-    }: let
-      isLinux = pkgs.stdenv.hostPlatform.isLinux;
-      preferences = {
-        helium = {
-          completed_onboarding = true;
-          services = {
-            schema_version = 1;
-            user_consented = true;
+        policies.NewTabPageLocation = "https://${self.services.site.fqdn}";
+        extensions = {
+          ublock-origin = {
+            id = "blockjmkbacgjkknlgpkjjiijinjdanf";
+            preinstalled = true;
+            settings.toolbar_pin = "force_pinned";
           };
-          browser = {
-            centered_location_bar = true;
-            layout =
-              if (osConfig.mobile.enable or false)
-              then 3
-              else 2;
-            minimal_location_bar = false;
-            rounded_frame = false;
-            vertical_right_aligned = true;
-            zen_mode = false;
-            zen_mode_sidebar_pinned = true;
-            zen_mode_top_chrome_pinned = true;
+          bitwarden = {
+            id = "nngceckbapebfimnlniiiahkandclblb";
+            settings.toolbar_pin = "force_pinned";
           };
+          zotero-connector.id = "ekhagklcjbdpajgpjgmbionohlpdbjgc";
+          proton-vpn.id = "jplgfhpmjnbigmhklmmbgecoobifkmpa";
+          trakt-scrobbler.id = "mbhadeogepkjdjeikcckdkjdjhhkhlid";
+          sponsorblock.id = "mnjggcdmjocbbbhaepdhchncahnbgone";
+          video-speed-controller = {
+            id = "nffaoalbilbmmfgbnbgppjihopabppdk";
+            policy = {
+              startHidden = true;
+              keyBindings = vscKeyBindings;
+            };
+          };
+          privacy-badger.id = "pkehgijcmpdhfbdbbnkijodmdjhbjlgp";
+          linkwarden.id = "pnidmkljnhbjfffciajlcpeldoljnidn";
         };
-        browser.theme.is_grayscale2 = true;
-        intl.selected_languages = "en-GB,en-US,en";
-        spellcheck.dictionaries = ["en-GB"];
-        vertical_tabs = {
-          collapsed_state = true;
-          uncollapsed_width = 200;
+        preferences = {
+          helium = {
+            completed_onboarding = true;
+            services = {
+              schema_version = 1;
+              user_consented = true;
+            };
+            browser = {
+              centered_location_bar = true;
+              layout =
+                if (config.mobile.enable or false)
+                then 3
+                else 2;
+              minimal_location_bar = false;
+              rounded_frame = false;
+              vertical_right_aligned = true;
+              zen_mode = false;
+              zen_mode_sidebar_pinned = true;
+              zen_mode_top_chrome_pinned = true;
+            };
+          };
+          browser.theme.is_grayscale2 = true;
+          intl.selected_languages = "en-GB,en-US,en";
+          spellcheck.dictionaries = ["en-GB"];
+          vertical_tabs = {
+            collapsed_state = true;
+            uncollapsed_width = 200;
+          };
+          privacy_sandbox.first_party_sets_enabled = false;
         };
-        privacy_sandbox.first_party_sets_enabled = false;
       };
-      preferenceFile = {
-        generator = toJSON {};
-        value = preferences;
-        type = "copy";
-      };
-    in {
-      xdg.config.files."net.imput.helium/Default/Preferences" = mkIf isLinux preferenceFile;
-      files."Library/Application Support/net.imput.helium/Default/Preferences" = mkIf (!isLinux) preferenceFile;
     };
   };
 }
