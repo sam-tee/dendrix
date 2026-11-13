@@ -17,7 +17,6 @@ in {
         ...
       }: let
         keyFile = config.sops.secrets.${secret}.path;
-        goKeyFile = config.sops.secrets.${goSecret}.path;
         cat = "${pkgs.coreutils}/bin/cat";
         json = pkgs.formats.json {};
         toml = pkgs.formats.toml {};
