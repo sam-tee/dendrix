@@ -32,7 +32,11 @@
       };
     };
     darwin.default = self.modules.darwin.system;
-    darwin.system = _: {
+    darwin.system = {
+      config,
+      pkgs,
+      ...
+    }: {
       documentation = {
         man.enable = true;
         info.enable = false;
@@ -97,11 +101,11 @@
             showhidden = true;
             tilesize = 34;
             persistent-apps = [
-              {app = "/Applications/Nix Apps/Helium.app";}
-              {app = "/Applications/Nix Apps/Zed.app";}
-              {app = "/Applications/Nix Apps/Ghostty.app";}
-              {app = "/Applications/Nix Apps/T3 Code (Alpha).app";}
-              {app = "/Applications/Nix Apps/Spotify.app";}
+              {app = "${config.programs.helium.package}/Applications/Helium.app";}
+              {app = "${pkgs.zed-editor}/Applications/Zed.app";}
+              {app = "${pkgs.ghostty-bin}/Applications/Ghostty.app";}
+              {app = "${pkgs.t3code}/Applications/T3 Code (Beta).app";}
+              {app = "${pkgs.spotify}/Applications/Spotify.app";}
             ];
           };
           finder = {
