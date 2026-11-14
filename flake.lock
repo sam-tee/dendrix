@@ -294,11 +294,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794313532,
-        "narHash": "sha256-0dKSs9yz1zJ5Fr1ouWRoc3pCSm16Dq1NiGe0INkDKJc=",
+        "lastModified": 1794597681,
+        "narHash": "sha256-dteS+YYEOrbYupP9U8EvYxBNTTlf4Lup0ji51ubGv+I=",
         "owner": "amaanq",
         "repo": "helium-flake",
-        "rev": "20568958fc47239af0a4ac7441bc52357ca95f7d",
+        "rev": "698f12b0a5b93aa2c6b582779bdb683f0d8692a3",
         "type": "github"
       },
       "original": {
@@ -314,11 +314,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794190356,
-        "narHash": "sha256-tttNqwFIXsClznNv3uEltACsfBm8xIDo9bPl+BHqYZc=",
+        "lastModified": 1794572558,
+        "narHash": "sha256-N6aGkpxbDeisIUygDapIVX2aXZuGEK4kRmUPMhtu1zc=",
         "owner": "feel-co",
         "repo": "hjem",
-        "rev": "28cec3017cc94842f919f8f294c8b7136216b79b",
+        "rev": "5469a3ae3cd5cc182ddc4201a21a8de44b2c26f2",
         "type": "github"
       },
       "original": {
@@ -330,11 +330,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1794526770,
-        "narHash": "sha256-4cBs+/WbW4Q15w9LyaaQbUripUa+VAkpDwLPSF27bs8=",
+        "lastModified": 1794613744,
+        "narHash": "sha256-xcnk8YKBly/XCUleAHAa3Mv0fXuxmgcp4GXbb9kl51o=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "3be59a621a64931d1946b8bddbd69747019d43db",
+        "rev": "855b7c8ba29d5ac833d071053c83e66ddacfa679",
         "type": "github"
       },
       "original": {
@@ -346,11 +346,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1794526969,
-        "narHash": "sha256-NSjz8KowKrDc8Yp5KCNadu4ZBh5sgq8DgOrM55ytNQI=",
+        "lastModified": 1794613723,
+        "narHash": "sha256-wQHGgJrvvbU5I9gH+5mRd0oSpGN9aVkUMu36wjFzirc=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "7cc9ae2a580dd99b4c98fb9ca2276c5121c0a623",
+        "rev": "148aa75dfcc6edc97b198e64e746d636b4c3a75f",
         "type": "github"
       },
       "original": {
@@ -591,11 +591,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794427499,
-        "narHash": "sha256-3OIGGdzGTBZlrfpVp//t6osVtxO0/RWrVabH+YsWcZY=",
+        "lastModified": 1794601262,
+        "narHash": "sha256-PmU5AFj9tz3u6d+ZP86TEFE+dmo4DN5LyHJ4/fKzJU0=",
         "owner": "karinushka",
         "repo": "paneru",
-        "rev": "092b55c0fb18e6d041169879f5878f11891ed5b2",
+        "rev": "ad97c84aa20bf99cfc6db72da9afd1dc36c27874",
         "type": "github"
       },
       "original": {
