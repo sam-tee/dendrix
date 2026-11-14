@@ -15,15 +15,11 @@ in {
     modules.nixos = {
       ${hostname} = {pkgs, ...}: {
         environment.systemPackages = [pkgs.ffmpeg-headless];
-        systemd.services.forgejo-runner-default = {
-          serviceConfig = {
-            MemoryHigh = "16G";
-            MemoryMax = "20G";
-          };
-          unitConfig = {
-            ManagedOOMMemoryPressure = "kill";
-            ManagedOOMSwap = "kill";
-          };
+        systemd.services.forgejo-runner-default.serviceConfig = {
+          MemoryHigh = "16G";
+          MemoryMax = "20G";
+          ManagedOOMMemoryPressure = "kill";
+          ManagedOOMSwap = "kill";
         };
       };
 

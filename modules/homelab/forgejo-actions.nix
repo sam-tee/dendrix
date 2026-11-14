@@ -7,6 +7,10 @@
     cfg = config.services.forgejo;
   in {
     sops.secrets."forgejo/tokenFile".owner = cfg.user;
+    systemd.services.forgejo-runner-default = {
+      after = ["forgejo.service"];
+      wants = ["forgejo.service"];
+    };
     services.forgejo-runner = {
       package = pkgs.forgejo-runner;
       instances.default = {
