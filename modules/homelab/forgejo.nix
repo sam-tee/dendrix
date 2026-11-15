@@ -10,7 +10,7 @@
     inherit (hl) caddyIP email machineIP;
     inherit (self.services.forgejo) fqdn port;
   in {
-    imports = with self.modules.nixos; [forgejo-actions forgejo-theme];
+    imports = with self.modules.nixos; [forgejo-actions forgejo-templates forgejo-theme];
 
     sops.secrets = {
       "forgejo/adminPwd".owner = cfg.user;
