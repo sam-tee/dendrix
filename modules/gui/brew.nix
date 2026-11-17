@@ -48,10 +48,15 @@
         taps = builtins.attrNames config.nix-homebrew.taps;
         onActivation.cleanup = "zap";
       };
-      environment.variables = {
-        HOMEBREW_CACHE = "${config.xdg.dirs.cacheDir}/homebrew";
-        HOMEBREW_LOGS = "${config.xdg.dirs.stateDir}/homebrew";
-      };
+      # Read by every brew run, including activation, which lacks the user's
+      # XDG_CONFIG_HOME and would otherwise create ~/.homebrew
+      environment.etc."homebrew/brew.env".text = let
+        inherit (config.xdg.dirs) cacheDir configDir stateDir;
+      in ''
+        HOMEBREW_XDG_CONFIG_HOME=${configDir}
+        HOMEBREW_CACHE=${cacheDir}/homebrew
+        HOMEBREW_LOGS=${stateDir}/homebrew
+      '';
     };
   };
 }

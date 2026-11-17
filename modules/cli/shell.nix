@@ -87,15 +87,6 @@ in {
           (mkAfter ''
             ${strShellAliases}
             [[ -d "${stateDir}/less" ]] || mkdir -p "${stateDir}/less"
-            # atuin hardcodes ~/.atuin/logs and ignores XDG; redirect it into state
-            [[ -d "${stateDir}/atuin/logs" ]] || mkdir -p "${stateDir}/atuin/logs"
-            if [ ! -L "$HOME/.atuin" ]; then
-              if [ -d "$HOME/.atuin/logs" ]; then
-                mv "$HOME/.atuin/logs"/* "${stateDir}/atuin/logs/" 2>/dev/null || true
-              fi
-              rm -rf "$HOME/.atuin"
-              ln -s "${stateDir}/atuin" "$HOME/.atuin"
-            fi
             if [ -n "$SSH_AUTH_SOCK" ]; then
               ssh-add ~/.ssh/keys/{git,git-sign} >/dev/null 2>&1 &!
             fi

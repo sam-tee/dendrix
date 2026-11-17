@@ -14,6 +14,7 @@ in {
             host = self.hosts.${config.networking.hostName}.tailscaleIP;
             inherit port;
             environment = {
+              inherit (config.environment.variables) CLAUDE_CONFIG_DIR CODEX_HOME;
               FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
               NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
               NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
@@ -51,6 +52,7 @@ in {
             defaultAutoPull = true;
             enableProviderUpdateChecks = false;
             enableAgentDeviceAccess = true;
+            linkedEnvironmentsEnabled = true;
             enableDeviceSupport = true;
             deviceOnboardingCompleted = true;
             idleCompaction = "onReturn";

@@ -34,36 +34,43 @@ in {
             };
           };
         };
-        environment.etc = {
-          ${claudeFile}.source = json.generate "claude-managed-settings.json" {
-            env = {
-              ANTHROPIC_BASE_URL = baseURL;
-              DISABLE_AUTOUPDATER = "1";
+        environment = {
+          variables = {
+            CLAUDE_CONFIG_DIR = "${config.xdg.dirs.configDir}/claude";
+            CODEX_HOME = "${config.xdg.dirs.configDir}/codex";
+          };
+          systemPackages = with pkgs; [muse-code];
+          etc = {
+            ${claudeFile}.source = json.generate "claude-managed-settings.json" {
+              env = {
+                ANTHROPIC_BASE_URL = baseURL;
+                DISABLE_AUTOUPDATER = "1";
+              };
+              promptCacheTtl = "1h";
+              apiKeyHelper = "${cat} ${keyFile}";
+              permissions.defaultMode = "auto";
+              theme = "dark-ansi";
+              autoMemoryEnabled = false;
+              switchModelsOnFlag = false;
+              pluginConfigs."cc-plugin-agents-md@builtin".options.instructionFiles = "claude-md-or-agents-md";
             };
-            promptCacheTtl = "1h";
-            apiKeyHelper = "${cat} ${keyFile}";
-            permissions.defaultMode = "auto";
-            theme = "dark-ansi";
-            autoMemoryEnabled = false;
-            switchModelsOnFlag = false;
-            pluginConfigs."cc-plugin-agents-md@builtin".options.instructionFiles = "claude-md-or-agents-md";
-          };
-          ${opencodeFile}.source = json.generate "opencode.json" {
-            "$schema" = "https://opencode.ai/config.json";
-            autoupdate = false;
-          };
-          "codex/config.toml".source = toml.generate "codex-config.toml" {
-            check_for_update_on_startup = false;
-            model_provider = "cliproxyapi";
-            model_providers.cliproxyapi = {
-              name = "CLIProxyAPI";
-              base_url = "${baseURL}/v1";
-              wire_api = "responses";
-              requires_openai_auth = false;
-              supports_websockets = true;
-              auth = {
-                command = cat;
-                args = [keyFile];
+            ${opencodeFile}.source = json.generate "opencode.json" {
+              "$schema" = "https://opencode.ai/config.json";
+              autoupdate = false;
+            };
+            "codex/config.toml".source = toml.generate "codex-config.toml" {
+              check_for_update_on_startup = false;
+              model_provider = "cliproxyapi";
+              model_providers.cliproxyapi = {
+                name = "CLIProxyAPI";
+                base_url = "${baseURL}/v1";
+                wire_api = "responses";
+                requires_openai_auth = false;
+                supports_websockets = true;
+                auth = {
+                  command = cat;
+                  args = [keyFile];
+                };
               };
             };
           };
@@ -73,10 +80,19 @@ in {
 
     darwin = {
       default = self.modules.darwin.ai;
-      ai = let
+      ai = {config, ...}: let
         claudeDir = "/Library/Application Support/ClaudeCode/managed-settings.d";
         opencodeDir = "/Library/Application Support/opencode";
+        inherit (config.environment.variables) CLAUDE_CONFIG_DIR CODEX_HOME;
       in {
+        # GUI apps (T3 Code) don't see environment.variables
+        launchd.user.agents.ai-env = {
+          script = ''
+            /bin/launchctl setenv CLAUDE_CONFIG_DIR "${CLAUDE_CONFIG_DIR}"
+            /bin/launchctl setenv CODEX_HOME "${CODEX_HOME}"
+          '';
+          serviceConfig.RunAtLoad = true;
+        };
         system.activationScripts.postActivation.text = ''
           mkdir -p "${claudeDir}" "${opencodeDir}"
           install -m 644 /etc/${claudeFile} "${claudeDir}/dendrix.json"
