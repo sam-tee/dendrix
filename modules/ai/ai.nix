@@ -16,13 +16,34 @@ in {
         username,
         ...
       }: let
+        inherit (lib) genAttrs listToAttrs mapAttrs' nameValuePair removePrefix singleton;
+        inherit (lib.filesystem) listFilesRecursive;
+        inherit (self.cosmetic) fonts theme;
         keyFile = config.sops.secrets.${secret}.path;
         cat = "${pkgs.coreutils}/bin/cat";
         json = pkgs.formats.json {};
         toml = pkgs.formats.toml {};
+        skillFiles =
+          listToAttrs (map (f: nameValuePair (removePrefix "${toString ./skills}/" (toString f)) f)
+            (listFilesRecursive ./skills))
+          // {
+            "ui-configuration/theme.toml" = toml.generate "theme.toml" theme.attrs;
+            "ui-configuration/SKILL.md" = pkgs.replaceVars ./skills/ui-configuration/SKILL.md {
+              monoFont = fonts.mono.name;
+              uiFont = fonts.ui.name;
+            };
+          };
+        agentFiles = dir: instructions:
+          {"${dir}/${instructions}".source = ./AGENTS.md;}
+          // mapAttrs' (rel: source: nameValuePair "${dir}/skills/${rel}" {inherit source;}) skillFiles;
       in {
-        # claude-code, codex and opencode come from programs.t3code.extras
-        sops.secrets = lib.genAttrs [secret goSecret] (_: {owner = username;});
+        hjem.extraModules = singleton {
+          xdg.config.files =
+            agentFiles "claude" "CLAUDE.md"
+            // agentFiles "codex" "AGENTS.md"
+            // agentFiles "opencode" "AGENTS.md";
+        };
+        sops.secrets = genAttrs [secret goSecret] (_: {owner = username;});
         sops.templates."opencode-auth.json" = {
           owner = username;
           mode = "0600";

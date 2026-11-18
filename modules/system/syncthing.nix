@@ -20,6 +20,10 @@
       path = "~/data";
       devices = ["a3" "duet" "oracle" "u410"];
     };
+    site = {
+      path = "~/site";
+      devices = allDevices;
+    };
     books = {
       path = "~/books";
       devices = ["a3" "duet" "mba" "oracle" "s340" "u410"];
@@ -28,12 +32,8 @@
       path = "~/.config/calibre";
       devices = ["a3" "mba" "oracle" "s340" "u410"];
     };
-    Docs = {
+    Documents = {
       path = "~/Documents";
-      devices = allDevices;
-    };
-    ai = {
-      path = "~/.agents";
       devices = allDevices;
     };
   };
