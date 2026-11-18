@@ -3,16 +3,23 @@
   inherit (self.services.t3) port;
   inherit (self.cosmetic) fonts;
   cliproxySource = "cliproxy-${cliproxyapi.fqdn}";
+  serveArgs = target: "serve --bg --https=8443 ${target}";
 in {
   flake.modules = {
     nixos = {
       default = self.modules.nixos.t3;
-      t3 = {config, ...}: {
+      t3 = {
+        config,
+        lib,
+        ...
+      }: let
+        host = self.hosts.${config.networking.hostName}.tailscaleIP;
+        tailscale = lib.getExe config.services.tailscale.package;
+      in {
         programs.t3code = {
           service = {
             enable = true;
-            host = self.hosts.${config.networking.hostName}.tailscaleIP;
-            inherit port;
+            inherit host port;
             environment = {
               inherit (config.environment.variables) CLAUDE_CONFIG_DIR CODEX_HOME;
               FJ_FALLBACK_HOST = "https://${self.services.forgejo.fqdn}";
@@ -22,7 +29,35 @@ in {
           };
           desktopSettings.localEnvironmentEnabled = false;
         };
-        systemd.services.t3code.after = ["tailscaled.service"];
+        systemd.services = {
+          t3code.after = ["tailscaled.service"];
+          t3code-tailscale-serve = {
+            description = "Serve T3 Code over HTTPS on the tailnet";
+            after = ["tailscaled.service" "tailscaled-autoconnect.service" "t3code.service"];
+            wants = ["tailscaled.service"];
+            wantedBy = ["multi-user.target"];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+              Restart = "on-failure";
+              RestartSec = 10;
+              ExecStart = "${tailscale} ${serveArgs "http://${host}:${toString port}"}";
+              ExecStop = "${tailscale} serve --https=8443 off";
+            };
+          };
+        };
+      };
+    };
+
+    darwin = {
+      default = self.modules.darwin.t3;
+      t3.launchd.user.agents.t3code-tailscale-serve = {
+        command = "/Applications/Tailscale.app/Contents/MacOS/Tailscale ${serveArgs "http://127.0.0.1:${toString port}"}";
+        serviceConfig = {
+          RunAtLoad = true;
+          KeepAlive.SuccessfulExit = false;
+          ThrottleInterval = 30;
+        };
       };
     };
 
