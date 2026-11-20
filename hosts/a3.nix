@@ -40,7 +40,9 @@ in {
         ];
         hjem.extraModules = singleton {
           xdg.config.files."hypr/hyprland.lua".text = ''
-            hl.monitor({output="HDMI-A-3", scale=1.5, mode="3840x2160@60.00Hz"})
+            hl.monitor({output="DP-1", scale=1, mode="1920x1080@165Hz", position="320x1440"})
+            hl.monitor({output="DP-4", scale=1, mode="2560x1440@59.99Hz", position="0x0", transform=2})
+            hl.monitor({output="HDMI-A-3", scale=1, mode="1920x1080@60Hz", position="2560x300", transform=1})
           '';
         };
       };
