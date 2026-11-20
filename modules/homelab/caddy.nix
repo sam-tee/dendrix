@@ -35,7 +35,6 @@
         extraDomainNames = ["*.${domain}"];
         dnsProvider = "cloudflare";
         dnsResolver = "1.1.1.1:53";
-        dnsPropagationCheck = true;
         group = config.services.caddy.group;
         environmentFile = config.sops.secrets.cloudflareAPI.path;
       };
