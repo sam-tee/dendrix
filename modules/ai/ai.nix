@@ -60,7 +60,7 @@ in {
             CLAUDE_CONFIG_DIR = "${config.xdg.dirs.configDir}/claude";
             CODEX_HOME = "${config.xdg.dirs.configDir}/codex";
           };
-          systemPackages = with pkgs; [muse-code];
+          systemPackages = with pkgs; [antigravity-acp muse-code];
           etc = {
             ${claudeFile}.source = json.generate "claude-managed-settings.json" {
               env = {
