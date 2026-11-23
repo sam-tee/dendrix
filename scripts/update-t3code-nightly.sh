@@ -112,8 +112,8 @@ bump_file() {
   echo "bumped $file to $ver"
 }
 
-desktop_x86="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/T3-Code-${latest}-x86_64.AppImage" "desktop x86_64")"
-desktop_arm="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/T3-Code-${latest}-arm64.AppImage" "desktop arm64")"
+desktop_x86="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/T3-Code-Nightly-x86_64.AppImage" "desktop x86_64")"
+desktop_arm="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/T3-Code-Nightly-arm64.AppImage" "desktop arm64")"
 cli_x86="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/t3-${latest}-linux-x64.tar.gz" "CLI x86_64")"
 cli_arm="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/t3-${latest}-linux-arm64.tar.gz" "CLI arm64")"
 
