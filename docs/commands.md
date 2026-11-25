@@ -43,7 +43,7 @@ Hosts with `autoDeploy` (default: servers) run [comin](https://github.com/nlewo/
 (`modules/system/comin.nix`) and deploy themselves from the `deploy` branch,
 which CI force-pushes to the built `main` commit after a successful build
 and cache push (comin ignores it if it ever moves backwards).
-Results are posted to the `deploy` ntfy topic. Set
+Results are posted to the `dendrix` ntfy topic, alongside CI. Set
 `hosts.<name>.autoDeploy = false` to opt a server out.
 
 To trial a commit on one server without a boot entry, push it on top of

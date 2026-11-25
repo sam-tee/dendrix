@@ -39,7 +39,7 @@
           -H "Priority: $priority" \
           -H "Tags: $tags" \
           -d "$body" \
-          "https://${self.services.ntfy.fqdn}/deploy" >/dev/null || true
+          "https://${self.services.ntfy.fqdn}/dendrix" >/dev/null || true
       '';
     };
   in {
