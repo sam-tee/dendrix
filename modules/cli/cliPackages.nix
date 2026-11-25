@@ -26,6 +26,7 @@ in {
           btop
           chafa
           direnv
+          dix
           dua
           eza
           fzf
