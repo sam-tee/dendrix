@@ -72,10 +72,23 @@ jobs:
           git commit -m "chore: update flake lock and t3code nightly"
           git push
 
+      - name: Release to servers
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -eu
+
+          if git fetch --quiet origin deploy \
+            && git merge-base --is-ancestor HEAD FETCH_HEAD; then
+            echo "deploy already contains $(git rev-parse --short HEAD)"
+            exit 0
+          fi
+          git push origin HEAD:refs/heads/deploy
+
       - name: Send ntfy notification
         if: always()
         env:
           EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
         run: |
           status="${{ job.status }}"
@@ -89,11 +102,14 @@ jobs:
             else
               body="Successfully built and cached dendrix"
             fi
+            if [ "$REF" = "refs/heads/main" ]; then
+              body="$body, and released to servers"
+            fi
           else
             title="Dendrix Cache Failed"
             priority="high"
             tags="warning,x"
-            body="Dendrix build and cache failed ($EVENT)"
+            body="Dendrix build, cache or release failed ($EVENT)"
           fi
 
           curl \

@@ -39,6 +39,22 @@ sudo nixos-rebuild switch --flake ~/dendrix#<hostname>
 nhw -H <hostname> -R
 ```
 
+Hosts with `autoDeploy` (default: servers) run [comin](https://github.com/nlewo/comin)
+(`modules/system/comin.nix`) and deploy themselves from the `deploy` branch,
+which CI fast-forwards to `main` after a successful build and cache push.
+Results are posted to the `deploy` ntfy topic. Set
+`hosts.<name>.autoDeploy = false` to opt a server out.
+
+To trial a commit on one server without a boot entry, push it on top of
+`deploy` to `testing-<hostname>`:
+
+```sh
+git push origin HEAD:testing-<hostname>
+```
+
+Manual `nhw` deploys to these hosts are replaced by the next commit comin
+deploys.
+
 ## CI runs and logs (Forgejo Actions):
 
 CI is `.forgejo/workflows/cache.yml` on `git.samtee.party` (not GitHub, so

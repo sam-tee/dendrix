@@ -1,9 +1,9 @@
 {lib, ...}: let
   inherit (lib) mkOption;
-  inherit (lib.types) str submodule enum attrsOf listOf nullOr int;
+  inherit (lib.types) bool str submodule enum attrsOf listOf nullOr int;
 in {
   options.flake.hosts = mkOption {
-    type = attrsOf (submodule {
+    type = attrsOf (submodule ({config, ...}: {
       options = {
         username = mkOption {
           type = str;
@@ -58,7 +58,13 @@ in {
           default = [];
           description = "Extra flake modules to import for this host, resolved in the mk* helper's namespace (e.g. self.modules.nixos). Desktop/server hosts also auto-import `<hostname>Hardware` (required) and `<hostname>Disko` when defined.";
         };
+        autoDeploy = mkOption {
+          type = bool;
+          default = config.hostType == "server";
+          defaultText = ''hostType == "server"'';
+          description = "Run comin so this host deploys itself from the `deploy` branch, which CI advances after a successful build on main (see modules/system/comin.nix).";
+        };
       };
-    });
+    }));
   };
 }
