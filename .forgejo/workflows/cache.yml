@@ -83,27 +83,32 @@ jobs:
         env:
           EVENT: ${{ github.event_name }}
           REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
         run: |
           status="${{ job.status }}"
 
-          if [ "$status" = "success" ]; then
-            title="Dendrix Cache Success"
-            priority="default"
-            tags="package,white_check_mark"
-            if [ "$EVENT" = "schedule" ] || [ "$EVENT" = "workflow_dispatch" ]; then
-              body="Successfully built, cached, and updated lock files for dendrix"
+          if [ "$EVENT" = "schedule" ] || [ "$EVENT" = "workflow_dispatch" ]; then
+            if [ "$status" = "success" ]; then
+              body="Updated lock file"
             else
-              body="Successfully built and cached dendrix"
-            fi
-            if [ "$REF" = "refs/heads/main" ]; then
-              body="$body, and released to servers"
+              body="Lock file update"
             fi
           else
-            title="Dendrix Cache Failed"
+            body="${SHA:0:8} $(git log -1 --format=%s "$SHA" 2>/dev/null || true)"
+          fi
+
+          if [ "$status" = "success" ]; then
+            title="Dendrix Cache Success"
+            if [ "$REF" = "refs/heads/main" ]; then
+              title="Dendrix Cached and Released"
+            fi
+            priority="default"
+            tags="package,white_check_mark"
+          else
+            title="Dendrix Cache Failed ($EVENT)"
             priority="high"
             tags="warning,x"
-            body="Dendrix build, cache or release failed ($EVENT)"
           fi
 
           curl \
