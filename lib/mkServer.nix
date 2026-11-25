@@ -5,7 +5,6 @@
 }: let
   inherit (lib) mkNixosModules nixosSystem;
 in {
-  # Like mkNixos, but also imports the shared headless-server module.
   mkServer = hostname: {
     ${hostname} = nixosSystem {
       specialArgs = {

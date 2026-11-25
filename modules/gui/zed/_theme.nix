@@ -1,7 +1,7 @@
 theme: variant: let
   name = "${theme.name}-${variant}";
   inherit (theme) author opacity;
-  base_ = "${theme.${variant}.base00}00"; #fully transparent for placeholders
+  base_ = "${theme.${variant}.base00}00";
   baseBG = "${theme.${variant}.base00}${opacity}";
   baseBG_alt = "${theme.${variant}.base01}${opacity}";
   baseBorder = "${theme.${variant}.base01}";

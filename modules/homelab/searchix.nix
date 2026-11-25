@@ -9,7 +9,6 @@
     ...
   }: let
     inherit (self.services.searchix) fqdn port;
-    # Track the same channel as this flake's nixpkgs input.
     nixpkgsUrl = (lib.importJSON (self + "/flake.lock")).nodes.nixpkgs.original.url;
     channelMatch = builtins.match "https://channels.nixos.org/([^/]+)/.*" nixpkgsUrl;
     channel =

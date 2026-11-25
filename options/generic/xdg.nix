@@ -43,7 +43,6 @@
           description = "XDG state directory (XDG_STATE_HOME).";
         };
       };
-      # Sets each hjem user's XDG directories from these (see options/hjem/xdg.nix)
       config.hjem.extraModules = [self.modules.hjem.xdg];
     };
   };

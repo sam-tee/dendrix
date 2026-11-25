@@ -1,4 +1,3 @@
-# T3 Code: package (with optional extras), declarative settings and a server service
 {
   flake.modules.generic.default = {
     config,
@@ -8,13 +7,12 @@
     username,
     ...
   }: let
-    inherit (lib) attrNames concatMap concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs;
+    inherit (lib) attrNames concatMap concatMapAttrsStringSep escapeShellArg escapeShellArgs filterAttrs functionArgs genAttrs getExe' hasPrefix literalExpression makeBinPath mkEnableOption mkIf mkMerge mkOption mkOrder optional optionalAttrs platformFromOptions;
     inherit (lib.types) attrsOf bool enum listOf nullOr package path port str;
 
     cfg = config.programs.t3code;
     svc = cfg.service;
     jsonFormat = pkgs.formats.json {};
-    # Runtime secrets can't go through the Nix store, so install them on activation
     secretsScript = pkgs.writeShellScript "t3code-secrets" ''
       set -eu
       PATH=${makeBinPath [pkgs.coreutils]}
@@ -30,11 +28,8 @@
         '')
         cfg.usageLimitSecrets}
     '';
-    # pkgs.stdenv.hostPlatform.is<Platform> causes infinite recursion so bodge
-    isLinux = options ? systemd;
-    isDarwin = options ? launchd;
+    inherit (platformFromOptions options) isDarwin isLinux;
 
-    # Extras are the package's `enable*` override flags, e.g. extras.enableGitHub
     extraFlags = pkgs:
       functionArgs pkgs.t3code.override
       |> attrNames
@@ -254,7 +249,6 @@
       (optionalAttrs isLinux {
         environment.sessionVariables.T3CODE_HOME = cfg.home;
         system.activationScripts.t3code-secrets = mkIf (cfg.usageLimitSecrets != {}) {
-          # setupSecrets: sops-nix secrets referenced by usageLimitSecrets
           deps = ["users"] ++ optional (config.system.activationScripts ? setupSecrets) "setupSecrets";
           text = ''
             ${pkgs.util-linux}/bin/runuser -u ${cfg.user} -- ${secretsScript} \
@@ -267,7 +261,6 @@
           after = ["network-online.target"];
           wants = ["network-online.target"];
           wantedBy = ["multi-user.target"];
-          # Activation runs before units restart, so this picks up merged settings
           restartTriggers = [secretsScript (builtins.hashString "sha256" (builtins.toJSON [cfg.settings cfg.uiSettings]))];
           environment = {T3CODE_HOME = cfg.home;} // svc.environment;
           serviceConfig = {
@@ -291,7 +284,6 @@
 
       (optionalAttrs isDarwin {
         environment.variables.T3CODE_HOME = cfg.home;
-        # After sops-nix's mkAfter secret install
         system.activationScripts.postActivation.text = mkIf (cfg.usageLimitSecrets != {}) (mkOrder 2000 ''
           /usr/bin/sudo -u ${cfg.user} ${secretsScript} \
             || echo "warning: failed to install t3code secrets" >&2

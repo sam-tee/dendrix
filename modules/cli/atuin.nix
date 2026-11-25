@@ -38,7 +38,6 @@
           update_check = false;
           key_path = config.sops.secrets."atuin-key".path;
           session_path = config.sops.secrets."atuin-session".path;
-          # both default to ~/.atuin when unset
           data_dir = "${config.xdg.dirs.dataDir}/atuin";
           logs.dir = "${config.xdg.dirs.stateDir}/atuin/logs";
         };

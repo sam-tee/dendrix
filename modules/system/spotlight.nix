@@ -18,8 +18,6 @@
         );
       ctrlSpace = [32 49 262144];
     in {
-      # Merge individual entries with -dict-add: CustomUserPreferences would
-      # replace the whole AppleSymbolicHotKeys dict and reset other shortcuts.
       system.activationScripts.postActivation.text = ''
         echo >&2 "spotlight hotkey..."
         launchctl asuser "$(id -u -- ${user})" sudo --user=${user} -- \

@@ -24,10 +24,10 @@
           };
           database.url = "postgres://atticd@localhost/atticd?host=/run/postgresql";
           chunking = {
-            nar-size-threshold = 64 * 1024; # 64 KiB
-            min-size = 16 * 1024; # 16 KiB
-            avg-size = 64 * 1024; # 64 KiB
-            max-size = 256 * 1024; # 256 KiB
+            nar-size-threshold = 64 * 1024;
+            min-size = 16 * 1024;
+            avg-size = 64 * 1024;
+            max-size = 256 * 1024;
           };
           garbage-collection.default-retention-period = "3 days";
         };

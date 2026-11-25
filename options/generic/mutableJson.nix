@@ -1,5 +1,3 @@
-# App-writable JSON files whose declared keys are merged in on activation
-# (see lib.mkJsonMerge), for apps that break on read-only hjem symlinks
 {
   flake.modules.generic.default = {
     config,
@@ -9,10 +7,9 @@
     username,
     ...
   }: let
-    inherit (lib) attrValues concatMapAttrsStringSep concatMapStringsSep groupBy literalExpression mapAttrs mkIf mkJsonMerge mkMerge mkOption mkOrder optionalAttrs;
+    inherit (lib) attrValues concatMapAttrsStringSep concatMapStringsSep groupBy literalExpression mapAttrs mkIf mkJsonMerge mkMerge mkOption mkOrder optionalAttrs platformFromOptions;
     inherit (lib.types) attrsOf enum str strMatching submodule;
     cfg = config.mutableJson;
-    # Run each user's merges as that user; one failure doesn't stop the rest
     userScripts =
       groupBy (file: file.user) (attrValues cfg)
       |> mapAttrs (user: files:
@@ -28,15 +25,14 @@
           || echo "warning: failed to apply mutableJson files for ${user}" >&2
       '')
       userScripts;
-    # pkgs.stdenv.hostPlatform.is<Platform> causes infinite recursion so bodge
-    isLinux = options ? systemd;
-    isDarwin = options ? launchd;
+    inherit (platformFromOptions options) isDarwin isLinux;
   in {
     options.mutableJson = mkOption {
       default = {};
       description = ''
         JSON files the owning app can rewrite, with declared settings merged in
-        on every activation (or written once, with `mode = "seed"`).
+        on every activation (or written once, with `mode = "seed"`), for apps
+        that break on read-only hjem symlinks. See `lib.mkJsonMerge`.
       '';
       type = attrsOf (submodule ({name, ...}: {
         options = {

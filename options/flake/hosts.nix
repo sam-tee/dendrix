@@ -50,8 +50,8 @@ in {
         };
         tailscaleIP = mkOption {
           type = str;
-          default = "0.0.0.0"; # hacky but works to bind to all interfaces if no host provided
-          description = "Tailscale IP of the host - used to bind services to";
+          default = "0.0.0.0";
+          description = "Tailscale IP of the host - used to bind services to. The default binds services on all interfaces, for hosts without a fixed Tailscale IP.";
         };
         modules = mkOption {
           type = listOf str;

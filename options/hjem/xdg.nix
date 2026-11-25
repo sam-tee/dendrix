@@ -1,4 +1,3 @@
-# Applies the system-level `xdg.dirs` options (options/generic/xdg.nix) to hjem
 {
   flake.modules.hjem.xdg = {
     config,

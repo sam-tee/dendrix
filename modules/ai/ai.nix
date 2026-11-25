@@ -106,7 +106,6 @@ in {
         opencodeDir = "/Library/Application Support/opencode";
         inherit (config.environment.variables) CLAUDE_CONFIG_DIR CODEX_HOME;
       in {
-        # GUI apps (T3 Code) don't see environment.variables
         launchd.user.agents.ai-env = {
           script = ''
             /bin/launchctl setenv CLAUDE_CONFIG_DIR "${CLAUDE_CONFIG_DIR}"

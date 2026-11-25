@@ -42,6 +42,12 @@ The module will be auto-imported to the host. Option sets should be defined in
   Only hoist `lib` to file scope when multiple sibling scopes use it, so
   the file still has just one import. A single `lib.foo` use needs no
   `inherit`.
+- Comments in `.nix` files are only allowed to explain *why* something
+  non-obvious is done in that spot (a workaround, an upstream limitation, a
+  deliberate omission, a magic number), never *what* the code does. Prefer a
+  descriptive name, an option `description` or `meta.description` over a
+  comment, and put repo-wide gotchas in [pitfalls.md](docs/pitfalls.md)
+  instead of repeating them next to each use. Don't leave commented-out code.
 
 ## Useful Commands
 

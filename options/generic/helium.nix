@@ -1,4 +1,3 @@
-# Helium browser: package, managed policies, extensions and default profile preferences
 {moduleWithSystem, ...}: {
   flake.modules.generic.default = moduleWithSystem ({inputs', ...}: {
     config,
@@ -7,16 +6,13 @@
     pkgs,
     ...
   }: let
-    inherit (lib) concatMapAttrs concatMapAttrsStringSep filterAttrs genAttrs generators literalExpression mapAttrs mapAttrsToList mkEnableOption mkIf mkMerge mkOption mkOrder optionalAttrs;
+    inherit (lib) concatMapAttrs concatMapAttrsStringSep filterAttrs genAttrs generators literalExpression mapAttrs mapAttrsToList mkEnableOption mkIf mkMerge mkOption mkOrder optionalAttrs platformFromOptions;
     inherit (lib.types) attrsOf bool package str submodule;
 
     cfg = config.programs.helium;
     jsonFormat = pkgs.formats.json {};
-    # pkgs.stdenv.hostPlatform.is<Platform> causes infinite recursion so bodge
-    isLinux = options ? systemd;
-    isDarwin = options ? launchd;
+    inherit (platformFromOptions options) isDarwin isLinux;
 
-    # Extensions not preinstalled in Helium are force-installed by policy
     forcelist =
       cfg.extensions
       |> filterAttrs (_: extension: !extension.preinstalled)
@@ -148,7 +144,6 @@
       })
 
       (optionalAttrs isDarwin {
-        # Custom activation script names aren't run by nix-darwin
         system.activationScripts.postActivation.text = mkOrder 1500 ''
           mkdir -p "${managedPrefs}"
           ${darwinPolicyFiles

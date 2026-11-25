@@ -11,9 +11,6 @@ in {
     inherit (lib) attrNames concatLines concatMapStringsSep escapeShellArg escapeShellArgs mapAttrsToList;
     cfg = config.services.forgejo;
     cssDir = "${cfg.customDir}/public/assets/css";
-    # Full standalone theme CSS generated from the repo base16 palette
-    # (theme/theme.toml). Modelled on the upstream forgejo-dark/light
-    # variable set so no variables fall back to defaults.
     mkThemeCss = variant: let
       c = attrs.${variant};
       isDark = variant == "dark";
@@ -573,9 +570,6 @@ in {
       @import "theme-${themeName}-light.css";
       @import "theme-${themeName}-dark.css" (prefers-color-scheme: dark);
     '';
-    # Every upstream Forgejo logo asset recoloured: orange -> pink (base0F),
-    # red -> purple (base0E). PNGs are rendered from the recoloured logo at
-    # upstream sizes. Paths are relative to public/assets/img.
     svgIcons = ["favicon.svg" "logo.svg" "forgejo.svg" "forgejo-loading.svg" "svg/gitea-forgejo.svg"];
     pngIcons = {
       "favicon.png" = 180;

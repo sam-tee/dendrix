@@ -38,7 +38,6 @@ in {
         ))
     else throw "host '${hostname}' (hostType '${hostType}') needs a 'flake.modules.nixos.${hardwareName}' hardware module";
 
-  # `lib.nixosSystem` passes this (extended) lib on to NixOS modules.
   mkNixos = hostname: {
     ${hostname} = nixosSystem {
       specialArgs = {

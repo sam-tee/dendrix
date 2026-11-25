@@ -10,13 +10,11 @@ _: {
     inherit (lib.platforms) linux;
   in
     optionalAttrs (hasSuffix "linux" system) {
-      # Google Security Chip (Cr50/Ti50) tool, not in nixpkgs. Used to open CCD on
-      # Chromebooks running Mobile NixOS: `sudo gsctool -a -o` (needs /dev/tpm0)
       packages.gsctool = pkgs.stdenv.mkDerivation (finalAttrs: {
         pname = "gsctool";
         version = "0-unstable-2026-11-08";
 
-        # ChromiumOS builds gsctool from this branch (chromeos-base/chromeos-gsc-dev)
+        # Pinned to the gsc_utils branch, which ChromiumOS builds gsctool from (chromeos-base/chromeos-gsc-dev)
         src = pkgs.fetchgit {
           url = "https://chromium.googlesource.com/chromiumos/platform/ec";
           rev = "0e40e71781c0c01e0ac212068e6554bd36126e84";
@@ -50,6 +48,7 @@ _: {
 
         meta = {
           description = "Utility to talk to the Google Security Chip (Cr50/Ti50) on Chromebooks";
+          longDescription = "Used to open CCD on Chromebooks running Mobile NixOS: `sudo gsctool -a -o` (needs /dev/tpm0).";
           homepage = "https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/gsc_utils/extra/usb_updater";
           license = bsd3;
           mainProgram = "gsctool";
