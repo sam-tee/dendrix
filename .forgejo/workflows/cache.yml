@@ -74,15 +74,9 @@ jobs:
 
       - name: Release to servers
         if: github.ref == 'refs/heads/main'
-        run: |
-          set -eu
-
-          if git fetch --quiet origin deploy \
-            && git merge-base --is-ancestor HEAD FETCH_HEAD; then
-            echo "deploy already contains $(git rev-parse --short HEAD)"
-            exit 0
-          fi
-          git push origin HEAD:refs/heads/deploy
+        # Forced because the checkout is shallow; comin itself refuses to
+        # deploy a commit behind the one it last deployed.
+        run: git push --force origin HEAD:refs/heads/deploy
 
       - name: Send ntfy notification
         if: always()

@@ -41,7 +41,8 @@ nhw -H <hostname> -R
 
 Hosts with `autoDeploy` (default: servers) run [comin](https://github.com/nlewo/comin)
 (`modules/system/comin.nix`) and deploy themselves from the `deploy` branch,
-which CI fast-forwards to `main` after a successful build and cache push.
+which CI force-pushes to the built `main` commit after a successful build
+and cache push (comin ignores it if it ever moves backwards).
 Results are posted to the `deploy` ntfy topic. Set
 `hosts.<name>.autoDeploy = false` to opt a server out.
 
