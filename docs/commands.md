@@ -58,8 +58,17 @@ deploys.
 
 ## CI runs and logs (Forgejo Actions):
 
-CI is `.forgejo/workflows/cache.yml` on `git.samtee.party` (not GitHub, so
-`gh` does not work). Uses `$FORGEJO_TOKEN` or the `fj auth login` token
+CI runs on `git.samtee.party` (not GitHub, so `gh` does not work):
+
+- `.forgejo/workflows/check.yml` runs on pull requests: `nix flake check`
+  and a build of all Linux packages and systems, without pushing to the
+  cache.
+- `.forgejo/workflows/cache.yml` runs on pushes to `main` and
+  `testing-*`, nightly and on manual dispatch: builds and pushes to the
+  Attic cache, syncs generated docs, updates the lock file (nightly) and
+  releases `main` to the `deploy` branch.
+
+`scripts/ci-logs.sh` uses `$FORGEJO_TOKEN` or the `fj auth login` token
 (from `$XDG_DATA_HOME/forgejo-cli/keys.json`, falling back to
 `~/Library/Application Support/forgejo-cli.forgejo-cli/keys.json` on macOS).
 
