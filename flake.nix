@@ -51,6 +51,10 @@
       url = "github:ThorTuwy/lua-iio-hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mac-utils = {
+      url = "git+https://git.samtee.party/sam-tee/mac-utils.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     mobile-nixos = {
       url = "git+https://git.samtee.party/sam-tee/mobile.git";
       inputs.nixpkgs.follows = "nixpkgs";
