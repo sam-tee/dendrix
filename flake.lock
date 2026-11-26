@@ -433,6 +433,26 @@
         "type": "github"
       }
     },
+    "mac-utils": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795651414,
+        "narHash": "sha256-WvHjKC3Yp+boJ6gusgqus+dDbsX6sYE7eJkYswkQaBQ=",
+        "ref": "refs/heads/main",
+        "rev": "235892c84759d96ff7a913763616a6e9664b947e",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/mac-utils.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/mac-utils.git"
+      }
+    },
     "mobile-nixos": {
       "inputs": {
         "nixpkgs": [
@@ -679,6 +699,7 @@
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
         "iio-hyprland": "iio-hyprland",
+        "mac-utils": "mac-utils",
         "mobile-nixos": "mobile-nixos",
         "nhw": "nhw",
         "niri-flake": "niri-flake",
