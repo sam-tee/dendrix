@@ -1,0 +1,26 @@
+name: Check flake
+
+on:
+  pull_request:
+
+concurrency:
+  group: check-flake-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-and-build:
+    runs-on: native
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Flake check
+        run: nix flake check
+
+      - name: Build Linux packages and systems
+        run: |
+          nix run github:mic92/nix-fast-build -- \
+            --flake .#packages \
+            --systems "x86_64-linux aarch64-linux" \
+            --skip-cached \
+            --no-link
