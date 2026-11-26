@@ -9,6 +9,7 @@
     };
     homelab.email = {
       from = "noreply@${self.domain}";
+      to = "sam.tee4@proton.me";
       host = "smtp-relay.brevo.com";
       user = "9fb25b001@smtp-brevo.com";
       pwdPath = config.sops.secrets.smtpPwd.path;

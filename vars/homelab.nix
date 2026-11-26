@@ -5,6 +5,7 @@ in {
     domain = "samtee.party";
     tailnet = "scylla-goblin.ts.net";
     services = {
+      alertmanager = mkService "duet" 9093 "alerts";
       anki = mkService "oracle" 27701 "anki";
       atticd = mkPublicService "oracle" 27702 "cache";
       atuin = mkService "oracle" 8888 "atuin";
@@ -17,6 +18,7 @@ in {
       cliproxy-usage-ntfy = mkService "u410" 0 "";
       copyparty = mkService "u410" 3210 "files";
       forgejo = mkPublicService "oracle" 3000 "git";
+      grafana = mkService "duet" 3030 "grafana";
       home-assistant = mkService "u410" 8123 "ha";
       immich = mkPublicService "u410" 2283 "photos";
       jellyfin = mkPublicService "u410" 8096 "media";
@@ -27,6 +29,7 @@ in {
       nextcloud = mkService "" 0 "";
       nix-pr = mkService "oracle" 8733 "prs";
       ntfy = mkPublicService "oracle" 4198 "ntfy";
+      prometheus = mkService "duet" 9090 "prometheus";
       prowlarr = mkService "" 9696 "prowlarr";
       qbittorrent = mkService "" 7877 "torrent";
       radarr = mkService "u410" 7878 "radarr";

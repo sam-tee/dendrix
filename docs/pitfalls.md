@@ -22,6 +22,16 @@ explained in a comment next to the code instead.
   reads such a file needs a hash of its inputs in `restartTriggers`.
   Activation runs after units are stopped and before they are restarted, so
   the restarted service sees the new file.
+- **`after = ["tailscaled.service"]` doesn't guarantee the tailscale IP
+  exists.** tailscaled counts as started before it assigns the address, so
+  a service that binds `homelab.machineIP` can fail at boot and use up its
+  restart limit. In practice the IP is usually there in time, so homelab
+  services only order after tailscaled. If it ever becomes a real problem,
+  add a oneshot unit that waits for the address and orders itself before
+  `network-online.target`. Don't set `net.ipv4.ip_nonlocal_bind = 1`
+  instead: it applies to every process, lets a wrong IP fail silently, and
+  breaks software that checks whether an address is local by trying to
+  bind it.
 - **sops-nix installs secrets in the `setupSecrets` activation script**
   (unless `sops.useSystemdActivation` is set). An activation script that
   reads a secret must add `"setupSecrets"` to its `deps`, guarded with

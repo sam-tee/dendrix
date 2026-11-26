@@ -47,6 +47,11 @@
           type = str;
           default = "john@example.com";
         };
+        to = mkOption {
+          description = "The address that alerts and reports are sent to";
+          type = str;
+          default = "john@example.com";
+        };
         host = mkOption {
           description = "The SMTP server address";
           type = str;
