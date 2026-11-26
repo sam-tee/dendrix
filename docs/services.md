@@ -8,6 +8,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.services`
 |        atticd         |  oracle   |  27702  |    cache    |
 |         atuin         |  oracle   |  8888   |    atuin    |
 |    audiobookshelf     |     -     |  8000   |    audio    |
+|        backup         |   duet    |    -    |      -      |
 |        bazarr         |   u410    |  6767   |   bazarr    |
 |         caddy         |  oracle   |    -    |      -      |
 |      calibre-web      |  oracle   |  8083   |    books    |

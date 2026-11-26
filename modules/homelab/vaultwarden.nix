@@ -4,6 +4,7 @@
     inherit (email) from host user;
     inherit (self.services.vaultwarden) fqdn port;
   in {
+    homelab.backup.paths = [config.services.vaultwarden.backupDir];
     sops.secrets."vaultwarden.env".owner = "vaultwarden";
     services.vaultwarden = {
       enable = true;

@@ -9,6 +9,7 @@ in {
       atticd = mkPublicService "oracle" 27702 "cache";
       atuin = mkService "oracle" 8888 "atuin";
       audiobookshelf = mkService "" 8000 "audio";
+      backup = mkService "duet" 0 "";
       bazarr = mkService "u410" 6767 "bazarr";
       caddy = mkService "oracle" 0 "";
       calibre-web = mkPublicService "oracle" 8083 "books";

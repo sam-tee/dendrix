@@ -2,6 +2,7 @@
   flake.modules.nixos.atuin = {config, ...}: let
     inherit (config.homelab) caddyIP machineIP;
   in {
+    homelab.backup.databases = ["atuin"];
     services.atuin = {
       enable = true;
       host = machineIP;

@@ -5,7 +5,7 @@ Auto-generated mirror — do not edit by hand. Source of truth: `flake.hosts` in
 |    Host    |         System         |   Type    |                            Modules                            |
 | :--------: | :--------------------: | :-------: | :-----------------------------------------------------------: |
 |    `a3`    |     `x86_64-linux`     |  desktop  |  calibre, hyprland, linuxAll, phonecam, steam, sunshine, vms  |
-|   `duet`   |     `lenovo-krane`     |  mobile   |             cursor, gdm, gnome, helium, moonlight             |
+|   `duet`   |     `lenovo-krane`     |  mobile   |                     server, laptop-server                     |
 |  `duet3`   |  `lenovo-wormdingler`  |  mobile   |                   gui, hyprTouch, moonlight                   |
 |    `hp`    |     `x86_64-linux`     |  server   |                            mangowc                            |
 |   `mba`    |    `aarch64-darwin`    |  darwin   |                         paneru, xcode                         |

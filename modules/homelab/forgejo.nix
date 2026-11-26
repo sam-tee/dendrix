@@ -76,6 +76,10 @@
         security.REVERSE_PROXY_TRUSTED_PROXIES = "${caddyIP}/32,127.0.0.1/32,::1/128";
       };
     };
+    homelab.backup = {
+      paths = [cfg.stateDir];
+      databases = [cfg.database.name];
+    };
     services.openssh.settings.AllowUsers = [cfg.user];
     systemd.services.forgejo.preStart = ''
       ${getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true

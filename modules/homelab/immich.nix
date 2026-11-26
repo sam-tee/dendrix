@@ -4,6 +4,7 @@
     inherit (config.services.immich) user;
     inherit (self.services.immich) fqdn port;
   in {
+    homelab.backup.paths = map (dir: "${config.services.immich.mediaLocation}/${dir}") ["backups" "library/admin"];
     users.users.${user}.extraGroups = ["video" "render"];
     sops.secrets."immichSmtpPwd" = {
       key = "smtpPwd";
@@ -16,7 +17,10 @@
       inherit port;
       mediaLocation = "${dataDir}/immich";
       settings = {
-        backup.database.keepLastAmount = 4;
+        backup.database = {
+          enabled = true;
+          keepLastAmount = 4;
+        };
         server.externalDomain = "https://${fqdn}";
         notifications.smtp = {
           enabled = true;

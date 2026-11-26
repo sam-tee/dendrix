@@ -5,9 +5,21 @@
     ...
   }: let
     inherit (lib) mkOption mkTsIp;
-    inherit (lib.types) path str;
+    inherit (lib.types) listOf path str;
   in {
     options.homelab = {
+      backup = {
+        paths = mkOption {
+          type = listOf str;
+          default = [];
+          description = "Absolute paths on this host that the backup host copies nightly.";
+        };
+        databases = mkOption {
+          type = listOf str;
+          default = [];
+          description = "PostgreSQL databases on this host to dump nightly, ready for the backup host to copy.";
+        };
+      };
       user = mkOption {
         default = "media";
         type = str;
