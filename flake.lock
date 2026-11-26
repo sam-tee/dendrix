@@ -662,6 +662,26 @@
         "type": "github"
       }
     },
+    "phonecam": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795599797,
+        "narHash": "sha256-TUgViGKwUZiFWOI/Ww9yr+X7s8VgdRPrzv5R5TSUook=",
+        "ref": "refs/heads/main",
+        "rev": "128819a0c367559301ae69674bbf4e9382c835c3",
+        "revCount": 1,
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/phonecamd.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.samtee.party/sam-tee/phonecamd.git"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -709,6 +729,7 @@
         "nixpkgs-pr-tracker": "nixpkgs-pr-tracker",
         "nixvim": "nixvim",
         "paneru": "paneru",
+        "phonecam": "phonecam",
         "searchix": "searchix",
         "sops-nix": "sops-nix",
         "sports-ntfy": "sports-ntfy"

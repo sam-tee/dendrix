@@ -94,6 +94,10 @@
         flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
       };
     };
+    phonecam = {
+      url = "git+https://git.samtee.party/sam-tee/phonecamd.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     searchix = {
       url = "git+https://git.samtee.party/sam-tee/searchix.git";
       inputs.nixpkgs.follows = "nixpkgs";

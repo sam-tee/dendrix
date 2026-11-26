@@ -15,6 +15,7 @@ in {
         "hyprland"
         # "jovian"
         "linuxAll"
+        "phonecam"
         "steam"
         "sunshine"
         "vms"
