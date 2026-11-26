@@ -48,7 +48,10 @@
               signingKey = "${homeDir}/.ssh/keys/git-sign.pub";
             };
           };
-          "git/allowed_signers".text = "sam.tee4@proton.me ${self.hosts.git-sign.pubKey}\n";
+          "git/allowed_signers".text = ''
+            sam.tee4@proton.me ${self.hosts.git-sign.pubKey}
+            noreply@${self.services.forgejo.fqdn} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFLB5k+kDMRyEe/NUsEQLRW9UByATrZXkru8S4DKbsdL
+          '';
           "git/ignore".text = ''
             .direnv/
             .devenv/

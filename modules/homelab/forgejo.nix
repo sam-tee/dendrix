@@ -7,6 +7,7 @@
   }: let
     cfg = config.services.forgejo;
     hl = config.homelab;
+    inherit (lib) getExe getExe';
     inherit (hl) caddyIP email machineIP;
     inherit (self.services.forgejo) fqdn port;
   in {
@@ -16,6 +17,15 @@
       "forgejo/adminPwd".owner = cfg.user;
       "forgejo/databasePwd".owner = cfg.database.user;
       smtpPwd.owner = cfg.user;
+      "forgejo/signingKey" = {
+        owner = cfg.user;
+        restartUnits = ["forgejo.service"];
+      };
+      "forgejo/signingKey.pub" = {
+        owner = cfg.user;
+        mode = "0444";
+        restartUnits = ["forgejo.service"];
+      };
     };
     services.forgejo = {
       enable = true;
@@ -37,6 +47,14 @@
           ENABLE_PUSH_CREATE_USER = true;
           ENABLE_PUSH_CREATE_ORG = true;
         };
+        "repository.signing" = {
+          FORMAT = "ssh";
+          SIGNING_KEY = config.sops.secrets."forgejo/signingKey.pub".path;
+          SIGNING_NAME = "Forgejo";
+          SIGNING_EMAIL = "noreply@${fqdn}";
+          MERGES = "pubkey";
+        };
+        "git.config"."gpg.ssh.program" = getExe' pkgs.openssh "ssh-keygen";
         actions.ENABLED = true;
         cron.ENABLED = true;
         server = {
@@ -60,7 +78,7 @@
     };
     services.openssh.settings.AllowUsers = [cfg.user];
     systemd.services.forgejo.preStart = ''
-      ${lib.getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
+      ${getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
     '';
   };
 }
