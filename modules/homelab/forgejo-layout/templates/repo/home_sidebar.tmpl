@@ -1,0 +1,74 @@
+<aside class="repo-sidebar" aria-label="About this repository">
+	{{if not .HideRepoInfo}}
+	<section class="repo-sidebar-section repo-about">
+		<h2 class="repo-sidebar-heading">About</h2>
+		<div id="repo-desc" class="tw-break-anywhere">
+			{{$description := .Repository.DescriptionHTML $.Context}}
+			{{if $description}}<p class="description">{{$description | RenderCodeBlock}}</p>{{else}}<p class="no-description text-italic">{{ctx.Locale.Tr "repo.no_desc"}}</p>{{end}}
+			{{if .Repository.Website}}<a class="repo-website" href="{{.Repository.Website}}">{{svg "octicon-link"}}<span>{{.Repository.Website}}</span></a>{{end}}
+		</div>
+		<div class="repo-topics" id="repo-topics">
+			{{range .Topics}}
+				<a class="repo-topic ui label" href="{{AppSubUrl}}/explore/repos?q={{.}}&topic=1">{{.}}</a>
+			{{end}}
+			{{if and .Permission.IsAdmin (not .Repository.IsArchived)}}
+				<button id="manage_topic" class="btn interact-fg tw-text-12">{{ctx.Locale.Tr "repo.topic.manage_topics"}}</button>
+			{{end}}
+		</div>
+		{{if and .Permission.IsAdmin (not .Repository.IsArchived)}}
+		<div class="ui form tw-hidden tw-flex tw-flex-col tw-gap-2 tw-my-2" id="topic_edit">
+			<input type="text" id="topic-input" name="topics" value="{{StringUtils.Join .Topics ","}}">
+			<div class="tw-flex tw-gap-2">
+				<button class="ui basic button" id="cancel_topic_edit">{{ctx.Locale.Tr "cancel"}}</button>
+				<button class="ui primary button" id="save_topic" data-link="{{.RepoLink}}/topics">{{ctx.Locale.Tr "save"}}</button>
+			</div>
+		</div>
+		{{end}}
+		<ul class="repo-sidebar-stats">
+			<li><a class="muted" href="{{.RepoLink}}/stars">{{svg "octicon-star"}}<b>{{ctx.Locale.PrettyNumber .Repository.NumStars}}</b> {{ctx.Locale.Tr "repo.stars"}}</a></li>
+			<li><a class="muted" href="{{.RepoLink}}/watchers">{{svg "octicon-eye"}}<b>{{ctx.Locale.PrettyNumber .Repository.NumWatches}}</b> {{ctx.Locale.Tr "repo.watchers"}}</a></li>
+			<li><a class="muted" href="{{.RepoLink}}/forks">{{svg "octicon-repo-forked"}}<b>{{ctx.Locale.PrettyNumber .Repository.NumForks}}</b> {{ctx.Locale.Tr "repo.forks"}}</a></li>
+			{{$size := ctx.Locale.TrSize .Repository.Size}}
+			<li {{if .Repository.Size}}data-tooltip-content="{{.Repository.SizeDetailsString ctx.Locale}}"{{end}}>{{svg "octicon-database"}}<b>{{$size.PrettyNumber}}</b> {{$size.TranslatedUnit}}</li>
+		</ul>
+	</section>
+	{{end}}
+	{{if and (.Permission.CanRead $.UnitTypeReleases) .NumReleases}}
+	<section class="repo-sidebar-section repo-releases" data-releases-url="{{.RepoLink}}/releases" hidden>
+		<h2 class="repo-sidebar-heading"><a class="muted" href="{{.RepoLink}}/releases">{{ctx.Locale.Tr "repo.releases"}}</a> <span class="ui small label">{{ctx.Locale.PrettyNumber .NumReleases}}</span></h2>
+		<a class="repo-release-latest" href="{{.RepoLink}}/releases">
+			{{svg "octicon-tag" 20}}
+			<span class="repo-release-text">
+				<span class="repo-release-title"><b class="repo-release-name"></b> <span class="ui small label repo-release-badge">Latest</span></span>
+				<span class="repo-release-date"></span>
+			</span>
+		</a>
+		{{if gt .NumReleases 1}}<a class="repo-release-more muted" href="{{.RepoLink}}/releases">+ {{ctx.Locale.PrettyNumber (Eval .NumReleases "-" 1)}} more</a>{{end}}
+	</section>
+	{{end}}
+	{{if and (.Permission.CanRead $.UnitTypeCode) (not .IsEmptyRepo)}}
+	<section class="repo-sidebar-section repo-contributors" data-url="{{.RepoLink}}/activity/contributors/data" hidden>
+		<h2 class="repo-sidebar-heading"><a class="muted" href="{{.RepoLink}}/activity/contributors">{{ctx.Locale.Tr "repo.activity.navbar.contributors"}}</a> <span class="ui small label repo-contributors-count"></span></h2>
+		<ul class="repo-contributors-list"></ul>
+	</section>
+	{{end}}
+	{{if .LanguageStats}}
+	<section class="repo-sidebar-section repo-languages">
+		<h2 class="repo-sidebar-heading">Languages</h2>
+		<div class="repo-lang-bar" aria-hidden="true">
+			{{range .LanguageStats}}
+				<span style="width: {{.Percentage}}%; background-color: {{.Color}}"></span>
+			{{end}}
+		</div>
+		<ul class="repo-lang-list">
+			{{range .LanguageStats}}
+				<li>
+					<i class="repo-lang-dot" style="background-color: {{.Color}}"></i>
+					<span class="repo-lang-name">{{if eq .Language "other"}}{{ctx.Locale.Tr "repo.language_other"}}{{else}}{{.Language}}{{end}}</span>
+					<span class="repo-lang-pct">{{.Percentage}}%</span>
+				</li>
+			{{end}}
+		</ul>
+	</section>
+	{{end}}
+</aside>

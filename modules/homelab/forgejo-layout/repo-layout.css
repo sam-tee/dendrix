@@ -1,0 +1,783 @@
+/* Repository layout: card-style file list, README/Code unit tabs, Code dropdown and an About sidebar.
+   Uses Forgejo's theme variables only, so it follows whichever theme is active. */
+
+.repository {
+  --repo-card-radius: 0.75rem;
+  --repo-pill-radius: var(--border-radius-full);
+  --repo-muted: var(--color-text-muted, var(--color-text-light-2));
+}
+
+/* Header */
+
+.repo-header .flex-item-title {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.repo-header .flex-item-title a:first-child {
+  color: var(--repo-muted);
+}
+
+.repo-header .flex-item-trailing .ui.label {
+  border-radius: var(--repo-pill-radius);
+  background: transparent;
+  border: 1px solid var(--color-secondary-dark-2);
+  color: var(--repo-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.repo-buttons .ui.button,
+.repo-buttons .ui.labeled.button > .button,
+.repo-buttons .ui.labeled.button > .label {
+  border-radius: var(--border-radius-medium);
+}
+
+.repo-buttons .ui.labeled.button > .button {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.repo-buttons .ui.labeled.button > .label {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+/* Unit tabs (Code, Issues, Pull requests, ...) */
+
+.repository .secondary-nav .overflow-menu-items .item {
+  font-size: 0.95rem;
+  padding: 0.85rem 0.9rem !important;
+  gap: 0.45rem;
+}
+
+.repository .secondary-nav.secondary-nav .overflow-menu-items .item:not(.active) {
+  color: var(--repo-muted);
+}
+
+.repository .secondary-nav.secondary-nav .overflow-menu-items .item:not(.active):is(:hover, :focus-visible) {
+  color: var(--color-text-dark);
+}
+
+.repository .secondary-nav .overflow-menu-items .item.active {
+  color: var(--color-text-dark);
+  border-bottom-color: var(--color-text-dark) !important;
+  border-bottom-width: 2px !important;
+}
+
+.repository .secondary-nav .overflow-menu-items .item .ui.small.label {
+  border-radius: var(--repo-pill-radius);
+  background: var(--color-secondary);
+  color: var(--color-text);
+  padding: 0.2em 0.6em;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Two-column repo home */
+
+.repo-home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 19rem;
+  gap: 2.5rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+.repo-home-main {
+  min-width: 0;
+}
+
+@media (max-width: 1023.98px) {
+  .repo-home-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Branch / count toolbar */
+
+.repository .repo-button-row {
+  align-items: center;
+}
+
+/* Set by repo-layout.js, which drops whole items to keep the row on one line. */
+.repository .repo-button-row.repo-toolbar-fit,
+.repository .repo-button-row.repo-toolbar-fit > .button-sequence {
+  flex-wrap: nowrap;
+}
+
+/* Overrides Forgejo's important full-width utility on the right-hand group at phone widths. */
+.repository .repo-button-row.repo-toolbar-fit > * {
+  flex-shrink: 0;
+  width: auto !important;
+}
+
+.repository .repo-button-row .repo-toolbar-dropped {
+  display: none !important;
+}
+
+/* Keeps the Code button (and its right-anchored popover) on the right, even if the row wraps without JS. */
+.repository .repo-button-row > :last-child {
+  margin-inline-start: auto;
+  justify-content: flex-end;
+}
+
+.repository .repo-button-row .ui.button,
+.repository .repo-button-row .clone-panel > *,
+.repository .repo-button-row .branch-dropdown-button {
+  border-radius: var(--border-radius-medium);
+}
+
+.repository .repo-button-row .ui.button.repo-count {
+  border-color: transparent;
+  background: transparent;
+  color: var(--repo-muted);
+  font-weight: var(--font-weight-normal);
+  gap: 0.4rem;
+}
+
+.repository .repo-button-row .ui.button.repo-count:hover,
+.repository .repo-button-row .ui.button.repo-count:focus-visible {
+  background: var(--color-hover);
+  color: var(--color-text-dark);
+}
+
+.repository .repo-button-row .ui.button.repo-count b {
+  color: var(--color-text-dark);
+}
+
+/* File list card */
+
+.repository.file.list #repo-files-table {
+  border-radius: var(--repo-card-radius);
+  overflow: hidden;
+  border-color: var(--color-secondary);
+}
+
+.repository.file.list .code-search {
+  border-radius: var(--repo-card-radius) var(--repo-card-radius) 0 0 !important;
+}
+
+.repository.file.list .code-search + #repo-files-table {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.repository.file.list #repo-files-table td {
+  font-size: 0.95rem;
+}
+
+.repository.file.list #repo-files-table td:not(.repo-files-table-latest-commit-cell) .truncate {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.repository.file.list #repo-files-table td.name {
+  padding-inline-start: 1.25rem !important;
+}
+
+.repository.file.list #repo-files-table td.age {
+  padding-inline-end: 1.25rem !important;
+  color: var(--repo-muted);
+}
+
+.repository.file.list #repo-files-table td.message,
+.repository.file.list #repo-files-table td.message a,
+.repository.file.list #repo-files-table .latest-commit .commit-summary a,
+.repository.file.list #repo-files-table td.age {
+  color: var(--repo-muted) !important;
+}
+
+.repository.file.list #repo-files-table td.message a:hover,
+.repository.file.list #repo-files-table .latest-commit .commit-summary a:hover {
+  color: var(--color-text-dark) !important;
+}
+
+.repository.file.list #repo-files-table tr.commit-list td {
+  padding-top: 0.55rem !important;
+  padding-bottom: 0.55rem !important;
+}
+
+.repository.file.list #repo-files-table tr.commit-list td:first-child {
+  padding-inline-start: 1.25rem !important;
+}
+
+.repository.file.list #repo-files-table tr.commit-list td.age {
+  padding-inline-end: 1.25rem !important;
+}
+
+.repo-home-main .repo-files-table-latest-commit-left {
+  max-width: 0;
+  width: 100%;
+}
+
+/* File icons: folders share one colour, files are coloured by type (the name stays the label). */
+
+.repository.file.list #repo-files-table .svg.octicon-file-directory-fill,
+.repository.file.list #repo-files-table .svg.octicon-file-directory-symlink {
+  color: var(--color-blue);
+}
+
+.repository.file.list #repo-files-table .svg.octicon-file-submodule { color: var(--color-purple); }
+.repository.file.list #repo-files-table .entry-icon-file { color: var(--color-text-light-3); }
+.repository.file.list #repo-files-table .entry-icon-nix { color: var(--color-blue); }
+.repository.file.list #repo-files-table .entry-icon-doc { color: var(--color-teal); }
+.repository.file.list #repo-files-table .entry-icon-shell { color: var(--color-green); }
+.repository.file.list #repo-files-table .entry-icon-config { color: var(--color-orange); }
+.repository.file.list #repo-files-table .entry-icon-data { color: var(--color-yellow); }
+.repository.file.list #repo-files-table .entry-icon-lock { color: var(--color-text-light-3); }
+.repository.file.list #repo-files-table .entry-icon-git { color: var(--color-orange); }
+.repository.file.list #repo-files-table .entry-icon-diff { color: var(--color-green); }
+.repository.file.list #repo-files-table .entry-icon-style { color: var(--color-pink); }
+.repository.file.list #repo-files-table .entry-icon-web { color: var(--color-orange); }
+.repository.file.list #repo-files-table .entry-icon-image { color: var(--color-pink); }
+.repository.file.list #repo-files-table .entry-icon-archive { color: var(--color-orange); }
+.repository.file.list #repo-files-table .entry-icon-code { color: var(--color-purple); }
+.repository.file.list #repo-files-table .entry-icon-license { color: var(--color-yellow); }
+.repository.file.list #repo-files-table .entry-icon-secret { color: var(--color-red); }
+
+/* README card */
+
+.repository.file.list .non-diff-file-content#readme > .file-header,
+.repository.file.list #readme > .file-header {
+  border-radius: var(--repo-card-radius) var(--repo-card-radius) 0 0 !important;
+}
+
+.repository.file.list .non-diff-file-content#readme > .segment,
+.repository.file.list #readme > .segment {
+  border-radius: 0 0 var(--repo-card-radius) var(--repo-card-radius) !important;
+}
+
+/* Sidebar */
+
+.repo-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  font-size: 0.95rem;
+}
+
+.repo-sidebar-section + .repo-sidebar-section {
+  border-top: 1px solid var(--color-secondary);
+  padding-top: 1.5rem;
+}
+
+.repo-sidebar-heading {
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-dark);
+  margin: 0 0 0.75rem;
+}
+
+.repo-about .description {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 0.75rem;
+}
+
+.repo-about .no-description {
+  color: var(--repo-muted);
+  margin: 0 0 0.75rem;
+}
+
+.repo-website {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 0.75rem;
+  max-width: 100%;
+}
+
+.repo-website span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-about .repo-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.repo-about .repo-topics:not(:has(*)) {
+  display: none;
+}
+
+.repo-about .repo-topic.ui.label {
+  margin: 0;
+  border-radius: var(--repo-pill-radius);
+  background: var(--color-primary-alpha-20);
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+  padding: 0.35em 0.8em;
+}
+
+.repo-about .repo-topic.ui.label:hover {
+  background: var(--color-primary-alpha-40);
+}
+
+.repo-sidebar-stats,
+.repo-lang-list,
+.repo-contributors-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.repo-sidebar-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.repo-sidebar-stats li,
+.repo-sidebar-stats a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--repo-muted);
+}
+
+.repo-sidebar-stats a:hover {
+  color: var(--color-primary);
+}
+
+.repo-sidebar-stats .svg {
+  color: var(--repo-muted);
+}
+
+.repo-sidebar-stats b {
+  color: var(--color-text-dark);
+}
+
+.repo-lang-bar {
+  display: flex;
+  height: 0.5rem;
+  border-radius: var(--repo-pill-radius);
+  overflow: hidden;
+  gap: 2px;
+  margin-bottom: 0.75rem;
+}
+
+.repo-lang-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+}
+
+.repo-lang-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.repo-lang-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+}
+
+.repo-lang-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-dark);
+}
+
+.repo-lang-pct {
+  color: var(--repo-muted);
+}
+
+/* Code dropdown: clone URL, editors and archive downloads */
+
+.repo-code-dropdown > summary.ui.button {
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius-medium);
+  margin: 0;
+}
+
+.repo-code-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.repo-code-dropdown > .content {
+  inset-inline-end: 0;
+  width: min(24rem, calc(100vw - 2rem));
+  min-width: 0;
+  border-radius: var(--repo-card-radius);
+  padding-bottom: 0.25rem;
+}
+
+.repo-code-clone {
+  padding: 0.85rem 1rem 1rem;
+}
+
+.repo-code-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-dark);
+  margin-bottom: 0.75rem;
+}
+
+.repo-code-dropdown .clone-panel {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  row-gap: 0.6rem;
+}
+
+.repo-code-dropdown .clone-panel > :is(#repo-clone-https, #repo-clone-ssh) {
+  margin: 0;
+  padding: 0.4rem 0.9rem;
+  justify-self: start;
+}
+
+/* Forgejo squares the inner edges of the clone panel buttons with !important. */
+.repo-code-dropdown .clone-panel > #repo-clone-https {
+  grid-area: 1 / 1;
+  border-radius: var(--border-radius-medium) 0 0 var(--border-radius-medium) !important;
+}
+
+.repo-code-dropdown .clone-panel > #repo-clone-ssh {
+  grid-area: 1 / 2;
+  border-radius: 0 var(--border-radius-medium) var(--border-radius-medium) 0 !important;
+}
+
+.repo-code-dropdown .clone-panel:not(:has(> #repo-clone-ssh)) > #repo-clone-https,
+.repo-code-dropdown .clone-panel:not(:has(> #repo-clone-https)) > #repo-clone-ssh {
+  grid-area: 1 / 1;
+  border-radius: var(--border-radius-medium) !important;
+}
+
+.repo-code-dropdown .clone-panel > #repo-clone-url {
+  grid-area: 2 / 1 / 3 / 4;
+  min-width: 0;
+  width: 100%;
+  padding: 0.45rem 0.65rem;
+  font-family: var(--fonts-monospace);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background: var(--color-input-background);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--border-radius-medium);
+}
+
+.repo-code-dropdown .clone-panel > #clipboard-btn {
+  grid-area: 2 / 4;
+  margin: 0 0 0 0.35rem;
+  border-radius: var(--border-radius-medium) !important;
+  border: 1px solid var(--color-input-border);
+  background: transparent;
+  color: var(--repo-muted);
+}
+
+.repo-code-dropdown .clone-panel > #clipboard-btn:hover {
+  background: var(--color-hover);
+  color: var(--color-text-dark);
+}
+
+.repo-code-dropdown > .content > hr {
+  margin: 0 0 0.25rem;
+}
+
+.repo-code-dropdown > .content > ul > li > a {
+  color: var(--color-text);
+}
+
+.repo-code-dropdown > .content > ul > li > a > :is(.svg, img) {
+  width: 16px;
+  height: 16px;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+.repo-code-dropdown > .content > ul > li > a > .svg {
+  color: var(--repo-muted);
+}
+
+/* Signed-out Watch/Star/Fork: outlined and muted next to enabled buttons, but readable. */
+/* Forgejo dims disabled buttons with an !important opacity. */
+.repo-buttons .ui.labeled.button:is(.disabled, :has(> .button:disabled)) {
+  opacity: 1 !important;
+  cursor: not-allowed;
+}
+
+.repo-buttons .ui.labeled.button:is(.disabled, :has(> .button:disabled)) > :is(.button, .label) {
+  opacity: 1 !important;
+  background: transparent;
+  border: 1px solid var(--color-light-border);
+}
+
+.repo-buttons .ui.labeled.button:is(.disabled, :has(> .button:disabled)) > .button {
+  color: var(--repo-muted);
+  border-inline-end: 0;
+}
+
+.repo-buttons .ui.labeled.button:is(.disabled, :has(> .button:disabled)) > .label {
+  color: var(--color-text);
+}
+
+/* README view */
+
+.repo-readme-view .non-diff-file-content > .file-header {
+  border-radius: var(--repo-card-radius) var(--repo-card-radius) 0 0 !important;
+}
+
+.repo-readme-view .non-diff-file-content > .segment {
+  border-radius: 0 0 var(--repo-card-radius) var(--repo-card-radius) !important;
+}
+
+/* Contributors */
+
+.repo-contributors .repo-sidebar-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.repo-contributors .repo-sidebar-heading .ui.label {
+  border-radius: var(--repo-pill-radius);
+  background: var(--color-secondary);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.repo-contributors-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.repo-contributors-list :is(a, span) {
+  display: block;
+  border-radius: 50%;
+}
+
+.repo-contributors-list img.ui.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0;
+}
+
+.repo-contributors-more {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+@media (forced-colors: active) {
+  .repository .secondary-nav .overflow-menu-items .item.active {
+    border-color: Highlight !important;
+  }
+}
+
+/* "/" hint inside the code search box, added by repo-layout.js */
+.code-search .ui.action.input > .repo-search-kbd {
+  align-self: center;
+  z-index: 1;
+  margin-inline: -2.1rem 0.75rem;
+  padding: 0.1rem 0.4rem;
+  font-family: var(--fonts-monospace);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--repo-muted);
+  background: var(--color-box-body);
+  border: 1px solid var(--color-light-border);
+  border-bottom-width: 2px;
+  border-radius: var(--border-radius);
+  pointer-events: none;
+}
+
+.code-search .ui.action.input:has(> input:is(:focus, :not(:placeholder-shown))) > .repo-search-kbd {
+  visibility: hidden;
+}
+
+/* Forgejo gives focused primary buttons the hover colour, so a clicked button stayed "hovered". */
+.repo-code-dropdown :is(summary, .clone-panel > button).ui.primary.button:focus:not(:hover) {
+  background: var(--color-primary);
+}
+
+.repo-code-dropdown :is(summary, .clone-panel > button).ui.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.secondary-nav .item[data-repo-readme-link][hidden] {
+  display: none !important;
+}
+
+/* Releases */
+
+.repo-releases .repo-sidebar-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.repo-releases .repo-sidebar-heading .ui.label {
+  border-radius: var(--repo-pill-radius);
+  background: var(--color-secondary);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.repo-release-latest {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: var(--color-text);
+}
+
+.repo-release-latest > .svg {
+  color: var(--color-green);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.repo-release-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.repo-release-name {
+  color: var(--color-text-dark);
+  overflow-wrap: anywhere;
+}
+
+.repo-release-latest:hover .repo-release-name {
+  color: var(--color-primary);
+}
+
+.repo-release-badge.ui.label {
+  margin-inline-start: 0.35rem;
+  border-radius: var(--repo-pill-radius);
+  background: transparent;
+  border: 1px solid var(--color-green);
+  color: var(--color-green);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Shown instead of "Latest" when the repo has no stable release. The light theme's orange is too faint for text. */
+.repo-release-badge.repo-release-badge-pre.ui.label {
+  border-color: var(--color-orange);
+  color: var(--color-text);
+}
+
+.repo-release-date {
+  color: var(--repo-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.repo-release-more {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+/* File list selection (j/k) */
+
+/* A grey shade alone sat near 1.7:1 and matched the hover shade, so the selection uses the purple accent. */
+.repository.file.list #repo-files-table tr.repo-row-selected > td {
+  background: color-mix(in srgb, var(--color-purple) 20%, var(--color-box-body));
+}
+
+.repository.file.list #repo-files-table tr.repo-row-selected > td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-purple);
+}
+
+.repository.file.list #repo-files-table tr.repo-row-selected a:focus-visible {
+  outline: none;
+}
+
+/* Forced colours drop the background and box-shadow above, so the outline is the only indicator left. */
+@media (forced-colors: active) {
+  .repository.file.list #repo-files-table tr.repo-row-selected a:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+/* Keyboard shortcuts dialog (?) */
+
+.repo-hotkeys {
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 4rem);
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--repo-card-radius);
+  background: var(--color-body);
+  color: var(--color-text);
+  box-shadow: 0 12px 32px var(--color-shadow);
+}
+
+.repo-hotkeys::backdrop {
+  background: var(--color-overlay-backdrop);
+}
+
+.repo-hotkeys h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem;
+}
+
+.repo-hotkeys h3 {
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--repo-muted);
+  margin: 1rem 0 0.4rem;
+}
+
+.repo-hotkeys dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0;
+}
+
+.repo-hotkeys dt {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  color: var(--repo-muted);
+}
+
+.repo-hotkeys dd {
+  margin: 0;
+}
+
+.repo-hotkeys kbd {
+  min-width: 1.5rem;
+  padding: 0.1rem 0.4rem;
+  text-align: center;
+  font-family: var(--fonts-monospace);
+  font-size: 0.8rem;
+  color: var(--color-text);
+  background: var(--color-box-body);
+  border: 1px solid var(--color-light-border);
+  border-bottom-width: 2px;
+  border-radius: var(--border-radius);
+}
+
+.repo-hotkeys-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-secondary);
+}
+
+.repo-hotkeys-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--repo-muted);
+}

@@ -1,0 +1,189 @@
+--- a/repo/header.tmpl
++++ b/repo/header.tmpl
+@@ -23,6 +23,9 @@
+ 						{{if .Owner.Visibility.IsPrivate}}
+ 							<span class="ui label not-mobile">{{ctx.Locale.Tr "repo.desc.internal"}}</span>
+ 							<div class="repo-icon only-mobile" data-tooltip-content="{{ctx.Locale.Tr "repo.desc.internal"}}">{{svg "octicon-shield-lock" 18}}</div>
++						{{else if .Owner.Visibility.IsPublic}}
++							<span class="ui label not-mobile repo-public-label">{{ctx.Locale.Tr "filter.public"}}</span>
++							<div class="repo-icon only-mobile" data-tooltip-content="{{ctx.Locale.Tr "filter.public"}}">{{svg "octicon-globe" 18}}</div>
+ 						{{end}}
+ 					{{end}}
+ 					{{if .IsTemplate}}
+@@ -95,7 +98,26 @@
+ 		{{if not (or .Repository.IsBeingCreated .Repository.IsBroken)}}
+ 			<div class="overflow-menu-items">
+ 				{{if .Permission.CanRead $.UnitTypeCode}}
+-					<a class="{{if .PageIsViewCode}}active {{end}}item" href="{{.RepoLink}}{{if and (ne .BranchName .Repository.DefaultBranch) (not $.PageIsWiki)}}/src/{{.BranchNameSubURL}}{{end}}">
++					{{$defaultRef := printf "branch/%s" (PathEscapeSegments .Repository.DefaultBranch)}}
++					{{$codeRef := .BranchNameSubURL}}
++					{{/* The find page has no ref context; its ref is only in DataLink. */}}
++					{{if .DataLink}}{{$codeRef = index (StringUtils.Cut .DataLink "/tree-list/") 1}}{{end}}
++					{{if or (not $codeRef) $.PageIsWiki}}{{$codeRef = $defaultRef}}{{end}}
++					{{$isDefaultRef := eq $codeRef $defaultRef}}
++					{{$readmeCacheKey := printf "%s/tree-list/%s" .RepoLink $codeRef}}
++					{{$isDirRoot := and .PageIsViewCode .Files (not .TreeNames)}}
++					{{$hasReadme := and .ReadmeExist (or .IsMarkup .IsPlainText)}}
++					{{$readmeActive := and $isDirRoot $hasReadme (or (eq (StringUtils.ToUpper .Link) (StringUtils.ToUpper .RepoLink)) (eq ($.Context.FormString "view") "readme"))}}
++					{{if and (not .IsEmptyRepo) (or $hasReadme (not $isDirRoot))}}
++						{{/* Outside a root listing the server does not know whether a README exists; repo-layout.js checks and reveals the tab. */}}
++						<a class="{{if $readmeActive}}active {{end}}item" href="{{.RepoLink}}{{if not $isDefaultRef}}/src/{{$codeRef}}?view=readme{{end}}" data-repo-readme-link{{if not $isDirRoot}} hidden data-readme-check="{{$readmeCacheKey}}"{{end}}>
++							{{svg "octicon-book"}} {{ctx.Locale.Tr "repo.readme"}}
++						</a>
++						{{if not $isDirRoot}}
++							<script>try{const a=document.currentScript.previousElementSibling;if(JSON.parse(localStorage.getItem('repo-readme:'+a.dataset.readmeCheck))?.found===true)a.hidden=false}catch{}</script>
++						{{end}}
++					{{end}}
++					<a class="{{if and .PageIsViewCode (not $readmeActive)}}active {{end}}item" href="{{.RepoLink}}{{if not .IsEmptyRepo}}/src/{{$codeRef}}{{end}}" data-repo-code-link{{if $isDirRoot}} data-readme-cache="{{$readmeCacheKey}}" data-readme-found="{{if $hasReadme}}1{{else}}0{{end}}"{{end}}>
+ 						{{svg "octicon-code"}} {{ctx.Locale.Tr "repo.code"}}
+ 					</a>
+ 				{{end}}
+--- a/repo/home.tmpl
++++ b/repo/home.tmpl
+@@ -3,35 +3,10 @@
+ 	{{template "repo/header" .}}
+ 	<div class="ui container {{if .IsBlame}}fluid padded{{end}}">
+ 		{{template "base/alert" .}}
+-		{{if and (not .HideRepoInfo) (not .IsBlame)}}
+-		<div class="repo-description">
+-			<div id="repo-desc" class="tw-break-anywhere tw-text-16">
+-				{{$description := .Repository.DescriptionHTML $.Context}}
+-				{{if $description}}<span class="description">{{$description | RenderCodeBlock}}</span>{{else}}<span class="no-description text-italic">{{ctx.Locale.Tr "repo.no_desc"}}</span>{{end}}
+-				{{if .Repository.Website}}<a class="link" href="{{.Repository.Website}}">{{.Repository.Website}}</a>{{end}}
+-			</div>
+-		</div>
+-		<div class="repo-topics tw-my-2" id="repo-topics">
+-			{{range .Topics}}
+-				<a class="repo-topic ui large label" href="{{AppSubUrl}}/explore/repos?q={{.}}&topic=1">{{.}}</a>
+-			{{end}}
+-			{{if and .Permission.IsAdmin (not .Repository.IsArchived)}}
+-				<button id="manage_topic" class="btn interact-fg tw-text-12">{{ctx.Locale.Tr "repo.topic.manage_topics"}}</button>
+-			{{end}}
+-		</div>
+-		{{end}}
+-		{{if and .Permission.IsAdmin (not .Repository.IsArchived)}}
+-		<div class="ui form tw-hidden tw-flex tw-gap-2 tw-my-2" id="topic_edit">
+-			<div class="tw-flex-1">
+-				<input type="text" id="topic-input" name="topics" value="{{StringUtils.Join .Topics ","}}">
+-			</div>
+-			<div>
+-				<button class="ui basic button" id="cancel_topic_edit">{{ctx.Locale.Tr "cancel"}}</button>
+-				<button class="ui primary button" id="save_topic" data-link="{{.RepoLink}}/topics">{{ctx.Locale.Tr "save"}}</button>
+-			</div>
+-		</div>
+-		{{end}}
+-
++		{{$isRepoHome := and (not .TreeNames) (not .IsViewFile) (not .IsBlame)}}
++		{{$isReadmeView := and $isRepoHome .ReadmeExist (or .IsMarkup .IsPlainText) (or (eq (StringUtils.ToUpper .Link) (StringUtils.ToUpper .RepoLink)) (eq ($.Context.FormString "view") "readme"))}}
++		<div class="{{if $isRepoHome}}repo-home-grid{{end}}">
++		<div class="repo-home-main">
+ 		{{if RepoFlagsEnabled}}
+ 			{{template "custom/repo_flag_banners" .}}
+ 			{{if .SignedUser.IsAdmin}}
+@@ -48,13 +23,22 @@
+ 				{{end}}
+ 			</div>
+ 		{{end}}
+-		{{template "repo/sub_menu" .}}
++		{{if not $isRepoHome}}{{template "repo/sub_menu" .}}{{end}}
+ 		{{$n := len .TreeNames}}
+ 		{{$l := Eval $n "-" 1}}
+ 		{{$isHomepage := (eq $n 0)}}
+ 		<div class="repo-button-row">
+ 			<div class="button-sequence tw-gap-y-2">
+-				{{template "repo/branch_dropdown" dict "root" .}}
++				{{if $isReadmeView}}
++					{{template "repo/branch_dropdown" dict "root" . "branchURLSuffix" "?view=readme" "tagURLSuffix" "?view=readme"}}
++				{{else}}
++					{{template "repo/branch_dropdown" dict "root" .}}
++				{{end}}
++				{{if $isRepoHome}}
++					<a class="ui compact basic button repo-count" href="{{.RepoLink}}/branches">{{svg "octicon-git-branch"}} {{ctx.Locale.TrPluralString .BranchesCount "counters.n_branches" (printf "<b>%s</b>" (ctx.Locale.PrettyNumber .BranchesCount) | TrustHTML)}}</a>
++					<a class="ui compact basic button repo-count" href="{{.RepoLink}}/tags">{{svg "octicon-tag"}} {{ctx.Locale.TrPluralString .NumTags "counters.n_tags" (printf "<b>%s</b>" (ctx.Locale.PrettyNumber .NumTags) | TrustHTML)}}</a>
++					<a class="ui compact basic button repo-count" href="{{.RepoLink}}/commits/{{.BranchNameSubURL}}">{{svg "octicon-history"}} {{ctx.Locale.TrPluralString .CommitsCount "counters.n_commits" (printf "<b>%s</b>" (ctx.Locale.PrettyNumber .CommitsCount) | TrustHTML)}}</a>
++				{{end}}
+ 				{{if and .CanCompareOrPull .IsViewBranch (not .Repository.IsArchived)}}
+ 					{{$cmpBranch := ""}}
+ 					{{if ne .Repository.ID .BaseRepo.ID}}
+@@ -67,11 +51,6 @@
+ 						{{svg "octicon-git-pull-request"}}
+ 					</a>
+ 				{{end}}
+-				<!-- Show go to file and breadcrumbs if not on home page -->
+-				{{if $isHomepage}}
+-					<a href="{{.Repository.Link}}/find/{{.BranchNameSubURL}}" class="ui compact basic button">{{ctx.Locale.Tr "repo.find_file.go_to_file"}}</a>
+-				{{end}}
+-
+ 				{{if and .CanWriteCode .IsViewBranch (not .Repository.IsMirror) (not .Repository.IsArchived) (not .IsViewFile)}}
+ 					<button class="ui dropdown basic compact jump button tw-mr-1"{{if not .Repository.CanEnableEditor}} disabled{{end}}>
+ 						{{ctx.Locale.Tr "file_editor.add_file"}}
+@@ -100,28 +79,8 @@
+ 				{{template "repo/filepath" .}}
+ 			</div>
+ 			<div class="tw-flex tw-items-center max-[390px]:tw-w-full">
+-				<!-- Only show clone panel in repository home page -->
+ 				{{if $isHomepage}}
+-					<div class="clone-panel ui action tiny input max-[390px]:tw-w-full">
+-						{{template "repo/clone_buttons" .}}
+-						<button class="ui small jump dropdown icon button" data-tooltip-content="{{ctx.Locale.Tr "repo.more_operations"}}">
+-							{{svg "octicon-kebab-horizontal"}}
+-							<div class="menu">
+-								{{if not $.DisableDownloadSourceArchives}}
+-									<a class="item archive-link" href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefName}}.zip" rel="nofollow">{{svg "octicon-file-zip" 16 "tw-mr-2"}}{{ctx.Locale.Tr "repo.download_zip"}}</a>
+-									<a class="item archive-link" href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefName}}.tar.gz" rel="nofollow">{{svg "octicon-file-zip" 16 "tw-mr-2"}}{{ctx.Locale.Tr "repo.download_tar"}}</a>
+-									<a class="item archive-link" href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefName}}.bundle" rel="nofollow">{{svg "octicon-package" 16 "tw-mr-2"}}{{ctx.Locale.Tr "repo.download_bundle"}}</a>
+-								{{end}}
+-								{{if .CitationFile}}
+-									<a class="item citation-link" href="{{$.RepoLink}}/src/branch/{{$.BranchName}}/{{$.CitationFile}}">{{svg "octicon-cross-reference" 16 "tw-mr-2"}}{{ctx.Locale.Tr "repo.cite_this_repo"}}</a>
+-								{{end}}
+-								{{range .OpenWithEditorApps}}
+-									<a class="item js-clone-url-editor" data-href-template="{{.OpenURL}}">{{.IconHTML}}{{ctx.Locale.Tr "repo.open_with_editor" .DisplayName}}</a>
+-								{{end}}
+-							</div>
+-						</button>
+-						{{template "repo/clone_script" .}}{{/* the script will update `.js-clone-url` and related elements */}}
+-					</div>
++					{{template "repo/code_dropdown" .}}
+ 				{{end}}
+ 				{{if and (not $isHomepage) (not .IsViewFile) (not .IsBlame)}}{{/* IsViewDirectory (not home), TODO: split the templates, avoid using "if" tricks */}}
+ 					<div class="button-sequence folder-actions">
+@@ -151,6 +110,10 @@
+ 			{{template "repo/view_file" .}}
+ 		{{else if .IsBlame}}
+ 			{{template "repo/blame" .}}
++		{{else if $isReadmeView}}
++			<div class="repo-readme-view">
++				{{template "repo/view_file" .}}
++			</div>
+ 		{{else}}{{/* IsViewDirectory */}}
+ 			{{/* display the search bar only if */}}
+ 			{{$isCommit := StringUtils.HasPrefix .BranchNameSubURL "commit"}}
+@@ -170,6 +133,9 @@
+ 			{{end}}
+ 			{{template "repo/view_list" .}}
+ 		{{end}}
++		</div>
++		{{if $isRepoHome}}{{template "repo/home_sidebar" .}}{{end}}
++		</div>
+ 	</div>
+ </div>
+ {{template "base/footer" .}}
+--- a/repo/view_list.tmpl
++++ b/repo/view_list.tmpl
+@@ -53,7 +53,7 @@
+ 									{{end}}
+ 								</a>
+ 							{{else}}
+-								<a class="muted" href="{{$.TreeLink}}/{{PathEscapeSegments $entry.Name}}" title="{{$entry.Name}}">{{svg (printf "octicon-%s" (EntryIcon $entry)) 16 "tw-mr-2"}}{{$entry.Name}}</a>
++								<a class="muted" href="{{$.TreeLink}}/{{PathEscapeSegments $entry.Name}}" title="{{$entry.Name}}">{{template "repo/entry_icon" dict "Name" $entry.Name "Icon" (EntryIcon $entry)}}{{$entry.Name}}</a>
+ 							{{end}}
+ 						{{end}}
+ 					</span>
+@@ -73,6 +73,6 @@
+ 		{{end}}
+ 	</tbody>
+ </table>
+-{{if and .ReadmeExist (or .IsMarkup .IsPlainText)}}
++{{if and .TreeNames .ReadmeExist (or .IsMarkup .IsPlainText)}}
+ 	{{template "repo/view_file" .}}
+ {{end}}

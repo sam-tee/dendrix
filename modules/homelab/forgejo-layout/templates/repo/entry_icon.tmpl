@@ -1,0 +1,24 @@
+{{- /* Attributes: Name (entry name), Icon (result of EntryIcon) */ -}}
+{{- $name := StringUtils.ToUpper .Name -}}
+{{- $parts := StringUtils.Split $name "." -}}
+{{- $ext := index $parts (Eval (len $parts) "-" 1) -}}
+{{- $icon := printf "octicon-%s" .Icon -}}
+{{- $kind := "file" -}}
+{{- if ne .Icon "file" -}}
+{{- else if or (StringUtils.HasPrefix $name "LICENSE") (StringUtils.HasPrefix $name "COPYING") -}}{{- $icon = "octicon-law" -}}{{- $kind = "license" -}}
+{{- else if or (StringUtils.HasPrefix $name "SECRETS") (eq $ext "ENV" "AGE" "GPG" "PEM" "KEY") -}}{{- $icon = "octicon-key" -}}{{- $kind = "secret" -}}
+{{- else if eq $ext "NIX" -}}{{- $icon = "nix-snowflake" -}}{{- $kind = "nix" -}}
+{{- else if eq $ext "MD" "MARKDOWN" "MDX" "RST" "ADOC" "ORG" "TXT" -}}{{- $icon = "octicon-markdown" -}}{{- $kind = "doc" -}}
+{{- else if eq $ext "SH" "BASH" "ZSH" "FISH" "NU" "ENVRC" -}}{{- $icon = "octicon-terminal" -}}{{- $kind = "shell" -}}
+{{- else if eq $ext "TOML" "YAML" "YML" "INI" "CONF" "CFG" "KDL" "EDITORCONFIG" -}}{{- $icon = "octicon-gear" -}}{{- $kind = "config" -}}
+{{- else if eq $ext "JSON" "JSONC" "JSON5" "CSV" "XML" -}}{{- $icon = "octicon-file-code" -}}{{- $kind = "data" -}}
+{{- else if eq $ext "LOCK" "SUM" -}}{{- $icon = "octicon-lock" -}}{{- $kind = "lock" -}}
+{{- else if eq $ext "GITIGNORE" "GITATTRIBUTES" "GITMODULES" "GITKEEP" -}}{{- $icon = "octicon-git-branch" -}}{{- $kind = "git" -}}
+{{- else if eq $ext "PATCH" "DIFF" -}}{{- $icon = "octicon-file-diff" -}}{{- $kind = "diff" -}}
+{{- else if eq $ext "CSS" "SCSS" "SASS" "LESS" -}}{{- $icon = "octicon-paintbrush" -}}{{- $kind = "style" -}}
+{{- else if eq $ext "HTML" "HTM" "TMPL" "VUE" "SVELTE" -}}{{- $icon = "octicon-browser" -}}{{- $kind = "web" -}}
+{{- else if eq $ext "PNG" "JPG" "JPEG" "GIF" "WEBP" "SVG" "ICO" "AVIF" -}}{{- $icon = "octicon-image" -}}{{- $kind = "image" -}}
+{{- else if eq $ext "ZIP" "GZ" "TAR" "XZ" "ZST" "BZ2" "7Z" -}}{{- $icon = "octicon-file-zip" -}}{{- $kind = "archive" -}}
+{{- else if eq $ext "PY" "JS" "MJS" "TS" "TSX" "JSX" "GO" "RS" "C" "H" "CPP" "LUA" "RB" "JAVA" "KT" "SWIFT" "ZIG" "HS" "EL" "SQL" -}}{{- $icon = "octicon-file-code" -}}{{- $kind = "code" -}}
+{{- end -}}
+{{- svg $icon 16 (printf "tw-mr-2 entry-icon entry-icon-%s" $kind) -}}

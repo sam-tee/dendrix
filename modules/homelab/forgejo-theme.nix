@@ -294,6 +294,11 @@ in {
           else base04
         };
           --color-text-light-3: ${base04};
+          --color-text-muted: ${
+          if isDark
+          then "color-mix(in srgb, ${base05} 70%, ${base01})"
+          else base04
+        };
           --color-footer: ${
           if isDark
           then base00

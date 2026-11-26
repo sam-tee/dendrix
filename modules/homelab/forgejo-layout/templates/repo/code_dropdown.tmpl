@@ -1,0 +1,27 @@
+<details class="dropdown repo-code-dropdown">
+	<summary class="ui compact primary button">
+		{{svg "octicon-download"}}<span>{{ctx.Locale.Tr "repo.code"}}</span>{{svg "octicon-triangle-down" 14}}
+	</summary>
+	<div class="content">
+		<div class="repo-code-clone">
+			<div class="repo-code-heading">{{svg "octicon-terminal"}}<span>{{ctx.Locale.Tr "repo.clone_this_repo"}}</span></div>
+			<div class="clone-panel">
+				{{template "repo/clone_buttons" .}}
+				{{template "repo/clone_script" .}}
+			</div>
+		</div>
+		{{if or (not .DisableDownloadSourceArchives) .CitationFile}}
+		<hr>
+		<ul>
+			{{if not $.DisableDownloadSourceArchives}}
+				<li><a class="archive-link" href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefName}}.zip" rel="nofollow">{{svg "octicon-file-zip"}}{{ctx.Locale.Tr "repo.download_zip"}}</a></li>
+				<li><a class="archive-link" href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefName}}.tar.gz" rel="nofollow">{{svg "octicon-file-zip"}}{{ctx.Locale.Tr "repo.download_tar"}}</a></li>
+				<li><a class="archive-link" href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefName}}.bundle" rel="nofollow">{{svg "octicon-package"}}{{ctx.Locale.Tr "repo.download_bundle"}}</a></li>
+			{{end}}
+			{{if .CitationFile}}
+				<li><a class="citation-link" href="{{$.RepoLink}}/src/branch/{{$.BranchName}}/{{$.CitationFile}}">{{svg "octicon-cross-reference"}}{{ctx.Locale.Tr "repo.cite_this_repo"}}</a></li>
+			{{end}}
+		</ul>
+		{{end}}
+	</div>
+</details>
