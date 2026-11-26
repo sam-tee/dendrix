@@ -6,7 +6,8 @@
 #
 # <run> is the run number shown in the UI (/actions/runs/<run>). Logs are
 # printed with ANSI colours and timestamps stripped; pass --raw to keep them.
-# Token: $FORGEJO_TOKEN, else the one stored by `fj auth login`.
+# Token: $FORGEJO_TOKEN, else the one stored by `fj auth login` (XDG data
+# dir, then the macOS Application Support dir).
 set -euo pipefail
 
 FORGEJO_URL="${FORGEJO_URL:-https://git.samtee.party}"
@@ -21,9 +22,13 @@ done
 set -- "${args[@]+"${args[@]}"}"
 
 if [ -z "${FORGEJO_TOKEN:-}" ]; then
-  keys="${XDG_DATA_HOME:-$HOME/.local/share}/forgejo-cli/keys.json"
   host="${FORGEJO_URL#*://}"
-  FORGEJO_TOKEN="$(jq -r --arg h "$host" '.hosts[$h].token // empty' "$keys" 2>/dev/null || true)"
+  for keys in \
+    "${XDG_DATA_HOME:-$HOME/.local/share}/forgejo-cli/keys.json" \
+    "$HOME/Library/Application Support/forgejo-cli.forgejo-cli/keys.json"; do
+    FORGEJO_TOKEN="$(jq -r --arg h "$host" '.hosts[$h].token // empty' "$keys" 2>/dev/null || true)"
+    [ -n "$FORGEJO_TOKEN" ] && break
+  done
 fi
 if [ -z "${FORGEJO_TOKEN:-}" ]; then
   echo "No token: set FORGEJO_TOKEN or run 'fj auth login'" >&2
@@ -75,6 +80,6 @@ show_logs() {
 
 case "${1:-list}" in
   list) list_runs "${2:-10}" ;;
-  -h | --help) sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//' ;;
+  -h | --help) sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//' ;;
   *) show_logs "$1" ;;
 esac

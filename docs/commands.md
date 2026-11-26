@@ -68,7 +68,9 @@ CI runs on `git.samtee.party` (not GitHub, so `gh` does not work):
   Attic cache, syncs generated docs, updates the lock file (nightly) and
   releases `main` to the `deploy` branch.
 
-`scripts/ci-logs.sh` uses `$FORGEJO_TOKEN` or the `fj auth login` token.
+`scripts/ci-logs.sh` uses `$FORGEJO_TOKEN` or the `fj auth login` token
+(from `$XDG_DATA_HOME/forgejo-cli/keys.json`, falling back to
+`~/Library/Application Support/forgejo-cli.forgejo-cli/keys.json` on macOS).
 
 ```sh
 scripts/ci-logs.sh list [N]               # recent runs with status
