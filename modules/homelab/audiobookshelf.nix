@@ -9,5 +9,6 @@
       host = machineIP;
       dataDir = "audiobooks";
     };
+    systemd.services.audiobookshelf.waitForTailscaleIP = true;
   };
 }

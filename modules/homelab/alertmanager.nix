@@ -110,7 +110,7 @@ in {
       };
 
       systemd.services.alertmanager = {
-        after = ["tailscaled.service"];
+        waitForTailscaleIP = true;
         serviceConfig.LoadCredential = ["${smtpPasswordCredential}:${pwdPath}"];
       };
     };

@@ -16,5 +16,6 @@
         enableBookUploading = true;
       };
     };
+    systemd.services.calibre-web.waitForTailscaleIP = true;
   };
 }

@@ -377,7 +377,7 @@
     };
 
     systemd.services.grafana = {
-      after = ["tailscaled.service"];
+      waitForTailscaleIP = true;
       serviceConfig.ExecStartPre = [(getExe generateSecrets)];
     };
   };

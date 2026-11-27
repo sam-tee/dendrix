@@ -5,7 +5,10 @@
     inherit (self.services.mealie) fqdn port;
   in {
     sops.secrets."mealieEnv" = {};
-    systemd.services.mealie.environment.HOME = "${dataDir}/mealie";
+    systemd.services.mealie = {
+      environment.HOME = "${dataDir}/mealie";
+      waitForTailscaleIP = true;
+    };
     services.mealie = {
       enable = true;
       inherit port;

@@ -25,10 +25,11 @@ explained in a comment next to the code instead.
 - **`after = ["tailscaled.service"]` doesn't guarantee the tailscale IP
   exists.** tailscaled counts as started before it assigns the address, so
   a service that binds `homelab.machineIP` can fail at boot and use up its
-  restart limit. In practice the IP is usually there in time, so homelab
-  services only order after tailscaled. If it ever becomes a real problem,
-  add a oneshot unit that waits for the address and orders itself before
-  `network-online.target`. Don't set `net.ipv4.ip_nonlocal_bind = 1`
+  restart limit. Set `systemd.services.<unit>.waitForTailscaleIP = true`
+  on any service that binds `machineIP` (or `mkTsIp` of its own host). It
+  orders the unit after `tailscale-ip.service`, which waits until the
+  address is on the tailscale interface. Services that only connect to a
+  tailscale IP don't need it. Don't set `net.ipv4.ip_nonlocal_bind = 1`
   instead: it applies to every process, lets a wrong IP fail silently, and
   breaks software that checks whether an address is local by trying to
   bind it.

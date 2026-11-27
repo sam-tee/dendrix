@@ -6,7 +6,7 @@
         listenAddress = config.homelab.machineIP;
         enabledCollectors = ["systemd"];
       };
-      systemd.services.prometheus-node-exporter.after = ["tailscaled.service"];
+      systemd.services.prometheus-node-exporter.waitForTailscaleIP = true;
     };
 
     prometheus = {
@@ -167,7 +167,7 @@
         };
       };
 
-      systemd.services.prometheus.after = ["tailscaled.service"];
+      systemd.services.prometheus.waitForTailscaleIP = true;
     };
   };
 }

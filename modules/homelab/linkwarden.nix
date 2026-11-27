@@ -12,5 +12,6 @@
       cacheLocation = "${dataDir}/linkwarden/cache";
       environmentFile = config.sops.secrets.linkwardenEnv.path;
     };
+    systemd.services.linkwarden.waitForTailscaleIP = true;
   };
 }

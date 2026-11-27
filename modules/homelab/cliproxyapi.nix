@@ -27,9 +27,6 @@
         requests.passthrough-headers = true;
       };
     };
-    systemd.services.cliproxyapi = {
-      after = ["tailscaled.service"];
-      wants = ["tailscaled.service"];
-    };
+    systemd.services.cliproxyapi.waitForTailscaleIP = true;
   };
 }

@@ -18,5 +18,6 @@
         };
       };
     };
+    systemd.services.slskd.waitForTailscaleIP = true;
   };
 }

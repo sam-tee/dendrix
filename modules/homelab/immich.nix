@@ -40,5 +40,6 @@
         };
       };
     };
+    systemd.services.immich-server.waitForTailscaleIP = true;
   };
 }

@@ -30,7 +30,7 @@ in {
           desktopSettings.localEnvironmentEnabled = false;
         };
         systemd.services = {
-          t3code.after = ["tailscaled.service"];
+          t3code.waitForTailscaleIP = true;
           t3code-tailscale-serve = {
             description = "Serve T3 Code over HTTPS on the tailnet";
             after = ["tailscaled.service" "tailscaled-autoconnect.service" "t3code.service"];

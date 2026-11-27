@@ -51,5 +51,6 @@
         };
       };
     };
+    systemd.services.copyparty.waitForTailscaleIP = true;
   };
 }

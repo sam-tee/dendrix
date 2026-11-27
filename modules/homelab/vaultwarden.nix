@@ -24,5 +24,6 @@
         SMTP_SECURITY = "starttls";
       };
     };
+    systemd.services.vaultwarden.waitForTailscaleIP = true;
   };
 }

@@ -14,5 +14,6 @@
         topic = "nixpkgs";
       };
     };
+    systemd.services.nixpkgs-pr-tracker.waitForTailscaleIP = true;
   };
 }

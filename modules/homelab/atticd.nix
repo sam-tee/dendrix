@@ -42,7 +42,10 @@
       };
     };
     systemd = {
-      services.atticd.serviceConfig.ReadWritePaths = singleton atticDir;
+      services.atticd = {
+        serviceConfig.ReadWritePaths = singleton atticDir;
+        waitForTailscaleIP = true;
+      };
       tmpfiles.rules = singleton "d ${atticDir} 0775 atticd atticd -";
     };
     environment.systemPackages = singleton pkgs.attic-client;

@@ -14,5 +14,6 @@
         ReverseProxyWhitelist = "${caddyIP}/32,127.0.0.1/32,::1/128";
       };
     };
+    systemd.services.navidrome.waitForTailscaleIP = true;
   };
 }

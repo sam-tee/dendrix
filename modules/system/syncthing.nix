@@ -69,7 +69,10 @@ in {
       };
     };
     nixos = {
-      default = self.modules.generic.syncthing;
+      default = {
+        imports = [self.modules.generic.syncthing];
+        systemd.services.syncthing.waitForTailscaleIP = true;
+      };
       caddy = _: {
         services.caddy.virtualHosts =
           devices

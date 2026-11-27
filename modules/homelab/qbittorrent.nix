@@ -12,5 +12,6 @@
         TrustedReverseProxiesList = caddyIP;
       };
     };
+    systemd.services.qbittorrent.waitForTailscaleIP = true;
   };
 }

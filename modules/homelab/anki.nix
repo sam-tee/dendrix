@@ -20,7 +20,8 @@
         ReadWritePaths = [ankiDir];
         SupplementaryGroups = [group];
       };
-      after = ["tailscaled.service" "network-online.target"];
+      waitForTailscaleIP = true;
+      after = ["network-online.target"];
       wants = ["network-online.target"];
     };
     systemd.tmpfiles.rules = [

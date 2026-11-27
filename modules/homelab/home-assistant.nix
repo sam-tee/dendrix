@@ -29,5 +29,6 @@
         ];
       };
     };
+    systemd.services.home-assistant.waitForTailscaleIP = true;
   };
 }

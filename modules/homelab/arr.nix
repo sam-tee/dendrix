@@ -3,14 +3,23 @@
     config,
     lib,
     ...
-  }: {
+  }: let
+    inherit (self.services.${name}) port;
+    ip = config.homelab.machineIP;
+  in {
+    systemd.services.${name}.waitForTailscaleIP = true;
     services.${name} =
       {
         enable = true;
-        settings.server = {
-          port = self.services.${name}.port;
-          bindAddress = config.homelab.machineIP;
-        };
+        settings =
+          if name == "bazarr"
+          then {general = {inherit ip port;};}
+          else {
+            server = {
+              inherit port;
+              bindAddress = ip;
+            };
+          };
       }
       // lib.optionalAttrs (name != "prowlarr") {
         inherit (config.homelab) group user;

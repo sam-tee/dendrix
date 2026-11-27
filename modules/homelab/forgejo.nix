@@ -81,8 +81,11 @@
       databases = [cfg.database.name];
     };
     services.openssh.settings.AllowUsers = [cfg.user];
-    systemd.services.forgejo.preStart = ''
-      ${getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
-    '';
+    systemd.services.forgejo = {
+      waitForTailscaleIP = true;
+      preStart = ''
+        ${getExe cfg.package} admin user create --admin --email "root@localhost" --username root --password "$(tr -d '\n' < ${config.sops.secrets."forgejo/adminPwd".path})" || true
+      '';
+    };
   };
 }

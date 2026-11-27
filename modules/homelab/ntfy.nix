@@ -12,7 +12,8 @@
       };
     };
     systemd.services.ntfy-sh = {
-      after = ["tailscaled.service" "network-online.target"];
+      waitForTailscaleIP = true;
+      after = ["network-online.target"];
       wants = ["network-online.target"];
     };
   };
