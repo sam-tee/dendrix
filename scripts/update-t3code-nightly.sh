@@ -51,11 +51,12 @@ current="$(sed -n 's/^[[:space:]]*version = "\([^"]*\)";.*/\1/p' "$FILE" | head 
   exit 1
 }
 
-tag="$(curl -fsSL "https://api.github.com/repos/pingdotgg/t3code/releases?per_page=30" | jq -r '[.[] | select(.prerelease) | .tag_name | select(contains("nightly"))] | first // empty')"
-[ -n "$tag" ] || {
+release="$(curl -fsSL "https://api.github.com/repos/pingdotgg/t3code/releases?per_page=30" | jq -c '[.[] | select(.prerelease and (.tag_name | contains("nightly")))] | first // empty')"
+[ -n "$release" ] || {
   echo "error: no nightly release found via GitHub API" >&2
   exit 1
 }
+tag="$(jq -r '.tag_name' <<<"$release")"
 latest="${tag#v}"
 
 echo "current: $current"
@@ -87,8 +88,22 @@ prefetch() {
   printf '%s' "$sri"
 }
 
+# Upstream has renamed the AppImages between nightlies (versioned names, then
+# T3-Code-Nightly-<arch>.AppImage), so take the name from the release's asset
+# list instead of guessing it. Exactly one match is required.
+asset_name() {
+  local pattern="$1" what="$2" name
+  name="$(jq -r --arg re "$pattern" '[.assets[].name | select(test($re))] | if length == 1 then .[0] else empty end' <<<"$release")"
+  if [[ ! "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
+    echo "error: expected exactly one $what asset matching $pattern in $tag, found:" >&2
+    jq -r '.assets[].name' <<<"$release" | sed 's/^/  /' >&2
+    return 1
+  fi
+  printf '%s' "$name"
+}
+
 bump_file() {
-  local file="$1" ver="$2" dx86="$3" darm="$4" cx86="$5" carm="$6"
+  local file="$1" ver="$2" ax86="$3" aarm="$4" dx86="$5" darm="$6" cx86="$7" carm="$8"
   if [[ ! "$ver" =~ ^[A-Za-z0-9._-]+$ ]]; then
     echo "error: refusing to bump to unexpected version: $ver" >&2
     return 1
@@ -99,6 +114,8 @@ bump_file() {
   tmp="$(mktemp "$(dirname "$file")/.t3code-nightly.XXXXXX")"
   if ! sed -E \
     -e "s|^([[:space:]]*version = \")[^\"]*(\";.*)|\1${ver}\2|" \
+    -e "s|^([[:space:]]*desktop_asset_x86_64 = \")[^\"]*(\";.*)|\1${ax86}\2|" \
+    -e "s|^([[:space:]]*desktop_asset_aarch64 = \")[^\"]*(\";.*)|\1${aarm}\2|" \
     -e "s|^([[:space:]]*desktop_hash_x86_64 = \")[^\"]*(\";.*)|\1${dx86}\2|" \
     -e "s|^([[:space:]]*desktop_hash_aarch64 = \")[^\"]*(\";.*)|\1${darm}\2|" \
     -e "s|^([[:space:]]*cli_hash_x86_64 = \")[^\"]*(\";.*)|\1${cx86}\2|" \
@@ -112,8 +129,11 @@ bump_file() {
   echo "bumped $file to $ver"
 }
 
-desktop_x86="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/T3-Code-Nightly-x86_64.AppImage" "desktop x86_64")"
-desktop_arm="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/T3-Code-Nightly-arm64.AppImage" "desktop arm64")"
+desktop_asset_x86="$(asset_name '^T3-Code-.*x86_64\.AppImage$' "desktop x86_64")"
+desktop_asset_arm="$(asset_name '^T3-Code-.*arm64\.AppImage$' "desktop arm64")"
+
+desktop_x86="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/${desktop_asset_x86}" "desktop x86_64")"
+desktop_arm="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/${desktop_asset_arm}" "desktop arm64")"
 cli_x86="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/t3-${latest}-linux-x64.tar.gz" "CLI x86_64")"
 cli_arm="$(prefetch "https://github.com/pingdotgg/t3code/releases/download/v${latest}/t3-${latest}-linux-arm64.tar.gz" "CLI arm64")"
 
@@ -128,7 +148,7 @@ rollback() {
   exit 1
 }
 
-bump_file "$FILE" "$latest" "$desktop_x86" "$desktop_arm" "$cli_x86" "$cli_arm" || rollback
+bump_file "$FILE" "$latest" "$desktop_asset_x86" "$desktop_asset_arm" "$desktop_x86" "$desktop_arm" "$cli_x86" "$cli_arm" || rollback
 
 echo "verifying evaluation ..."
 nix eval "$REPO#packages.x86_64-linux.t3code-desktop-nightly.outPath" >/dev/null || rollback

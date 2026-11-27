@@ -7,6 +7,8 @@ _: {
   }:
     lib.optionalAttrs (system == "x86_64-linux" || system == "aarch64-linux") (let
       version = "0.1.10-nightly.20261112.4606";
+      desktop_asset_x86_64 = "T3-Code-0.1.10-nightly.20261112.4606-x86_64.AppImage";
+      desktop_asset_aarch64 = "T3-Code-0.1.10-nightly.20261112.4606-arm64.AppImage";
       desktop_hash_x86_64 = "sha256-/zSpFkdStYNlZukRfAf+FCC/Yf6Cdzc8ksI8ylqKmck=";
       desktop_hash_aarch64 = "sha256-IdR01xLGxpDDkPjpMr5DBK9jQCFfE5WfNpHKNrtpSIQ=";
       cli_hash_x86_64 = "sha256-v/4MmDcb5r3hF3gFlmLYQYl4GPF2dxpDtB9AoTsy+iU=";
@@ -15,11 +17,11 @@ _: {
       desktopSrc = pkgs.fetchurl (
         if isX86
         then {
-          url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-x86_64.AppImage";
+          url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/${desktop_asset_x86_64}";
           hash = desktop_hash_x86_64;
         }
         else {
-          url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-arm64.AppImage";
+          url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/${desktop_asset_aarch64}";
           hash = desktop_hash_aarch64;
         }
       );
