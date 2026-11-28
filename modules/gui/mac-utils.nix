@@ -31,6 +31,7 @@
             e = "open -a Finder";
             b = "open -a Helium";
             z = "open -a Zed";
+            t = ''open -a "T3 Code (Beta)"'';
           };
         };
       };
