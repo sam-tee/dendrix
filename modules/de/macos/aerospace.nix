@@ -1,20 +1,14 @@
-{
-  inputs,
-  self,
-  ...
-}: {
+{inputs, ...}: {
   flake.modules.darwin.aerospace = {
     config,
     lib,
     ...
   }: let
-    inherit (lib) genAttrs getExe nameValuePair range;
+    inherit (lib) concatStringsSep genAttrs getExe nameValuePair range;
     aerospace = getExe config.services.aerospace.package;
+    super = concatStringsSep "-" config.keybinds.super;
   in {
-    imports = [
-      inputs.aeroswipe.darwinModules.default
-      self.modules.darwin.skhd
-    ];
+    imports = [inputs.aeroswipe.darwinModules.default];
     services.aeroswipe = {
       enable = true;
       settings.commands = {
@@ -49,20 +43,20 @@
             |> builtins.listToAttrs;
         in
           {
-            ctrl-cmd-h = "focus left";
-            ctrl-cmd-j = "focus down";
-            ctrl-cmd-k = "focus up";
-            ctrl-cmd-l = "focus right";
-            ctrl-cmd-equal = "resize smart +50";
-            ctrl-cmd-minus = "resize smart -50";
-            ctrl-cmd-shift-h = "move left";
-            ctrl-cmd-shift-j = "move down";
-            ctrl-cmd-shift-k = "move up";
-            ctrl-cmd-shift-l = "move right";
-            ctrl-cmd-comma = "layout accordion horizontal vertical";
-            ctrl-cmd-slash = "layout tiles horizontal vertical";
-            ctrl-cmd-f = "fullscreen";
-            ctrl-cmd-v = "layout floating tiling";
+            "${super}-h" = "focus left";
+            "${super}-j" = "focus down";
+            "${super}-k" = "focus up";
+            "${super}-l" = "focus right";
+            "${super}-equal" = "resize smart +50";
+            "${super}-minus" = "resize smart -50";
+            "${super}-shift-h" = "move left";
+            "${super}-shift-j" = "move down";
+            "${super}-shift-k" = "move up";
+            "${super}-shift-l" = "move right";
+            "${super}-comma" = "layout accordion horizontal vertical";
+            "${super}-slash" = "layout tiles horizontal vertical";
+            "${super}-f" = "fullscreen";
+            "${super}-v" = "layout floating tiling";
           }
           // (mkBindings "ctrl" "workspace")
           // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");

@@ -1,15 +1,13 @@
-{
-  inputs,
-  self,
-  ...
-}: {
-  flake.modules.darwin.paneru = {lib, ...}: let
-    inherit (lib) genAttrs nameValuePair range;
+{inputs, ...}: {
+  flake.modules.darwin.paneru = {
+    config,
+    lib,
+    ...
+  }: let
+    inherit (lib) concatStringsSep genAttrs nameValuePair range;
+    super = concatStringsSep " + " config.keybinds.super;
   in {
-    imports = [
-      inputs.paneru.darwinModules.paneru
-      self.modules.darwin.skhd
-    ];
+    imports = [inputs.paneru.darwinModules.paneru];
     services.paneru = {
       enable = true;
       settings = {
@@ -32,22 +30,22 @@
             |> builtins.listToAttrs;
         in
           {
-            window_focus_west = "ctrl + cmd - h";
-            window_focus_east = "ctrl + cmd - l";
-            window_focus_north = "ctrl + cmd - k";
-            window_focus_south = "ctrl + cmd - j";
-            window_swap_west = "ctrl + cmd + shift - h";
-            window_swap_east = "ctrl + cmd + shift - l";
-            window_swap_north = "ctrl + cmd + shift - k";
-            window_swap_south = "ctrl + cmd + shift - j";
-            window_center = "ctrl + cmd - m";
-            window_resize = "ctrl + cmd - r";
-            window_fullwidth = "ctrl + cmd - f";
-            window_manage = "ctrl + cmd - v";
-            window_stack = "ctrl + cmd - period";
-            window_unstack = "ctrl + cmd - comma";
-            window_nextdisplay = "ctrl + cmd - tab";
-            window_nextdisplaysend = "ctrl + cmd + shift - tab";
+            window_focus_west = "${super} - h";
+            window_focus_east = "${super} - l";
+            window_focus_north = "${super} - k";
+            window_focus_south = "${super} - j";
+            window_swap_west = "${super} + shift - h";
+            window_swap_east = "${super} + shift - l";
+            window_swap_north = "${super} + shift - k";
+            window_swap_south = "${super} + shift - j";
+            window_center = "${super} - m";
+            window_resize = "${super} - r";
+            window_fullwidth = "${super} - f";
+            window_manage = "${super} - v";
+            window_stack = "${super} - period";
+            window_unstack = "${super} - comma";
+            window_nextdisplay = "${super} - tab";
+            window_nextdisplaysend = "${super} + shift - tab";
           }
           // (mkBindings "ctrl" "window_virtualnum")
           // (mkBindings "ctrl + shift" "window_virtualmovenum");

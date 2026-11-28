@@ -440,11 +440,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795651414,
-        "narHash": "sha256-WvHjKC3Yp+boJ6gusgqus+dDbsX6sYE7eJkYswkQaBQ=",
+        "lastModified": 1795864096,
+        "narHash": "sha256-HtHk/zipHtu/9AQGEmbJq86NerxD5gkEtwlFXJWANx0=",
         "ref": "refs/heads/main",
-        "rev": "235892c84759d96ff7a913763616a6e9664b947e",
-        "revCount": 3,
+        "rev": "d605a7eba92bcbdff79f4fb9ee3cd67052ea63ca",
+        "revCount": 10,
         "type": "git",
         "url": "https://git.samtee.party/sam-tee/mac-utils.git"
       },

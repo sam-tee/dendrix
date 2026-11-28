@@ -6,14 +6,32 @@
   flake.modules.darwin = {
     default = self.modules.darwin.mac-utils;
     mac-utils = {
+      config,
+      lib,
+      ...
+    }: let
+      inherit (lib) concatStringsSep mapAttrs' nameValuePair;
+      super = concatStringsSep "-" config.keybinds.super;
+    in {
       imports = [inputs.mac-utils.darwinModules.default];
       services.mac-utils = {
         enable = true;
         settings = {
           # Pinned to the shortcut carried over from Maccy rather than relying
           # on upstream's default staying the same.
-          hotkeys.clipboard = "ctrl+shift+v";
+          hotkeys.clipboard = "ctrl-shift-v";
           clipboard.search_mode = "fuzzy";
+          caps_lock = {
+            enabled = true;
+            tap = "escape";
+            hold = super;
+          };
+          keybinds = mapAttrs' (key: nameValuePair "${super}-${key}") {
+            enter = "open -a Ghostty";
+            e = "open -a Finder";
+            b = "open -a Helium";
+            z = "open -a Zed";
+          };
         };
       };
     };
