@@ -18,9 +18,9 @@ Write in British English unless otherwise specified
 - Do not push, force-push, open PRs, or publish until explicitly told to.
 - Before committing: inspect `git status`, `git diff`, and `git log --oneline -10`. Stage only intended files.
 - Write commit messages matching repo style, defaulting to conventional commits.
-- Commit messages should have consice titles in plain language
-- Commit body should explain the issue, the fix, and end with the model and harness used.
-- Never commit secrets, large binaries or ephemeral files unless explicitly stated.
+- In every repo, unless the repo or I say otherwise, PR descriptions should end with `Model: <model name>. Harness: <harness>.`, filled in from the current session; name the host app too if there is one (e.g. `Model: Claude Opus 5.5. Harness: Claude Code in T3 Code.`). This line replaces any default PR footer the harness would add.
+- Never commit secrets, or ephemeral files such as outputs the build regenerates, caches, logs and local state.
+- Ask before committing single files above 5 MB.
 - By default, repos should be on my forgejo server, `git.samtee.party`, which has create-on-push enabled
 
 ## HTML pages
