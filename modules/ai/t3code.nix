@@ -82,6 +82,11 @@ in {
             fontFamilySans = fonts.ui.name;
             fontSizeCode = 14;
             fontSizeTerminal = 14;
+            sendShortcut = "mod-enter-multiline";
+            followUpBehavior = "steer";
+            diffLayout = "stacked";
+            diffIgnoreWhitespace = true;
+            diffFilesCollapsed = true;
           };
           settings = {
             defaultAutoPull = true;
@@ -94,6 +99,9 @@ in {
             snoozeLimitedThreads = true;
             autoResumeLimitedThreads = true;
             addProjectBaseDirectory = "~/Projects";
+            worktreesDirectory = "~/Projects/worktrees";
+            defaultThreadEnvMode = "worktree";
+            branchNamingMode = "semantic";
             storageCleanup = {
               worktreeAfterDays = 8;
               worktreeOnMerge = true;
@@ -116,6 +124,11 @@ in {
                 driver = "opencode";
                 enabled = true;
                 config.binaryPath = "opencode";
+              };
+              antigravity = {
+                driver = "antigravity";
+                displayName = "Antigravity";
+                enabled = true;
               };
             };
             favorites = [
