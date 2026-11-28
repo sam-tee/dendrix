@@ -1,10 +1,14 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake.modules.darwin.aerospace = {
     config,
     lib,
     ...
   }: let
-    inherit (lib) concatStringsSep genAttrs getExe nameValuePair range;
+    inherit (lib) concatLists concatStringsSep genAttrs getExe mapAttrsToList nameValuePair optionalAttrs range;
     aerospace = getExe config.services.aerospace.package;
     super = concatStringsSep "-" config.keybinds.super;
   in {
@@ -62,12 +66,26 @@
           // (mkBindings "ctrl-shift" "move-node-to-workspace --focus-follows-window");
         on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
         on-focus-changed = ["move-mouse window-lazy-center"];
-        on-window-detected = [
-          {
-            "if".app-id = "com.mitchellh.ghostty";
-            run = ["layout tiling"];
-          }
-        ];
+        on-window-detected =
+          [
+            {
+              "if".app-id = "com.mitchellh.ghostty";
+              check-further-callbacks = true;
+              run = ["layout tiling"];
+            }
+          ]
+          ++ (
+            self.workspaceApps
+            |> mapAttrsToList (workspace:
+              map ({
+                bundleId,
+                titleRegex ? null,
+              }: {
+                "if" = {app-id = bundleId;} // optionalAttrs (titleRegex != null) {window-title-regex-substring = titleRegex;};
+                run = ["move-node-to-workspace ${workspace}"];
+              }))
+            |> concatLists
+          );
       };
     };
   };

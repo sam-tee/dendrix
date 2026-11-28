@@ -17,8 +17,6 @@
       services.mac-utils = {
         enable = true;
         settings = {
-          # Pinned to the shortcut carried over from Maccy rather than relying
-          # on upstream's default staying the same.
           hotkeys.clipboard = "ctrl-shift-v";
           clipboard.search_mode = "fuzzy";
           caps_lock = {
@@ -30,6 +28,7 @@
             enter = "open -a Ghostty";
             e = "open -a Finder";
             b = "open -a Helium";
+            t = ''open -a "T3 Code (Beta)"'';
             z = "open -a Zed";
           };
         };
